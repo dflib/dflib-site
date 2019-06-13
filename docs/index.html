@@ -919,7 +919,7 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df_added = df.addColumn(
+DataFrame df1 = df.addColumn(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>,                                   <i class="conum" data-value="1"></i><b>(1)</b>
         r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
 );</code></pre>
@@ -953,7 +953,7 @@ Joan    O'Hara    Joan O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df_added = df.addColumns(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addColumns(
         <span class="keyword">new</span> <span class="predefined-type">String</span><span class="type">[]</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">last_initial</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_initial</span><span class="delimiter">&quot;</span></span>},
         r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).toString().charAt(<span class="integer">0</span>),
         r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).toString().charAt(<span class="integer">0</span>)
@@ -977,7 +977,7 @@ that contains sequential number for each row:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height()); <i class="conum" data-value="1"></i><b>(1)</b>
-DataFrame df_added = df.addColumn(
+DataFrame df1 = df.addColumn(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>,
         rowNumbers
 );</code></pre>
@@ -1006,7 +1006,7 @@ Joan    O'Hara         2
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df_added = df.addRowNumber(<span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addRowNumber(<span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 </div>

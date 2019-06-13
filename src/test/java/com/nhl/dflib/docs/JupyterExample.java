@@ -1,9 +1,11 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.jupyter.DFLibJupyter;
+import org.junit.Test;
 
-public class JupyterExample {
+public class JupyterExample extends BaseExample {
 
+    @Test
     public void setDisplayParams() {
 
         // tag::setDisplayParams[]

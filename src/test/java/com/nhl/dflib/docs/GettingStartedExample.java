@@ -2,16 +2,14 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.Printers;
+import org.junit.Test;
 
 import java.util.stream.IntStream;
 
-public class GettingStartedExample {
+public class GettingStartedExample extends BaseExample {
 
-    public static void main(String[] args) {
-        gettingStarted();
-    }
-
-    private static void gettingStarted() {
+    @Test
+    public void gettingStarted() {
 // tag::gettingStarted[]
         DataFrame df1 = DataFrame
                 .newFrame("a", "b", "c")

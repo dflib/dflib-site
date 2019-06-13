@@ -19,7 +19,7 @@ Series object is parameterized for the type of data that it holds. So there can 
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=create]
+include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=create]
 ----
 
 ----
@@ -34,7 +34,7 @@ There are Series for `int`, `double`, `long` and `boolean` values. E.g.:
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=createInt]
+include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=createInt]
 ----
 
 While all of them can pose as "object" Series (e.g. `IntSeries` implements `Series<Integer>`), for efficiency you should
@@ -51,7 +51,7 @@ API to create DataFrames from arrays, Streams, Collections, etc.
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
 ----
 <1> Builder is created from column names
 <2> Passing a varargs array of values, that is folded to match the specified number of columns, row by row.
@@ -69,13 +69,13 @@ Joan   32
 Instead of folding by rows, builder can fold the array column by column:
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByColumn]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByColumn]
 ----
 You can also create DataFrames from Collections and Streams (folded either by row or by column). Here is an example
 of how to use Streams of primitive ints, creating a DataFrame made of memory-efficient `IntSeries` columns:
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromIntStream]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromIntStream]
 ----
 
 ----
@@ -96,7 +96,7 @@ an array of Series:
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromSeries]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromSeries]
 ----
 
 Now that we've discussed how to create Series and DataFrames, next we'll talk about <<printers,printing their contents>>,

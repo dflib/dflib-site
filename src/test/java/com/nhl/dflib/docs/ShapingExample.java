@@ -2,16 +2,13 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.IntSeries;
-import com.nhl.dflib.Printers;
 import com.nhl.dflib.series.IntSequenceSeries;
+import org.junit.Test;
 
-public class ShapingExample {
+public class ShapingExample extends BaseExample {
 
-    public static void main(String[] args) {
-        addColumnsFromRow();
-    }
-
-    private static void addColumnFromRow() {
+    @Test
+    public void addColumnFromRow() {
 // tag::addColumnFromRow[]
         DataFrame df = DataFrame
                 .newFrame("first", "last")
@@ -20,16 +17,17 @@ public class ShapingExample {
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
-        DataFrame df_added = df.addColumn(
+        DataFrame df1 = df.addColumn(
                 "full",                                   // <1>
                 r -> r.get("first") + " " + r.get("last") // <2>
         );
 // end::addColumnFromRow[]
 
-        System.out.println(Printers.tabular.toString(df_added));
+        print("addColumnFromRow", df1);
     }
 
-    private static void addColumnsFromRow() {
+    @Test
+    public void addColumnsFromRow() {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow(
@@ -38,17 +36,18 @@ public class ShapingExample {
                         "Joan", "O'Hara");
 
 // tag::addColumnsFromRow[]
-        DataFrame df_added = df.addColumns(
+        DataFrame df1 = df.addColumns(
                 new String[]{"last_initial", "first_initial"},
                 r -> r.get("last").toString().charAt(0),
                 r -> r.get("first").toString().charAt(0)
         );
 // end::addColumnsFromRow[]
 
-        System.out.println(Printers.tabular.toString(df_added));
+        print("addColumnsFromRow", df1);
     }
 
-    private static void addColumnFromSeries() {
+    @Test
+    public void addColumnFromSeries() {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow(
@@ -58,16 +57,17 @@ public class ShapingExample {
 
 // tag::addColumnFromSeries[]
         IntSeries rowNumbers = new IntSequenceSeries(0, df.height()); // <1>
-        DataFrame df_added = df.addColumn(
+        DataFrame df1 = df.addColumn(
                 "number",
                 rowNumbers
         );
 // end::addColumnFromSeries[]
 
-        System.out.println(Printers.tabular.toString(df_added));
+        print("addColumnFromSeries", df1);
     }
 
-    private static void addRowNumbers() {
+    @Test
+    public void addRowNumbers() {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow(
@@ -76,10 +76,10 @@ public class ShapingExample {
                         "Joan", "O'Hara");
 
 // tag::addRowNumbers[]
-        DataFrame df_added = df.addRowNumber("number");
+        DataFrame df1 = df.addRowNumber("number");
 // end::addRowNumbers[]
 
-        System.out.println(Printers.tabular.toString(df_added));
+        print("addRowNumbers", df1);
     }
 
 }

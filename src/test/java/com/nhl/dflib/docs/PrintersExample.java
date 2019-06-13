@@ -4,16 +4,14 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.Printers;
 import com.nhl.dflib.print.Printer;
 import com.nhl.dflib.print.TabularPrinter;
+import org.junit.Test;
 
 import java.util.stream.IntStream;
 
-public class PrintersExample {
+public class PrintersExample extends BaseExample {
 
-    public static void main(String[] args) {
-        printDataFrame_Tabular_Custom();
-    }
-
-    private static void printDataFrame_Tabular() {
+    @Test
+    public void printDataFrame_Tabular() {
 
 // tag::printDataFrame_Tabular[]
         DataFrame df = DataFrame
@@ -25,7 +23,8 @@ public class PrintersExample {
 // end::printDataFrame_Tabular[]
     }
 
-    private static void printDataFrame_Tabular_Custom() {
+    @Test
+    public void printDataFrame_Tabular_Custom() {
         DataFrame df = DataFrame
                 .newFrame("col1", "col2", "col3")
                 .foldIntStreamByColumn(IntStream.range(0, 10000));

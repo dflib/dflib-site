@@ -2,48 +2,48 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.IntSeries;
-import com.nhl.dflib.Printers;
 import com.nhl.dflib.Series;
+import org.junit.Test;
 
 import java.util.stream.IntStream;
 
-public class DataFrameCreateExample {
+public class DataFrameCreateExample extends BaseExample {
 
-    public static void main(String[] args) {
-        createFromIntStream();
-    }
-
-    private static void createFoldByRow() {
+    @Test
+    public void createFoldByRow() {
 // tag::createFoldByRow[]
         DataFrame df = DataFrame
                 .newFrame("name", "age") // <1>
                 .foldByRow("Joe", 18, "Andrus", 45, "Joan", 32); // <2>
 // end::createFoldByRow[]
 
-        System.out.println(Printers.tabular.toString(df));
+        print("createFoldByRow", df);
     }
 
-    private static void createFoldByColumn() {
+    @Test
+    public void createFoldByColumn() {
 // tag::createFoldByColumn[]
         DataFrame df = DataFrame
                 .newFrame("name", "age")
                 .foldByColumn("Joe", "Andrus", "Joan", 18, 45, 32);
 // end::createFoldByColumn[]
 
-        System.out.println(Printers.tabular.toString(df));
+        print("createFoldByColumn", df);
     }
 
-    private static void createFromIntStream() {
+    @Test
+    public void createFromIntStream() {
 // tag::createFromIntStream[]
         DataFrame df = DataFrame
                 .newFrame("col1", "col2")
                 .foldIntStreamByColumn(IntStream.range(0, 10000));
 // end::createFromIntStream[]
 
-        System.out.println(Printers.tabular.toString(df));
+        print("createFromIntStream", df);
     }
 
-    private static void createFromSeries() {
+    @Test
+    public void createFromSeries() {
 // tag::createFromSeries[]
         DataFrame df = DataFrame
                 .newFrame("name", "age")
@@ -53,6 +53,6 @@ public class DataFrameCreateExample {
                 );
 // end::createFromSeries[]
 
-        System.out.println(Printers.tabular.toString(df));
+        print("createFromSeries", df);
     }
 }

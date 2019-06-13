@@ -8,7 +8,7 @@ Add a column, with cells derived from the existing row values:
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromRow]
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromRow]
 ----
 
 <1> New column name
@@ -28,7 +28,7 @@ Same, but adding multiple columns at once:
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnsFromRow]
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnsFromRow]
 ----
 
 ----
@@ -44,7 +44,7 @@ You may already have a Series of the matching length, that can be added to the D
 that contains sequential number for each row:
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromSeries]
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromSeries]
 ----
 <1> A `Series` that produces a sequence of numbers from `0` to `df.height()`.
 ----
@@ -59,7 +59,7 @@ Joan    O'Hara         2
 In fact there's a shortcut for adding row number columns, producing the same result:
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
 ----
 
 === Deleting Columns
