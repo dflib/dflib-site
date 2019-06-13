@@ -56,7 +56,7 @@ To control truncation behavior, you can use static methods on `DFLibJupyter`:
 
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/JupyterExamples.java[tags=setDisplayParams]
+include::../../java/com/nhl/dflib/docs/JupyterExample.java[tags=setDisplayParams]
 ----
 
 === Keep Notebooks under Version Control

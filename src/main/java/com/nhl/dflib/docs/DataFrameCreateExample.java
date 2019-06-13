@@ -7,7 +7,7 @@ import com.nhl.dflib.Series;
 
 import java.util.stream.IntStream;
 
-public class DataFrameExamples {
+public class DataFrameCreateExample {
 
     public static void main(String[] args) {
         createFromIntStream();

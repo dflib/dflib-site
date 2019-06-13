@@ -2,7 +2,7 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.jupyter.DFLibJupyter;
 
-public class JupyterExamples {
+public class JupyterExample {
 
     public void setDisplayParams() {
 

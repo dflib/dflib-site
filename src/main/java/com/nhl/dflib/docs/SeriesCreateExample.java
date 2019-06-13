@@ -4,7 +4,7 @@ import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.Printers;
 import com.nhl.dflib.Series;
 
-public class SeriesExamples {
+public class SeriesCreateExample {
 
     public static void main(String[] args) {
         createInt();

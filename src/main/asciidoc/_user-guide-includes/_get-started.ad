@@ -30,7 +30,7 @@ Next include DFLib core as a dependency:
 Create a DataFrame, do some manipulations with it, print the result:
 [source,java,indent=0]
 ----
-include::../../java/com/nhl/dflib/docs/GettingStartedExamples.java[tags=gettingStarted]
+include::../../java/com/nhl/dflib/docs/GettingStartedExample.java[tags=gettingStarted]
 ----
 
 When you run this code, console output will look like this:

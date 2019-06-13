@@ -7,7 +7,7 @@ import com.nhl.dflib.print.TabularPrinter;
 
 import java.util.stream.IntStream;
 
-public class PrintersExamples {
+public class PrintersExample {
 
     public static void main(String[] args) {
         printDataFrame_Tabular_Custom();
