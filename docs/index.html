@@ -5,6 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.6.1">
+<meta name="author" content="Andrus Adamchik and other contributors">
 <title>DFLib Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -516,10 +517,13 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>DFLib Documentation</h1>
-<div id="toc" class="toc">
+<div class="details">
+<span id="author" class="author">Andrus Adamchik and other contributors</span><br>
+</div>
+<div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_getting_started_with_dflib">Getting Started with DFLib</a></li>
@@ -530,7 +534,11 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#printers">Printers</a></li>
-<li><a href="#_shaping_dataframe_selecting_rows_and_columns">Shaping DataFrame, Selecting Rows and Columns</a></li>
+<li><a href="#_shaping_dataframe_selecting_rows_and_columns">Shaping DataFrame, Selecting Rows and Columns</a>
+<ul class="sectlevel2">
+<li><a href="#_add_columns">Add Columns</a></li>
+</ul>
+</li>
 <li><a href="#_sorting_data">Sorting Data</a></li>
 <li><a href="#_cleaning_up_data">Cleaning up Data</a></li>
 <li><a href="#_concatenating_series_and_dataframes">Concatenating Series and DataFrames</a></li>
@@ -554,7 +562,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sectionbody">
 <div class="paragraph">
 <p>"DFLib" stands for "DataFrame Library". It is a lightweight pure Java implementation of a common data structure called
-DataFrame. DFLib provides data operations like search, filtering, joins, aggregations, that are similar to those in
+<code>DataFrame</code>. DFLib provides data operations like search, filtering, joins, aggregations, that are similar to those in
 SQL, except you can use them in any Java app, in memory and over dynamically-defined data structures.</p>
 </div>
 <div class="paragraph">
@@ -888,7 +896,11 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <h2 id="_shaping_dataframe_selecting_rows_and_columns">Shaping DataFrame, Selecting Rows and Columns</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>There are various ways to reshape a DataFrame by adding / removing rows and columns.</p>
+</div>
+<div class="sect2">
+<h3 id="_add_columns">Add Columns</h3>
+
 </div>
 </div>
 </div>
@@ -1031,7 +1043,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-13 09:48:36 EDT
+Last updated 2019-06-13 10:26:52 EDT
 </div>
 </div>
 </body>

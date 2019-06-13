@@ -112,9 +112,6 @@
                     <configuration>
                         <backend>html5</backend>
                         <sourceHighlighter>coderay</sourceHighlighter>
-                        <attributes>
-                            <toc>auto</toc>
-                        </attributes>
                         <!-- This is a website publishing directory -->
                         <outputDirectory>docs/</outputDirectory>
                     </configuration>
