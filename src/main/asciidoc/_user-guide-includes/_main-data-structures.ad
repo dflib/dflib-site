@@ -1,15 +1,15 @@
 == Main Data Structures
 
 The two essential DFLib classes are `Series` and `DataFrame`. `Series` is a 1-dimensional array-like object, and `DataFrame`
-is a 2-dimensional table-like object. Columns in a DataFrame are stored as Series.
+is a 2-dimensional table-like object. Columns in a DataFrame are stored as Series. Additionally we will discuss
+`Index` object that stores DataFrame column names.
 
-Both DataFrame and Series are _immutable_, so all the operations on them return a new instance. Behind the scenes
-shares as much data as possible between instances, so copying these objects does not cause significant performance
-degradation, and in turn makes DFLib fully thread-safe, with concurrent operations possible on the same data structure.
-Also immutability means that you can have a full snapshot of your data at each step of a transformation, simplifying
-debugging and auditing of data pipelines.
+Both DataFrame and Series (and Index) are fully _immutable_, so all operations on them return a new instance. Behind
+the scenes the library shares as much data as possible between instances, so copying these objects does not cause
+significant performance degradation, and in turn makes DFLib fully thread-safe, with multiple concurrent operations
+possible on the same data structure. Also immutability means that you can have full snapshots of your data at each
+step of a transformation, simplifying debugging and auditing of data pipelines.
 
-Here we will also discuss other important DFLib objects, such as `Index`.
 
 === Series
 

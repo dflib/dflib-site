@@ -669,17 +669,15 @@ statement. Details of printing are discussed in the in <a href="#printers">"Prin
 <div class="sectionbody">
 <div class="paragraph">
 <p>The two essential DFLib classes are <code>Series</code> and <code>DataFrame</code>. <code>Series</code> is a 1-dimensional array-like object, and <code>DataFrame</code>
-is a 2-dimensional table-like object. Columns in a DataFrame are stored as Series.</p>
+is a 2-dimensional table-like object. Columns in a DataFrame are stored as Series. Additionally we will discuss
+<code>Index</code> object that stores DataFrame column names.</p>
 </div>
 <div class="paragraph">
-<p>Both DataFrame and Series are <em>immutable</em>, so all the operations on them return a new instance. Behind the scenes
-shares as much data as possible between instances, so copying these objects does not cause significant performance
-degradation, and in turn makes DFLib fully thread-safe, with concurrent operations possible on the same data structure.
-Also immutability means that you can have a full snapshot of your data at each step of a transformation, simplifying
-debugging and auditing of data pipelines.</p>
-</div>
-<div class="paragraph">
-<p>Here we will also discuss other important DFLib objects, such as <code>Index</code>.</p>
+<p>Both DataFrame and Series (and Index) are fully <em>immutable</em>, so all operations on them return a new instance. Behind
+the scenes the library shares as much data as possible between instances, so copying these objects does not cause
+significant performance degradation, and in turn makes DFLib fully thread-safe, with multiple concurrent operations
+possible on the same data structure. Also immutability means that you can have full snapshots of your data at each
+step of a transformation, simplifying debugging and auditing of data pipelines.</p>
 </div>
 <div class="sect2">
 <h3 id="_series">Series</h3>
