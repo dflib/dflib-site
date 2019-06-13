@@ -14,3 +14,5 @@ git add -A
 git commit -m 'Regenerating docs'
 git push
 ```
+
+TODO: publish with Travis 
