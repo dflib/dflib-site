@@ -1,6 +1,7 @@
 = DFLib Documentation
 Andrus Adamchik and other contributors
 :toc: left
+:icons: font
 
 "DFLib" stands for "DataFrame Library". It is a lightweight pure Java implementation of a common data structure called
 `DataFrame`. DFLib provides data operations like search, filtering, joins, aggregations, that are similar to those in

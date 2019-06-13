@@ -425,6 +425,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 <style>
 /* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
 /*pre.CodeRay {background-color:#f7f7f8;}*/
@@ -650,7 +651,7 @@ DataFrame df2 = df1.selectRows(
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 We&#8217;ll omit the print statements in the further examples, and will just show the output for a particular
@@ -727,19 +728,21 @@ API to create DataFrames from arrays, Streams, Collections, etc.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <b class="conum">(1)</b>
-        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <b class="conum">(2)</b></code></pre>
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>The builder starts by passing column names</p>
-</li>
-<li>
-<p>Passing a varargs array of values, that is folded to match the specified number of columns, row by row.</p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Builder is created from column names</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Passing a varargs array of values, that is folded to match the specified number of columns, row by row.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The resulting DataFrame looks like this:</p>
@@ -857,17 +860,18 @@ longer than 30 chars are also truncated (since they are pretty short in our exam
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Printer printer = <span class="keyword">new</span> TabularPrinter(<span class="integer">3</span>, <span class="integer">3</span>); <b class="conum">(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">Printer printer = <span class="keyword">new</span> TabularPrinter(<span class="integer">3</span>, <span class="integer">3</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="predefined-type">String</span> table = printer.toString(df);
 <span class="predefined-type">System</span>.out.println(table);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>Create a printer that displays at most 3 rows and up to 3 characters in each cell.</p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create a printer that displays at most 3 rows and up to 3 characters in each cell.</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -884,7 +888,7 @@ longer than 30 chars are also truncated (since they are pretty short in our exam
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 If you are using <a href="#jupyter">Jupyter Notebook</a>, all the printers are already setup for you. So if the last
@@ -916,21 +920,23 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df_added = df.addColumn(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>,                                   <b class="conum">(1)</b>
-        r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <b class="conum">(2)</b>
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>,                                   <i class="conum" data-value="1"></i><b>(1)</b>
+        r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
 );</code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>New column name</p>
-</li>
-<li>
-<p>Operation to produce values for the new column from the existing row. <code>r</code> is a special <code>RowProxy</code> object,
-providing access to the row being processed.</p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>New column name</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Operation to produce values for the new column from the existing row. <code>r</code> is a special <code>RowProxy</code> object,
+providing access to the row being processed.</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -970,7 +976,7 @@ that contains sequential number for each row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height()); <b class="conum">(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height()); <i class="conum" data-value="1"></i><b>(1)</b>
 DataFrame df_added = df.addColumn(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>,
         rowNumbers
@@ -978,11 +984,12 @@ DataFrame df_added = df.addColumn(
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>A <code>Series</code> that produces a sequence of numbers from <code>0</code> to <code>df.height()</code>.</p>
-</li>
-</ol>
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A <code>Series</code> that produces a sequence of numbers from <code>0</code> to <code>df.height()</code>.</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1156,7 +1163,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-13 10:26:52 EDT
+Last updated 2019-06-13 11:06:57 EDT
 </div>
 </div>
 </body>

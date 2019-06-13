@@ -53,7 +53,7 @@ API to create DataFrames from arrays, Streams, Collections, etc.
 ----
 include::../../java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
 ----
-<1> The builder starts by passing column names
+<1> Builder is created from column names
 <2> Passing a varargs array of values, that is folded to match the specified number of columns, row by row.
 
 The resulting DataFrame looks like this:
