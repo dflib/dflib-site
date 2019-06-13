@@ -46,8 +46,10 @@ following chapters. Also it is very important as a building block of DataFrame.
 === DataFrame
 
 `DataFrame` is an in-memory table with rows and columns. Each column has a name, and is represented as a `Series` object.
-DataFrame can contain columns of different kinds and is not parameterized for a single type. Here we'll show a "builder"
-API to create DataFrames from arrays, Streams, Collections, etc.
+DataFrame can contain columns of different kinds and is not parameterized for a single type.
+
+There are a few ways to create a DataFrame. Here we'll show "builder" API to convert arrays, Streams, Collections,
+Series and other in-memory data into DataFrames.
 
 NOTE: Alternatively a DataFrame can be loaded from (and saved to) a <<rdbms,database>> or a <<csv,CSV file>>.
 Those data sources are discussed in separate documentation chapters.
