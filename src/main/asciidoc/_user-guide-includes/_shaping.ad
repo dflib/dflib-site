@@ -4,7 +4,8 @@ There are various ways to reshape a DataFrame by adding / removing rows and colu
 
 === Adding Columns
 
-Add a column, with cells derived from the existing row values:
+There are a few ways to add columns to a DataFrame. The first one is to add a column, with cells derived from the
+existing row values:
 
 [source,java,indent=0]
 ----
@@ -24,7 +25,7 @@ Joan    O'Hara    Joan O'Hara
 3 rows x 3 columns
 ----
 
-Same, but adding multiple columns at once:
+Multiple columns can be added in the same method call:
 
 [source,java,indent=0]
 ----
@@ -40,8 +41,8 @@ Joan    O'Hara    O            J
 3 rows x 4 columns
 ----
 
-You may already have a Series of the matching length, that can be added to the DataFrame. Let's add a column
-that contains sequential number for each row:
+If you already have a Series of the size matching the DataFrame height, it can be added as a column. E.g. we can add a
+column that will number DataFrame rows:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromSeries]
@@ -56,7 +57,7 @@ Joan    O'Hara         2
 3 rows x 3 columns
 ----
 
-In fact there's a shortcut for adding row number columns, producing the same result:
+For this particular task (adding row numbers) there's a shortcut that does the same thing as the code above:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
