@@ -1,5 +1,9 @@
 # DFLib Documentation Project
 
+## Published Site Location
+
+https://nhl.github.io/dflib-docs/
+
 ## Project Structure
 
 * `docs` : assembled docs are placed here to be deployed on GitHub Pages
