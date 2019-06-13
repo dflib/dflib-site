@@ -2,5 +2,62 @@
 
 There are various ways to reshape a DataFrame by adding / removing rows and columns.
 
-=== Add Columns
+=== Adding Columns
 
+Add a column, with cells derived from the existing row values:
+
+[source,java,indent=0]
+----
+include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromRow]
+----
+
+<1> New column name
+<2> Operation to produce values for the new column from the existing row. `r` is a special `RowProxy` object,
+providing access to the row being processed.
+
+----
+first   last      full
+------- --------- -----------------
+Mord    Cosin     Mord Cosin
+Alanson Gabrielly Alanson Gabrielly
+Joan    O'Hara    Joan O'Hara
+3 rows x 3 columns
+----
+
+Same, but adding multiple columns at once:
+
+[source,java,indent=0]
+----
+include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnsFromRow]
+----
+
+----
+first   last      last_initial first_initial
+------- --------- ------------ -------------
+Mord    Cosin     C            M
+Alanson Gabrielly G            A
+Joan    O'Hara    O            J
+3 rows x 4 columns
+----
+
+You may already have a Series of the matching length, that can be added to the DataFrame. Let's add a column
+that contains sequential number for each row:
+[source,java,indent=0]
+----
+include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromSeries]
+----
+<1> A `Series` that produces a sequence of numbers from `0` to `df.height()`.
+----
+first   last      number
+------- --------- ------
+Mord    Cosin          0
+Alanson Gabrielly      1
+Joan    O'Hara         2
+3 rows x 3 columns
+----
+
+In fact there's a shortcut for adding row number columns, producing the same result:
+[source,java,indent=0]
+----
+include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
+----
