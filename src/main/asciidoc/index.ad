@@ -38,8 +38,10 @@ include::_user-guide-includes/_shaping.ad[]
 
 == Grouping and Aggregating
 
+[#csv]
 == Working with .csv Files
 
+[#rdbms]
 == Working with Relational Databases
 
 include::_user-guide-includes/_jupyter.ad[]

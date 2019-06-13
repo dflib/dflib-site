@@ -70,7 +70,7 @@ include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNu
 ----
 include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=deleteColumns]
 ----
-<1> Drop one or more columns from the DataFrame
+<1> Drop one or more columns from the DataFrame.
 ----
 last
 ---------
@@ -81,6 +81,25 @@ O'Hara
 ----
 
 === Selecting Columns
+
+Instead of dropping unneeded columns, you can explicitly specify which columns should _stay_ in the DataFrame via
+`selectColumns` method. The same method is used to reorder columns, so here we are moving column called "last" to position
+zero:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=selectAndReorderColumns]
+----
+
+----
+last      first
+--------- -------
+Cosin     Jerry
+Gabrielly Alanson
+O'Hara    Joan
+3 rows x 2 columns
+----
+
+=== Renaming Columns
 
 === Selecting Rows
 

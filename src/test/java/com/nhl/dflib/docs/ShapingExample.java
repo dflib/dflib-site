@@ -12,8 +12,7 @@ public class ShapingExample extends BaseExample {
 // tag::addColumnFromRow[]
         DataFrame df = DataFrame
                 .newFrame("first", "last")
-                .foldByRow(
-                        "Mord", "Cosin",
+                .foldByRow("Jerry", "Cosin",
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
@@ -30,8 +29,7 @@ public class ShapingExample extends BaseExample {
     public void addColumnsFromRow() {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
-                .foldByRow(
-                        "Mord", "Cosin",
+                .foldByRow("Jerry", "Cosin",
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
@@ -50,8 +48,7 @@ public class ShapingExample extends BaseExample {
     public void addColumnFromSeries() {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
-                .foldByRow(
-                        "Jerry", "Cosin",
+                .foldByRow("Jerry", "Cosin",
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
@@ -70,8 +67,7 @@ public class ShapingExample extends BaseExample {
     public void addRowNumbers() {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
-                .foldByRow(
-                        "Jerry", "Cosin",
+                .foldByRow("Jerry", "Cosin",
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
@@ -88,8 +84,7 @@ public class ShapingExample extends BaseExample {
 // tag::deleteColumns[]
         DataFrame df = DataFrame
                 .newFrame("first", "last", "middle")
-                .foldByRow(
-                        "Jerry", "Cosin", "M",
+                .foldByRow("Jerry", "Cosin", "M",
                         "Alanson", "Gabrielly", null,
                         "Joan", "O'Hara", "J");
 
@@ -97,6 +92,22 @@ public class ShapingExample extends BaseExample {
 // end::deleteColumns[]
 
         print("deleteColumns", df1);
+    }
+
+    @Test
+    public void selectAndReorderColumns() {
+
+// tag::selectAndReorderColumns[]
+        DataFrame df = DataFrame
+                .newFrame("first", "last", "middle")
+                .foldByRow("Jerry", "Cosin", "M",
+                        "Alanson", "Gabrielly", null,
+                        "Joan", "O'Hara", "J");
+
+        DataFrame df1 = df.selectColumns("last", "first");
+// end::selectAndReorderColumns[]
+
+        print("selectAndReorderColumns", df1);
     }
 
 }
