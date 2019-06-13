@@ -49,9 +49,10 @@ following chapters. Also it is very important as a building block of DataFrame.
 DataFrame can contain columns of different kinds and is not parameterized for a single type. Here we'll show a "builder"
 API to create DataFrames from arrays, Streams, Collections, etc.
 
-NOTE: Alternatively DataFrames can be loaded from (and saved to) a <<rdbms,database>> or a <<csv,CSV file>>.
+NOTE: Alternatively a DataFrame can be loaded from (and saved to) a <<rdbms,database>> or a <<csv,CSV file>>.
 Those data sources are discussed in separate documentation chapters.
 
+First example - folding data by row:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
