@@ -654,8 +654,8 @@ DataFrame df2 = df1.selectRows(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-We&#8217;ll omit the print statements in the further examples, and will just show the output for a particular
-      object. Printing is discussed in more detail in the in <a href="#print">the following chapters</a>.
+We&#8217;ll omit the print statements in all following examples, and will simply display the result of the print
+statement. Details of printing are discussed in the in <a href="#printers">"Printers" chapter</a>.
 </td>
 </tr>
 </table>
@@ -908,7 +908,8 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <div class="sect2">
 <h3 id="_adding_columns">Adding Columns</h3>
 <div class="paragraph">
-<p>Add a column, with cells derived from the existing row values:</p>
+<p>There are a few ways to add columns to a DataFrame. The first one is to add a column, with cells derived from the
+existing row values:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -942,14 +943,14 @@ providing access to the row being processed.</td>
 <div class="content">
 <pre>first   last      full
 ------- --------- -----------------
-Mord    Cosin     Mord Cosin
+Jerry   Cosin     Jerry Cosin
 Alanson Gabrielly Alanson Gabrielly
 Joan    O'Hara    Joan O'Hara
 3 rows x 3 columns</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Same, but adding multiple columns at once:</p>
+<p>Multiple columns can be added in the same method call:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -964,15 +965,15 @@ Joan    O'Hara    Joan O'Hara
 <div class="content">
 <pre>first   last      last_initial first_initial
 ------- --------- ------------ -------------
-Mord    Cosin     C            M
+Jerry   Cosin     C            J
 Alanson Gabrielly G            A
 Joan    O'Hara    O            J
 3 rows x 4 columns</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You may already have a Series of the matching length, that can be added to the DataFrame. Let&#8217;s add a column
-that contains sequential number for each row:</p>
+<p>If you already have a Series of the size matching the DataFrame height, it can be added as a column. E.g. we can add a
+column that will number DataFrame rows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -995,14 +996,14 @@ DataFrame df1 = df.addColumn(
 <div class="content">
 <pre>first   last      number
 ------- --------- ------
-Mord    Cosin          0
+Jerry   Cosin          0
 Alanson Gabrielly      1
 Joan    O'Hara         2
 3 rows x 3 columns</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In fact there&#8217;s a shortcut for adding row number columns, producing the same result:</p>
+<p>For this particular task (adding row numbers) there&#8217;s a shortcut that does the same thing as the code above:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1012,7 +1013,36 @@ Joan    O'Hara         2
 </div>
 <div class="sect2">
 <h3 id="_deleting_columns">Deleting Columns</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame df1 = df.dropColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Drop one or more columns from the DataFrame</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>last
+---------
+Cosin
+Gabrielly
+O'Hara
+3 rows x 1 column</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_selecting_columns">Selecting Columns</h3>

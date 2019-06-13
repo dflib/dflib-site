@@ -19,7 +19,7 @@ providing access to the row being processed.
 ----
 first   last      full
 ------- --------- -----------------
-Mord    Cosin     Mord Cosin
+Jerry   Cosin     Jerry Cosin
 Alanson Gabrielly Alanson Gabrielly
 Joan    O'Hara    Joan O'Hara
 3 rows x 3 columns
@@ -35,7 +35,7 @@ include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColum
 ----
 first   last      last_initial first_initial
 ------- --------- ------------ -------------
-Mord    Cosin     C            M
+Jerry   Cosin     C            J
 Alanson Gabrielly G            A
 Joan    O'Hara    O            J
 3 rows x 4 columns
@@ -51,7 +51,7 @@ include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColum
 ----
 first   last      number
 ------- --------- ------
-Mord    Cosin          0
+Jerry   Cosin          0
 Alanson Gabrielly      1
 Joan    O'Hara         2
 3 rows x 3 columns
@@ -64,6 +64,21 @@ include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNu
 ----
 
 === Deleting Columns
+
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=deleteColumns]
+----
+<1> Drop one or more columns from the DataFrame
+----
+last
+---------
+Cosin
+Gabrielly
+O'Hara
+3 rows x 1 column
+----
 
 === Selecting Columns
 

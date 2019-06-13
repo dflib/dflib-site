@@ -51,7 +51,7 @@ public class ShapingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow(
-                        "Mord", "Cosin",
+                        "Jerry", "Cosin",
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
@@ -71,7 +71,7 @@ public class ShapingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow(
-                        "Mord", "Cosin",
+                        "Jerry", "Cosin",
                         "Alanson", "Gabrielly",
                         "Joan", "O'Hara");
 
@@ -80,6 +80,23 @@ public class ShapingExample extends BaseExample {
 // end::addRowNumbers[]
 
         print("addRowNumbers", df1);
+    }
+
+    @Test
+    public void deleteColumns() {
+
+// tag::deleteColumns[]
+        DataFrame df = DataFrame
+                .newFrame("first", "last", "middle")
+                .foldByRow(
+                        "Jerry", "Cosin", "M",
+                        "Alanson", "Gabrielly", null,
+                        "Joan", "O'Hara", "J");
+
+        DataFrame df1 = df.dropColumns("first", "middle"); // <1>
+// end::deleteColumns[]
+
+        print("deleteColumns", df1);
     }
 
 }
