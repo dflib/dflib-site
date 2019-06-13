@@ -1,4 +1,4 @@
-== Shaping DataFrame, Selecting Rows and Columns
+== Shaping, Selecting Rows and Columns
 
 There are various ways to reshape a DataFrame by adding / removing rows and columns.
 
