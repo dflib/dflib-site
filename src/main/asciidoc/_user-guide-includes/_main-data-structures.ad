@@ -1,6 +1,6 @@
 == Main Data Structures
 
-Two essential DFLib classes are `Series` and `DataFrame`. `Series` is 1-dimensional array-like object, and `DataFrame`
+The two essential DFLib classes are `Series` and `DataFrame`. `Series` is a 1-dimensional array-like object, and `DataFrame`
 is a 2-dimensional table-like object. Columns in a DataFrame are stored as Series.
 
 Both DataFrame and Series are _immutable_, so all the operations on them return a new instance. Behind the scenes
@@ -8,6 +8,8 @@ shares as much data as possible between instances, so copying these objects does
 degradation, and in turn makes DFLib fully thread-safe, with concurrent operations possible on the same data structure.
 Also immutability means that you can have a full snapshot of your data at each step of a transformation, simplifying
 debugging and auditing of data pipelines.
+
+Here we will also discuss other important DFLib objects, such as `Index`.
 
 === Series
 
@@ -108,6 +110,7 @@ include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=
 Now that we've discussed how to create Series and DataFrames, next we'll talk about <<printers,printing their contents>>,
 and then will continue to the chapters that describe data operations.
 
+[#index]
 == Index
 
 TODO
