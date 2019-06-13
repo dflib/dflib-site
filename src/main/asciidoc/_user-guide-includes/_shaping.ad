@@ -61,3 +61,10 @@ In fact there's a shortcut for adding row number columns, producing the same res
 ----
 include::../../java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
 ----
+
+== Deleting Columns
+
+== Selecting Columns
+
+== Selecting Rows
+
