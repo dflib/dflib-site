@@ -4,8 +4,9 @@ There are various ways to reshape a DataFrame by adding / removing rows and colu
 
 === Adding Columns
 
-There are a few ways to add columns to a DataFrame. The first one is to add a column, with cells derived from the
-existing row values:
+There are a few ways to add columns to a DataFrame:
+
+* Add a column by calculating cell values, based on data from other columns:
 
 [source,java,indent=0]
 ----
@@ -25,7 +26,7 @@ Joan    O'Hara    Joan O'Hara
 3 rows x 3 columns
 ----
 
-Multiple columns can be added in the same method call:
+* Add multiple columns in a single method call (generally faster than adding them individually) :
 
 [source,java,indent=0]
 ----
@@ -41,8 +42,9 @@ Joan    O'Hara    O            J
 3 rows x 4 columns
 ----
 
-If you already have a Series of the size matching the DataFrame height, it can be added as a column. E.g. we can add a
-column that will number DataFrame rows:
+* Adding a Series. If you already have a Series object of the size matching the DataFrame height, it can be added as a
+column. E.g. we can add a column that will number DataFrame rows:
+
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromSeries]
@@ -58,13 +60,13 @@ Joan    O'Hara         2
 ----
 
 For this particular task (adding row numbers) there's a shortcut that does the same thing as the code above:
+
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
 ----
 
 === Deleting Columns
-
 
 [source,java,indent=0]
 ----
@@ -80,11 +82,79 @@ O'Hara
 3 rows x 1 column
 ----
 
+=== Renaming Columns
+
+Often DataFrames come from external sources (like CSV files or database tables) with column names, that require further
+cleanup to clarify their meaning within the application. There are a number of ways to rename the columns:
+
+* Rename columns individually:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumn]
+----
+
+----
+first_name last_name
+---------- ---------
+Jerry      Cosin
+Joan       O'Hara
+2 rows x 2 columns
+----
+
+* Specify the new names of _all_ columns at once. This may not be practical for a large number of columns:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumns]
+----
+
+----
+first_name last_name
+---------- ---------
+Jerry      Cosin
+Joan       O'Hara
+2 rows x 2 columns
+----
+
+* Rename using a map of old names to new names. Names not present in the map will remain unchanged:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumns_Map]
+----
+
+----
+first_name last
+---------- ------
+Jerry      Cosin
+Joan       O'Hara
+2 rows x 2 columns
+----
+
+* Rename using a function, applied to all column names in turn. This is useful e.g. to convert all names to lower case:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumns_ToLowerCase]
+----
+
+----
+first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+2 rows x 2 columns
+----
+
 === Selecting Columns
 
-Instead of dropping unneeded columns, you can explicitly specify which columns should _stay_ in the DataFrame via
-`selectColumns` method. The same method is used to reorder columns, so here we are moving column called "last" to position
-zero:
+`selectColumns(..)` method allows to do a few things at once: select a subset of columns in the DataFrame,
+reorder columns and even duplicate columns.
+
+* Selecting by column name. In the example below we are getting rid of the "middle" column and reordering "first" and
+"last" columns:
+
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=selectAndReorderColumns]
@@ -99,7 +169,56 @@ O'Hara    Joan
 3 rows x 2 columns
 ----
 
-=== Renaming Columns
+* Selecting by column position instead of the name:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=selectAndReorderColumns_ByIndex]
+----
 
 === Selecting Rows
 
+* Selecting a subset of rows by position. As there are no row labels in DFLib yet, selecting by position is the only
+"direct" selection option. Just like with column selection, it allows to duplicate rows by referencing the same
+position more than once, as well as reorder rows:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=selectRows]
+----
+
+----
+first last
+----- ------
+Joan  O'Hara
+Jerry Cosin
+Jerry Cosin
+3 rows x 2 columns
+----
+
+* Selecting using an index. You may precalulate an "index" (an `IntSeries`) of row positions and then use it for row
+selection. An index often comes from applying a condition to a `Series` that is not a part of the `DataFrame`. E.g.:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=selectRowsIndex]
+----
+
+----
+first last
+----- -----
+Jerry Cosin
+1 row x 2 columns
+----
+
+=== Filtering Rows
+
+A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
+Unlike `selectRows`, it does not require a direct reference to row indexes. Filtering does not allow row reordering or
+duplication. The following flavors of filtering are available:
+
+* `filter(..)` with column condition
+
+* `filter(..)` with full row condition
+
+* `filter(..)` with `BooleanSeries` "index". TODO...

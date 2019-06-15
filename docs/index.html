@@ -540,9 +540,10 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_adding_columns">Adding Columns</a></li>
 <li><a href="#_deleting_columns">Deleting Columns</a></li>
-<li><a href="#_selecting_columns">Selecting Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
+<li><a href="#_selecting_columns">Selecting Columns</a></li>
 <li><a href="#_selecting_rows">Selecting Rows</a></li>
+<li><a href="#_filtering_rows">Filtering Rows</a></li>
 </ul>
 </li>
 <li><a href="#_sorting_data">Sorting Data</a></li>
@@ -936,8 +937,14 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <div class="sect2">
 <h3 id="_adding_columns">Adding Columns</h3>
 <div class="paragraph">
-<p>There are a few ways to add columns to a DataFrame. The first one is to add a column, with cells derived from the
-existing row values:</p>
+<p>There are a few ways to add columns to a DataFrame:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a column by calculating cell values, based on data from other columns:</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -976,8 +983,12 @@ Joan    O'Hara    Joan O'Hara
 3 rows x 3 columns</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Multiple columns can be added in the same method call:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add multiple columns in a single method call (generally faster than adding them individually) :</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -998,9 +1009,13 @@ Joan    O'Hara    O            J
 3 rows x 4 columns</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>If you already have a Series of the size matching the DataFrame height, it can be added as a column. E.g. we can add a
-column that will number DataFrame rows:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Adding a Series. If you already have a Series object of the size matching the DataFrame height, it can be added as a
+column. E.g. we can add a column that will number DataFrame rows:</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1071,11 +1086,134 @@ O'Hara
 </div>
 </div>
 <div class="sect2">
+<h3 id="_renaming_columns">Renaming Columns</h3>
+<div class="paragraph">
+<p>Often DataFrames come from external sources (like CSV files or database tables) with column names, that require further
+cleanup to clarify their meaning within the application. There are a number of ways to rename the columns:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rename columns individually:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>)
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first_name last_name
+---------- ---------
+Jerry      Cosin
+Joan       O'Hara
+2 rows x 2 columns</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Specify the new names of <em>all</em> columns at once. This may not be practical for a large number of columns:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.renameColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first_name last_name
+---------- ---------
+Jerry      Cosin
+Joan       O'Hara
+2 rows x 2 columns</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rename using a map of old names to new names. Names not present in the map will remain unchanged:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; nameMap = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
+nameMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.renameColumns(nameMap);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first_name last
+---------- ------
+Jerry      Cosin
+Joan       O'Hara
+2 rows x 2 columns</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rename using a function, applied to all column names in turn. This is useful e.g. to convert all names to lower case:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">FIRST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.renameColumns(<span class="predefined-type">String</span>::toLowerCase);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+2 rows x 2 columns</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_selecting_columns">Selecting Columns</h3>
 <div class="paragraph">
-<p>Instead of dropping unneeded columns, you can explicitly specify which columns should <em>stay</em> in the DataFrame via
-<code>selectColumns</code> method. The same method is used to reorder columns, so here we are moving column called "last" to position
-zero:</p>
+<p><code>selectColumns(..)</code> method allows to do a few things at once: select a subset of columns in the DataFrame,
+reorder columns and even duplicate columns.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Selecting by column name. In the example below we are getting rid of the "middle" column and reordering "first" and
+"last" columns:</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1098,14 +1236,111 @@ O'Hara    Joan
 3 rows x 2 columns</pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Selecting by column position instead of the name:</p>
+</li>
+</ul>
 </div>
-<div class="sect2">
-<h3 id="_renaming_columns">Renaming Columns</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="integer">0</span>);</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_selecting_rows">Selecting Rows</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Selecting a subset of rows by position. As there are no row labels in DFLib yet, selecting by position is the only
+"direct" selection option. Just like with column selection, it allows to duplicate rows by referencing the same
+position more than once, as well as reorder rows:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame df1 = df.selectRows(<span class="integer">2</span>, <span class="integer">0</span>, <span class="integer">0</span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Joan  O'Hara
+Jerry Cosin
+Jerry Cosin
+3 rows x 2 columns</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Selecting using an index. You may precalulate an "index" (an <code>IntSeries</code>) of row positions and then use it for row
+selection. An index often comes from applying a condition to <code>Series</code> that is not a part of the <code>DataFrame</code>.  E.g.:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
+
+<span class="comment">// select every third row</span>
+IntSeries selectionIndex = rowNumbers.indexInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>);
+
+DataFrame df1 = df.selectRows(selectionIndex);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- -----
+Jerry Cosin
+1 row x 2 columns</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_filtering_rows">Filtering Rows</h3>
+<div class="paragraph">
+<p>A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
+Unlike <code>selectRows</code>, that requires direct reference to row indexes, <code>filter(..)</code> methods apply a conditional expression
+to each row to decide whether the row should be included in the result. Filtering does not allow row reordering or
+duplication. The following flavors of filtering are available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>filter(..)</code> with column condition</p>
+</li>
+<li>
+<p><code>filter(..)</code> with full row condition</p>
+</li>
+<li>
+<p><code>filter(..)</code> with <code>BooleanSeries</code> "index". TODO&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -1248,7 +1483,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-13 13:27:13 EDT
+Last updated 2019-06-13 20:27:13 MSK
 </div>
 </div>
 </body>
