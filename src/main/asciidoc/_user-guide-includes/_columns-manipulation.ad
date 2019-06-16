@@ -1,6 +1,12 @@
-== Shaping the DataFrame
+[#column-manipulation]
+== Columns Manipulation
 
-There are various ways to reshape a DataFrame by adding / removing rows and columns.
+<<selecting,Selecting>> rows and columns, described in the previous chapter helps to produce a required subset of
+data. Here we'll demonstrate a few more methods to control DataFrame columns:
+
+* Adding columns with new data, that may or may not be derived from the data in other DataFrame columns.
+* Deleting columns
+* Renaming columns
 
 === Adding Columns
 
@@ -10,7 +16,7 @@ There are a few ways to add columns to a DataFrame:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromRow]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumnFromRow]
 ----
 
 <1> New column name
@@ -30,7 +36,7 @@ Joan    O'Hara    Joan O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnsFromRow]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumnsFromRow]
 ----
 
 ----
@@ -47,7 +53,7 @@ column. E.g. we can add a column that will number DataFrame rows:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addColumnFromSeries]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumnFromSeries]
 ----
 <1> A `Series` that produces a sequence of numbers from `0` to `df.height()`.
 ----
@@ -63,14 +69,14 @@ For this particular task (adding row numbers) there's a shortcut that does the s
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=addRowNumbers]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addRowNumbers]
 ----
 
 === Deleting Columns
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=deleteColumns]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=deleteColumns]
 ----
 <1> Drop one or more columns from the DataFrame.
 ----
@@ -91,7 +97,7 @@ cleanup to clarify their meaning within the application. There are a number of w
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumn]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=renameColumn]
 ----
 
 ----
@@ -106,7 +112,7 @@ Joan       O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumns]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=renameColumns]
 ----
 
 ----
@@ -121,7 +127,7 @@ Joan       O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumns_Map]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=renameColumns_Map]
 ----
 
 ----
@@ -136,7 +142,7 @@ Joan       O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ShapingExample.java[tags=renameColumns_ToLowerCase]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=renameColumns_ToLowerCase]
 ----
 
 ----

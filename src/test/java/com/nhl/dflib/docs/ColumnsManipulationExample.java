@@ -5,7 +5,7 @@ import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.series.IntSequenceSeries;
 import org.junit.Test;
 
-public class ShapingExample extends BaseExample {
+public class ColumnsManipulationExample extends BaseExample {
 
     @Test
     public void addColumnFromRow() {
