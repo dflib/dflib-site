@@ -1287,11 +1287,11 @@ Jerry Cosin
 3 rows x 2 columns</pre>
 </div>
 </div>
-<div class="ulist">
+<div id="selectRowsIndex" class="ulist">
 <ul>
 <li>
 <p>Selecting using an index. You may precalulate an "index" (an <code>IntSeries</code>) of row positions and then use it for row
-selection. An index often comes from applying a condition to <code>Series</code> that is not a part of the <code>DataFrame</code>.  E.g.:</p>
+selection. An index often comes from applying a condition to a <code>Series</code> that is not a part of the <code>DataFrame</code>. E.g.:</p>
 </li>
 </ul>
 </div>
@@ -1305,11 +1305,19 @@ selection. An index often comes from applying a condition to <code>Series</code>
 
 IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
 
-<span class="comment">// select every third row</span>
-IntSeries selectionIndex = rowNumbers.indexInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>);
+IntSeries selectionIndex = rowNumbers.indexInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
 DataFrame df1 = df.selectRows(selectionIndex);</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Index is calculated by applying a condition to a Series, that is not a part of the DataFrame, whose rows we are
+selecting.</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1324,22 +1332,105 @@ Jerry Cosin
 <h3 id="_filtering_rows">Filtering Rows</h3>
 <div class="paragraph">
 <p>A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
-Unlike <code>selectRows</code>, that requires direct reference to row indexes, <code>filter(..)</code> methods apply a conditional expression
-to each row to decide whether the row should be included in the result. Filtering does not allow row reordering or
+Unlike <code>selectRows</code>, it does not require a direct reference to row indexes. Filtering does not allow row reordering or
 duplication. The following flavors of filtering are available:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>filter(..)</code> with column condition</p>
-</li>
-<li>
-<p><code>filter(..)</code> with full row condition</p>
-</li>
-<li>
-<p><code>filter(..)</code> with <code>BooleanSeries</code> "index". TODO&#8230;&#8203;</p>
+<p><code>filter(..)</code> with column condition:</p>
 </li>
 </ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.filter(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>,
+        (<span class="predefined-type">String</span> f) -&gt; f != <span class="predefined-constant">null</span> &amp;&amp; f.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+2 rows x 2 columns</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>filter(..)</code> with full row condition:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.filter(r -&gt;
+        r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>)
+                &amp;&amp; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Joan  O'Hara
+1 row x 2 columns</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>filter(..)</code> with <code>BooleanSeries</code> "index". We&#8217;ve already seen how to select rows using <a href="#selectRowsIndex">an
+IntSeries index</a>. It allowed to separate index calculation from the DataFrame whose rows we are filtering. Along the
+same lines we can use <code>BooleanSeries</code> "index" as a filter condition. Such index is usually a result of a prior logical
+operation between Series. E.g.:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+Series&lt;<span class="predefined-type">String</span>&gt; names = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
+BooleanSeries index = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
+
+DataFrame df1 = df.filter(index);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Index is calculated by comparing a Series of names with DataFrame column of first names.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Joan  O'Hara
+1 row x 2 columns</pre>
+</div>
 </div>
 </div>
 </div>
