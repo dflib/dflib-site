@@ -25,10 +25,10 @@ providing access to the row being processed.
 
 ----
 first   last      full
-------- --------- -----------------
-Jerry   Cosin     Jerry Cosin
-Alanson Gabrielly Alanson Gabrielly
-Joan    O'Hara    Joan O'Hara
+------ --------- ----------------
+Jerry  Cosin     Jerry Cosin
+Amanda Gabrielly Amanda Gabrielly
+Joan   O'Hara    Joan O'Hara
 3 rows x 3 columns
 ----
 
@@ -41,10 +41,10 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[t
 
 ----
 first   last      last_initial first_initial
-------- --------- ------------ -------------
-Jerry   Cosin     C            J
-Alanson Gabrielly G            A
-Joan    O'Hara    O            J
+------ --------- ------------ -------------
+Jerry  Cosin     C            J
+Amanda Gabrielly G            A
+Joan   O'Hara    O            J
 3 rows x 4 columns
 ----
 
@@ -58,10 +58,10 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[t
 <1> A `Series` that produces a sequence of numbers from `0` to `df.height()`.
 ----
 first   last      number
-------- --------- ------
-Jerry   Cosin          0
-Alanson Gabrielly      1
-Joan    O'Hara         2
+------ --------- ------
+Jerry  Cosin          0
+Amanda Gabrielly      1
+Joan   O'Hara         2
 3 rows x 3 columns
 ----
 
@@ -90,10 +90,10 @@ O'Hara
 
 === Renaming Columns
 
-Often DataFrames come from external sources (like CSV files or database tables) with column names, that require further
-cleanup to clarify their meaning within the application. There are a number of ways to rename the columns:
+Often DataFrames come from external sources (like CSV files or database tables) with column names requiring further
+cleanup to match the expectations of the application. There are a number of ways to rename columns:
 
-* Rename columns individually:
+* Rename individual columns:
 
 [source,java,indent=0]
 ----

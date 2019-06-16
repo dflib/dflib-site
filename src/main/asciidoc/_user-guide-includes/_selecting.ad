@@ -16,9 +16,9 @@ include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=select
 
 ----
 last      first
---------- -------
+--------- ------
 Cosin     Jerry
-Gabrielly Alanson
+Gabrielly Amanda
 O'Hara    Joan
 3 rows x 2 columns
 ----
@@ -71,9 +71,9 @@ Jerry Cosin
 
 === Filtering Rows
 
-A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
-Unlike `selectRows`, `filter(..)` methods do not require direct references to row positions. Filtering would not allow to
-reorder or duplicate rows. The following flavors of filtering are available:
+A very common form of row selection is "filtering", i.e. building a DataFrame with subset of rows that match a
+conditional expression. Unlike `selectRows`, `filter(..)` methods do not require direct references to row positions.
+Also filtering would not allow to reorder or duplicate rows. The following flavors of filtering are available:
 
 * `filter(..)` with column condition:
 

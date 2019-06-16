@@ -7,9 +7,6 @@ import com.nhl.dflib.Series;
 import com.nhl.dflib.series.IntSequenceSeries;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class SelectingExample extends BaseExample {
 
     @Test
@@ -19,7 +16,7 @@ public class SelectingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last", "middle")
                 .foldByRow("Jerry", "Cosin", "M",
-                        "Alanson", "Gabrielly", null,
+                        "Amanda", "Gabrielly", null,
                         "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.selectColumns("last", "first");
@@ -35,7 +32,7 @@ public class SelectingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last", "middle")
                 .foldByRow("Jerry", "Cosin", "M",
-                        "Alanson", "Gabrielly", null,
+                        "Amanda", "Gabrielly", null,
                         "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.selectColumns(1, 0);
@@ -45,78 +42,13 @@ public class SelectingExample extends BaseExample {
     }
 
     @Test
-    public void renameColumn() {
-
-// tag::renameColumn[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
-
-        DataFrame df1 = df
-                .renameColumn("first", "first_name")
-                .renameColumn("last", "last_name");
-// end::renameColumn[]
-
-        print("renameColumn", df1);
-    }
-
-    @Test
-    public void renameColumns() {
-
-// tag::renameColumns[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
-
-        DataFrame df1 = df.renameColumns("first_name", "last_name");
-// end::renameColumns[]
-
-        print("renameColumns", df1);
-    }
-
-    @Test
-    public void renameColumns_Map() {
-
-// tag::renameColumns_Map[]
-        Map<String, String> nameMap = new HashMap<>();
-        nameMap.put("first", "first_name");
-
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
-
-        DataFrame df1 = df.renameColumns(nameMap);
-// end::renameColumns_Map[]
-
-        print("renameColumns_Map", df1);
-    }
-
-    @Test
-    public void renameColumns_ToLowerCase() {
-
-// tag::renameColumns_ToLowerCase[]
-        DataFrame df = DataFrame
-                .newFrame("FIRST", "LAST")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
-
-        DataFrame df1 = df.renameColumns(String::toLowerCase);
-// end::renameColumns_ToLowerCase[]
-
-        print("renameColumns_ToLowerCase", df1);
-    }
-
-    @Test
     public void selectRows() {
 
 // tag::selectRows[]
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow("Jerry", "Cosin",
-                        "Alanson", "Gabrielly",
+                        "Amanda", "Gabrielly",
                         "Joan", "O'Hara");
 
         DataFrame df1 = df.selectRows(2, 0, 0);
@@ -132,7 +64,7 @@ public class SelectingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow("Jerry", "Cosin",
-                        "Alanson", "Gabrielly",
+                        "Amanda", "Gabrielly",
                         "Joan", "O'Hara");
 
         IntSeries rowNumbers = new IntSequenceSeries(0, df.height());
@@ -152,7 +84,7 @@ public class SelectingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow("Jerry", "Cosin",
-                        "Alanson", "Gabrielly",
+                        "Amanda", "Gabrielly",
                         "Joan", "O'Hara");
 
         DataFrame df1 = df.filter(
@@ -170,7 +102,7 @@ public class SelectingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow("Jerry", "Cosin",
-                        "Alanson", "Gabrielly",
+                        "Amanda", "Gabrielly",
                         "Joan", "O'Hara");
 
         DataFrame df1 = df.filter(r ->
@@ -188,7 +120,7 @@ public class SelectingExample extends BaseExample {
         DataFrame df = DataFrame
                 .newFrame("first", "last")
                 .foldByRow("Jerry", "Cosin",
-                        "Alanson", "Gabrielly",
+                        "Amanda", "Gabrielly",
                         "Joan", "O'Hara");
 
         Series<String> names = Series.forData("Sandra", "Anton", "Joan");

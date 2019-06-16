@@ -954,7 +954,7 @@ reorder columns and even duplicate columns.</p>
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>);</code></pre>
@@ -963,9 +963,9 @@ DataFrame df1 = df.selectColumns(<span class="string"><span class="delimiter">&q
 <div class="listingblock">
 <div class="content">
 <pre>last      first
---------- -------
+--------- ------
 Cosin     Jerry
-Gabrielly Alanson
+Gabrielly Amanda
 O'Hara    Joan
 3 rows x 2 columns</pre>
 </div>
@@ -982,7 +982,7 @@ O'Hara    Joan
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="integer">0</span>);</code></pre>
@@ -1005,7 +1005,7 @@ position more than once, as well as reorder rows:</p>
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectRows(<span class="integer">2</span>, <span class="integer">0</span>, <span class="integer">0</span>);</code></pre>
@@ -1034,7 +1034,7 @@ selection. An index often comes from applying a condition to a <code>Series</cod
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
@@ -1065,9 +1065,9 @@ Jerry Cosin
 <div class="sect2">
 <h3 id="_filtering_rows">Filtering Rows</h3>
 <div class="paragraph">
-<p>A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
-Unlike <code>selectRows</code>, <code>filter(..)</code> methods do not require direct references to row positions. Filtering would not allow to
-reorder or duplicate rows. The following flavors of filtering are available:</p>
+<p>A very common form of row selection is "filtering", i.e. building a DataFrame with subset of rows that match a
+conditional expression. Unlike <code>selectRows</code>, <code>filter(..)</code> methods do not require direct references to row positions.
+Also filtering would not allow to reorder or duplicate rows. The following flavors of filtering are available:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1081,7 +1081,7 @@ reorder or duplicate rows. The following flavors of filtering are available:</p>
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.filter(
@@ -1110,7 +1110,7 @@ Joan  O'Hara
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.filter(r -&gt;
@@ -1141,7 +1141,7 @@ operation between Series. E.g.:</p>
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 Series&lt;<span class="predefined-type">String</span>&gt; names = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
@@ -1206,7 +1206,7 @@ data. Here we&#8217;ll demonstrate a few more methods to control DataFrame colum
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.addColumn(
@@ -1231,10 +1231,10 @@ providing access to the row being processed.</td>
 <div class="listingblock">
 <div class="content">
 <pre>first   last      full
-------- --------- -----------------
-Jerry   Cosin     Jerry Cosin
-Alanson Gabrielly Alanson Gabrielly
-Joan    O'Hara    Joan O'Hara
+------ --------- ----------------
+Jerry  Cosin     Jerry Cosin
+Amanda Gabrielly Amanda Gabrielly
+Joan   O'Hara    Joan O'Hara
 3 rows x 3 columns</pre>
 </div>
 </div>
@@ -1257,10 +1257,10 @@ Joan    O'Hara    Joan O'Hara
 <div class="listingblock">
 <div class="content">
 <pre>first   last      last_initial first_initial
-------- --------- ------------ -------------
-Jerry   Cosin     C            J
-Alanson Gabrielly G            A
-Joan    O'Hara    O            J
+------ --------- ------------ -------------
+Jerry  Cosin     C            J
+Amanda Gabrielly G            A
+Joan   O'Hara    O            J
 3 rows x 4 columns</pre>
 </div>
 </div>
@@ -1292,10 +1292,10 @@ DataFrame df1 = df.addColumn(
 <div class="listingblock">
 <div class="content">
 <pre>first   last      number
-------- --------- ------
-Jerry   Cosin          0
-Alanson Gabrielly      1
-Joan    O'Hara         2
+------ --------- ------
+Jerry  Cosin          0
+Amanda Gabrielly      1
+Joan   O'Hara         2
 3 rows x 3 columns</pre>
 </div>
 </div>
@@ -1315,7 +1315,7 @@ Joan    O'Hara         2
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Alanson</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.dropColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
@@ -1355,7 +1355,14 @@ cleanup to clarify their meaning within the application. There are a number of w
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>)
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1376,7 +1383,12 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.renameColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1397,7 +1409,15 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; nameMap = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
+nameMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.renameColumns(nameMap);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1418,7 +1438,12 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">FIRST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.renameColumns(<span class="predefined-type">String</span>::toLowerCase);</code></pre>
 </div>
 </div>
 <div class="listingblock">
