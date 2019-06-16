@@ -1,0 +1,123 @@
+== Selecting Rows and Columns
+
+=== Selecting Columns
+
+`selectColumns(..)` method allows to do a few things at once: select a subset of columns in the DataFrame,
+reorder columns and even duplicate columns.
+
+* Selecting by column name. In the example below we are getting rid of the "middle" column and reordering "first" and
+"last" columns:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectAndReorderColumns]
+----
+
+----
+last      first
+--------- -------
+Cosin     Jerry
+Gabrielly Alanson
+O'Hara    Joan
+3 rows x 2 columns
+----
+
+* Selecting by column position instead of the name:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectAndReorderColumns_ByIndex]
+----
+
+=== Selecting Rows
+
+* Selecting a subset of rows by position. As there are no row labels in DFLib yet, selecting by position is the only
+"direct" selection option. Just like with column selection, it allows to duplicate rows by referencing the same
+position more than once, as well as reorder rows:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectRows]
+----
+
+----
+first last
+----- ------
+Joan  O'Hara
+Jerry Cosin
+Jerry Cosin
+3 rows x 2 columns
+----
+
+[#selectRowsIndex]
+* Selecting using an index. You may precalulate an "index" (an `IntSeries`) of row positions and then use it for row
+selection. An index often comes from applying a condition to a `Series` that is not a part of the `DataFrame`. E.g.:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectRowsIndex]
+----
+
+<1> Index is calculated by applying a condition to a Series, that is not a part of the DataFrame, whose rows we are
+selecting.
+
+----
+first last
+----- -----
+Jerry Cosin
+1 row x 2 columns
+----
+
+=== Filtering Rows
+
+A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
+Unlike `selectRows`, `filter(..)` methods do not require direct references to row positions. Filtering would not allow to
+reorder or duplicate rows. The following flavors of filtering are available:
+
+* `filter(..)` with column condition:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByColumn]
+----
+
+----
+first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+2 rows x 2 columns
+----
+
+* `filter(..)` with full row condition:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByRow]
+----
+
+----
+first last
+----- ------
+Joan  O'Hara
+1 row x 2 columns
+----
+
+* `filter(..)` with `BooleanSeries` "index". We've already seen how to select rows using <<selectRowsIndex, an
+IntSeries index>>. It allowed to separate index calculation from the DataFrame whose rows we are filtering. Along the
+same lines we can use `BooleanSeries` "index" as a filter condition. Such index is usually a result of a prior logical
+operation between Series. E.g.:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByBoolean]
+----
+
+<1> Index is calculated by comparing a Series of names with DataFrame column of first names.
+
+----
+first last
+----- ------
+Joan  O'Hara
+1 row x 2 columns
+----

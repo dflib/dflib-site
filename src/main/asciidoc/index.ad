@@ -24,6 +24,8 @@ include::_user-guide-includes/_printers.ad[]
 
 include::_user-guide-includes/_shaping.ad[]
 
+include::_user-guide-includes/_selecting.ad[]
+
 include::_user-guide-includes/_sorting.ad[]
 
 == Cleaning up Data
