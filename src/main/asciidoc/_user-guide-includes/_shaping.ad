@@ -218,8 +218,8 @@ Jerry Cosin
 === Filtering Rows
 
 A very common form of row selection is "filtering", i.e. returning a subset of rows that match a conditional expression.
-Unlike `selectRows`, it does not require a direct reference to row indexes. Filtering does not allow row reordering or
-duplication. The following flavors of filtering are available:
+Unlike `selectRows`, `filter(..)` methods do not require direct references to row positions. Filtering would not allow to
+reorder or duplicate rows. The following flavors of filtering are available:
 
 * `filter(..)` with column condition:
 
