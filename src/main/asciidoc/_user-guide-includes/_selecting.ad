@@ -1,6 +1,9 @@
 [#selecting]
 == Selecting Rows and Columns
 
+Before analyzing or transforming a Series or a DataFrame, very often the they need to be to narrowed down to just
+the relevant data. API for selecting and filtering rows and columns described in this chapter helps with such task.
+
 === Selecting Columns
 
 `selectColumns(..)` method allows to do a few things at once: select a subset of columns in the DataFrame,
@@ -28,6 +31,24 @@ O'Hara    Joan
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectAndReorderColumns_ByIndex]
+----
+
+=== Deleting Columns
+
+Deleting one or more columns from the DataFrame can be thought as the inverse of `select`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=deleteColumns]
+----
+<1> Drop one or more columns from the DataFrame.
+----
+last
+---------
+Cosin
+Gabrielly
+O'Hara
+3 rows x 1 column
 ----
 
 === Selecting Rows

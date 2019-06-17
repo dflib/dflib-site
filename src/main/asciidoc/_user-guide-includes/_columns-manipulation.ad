@@ -1,11 +1,10 @@
 [#column-manipulation]
 == Columns Manipulation
 
-<<selecting,Selecting>> rows and columns, described in the previous chapter helps to produce a required subset of
-data. Here we'll demonstrate a few more methods to control DataFrame columns:
+<<selecting,Selecting>> rows and columns, described in the previous chapter, helps to produce a desired subset of
+data. Here we'll demonstrate a few extra methods for DataFrame columns manipulation:
 
 * Adding columns with new data, that may or may not be derived from the data in other DataFrame columns.
-* Deleting columns
 * Renaming columns
 
 === Adding Columns
@@ -70,22 +69,6 @@ For this particular task (adding row numbers) there's a shortcut that does the s
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addRowNumbers]
-----
-
-=== Deleting Columns
-
-[source,java,indent=0]
-----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=deleteColumns]
-----
-<1> Drop one or more columns from the DataFrame.
-----
-last
----------
-Cosin
-Gabrielly
-O'Hara
-3 rows x 1 column
 ----
 
 === Renaming Columns
