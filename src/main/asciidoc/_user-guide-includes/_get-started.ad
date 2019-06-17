@@ -48,5 +48,5 @@ When you run this code, console output will look like this:
 1666 rows x 3 columns
 ----
 
-NOTE: We'll omit the print statements in all following examples, and will simply display the result of the print
-statement. Details of printing are discussed in the in <<printers, "Printers" chapter>>.
+NOTE: We'll omit print statements in all the following examples, and will simply display their output. Details of
+printing are discussed in the in <<printers, "Printers" chapter>>.
