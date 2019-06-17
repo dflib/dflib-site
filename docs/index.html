@@ -996,7 +996,8 @@ DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="in
 <div class="sect2">
 <h3 id="_deleting_columns">Deleting Columns</h3>
 <div class="paragraph">
-<p>Deleting one or more columns from the DataFrame can be thought as the inverse of <code>select</code>:</p>
+<p><code>DataFrame.dropColumns(..)</code> is an operation complimentary to <code>selectColumns</code>. It allows to remove one or more columns,
+but does not allow to reorder the remaining columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">

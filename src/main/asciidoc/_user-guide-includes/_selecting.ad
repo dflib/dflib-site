@@ -35,7 +35,8 @@ include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=select
 
 === Deleting Columns
 
-Deleting one or more columns from the DataFrame can be thought as the inverse of `select`:
+`DataFrame.dropColumns(..)` is an operation complimentary to `selectColumns`. It allows to remove one or more columns,
+but does not allow to reorder the remaining columns.
 
 [source,java,indent=0]
 ----
