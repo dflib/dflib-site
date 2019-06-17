@@ -539,6 +539,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#selecting">Selecting Rows and Columns</a>
 <ul class="sectlevel2">
 <li><a href="#_selecting_columns">Selecting Columns</a></li>
+<li><a href="#_deleting_columns">Deleting Columns</a></li>
 <li><a href="#_selecting_rows">Selecting Rows</a></li>
 <li><a href="#_filtering_rows">Filtering Rows</a></li>
 </ul>
@@ -546,7 +547,6 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#column-manipulation">Columns Manipulation</a>
 <ul class="sectlevel2">
 <li><a href="#_adding_columns">Adding Columns</a></li>
-<li><a href="#_deleting_columns">Deleting Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
 </ul>
 </li>
@@ -935,6 +935,10 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <div class="sect1">
 <h2 id="selecting">Selecting Rows and Columns</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Before analyzing or transforming a Series or a DataFrame, very often the they need to be to narrowed down to just
+the relevant data. API for selecting and filtering rows and columns described in this chapter helps with such task.</p>
+</div>
 <div class="sect2">
 <h3 id="_selecting_columns">Selecting Columns</h3>
 <div class="paragraph">
@@ -986,6 +990,41 @@ O'Hara    Joan
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="integer">0</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_columns">Deleting Columns</h3>
+<div class="paragraph">
+<p>Deleting one or more columns from the DataFrame can be thought as the inverse of <code>select</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.dropColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Drop one or more columns from the DataFrame.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>last
+---------
+Cosin
+Gabrielly
+O'Hara
+3 rows x 1 column</pre>
 </div>
 </div>
 </div>
@@ -1065,14 +1104,14 @@ Jerry Cosin
 <div class="sect2">
 <h3 id="_filtering_rows">Filtering Rows</h3>
 <div class="paragraph">
-<p>A very common form of row selection is "filtering", i.e. building a DataFrame with subset of rows that match a
-conditional expression. Unlike <code>selectRows</code>, <code>filter(..)</code> methods do not require direct references to row positions.
+<p>A very common form of row selection is "filtering", i.e. building a DataFrame with a subset of rows that match a
+conditional expression. Unlike <code>selectRows</code>, <code>filterRows(..)</code> methods do not require direct references to row positions.
 Also filtering would not allow to reorder or duplicate rows. The following flavors of filtering are available:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>filter(..)</code> with column condition:</p>
+<p><code>filterRows(..)</code> with column condition:</p>
 </li>
 </ul>
 </div>
@@ -1084,7 +1123,7 @@ Also filtering would not allow to reorder or duplicate rows. The following flavo
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.filter(
+DataFrame df1 = df.filterRows(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>,
         (<span class="predefined-type">String</span> f) -&gt; f != <span class="predefined-constant">null</span> &amp;&amp; f.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
@@ -1101,7 +1140,7 @@ Joan  O'Hara
 <div class="ulist">
 <ul>
 <li>
-<p><code>filter(..)</code> with full row condition:</p>
+<p><code>filterRows(..)</code> with full row condition:</p>
 </li>
 </ul>
 </div>
@@ -1113,7 +1152,7 @@ Joan  O'Hara
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.filter(r -&gt;
+DataFrame df1 = df.filterRows(r -&gt;
         r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>)
                 &amp;&amp; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
@@ -1129,10 +1168,9 @@ Joan  O'Hara
 <div class="ulist">
 <ul>
 <li>
-<p><code>filter(..)</code> with <code>BooleanSeries</code> "index". We&#8217;ve already seen how to select rows using <a href="#selectRowsIndex">an
-IntSeries index</a>. It allowed to separate index calculation from the DataFrame whose rows we are filtering. Along the
-same lines we can use <code>BooleanSeries</code> "index" as a filter condition. Such index is usually a result of a prior logical
-operation between Series. E.g.:</p>
+<p><code>filterRows(..)</code> with <code>BooleanSeries</code> "index". We&#8217;ve already seen how to select rows using an <a href="#selectRowsIndex">IntSeries index</a>. It allowed to perform index calculation outside the DataFrame, whose rows we are filtering.
+<code>BooleanSeries</code> "index" (or "mask") can similarly serve as a filter condition. Such index is usually a result of a prior
+logical operation between Series. E.g.:</p>
 </li>
 </ul>
 </div>
@@ -1145,9 +1183,9 @@ operation between Series. E.g.:</p>
                 <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 Series&lt;<span class="predefined-type">String</span>&gt; names = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
-BooleanSeries index = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
+BooleanSeries mask = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
 
-DataFrame df1 = df.filter(index);</code></pre>
+DataFrame df1 = df.filterRows(mask);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1173,16 +1211,13 @@ Joan  O'Hara
 <h2 id="column-manipulation">Columns Manipulation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="#selecting">Selecting</a> rows and columns, described in the previous chapter helps to produce a required subset of
-data. Here we&#8217;ll demonstrate a few more methods to control DataFrame columns:</p>
+<p><a href="#selecting">Selecting</a> rows and columns, described in the previous chapter, helps to produce a desired subset of
+data. Here we&#8217;ll demonstrate a few extra methods for DataFrame columns manipulation:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p>Adding columns with new data, that may or may not be derived from the data in other DataFrame columns.</p>
-</li>
-<li>
-<p>Deleting columns</p>
 </li>
 <li>
 <p>Renaming columns</p>
@@ -1305,38 +1340,6 @@ Joan   O'Hara         2
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addRowNumber(<span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_deleting_columns">Deleting Columns</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
-        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.dropColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Drop one or more columns from the DataFrame.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>last
----------
-Cosin
-Gabrielly
-O'Hara
-3 rows x 1 column</pre>
 </div>
 </div>
 </div>

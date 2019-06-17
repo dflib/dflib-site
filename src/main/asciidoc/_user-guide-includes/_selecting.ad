@@ -92,11 +92,11 @@ Jerry Cosin
 
 === Filtering Rows
 
-A very common form of row selection is "filtering", i.e. building a DataFrame with subset of rows that match a
-conditional expression. Unlike `selectRows`, `filter(..)` methods do not require direct references to row positions.
+A very common form of row selection is "filtering", i.e. building a DataFrame with a subset of rows that match a
+conditional expression. Unlike `selectRows`, `filterRows(..)` methods do not require direct references to row positions.
 Also filtering would not allow to reorder or duplicate rows. The following flavors of filtering are available:
 
-* `filter(..)` with column condition:
+* `filterRows(..)` with column condition:
 
 [source,java,indent=0]
 ----
@@ -111,7 +111,7 @@ Joan  O'Hara
 2 rows x 2 columns
 ----
 
-* `filter(..)` with full row condition:
+* `filterRows(..)` with full row condition:
 
 [source,java,indent=0]
 ----
@@ -125,10 +125,10 @@ Joan  O'Hara
 1 row x 2 columns
 ----
 
-* `filter(..)` with `BooleanSeries` "index". We've already seen how to select rows using <<selectRowsIndex, an
-IntSeries index>>. It allowed to separate index calculation from the DataFrame whose rows we are filtering. Along the
-same lines we can use `BooleanSeries` "index" as a filter condition. Such index is usually a result of a prior logical
-operation between Series. E.g.:
+* `filterRows(..)` with `BooleanSeries` "index". We've already seen how to select rows using an <<selectRowsIndex,
+IntSeries index>>. It allowed to perform index calculation outside the DataFrame, whose rows we are filtering.
+`BooleanSeries` "index" (or "mask") can similarly serve as a filter condition. Such index is usually a result of a prior
+logical operation between Series. E.g.:
 
 [source,java,indent=0]
 ----
