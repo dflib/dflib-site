@@ -5,8 +5,8 @@
 
     <groupId>com.nhl.dflib.docs</groupId>
     <version>0.6-SNAPSHOT</version>
-    <artifactId>dflib-doc</artifactId>
-    <name>dflib-doc: documentation</name>
+    <artifactId>dflib-docs</artifactId>
+    <name>dflib-docs: documentation</name>
     <packaging>jar</packaging>
 
     <properties>
