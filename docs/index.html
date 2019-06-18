@@ -691,6 +691,13 @@ Series object is parameterized for the type of data that it holds. So there can 
 <code>Series&lt;LocalDate&gt;</code>, etc. You can use <code>Series</code> to model sequences of data (e.g. timestamps in a time series), etc.</p>
 </div>
 <div class="paragraph">
+<p><code>Series</code> object is very important as a building block of DataFrame, but also defines a number of useful data
+manipulation and transformation operations on its own. Those will be covered in the following chapters. Here we&#8217;ll discuss
+how to create Series.</p>
+</div>
+<div class="sect3">
+<h4 id="_creating_series_from_arrays">Creating Series from Arrays</h4>
+<div class="paragraph">
 <p><code>Series</code> can be created using static <code>forData</code> method on the <code>Series</code> interface:</p>
 </div>
 <div class="listingblock">
@@ -720,9 +727,29 @@ There are Series for <code>int</code>, <code>double</code>, <code>long</code> an
 <p>While all of them can pose as "object" Series (e.g. <code>IntSeries</code> implements <code>Series&lt;Integer&gt;</code>), for efficiency you should
 use primitive versions of each operation whenever possible. E.g. <code>concatInt</code> instead of just <code>concat</code>, etc.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_creating_series_incrementally">Creating Series Incrementally</h4>
 <div class="paragraph">
-<p><code>Series</code> object defines a number of useful data manipulation and transformation operations, that will be covered in the
-following chapters. Also it is very important as a building block of DataFrame.</p>
+<p>If we don&#8217;t have a full array of data to start with, and instead are getting values from the code producing a value sequence
+of unpredictable length, we can use special mutable "accummulators" to store the sequence and then produce a Series out of
+it. E.g. the following example reads data from an InputStream line by line as Strings:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// InputStream inputStream = ...</span>
+ObjectAccumulator&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccumulator&lt;&gt;();
+<span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(inputStream);
+<span class="keyword">while</span> (scanner.hasNext()) {
+    accum.add(scanner.next());
+}
+
+Series&lt;<span class="predefined-type">String</span>&gt; s = accum.toSeries();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly there are <code>IntAccummulator</code>, <code>LongAccummulator</code>, etc.</p>
+</div>
 </div>
 </div>
 <div class="sect2">

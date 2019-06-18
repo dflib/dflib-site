@@ -17,6 +17,12 @@ step of a transformation, simplifying debugging and auditing of data pipelines.
 Series object is parameterized for the type of data that it holds. So there can be `Series<String>` or a
 `Series<LocalDate>`, etc. You can use `Series` to model sequences of data (e.g. timestamps in a time series), etc.
 
+`Series` object is very important as a building block of DataFrame, but also defines a number of useful data
+manipulation and transformation operations on its own. Those will be covered in the following chapters. Here we'll discuss
+how to create Series.
+
+==== Creating Series from Arrays
+
 `Series` can be created using static `forData` method on the `Series` interface:
 
 [source,java,indent=0]
@@ -42,8 +48,18 @@ include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=cre
 While all of them can pose as "object" Series (e.g. `IntSeries` implements `Series<Integer>`), for efficiency you should
 use primitive versions of each operation whenever possible. E.g. `concatInt` instead of just `concat`, etc.
 
-`Series` object defines a number of useful data manipulation and transformation operations, that will be covered in the
-following chapters. Also it is very important as a building block of DataFrame.
+==== Creating Series Incrementally
+
+If we don't have a full array of data to start with, and instead are getting values from the code producing a value sequence
+of unpredictable length, we can use special mutable "accummulators" to store the sequence and then produce a Series out of
+it. E.g. the following example reads data from an InputStream line by line as Strings:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=createIncrementally]
+----
+
+Similarly there are `IntAccummulator`, `LongAccummulator`, etc.
 
 === DataFrame
 

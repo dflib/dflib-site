@@ -2,7 +2,11 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.Series;
+import com.nhl.dflib.series.builder.ObjectAccumulator;
 import org.junit.Test;
+
+import java.io.InputStream;
+import java.util.Scanner;
 
 public class SeriesCreateExample extends BaseExample {
 
@@ -22,5 +26,24 @@ public class SeriesCreateExample extends BaseExample {
 // end::createInt[]
 
         print("createInt", is);
+    }
+
+    @Test
+    public void createIncrementally() {
+
+        InputStream inputStream = getClass().getResourceAsStream("lines.txt");
+
+// tag::createIncrementally[]
+        // InputStream inputStream = ...
+        ObjectAccumulator<String> accum = new ObjectAccumulator<>();
+        Scanner scanner = new Scanner(inputStream);
+        while (scanner.hasNext()) {
+            accum.add(scanner.next());
+        }
+
+        Series<String> s = accum.toSeries();
+// end::createIncrementally[]
+
+        print("createIncrementally", s);
     }
 }
