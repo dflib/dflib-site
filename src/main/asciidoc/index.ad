@@ -46,3 +46,5 @@ include::_user-guide-includes/_sorting.ad[]
 == Working with Relational Databases
 
 include::_user-guide-includes/_jupyter.ad[]
+
+== Unit Testing
