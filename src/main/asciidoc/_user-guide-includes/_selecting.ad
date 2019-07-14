@@ -1,7 +1,7 @@
 [#selecting]
 == Selecting Rows and Columns
 
-Before analyzing or transforming a Series or a DataFrame, very often the they need to be to narrowed down to just
+Before analyzing or transforming a Series or a DataFrame, very often they need to be to narrowed down to just
 the relevant data. API for selecting and filtering rows and columns described in this chapter helps with such task.
 
 === Selecting Columns
