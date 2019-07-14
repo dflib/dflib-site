@@ -28,7 +28,7 @@ include::_user-guide-includes/_columns-manipulation.ad[]
 
 include::_user-guide-includes/_sorting.ad[]
 
-== Cleaning up Data
+include::_user-guide-includes/_cleaning.ad[]
 
 
 == Concatenating Series and DataFrames

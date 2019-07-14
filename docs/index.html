@@ -548,6 +548,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_adding_columns">Adding Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
+<li><a href="#changing-column-type">Changing Column Types</a></li>
 </ul>
 </li>
 <li><a href="#_sorting">Sorting</a>
@@ -558,7 +559,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_sorting_rows_with_custom_algorithm">Sorting Rows with Custom Algorithm</a></li>
 </ul>
 </li>
-<li><a href="#_cleaning_up_data">Cleaning up Data</a></li>
+<li><a href="#_cleaning_up_data">Cleaning up Data</a>
+<ul class="sectlevel2">
+<li><a href="#_filling_nulls_in_series">Filling Nulls in Series</a></li>
+<li><a href="#_filling_nulls_in_dataframe">Filling Nulls in DataFrame</a></li>
+</ul>
+</li>
 <li><a href="#_concatenating_series_and_dataframes">Concatenating Series and DataFrames</a></li>
 <li><a href="#_joins">Joins</a></li>
 <li><a href="#_grouping_and_aggregating">Grouping and Aggregating</a></li>
@@ -1492,6 +1498,12 @@ Joan  O'Hara
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="changing-column-type">Changing Column Types</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1565,7 +1577,7 @@ d
 <p>Additionally <code>IntSeries</code> has an optimized method to sort ints with a custom <code>IntComparator</code>.</p>
 </div>
 <div class="paragraph">
-<p>Now let&#8217;s look at sorting DataFrames&#8230;&#8203;</p>
+<p>Next we&#8217;ll check how to sort a DataFrame.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1682,7 +1694,24 @@ Amanda Gabrielly null
 <div class="sect1">
 <h2 id="_cleaning_up_data">Cleaning up Data</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Data coming to DFLib may be of varying quality and hence may require cleanup before processing.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ve already discussed various DFLib features, that can be used for data cleanup. E.g.
+<a href="#changing-column-type">column type conversion</a>. Here we&#8217;ll look at a very typical cleanup case that wasn&#8217;t mentioned
+before. Namely when some values are missing. Such values are represented with Java <code>null</code>, and you may have to guess their values
+based on some internal knowledge of the dataset. There are methods in both <code>Series</code> and <code>DataFrame</code> that allow to
+replace nulls with either fixed values or values from adjacent cells.</p>
+</div>
+<div class="sect2">
+<h3 id="_filling_nulls_in_series">Filling Nulls in Series</h3>
 
+</div>
+<div class="sect2">
+<h3 id="_filling_nulls_in_dataframe">Filling Nulls in DataFrame</h3>
+
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1818,7 +1847,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-21 11:04:16 CEST
+Last updated 2019-07-14 10:53:02 CEST
 </div>
 </div>
 </body>
