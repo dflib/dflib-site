@@ -1,2 +1,67 @@
-== Sorting Data
+== Sorting Rows
+
+=== Sorting by Column
+DataFrame rows can be sorted by any single column, assuming that column contains values that implement
+`java.lang.Comparable` (i.e. Strings, numbers, etc):
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameComparableColumn]
+----
+<1> The first argument is column name, the second - a boolean indicating sort direction (`true` means ascending, `false` - descending order).
+
+----
+first  last      middle
+------ --------- ------
+Amanda Gabrielly null
+Jerry  Cosin     M
+Joan   O'Hara    J
+3 rows x 3 columns
+----
+
+Sort column can either be specified by name, as in the example above, or by position:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameComparableColumn_ByPosition]
+----
+
+=== Sorting by Multiple Columns
+
+To specify additional sort columns, you can provide an array of column names (or column positions) and an array of sort
+direction specs:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameComparableColumns]
+----
+
+----
+first  last      middle
+------ --------- ------
+John   Cosin     M
+Joan   Cosin     J
+Amanda Gabrielly null
+3 rows x 3 columns
+----
+
+=== Sorting with Custom Algorithm
+
+If it is not possible to sort by values of a specific column or columns (e.g. when they are not `Comparable`, or we
+need to use a non-standard ordering algorithm), you can provide your own function that generates an arbitrary
+`Comparable` value for each row in the DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameRowValueMapper]
+----
+<1> Sorting by first name *length*.
+----
+first  last      middle
+------ --------- ------
+Joan   O'Hara    J
+Jerry  Cosin     M
+Amanda Gabrielly null
+3 rows x 3 columns
+----
 

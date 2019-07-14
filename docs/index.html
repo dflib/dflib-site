@@ -550,7 +550,13 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
 </ul>
 </li>
-<li><a href="#_sorting_data">Sorting Data</a></li>
+<li><a href="#_sorting_rows">Sorting Rows</a>
+<ul class="sectlevel2">
+<li><a href="#_sorting_by_column">Sorting by Column</a></li>
+<li><a href="#_sorting_by_multiple_columns">Sorting by Multiple Columns</a></li>
+<li><a href="#_sorting_with_custom_algorithm">Sorting with Custom Algorithm</a></li>
+</ul>
+</li>
 <li><a href="#_cleaning_up_data">Cleaning up Data</a></li>
 <li><a href="#_concatenating_series_and_dataframes">Concatenating Series and DataFrames</a></li>
 <li><a href="#_joins">Joins</a></li>
@@ -961,7 +967,7 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <h2 id="selecting">Selecting Rows and Columns</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before analyzing or transforming a Series or a DataFrame, very often the they need to be to narrowed down to just
+<p>Before analyzing or transforming a Series or a DataFrame, very often they need to be to narrowed down to just
 the relevant data. API for selecting and filtering rows and columns described in this chapter helps with such task.</p>
 </div>
 <div class="sect2">
@@ -1488,9 +1494,118 @@ Joan  O'Hara
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sorting_data">Sorting Data</h2>
+<h2 id="_sorting_rows">Sorting Rows</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_sorting_by_column">Sorting by Column</h3>
+<div class="paragraph">
+<p>DataFrame rows can be sorted by any single column, assuming that column contains values that implement
+<code>java.lang.Comparable</code> (i.e. Strings, all numbers, etc):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame df1 = df.sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The first argument is column name, the second - whether to sort in ascending (<code>true</code>) or descending (<code>false</code>)
+order.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first  last      middle
+------ --------- ------
+Amanda Gabrielly null
+Jerry  Cosin     M
+Joan   O'Hara    J
+3 rows x 3 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sort column can either be specified by name, as in the example above, or by position:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.sort(<span class="integer">0</span>, <span class="predefined-constant">true</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sorting_by_multiple_columns">Sorting by Multiple Columns</h3>
+<div class="paragraph">
+<p>To specify additional sort columns, you can provide an array of column names (or column positions) and an array of sort
+direction specs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">John</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.sort(<span class="keyword">new</span> <span class="predefined-type">String</span><span class="type">[]</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>}, <span class="keyword">new</span> <span class="type">boolean</span><span class="type">[]</span>{<span class="predefined-constant">true</span>, <span class="predefined-constant">false</span>});</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first  last      middle
+------ --------- ------
+John   Cosin     M
+Joan   Cosin     J
+Amanda Gabrielly null
+3 rows x 3 columns</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sorting_with_custom_algorithm">Sorting with Custom Algorithm</h3>
+<div class="paragraph">
+<p>If it is not possible to sort by values of a specific column or columns (e.g. when they are not <code>Comparable</code>, or we
+need to use a non-standard ordering algorithm), you can provide your own function that generates an arbitrary
+<code>Comparable</code> value for each row in the DataFrame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.sort(r -&gt; r.get(<span class="integer">0</span>).toString().length()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sorting by first name <strong>length</strong>.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first  last      middle
+------ --------- ------
+Joan   O'Hara    J
+Jerry  Cosin     M
+Amanda Gabrielly null
+3 rows x 3 columns</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1632,7 +1747,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-21 12:04:16 MSK
+Last updated 2019-06-21 11:04:16 CEST
 </div>
 </div>
 </body>
