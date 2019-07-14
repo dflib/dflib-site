@@ -1,7 +1,62 @@
-== Sorting Rows
+== Sorting
 
-=== Sorting by Column
-DataFrame rows can be sorted by any single column, assuming that column contains values that implement
+You can sort values in `Series`, and sort rows in `DataFrames`. As is the case everywhere else in DFLib, sorting does
+not alter the original object, and instead creates a new instance of either Series or DataFrame.
+
+First let's look at sorting Series...
+
+=== Sorting Series
+
+Series provides a `sort` method to sort its data using a custom Comparator:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortSeries]
+----
+The result is a new Series with sorted data:
+----
+1
+12
+123
+3 elements
+----
+
+Another example shows how to sort Series in the "natural" order (requires Series type to be compatible with
+`java.lang.Comparable`):
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortSeries_Natural]
+----
+
+----
+a
+c
+d
+3 elements
+----
+
+Series of primitives provide methods to sort values in the natural order without an explicit comparator:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortSeries_Long]
+----
+
+----
+                  0
+                 15
+9223372036854775807
+3 elements
+----
+
+Additionally `IntSeries` has an optimized method to sort ints with a custom `IntComparator`.
+
+Next we'll check how to sort a DataFrame.
+
+=== Sorting Rows by Column
+
+Rows in a DataFrame can be sorted by any single column, assuming that column contains values that implement
 `java.lang.Comparable` (i.e. Strings, numbers, etc):
 
 [source,java,indent=0]
@@ -26,7 +81,7 @@ Sort column can either be specified by name, as in the example above, or by posi
 include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameComparableColumn_ByPosition]
 ----
 
-=== Sorting by Multiple Columns
+=== Sorting Rows by Multiple Columns
 
 To specify additional sort columns, you can provide an array of column names (or column positions) and an array of sort
 direction specs:
@@ -45,7 +100,7 @@ Amanda Gabrielly null
 3 rows x 3 columns
 ----
 
-=== Sorting with Custom Algorithm
+=== Sorting Rows with Custom Algorithm
 
 If it is not possible to sort by values of a specific column or columns (e.g. when they are not `Comparable`, or we
 need to use a non-standard ordering algorithm), you can provide your own function that generates an arbitrary
@@ -64,4 +119,6 @@ Jerry  Cosin     M
 Amanda Gabrielly null
 3 rows x 3 columns
 ----
+
+
 

@@ -1,9 +1,46 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
+import com.nhl.dflib.LongSeries;
+import com.nhl.dflib.Series;
 import org.junit.Test;
 
+import java.util.Comparator;
+
 public class SortingExample extends BaseExample {
+
+    @Test
+    public void sortSeries() {
+
+// tag::sortSeries[]
+        Series<String> s = Series.forData("12", "1", "123")
+                .sort(Comparator.comparingInt(String::length));
+// end::sortSeries[]
+
+        print("sortSeries", s);
+    }
+
+    @Test
+    public void sortSeries_Natural() {
+
+// tag::sortSeries_Natural[]
+        Series<String> s = Series.forData("c", "d", "a")
+                .sort(Comparator.naturalOrder());
+// end::sortSeries_Natural[]
+
+        print("sortSeries_Natural", s);
+    }
+
+    @Test
+    public void sortSeries_Long() {
+
+// tag::sortSeries_Long[]
+        LongSeries s = LongSeries.forLongs(Long.MAX_VALUE, 15L, 0L)
+                .sortLong();
+// end::sortSeries_Long[]
+
+        print("sortSeries_Long", s);
+    }
 
     @Test
     public void sortDataFrameComparableColumn() {
