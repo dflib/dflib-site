@@ -6,6 +6,7 @@ data. Here we'll demonstrate a few extra methods for DataFrame columns manipulat
 
 * Adding columns with new data, that may or may not be derived from the data in other DataFrame columns.
 * Renaming columns
+* Normalizing column data and converting it to a specific Java type
 
 === Adding Columns
 
@@ -137,6 +138,29 @@ Joan  O'Hara
 ----
 
 [#changing-column-type]
-=== Changing Column Types
+=== Changing Column Type
 
-TODO
+Data may come to us in various forms. Often it comes as Strings or binary objects, leaving it up to the application
+to interpret them. There are a few methods in DataFrame to convert column values from one type to another. The most
+generic is `convertColumn`, allowing to convert between any two data types:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=convertColumn]
+----
+
+Additionally there are methods that can convert Strings and Numbers to primitive values:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=toPrimitiveColumn]
+----
+
+<1> The second method argument is the primitive value to use if the value being converted is null
+
+`toIntColumn` and other such methods are not just syntactic sugar. They convert DataFrame columns to _primitive_
+Series, that take significantly less memory and compute most operations faster than Object-based ones. You should
+always consider using them where possible.
+
+In addition to methods for numeric primitives DataFrame has `toBooleanColumn`, `toEnumFromNumColumn` and
+`toEnumFromStringColumn` methods that serve similar purpose, only for booleans and enums.

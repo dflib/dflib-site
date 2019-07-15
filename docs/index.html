@@ -548,7 +548,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_adding_columns">Adding Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
-<li><a href="#changing-column-type">Changing Column Types</a></li>
+<li><a href="#changing-column-type">Changing Column Type</a></li>
 </ul>
 </li>
 <li><a href="#_sorting">Sorting</a>
@@ -879,7 +879,26 @@ and then will continue to the chapters that describe data operations.</p>
 <div class="sect2">
 <h3 id="index">Index</h3>
 <div class="paragraph">
-<p>TODO</p>
+<p><code>Index</code> is somewhat similar to Series. It stores a sequence of String labels, corresponding to column labels in a
+DataFrame it is attached to. While you normally won&#8217;t need to create or manipulate Index outside of a DataFrame, you
+may use it to access DataFrame columns labels.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
+        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
+
+<span class="predefined-type">String</span><span class="type">[]</span> labels = df.getColumnsIndex().getLabels(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Access DataFrame index and read label names.</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1261,6 +1280,9 @@ data. Here we&#8217;ll demonstrate a few extra methods for DataFrame columns man
 <li>
 <p>Renaming columns</p>
 </li>
+<li>
+<p>Normalizing column data and converting it to a specific Java type</p>
+</li>
 </ul>
 </div>
 <div class="sect2">
@@ -1499,9 +1521,50 @@ Joan  O'Hara
 </div>
 </div>
 <div class="sect2">
-<h3 id="changing-column-type">Changing Column Types</h3>
+<h3 id="changing-column-type">Changing Column Type</h3>
 <div class="paragraph">
-<p>TODO</p>
+<p>Data may come to us in various forms. Often it comes as Strings or binary objects, leaving it up to the application
+to interpret them. There are a few methods in DataFrame to convert column values from one type to another. The most
+generic is <code>convertColumn</code>, allowing to convert between any two data types:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">2017</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">2018</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df
+        .convertColumn(<span class="integer">0</span>, (<span class="predefined-type">String</span> s) -&gt; <span class="predefined-type">Integer</span>.valueOf(s))
+        .convertColumn(<span class="integer">1</span>, (<span class="predefined-type">String</span> s) -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally there are methods that can convert Strings and Numbers to primitive values:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .toIntColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .toDoubleColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The second method argument is the primitive value to use if the value being converted is null</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>toIntColumn</code> and other such methods are not just syntactic sugar. They convert DataFrame columns to <em>primitive</em>
+Series, that take significantly less memory and compute most operations faster than Object-based ones. You should
+always consider using them where possible.</p>
+</div>
+<div class="paragraph">
+<p>In addition to methods for numeric primitives DataFrame has <code>toBooleanColumn</code>, <code>toEnumFromNumColumn</code> and
+<code>toEnumFromStringColumn</code> methods that serve similar purpose, only for booleans and enums.</p>
 </div>
 </div>
 </div>
@@ -1848,7 +1911,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-14 10:53:02 CEST
+Last updated 2019-07-14 04:53:02 EDT
 </div>
 </div>
 </body>

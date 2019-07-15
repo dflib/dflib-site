@@ -1,12 +1,16 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
+import com.nhl.dflib.DoubleSeries;
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.series.IntSequenceSeries;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class ColumnsManipulationExample extends BaseExample {
 
@@ -161,5 +165,43 @@ public class ColumnsManipulationExample extends BaseExample {
 
         print("renameColumns_ToLowerCase", df1);
     }
+
+    @Test
+    public void convertColumn() {
+
+// tag::convertColumn[]
+        DataFrame df = DataFrame
+                .newFrame("year", "sales")
+                .foldByRow("2017", "2005365.01",
+                        "2018", "4355098.75");
+
+        DataFrame df1 = df
+                .convertColumn(0, (String s) -> Integer.valueOf(s))
+                .convertColumn(1, (String s) -> new BigDecimal(s));
+// end::convertColumn[]
+
+        print("convertColumn", df1);
+    }
+
+
+    @Test
+    public void toPrimitiveColumn() {
+        DataFrame df = DataFrame
+                .newFrame("year", "sales")
+                .foldByRow("2017", "2005365.01",
+                        "2018", "4355098.75");
+
+// tag::toPrimitiveColumn[]
+        DataFrame df1 = df
+                .toIntColumn("year", 0) // <1>
+                .toDoubleColumn("sales", 0.); // <1>
+// end::toPrimitiveColumn[]
+
+        assertTrue(df1.getColumnAsInt(0) instanceof IntSeries);
+        assertTrue(df1.getColumnAsDouble(1) instanceof DoubleSeries);
+
+        print("toPrimitiveColumn", df1);
+    }
+
 
 }
