@@ -1699,10 +1699,11 @@ Amanda Gabrielly null
 </div>
 <div class="paragraph">
 <p>We&#8217;ve already discussed various DFLib features, that can be used for data cleanup. E.g.
-<a href="#changing-column-type">column type conversion</a>. Here we&#8217;ll look at a very typical cleanup case that wasn&#8217;t mentioned
-before. Namely when some values are missing. Such values are represented with Java <code>null</code>, and you may have to guess their values
-based on some internal knowledge of the dataset. There are methods in both <code>Series</code> and <code>DataFrame</code> that allow to
-replace nulls with either fixed values or values from adjacent cells.</p>
+<a href="#changing-column-type">column type conversion</a> that allows to normalize data among other things. Here we&#8217;ll look at a
+very typical cleanup case that wasn&#8217;t mentioned before. Namely missing values. They are represented as regular
+Java <code>nulls</code>, and you may have to guess or extrapolate the actual values based on some internal knowledge of the dataset.
+There are methods in both <code>Series</code> and <code>DataFrame</code> that allow to replace nulls with either fixed values or values from
+adjacent cells.</p>
 </div>
 <div class="sect2">
 <h3 id="_filling_nulls_in_series">Filling Nulls in Series</h3>
