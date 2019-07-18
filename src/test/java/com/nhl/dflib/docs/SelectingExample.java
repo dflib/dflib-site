@@ -13,11 +13,10 @@ public class SelectingExample extends BaseExample {
     public void selectAndReorderColumns() {
 
 // tag::selectAndReorderColumns[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("Jerry", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "O'Hara", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.selectColumns("last", "first");
 // end::selectAndReorderColumns[]
@@ -29,11 +28,10 @@ public class SelectingExample extends BaseExample {
     public void selectAndReorderColumns_ByIndex() {
 
 // tag::selectAndReorderColumns_ByIndex[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("Jerry", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "O'Hara", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.selectColumns(1, 0);
 // end::selectAndReorderColumns_ByIndex[]
@@ -45,11 +43,10 @@ public class SelectingExample extends BaseExample {
     public void selectRows() {
 
 // tag::selectRows[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.selectRows(2, 0, 0);
 // end::selectRows[]
@@ -61,11 +58,10 @@ public class SelectingExample extends BaseExample {
     public void selectRowsIndex() {
 
         // tag::selectRowsIndex[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
         IntSeries rowNumbers = new IntSequenceSeries(0, df.height());
 
@@ -81,11 +77,10 @@ public class SelectingExample extends BaseExample {
     public void filterByColumn() {
 
 // tag::filterByColumn[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.filterRows(
                 "first",
@@ -99,11 +94,10 @@ public class SelectingExample extends BaseExample {
     public void filterByRow() {
 
         // tag::filterByRow[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.filterRows(r ->
                 r.get("first").toString().startsWith("J")
@@ -117,11 +111,10 @@ public class SelectingExample extends BaseExample {
     public void filterByBoolean() {
 
         // tag::filterByBoolean[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
         Series<String> names = Series.forData("Sandra", "Anton", "Joan");
         BooleanSeries mask = names.eq(df.getColumn("first")); // <1>

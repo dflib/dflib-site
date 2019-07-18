@@ -17,11 +17,10 @@ public class ColumnsManipulationExample extends BaseExample {
     @Test
     public void addColumnFromRow() {
 // tag::addColumnFromRow[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.addColumn(
                 "full",                                   // <1>
@@ -34,11 +33,10 @@ public class ColumnsManipulationExample extends BaseExample {
 
     @Test
     public void addColumnsFromRow() {
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
 // tag::addColumnsFromRow[]
         DataFrame df1 = df.addColumns(
@@ -53,11 +51,10 @@ public class ColumnsManipulationExample extends BaseExample {
 
     @Test
     public void addColumnFromSeries() {
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
 // tag::addColumnFromSeries[]
         IntSeries rowNumbers = new IntSequenceSeries(0, df.height()); // <1>
@@ -72,11 +69,10 @@ public class ColumnsManipulationExample extends BaseExample {
 
     @Test
     public void addRowNumbers() {
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Amanda", "Gabrielly",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
 
 // tag::addRowNumbers[]
         DataFrame df1 = df.addRowNumber("number");
@@ -89,11 +85,10 @@ public class ColumnsManipulationExample extends BaseExample {
     public void deleteColumns() {
 
 // tag::deleteColumns[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("Jerry", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "O'Hara", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.dropColumns("first", "middle"); // <1>
 // end::deleteColumns[]
@@ -105,10 +100,9 @@ public class ColumnsManipulationExample extends BaseExample {
     public void renameColumn() {
 
 // tag::renameColumn[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df
                 .renameColumn("first", "first_name")
@@ -122,10 +116,9 @@ public class ColumnsManipulationExample extends BaseExample {
     public void renameColumns() {
 
 // tag::renameColumns[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.renameColumns("first_name", "last_name");
 // end::renameColumns[]
@@ -140,10 +133,9 @@ public class ColumnsManipulationExample extends BaseExample {
         Map<String, String> nameMap = new HashMap<>();
         nameMap.put("first", "first_name");
 
-        DataFrame df = DataFrame
-                .newFrame("first", "last")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.renameColumns(nameMap);
 // end::renameColumns_Map[]
@@ -155,10 +147,9 @@ public class ColumnsManipulationExample extends BaseExample {
     public void renameColumns_ToLowerCase() {
 
 // tag::renameColumns_ToLowerCase[]
-        DataFrame df = DataFrame
-                .newFrame("FIRST", "LAST")
-                .foldByRow("Jerry", "Cosin",
-                        "Joan", "O'Hara");
+        DataFrame df = DataFrame.newFrame("FIRST", "LAST").foldByRow(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
 
         DataFrame df1 = df.renameColumns(String::toLowerCase);
 // end::renameColumns_ToLowerCase[]
@@ -170,10 +161,9 @@ public class ColumnsManipulationExample extends BaseExample {
     public void convertColumn() {
 
 // tag::convertColumn[]
-        DataFrame df = DataFrame
-                .newFrame("year", "sales")
-                .foldByRow("2017", "2005365.01",
-                        "2018", "4355098.75");
+        DataFrame df = DataFrame.newFrame("year", "sales").foldByRow(
+                "2017", "2005365.01",
+                "2018", "4355098.75");
 
         DataFrame df1 = df
                 .convertColumn(0, (String s) -> Integer.valueOf(s))
@@ -186,10 +176,9 @@ public class ColumnsManipulationExample extends BaseExample {
 
     @Test
     public void toPrimitiveColumn() {
-        DataFrame df = DataFrame
-                .newFrame("year", "sales")
-                .foldByRow("2017", "2005365.01",
-                        "2018", "4355098.75");
+        DataFrame df = DataFrame.newFrame("year", "sales").foldByRow(
+                "2017", "2005365.01",
+                "2018", "4355098.75");
 
 // tag::toPrimitiveColumn[]
         DataFrame df1 = df

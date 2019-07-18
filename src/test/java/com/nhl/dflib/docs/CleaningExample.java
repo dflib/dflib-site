@@ -46,11 +46,10 @@ public class CleaningExample extends BaseExample {
     public void fillNullsForward_DataFrame() {
 
 // tag::fillNullsForward_DataFrame[]
-        DataFrame withNulls = DataFrame
-                .newFrame("c1", "c2")
-                .foldByRow("1", "1",
-                        null, null,
-                        "2", "2");
+        DataFrame withNulls = DataFrame.newFrame("c1", "c2").foldByRow(
+                "1", "1",
+                null, null,
+                "2", "2");
 
         DataFrame filled = withNulls
                 .fillNullsBackwards("c1")

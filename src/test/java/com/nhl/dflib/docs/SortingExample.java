@@ -46,11 +46,10 @@ public class SortingExample extends BaseExample {
     public void sortDataFrameComparableColumn() {
 
 // tag::sortDataFrameComparableColumn[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("Jerry", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "O'Hara", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.sort("first", true); // <1>
 // end::sortDataFrameComparableColumn[]
@@ -61,11 +60,10 @@ public class SortingExample extends BaseExample {
     @Test
     public void sortDataFrameComparableColumn_ByPosition() {
 
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("Jerry", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "O'Hara", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "O'Hara", "J");
 
 // tag::sortDataFrameComparableColumn_ByPosition[]
         DataFrame df1 = df.sort(0, true);
@@ -78,11 +76,10 @@ public class SortingExample extends BaseExample {
     public void sortDataFrameComparableColumns() {
 
 // tag::sortDataFrameComparableColumns[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("John", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "Cosin", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "John", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "Cosin", "J");
 
         DataFrame df1 = df.sort(new String[]{"last", "first"}, new boolean[]{true, false});
 // end::sortDataFrameComparableColumns[]
@@ -94,11 +91,10 @@ public class SortingExample extends BaseExample {
     public void sortDataFrameRowValueMapper() {
 
 // tag::sortDataFrameRowValueMapper[]
-        DataFrame df = DataFrame
-                .newFrame("first", "last", "middle")
-                .foldByRow("Jerry", "Cosin", "M",
-                        "Amanda", "Gabrielly", null,
-                        "Joan", "O'Hara", "J");
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.sort(r -> r.get(0).toString().length()); // <1>
 // end::sortDataFrameRowValueMapper[]
