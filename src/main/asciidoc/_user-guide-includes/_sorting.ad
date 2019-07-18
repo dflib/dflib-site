@@ -63,7 +63,8 @@ Rows in a DataFrame can be sorted by any single column, assuming that column con
 ----
 include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameComparableColumn]
 ----
-<1> The first argument is column name, the second - a boolean indicating sort direction (`true` means ascending, `false` - descending order).
+<1> The first argument is the column name (can also be column integer index), the second - a boolean indicating sort
+direction (`true` means ascending, `false` - descending order).
 
 ----
 first  last      middle
