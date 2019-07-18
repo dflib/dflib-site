@@ -1865,13 +1865,74 @@ Amanda Gabrielly null
 <h2 id="_concatenating">Concatenating</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are various ways to combine data from multiple <code>Series</code> or <code>DataFrames</code>. The simplest is <em>concatenation</em>
+<p>There are various ways to combine data from multiple <code>Series</code> or <code>DataFrames</code>. The simplest is <em>concatenation</em>,
 described in this chapter. Series can be concatenated together producing a longer Series. DataFrames can be concatenated
 either vertically (along the rows axis) or horizontally (along the columns axis).</p>
 </div>
 <div class="sect2">
 <h3 id="_concatenating_series">Concatenating Series</h3>
+<div class="paragraph">
+<p>If you have a Series object and want to concatenate it with one or more other Series, you&#8217;d use <code>Series.concat(..)</code>
+method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s1 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; s2 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; s3 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>);
 
+Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s1.concat(s2, s3);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result is as expected contains values of all Series put together:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>x
+y
+z
+a
+m
+n
+6 elements</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t have an initial Series object, but instead have a collection or an array of Series, you can use a static
+<code>SeriesConcat.concat(..)</code> method to "glue" multiple Series together:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Collection</span>&lt;Series&lt;<span class="predefined-type">String</span>&gt;&gt; ss = asList(
+        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
+        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
+        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));
+
+Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat.concat(ss);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result is the same as in the previous example.</p>
+</div>
+<div class="paragraph">
+<p>Also you can concatenate Series with itself:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s.concat(s);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>x
+y
+x
+y
+4 elements</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_concatenating_dataframes">Concatenating DataFrames</h3>

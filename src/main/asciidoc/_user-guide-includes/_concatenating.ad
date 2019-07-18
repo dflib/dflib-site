@@ -1,10 +1,52 @@
 == Concatenating
 
-There are various ways to combine data from multiple `Series` or `DataFrames`. The simplest is _concatenation_
+There are various ways to combine data from multiple `Series` or `DataFrames`. The simplest is _concatenation_,
 described in this chapter. Series can be concatenated together producing a longer Series. DataFrames can be concatenated
 either vertically (along the rows axis) or horizontally (along the columns axis).
 
 === Concatenating Series
+
+If you have a Series object and want to concatenate it with one or more other Series, you'd use `Series.concat(..)`
+method:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ConcatExample.java[tags=concatSeries]
+----
+The result is as expected contains values of all Series put together:
+----
+x
+y
+z
+a
+m
+n
+6 elements
+----
+
+If you don't have an initial Series object, but instead have a collection or an array of Series, you can use a static
+`SeriesConcat.concat(..)` method to "glue" multiple Series together:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ConcatExample.java[tags=concatSeries_Static]
+----
+The result is the same as in the previous example.
+
+Also you can concatenate Series with itself:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ConcatExample.java[tags=concatSeries_Self]
+----
+----
+x
+y
+x
+y
+4 elements
+----
+
 
 === Concatenating DataFrames
 
