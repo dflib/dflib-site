@@ -1768,13 +1768,110 @@ Java <code>nulls</code>, and you may have to guess or extrapolate the actual val
 There are methods in both <code>Series</code> and <code>DataFrame</code> that allow to replace nulls with either fixed values or values from
 adjacent cells.</p>
 </div>
+<div class="paragraph">
+<p>First let&#8217;s see how this works for <code>Series</code>&#8230;&#8203;</p>
+</div>
 <div class="sect2">
 <h3 id="_filling_nulls_in_series">Filling Nulls in Series</h3>
-
+<div class="paragraph">
+<p>The simplest approach is to replace nulls with a constant value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; withNulls = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNulls(<span class="string"><span class="delimiter">&quot;</span><span class="content">X</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a
+b
+X
+X
+c
+5 elements</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another strategy is to use values adjacent to the cells with nulls:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsForward(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>fillNullsForward</code> takes a non-null value preceding the null cell and uses it to replace nulls.
+Similarly there&#8217;s a <code>fillNullsBackward</code> method that uses the value following the null cell.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a
+b
+b
+b
+c
+5 elements</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally there&#8217;s a way to fill nulls using another <code>Series</code> object as a kind of "template" or "mask" :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; mask = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">C</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">D</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">E</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">G</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsFromSeries(mask);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a
+b
+C
+D
+c
+5 elements</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that the "mask" Series can be longer (or shorter) than the Series where the nulls are replaced.
+Values between the two Series objects are aligned by position starting at zero.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_filling_nulls_in_dataframe">Filling Nulls in DataFrame</h3>
+<div class="paragraph">
+<p>Filling nulls in a DataFrame is done by column, so the API is very similar to <code>Series.fillNulls*</code> methods, only with
+an additional String on integer argument specifying column position.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame withNulls = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>)
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+                <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame filled = withNulls
+        .fillNullsBackwards(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>)
+        .fillNullsForward(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>c1 c2
+-- --
+1  1
+2  1
+2  2
+3 rows x 2 columns</pre>
+</div>
+</div>
 </div>
 </div>
 </div>

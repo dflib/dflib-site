@@ -9,6 +9,79 @@ Java `nulls`, and you may have to guess or extrapolate the actual values based o
 There are methods in both `Series` and `DataFrame` that allow to replace nulls with either fixed values or values from
 adjacent cells.
 
+First let's see how this works for `Series`...
+
 === Filling Nulls in Series
 
+The simplest approach is to replace nulls with a constant value:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNulls_Series]
+----
+
+----
+a
+b
+X
+X
+c
+5 elements
+----
+
+Another strategy is to use values adjacent to the cells with nulls:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNullsForward_Series]
+----
+<1> `fillNullsForward` takes a non-null value preceding the null cell and uses it to replace nulls.
+Similarly there's a `fillNullsBackward` method that uses the value following the null cell.
+
+----
+a
+b
+b
+b
+c
+5 elements
+----
+
+
+Finally there's a way to fill nulls using another `Series` object as a kind of "template" or "mask" :
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNullsFromSeries_Series]
+----
+
+----
+a
+b
+C
+D
+c
+5 elements
+----
+
+Notice that the "mask" Series can be longer (or shorter) than the Series where the nulls are replaced.
+Values between the two Series objects are aligned by position starting at zero.
+
 === Filling Nulls in DataFrame
+
+Filling nulls in a DataFrame is done by column, so the API is very similar to `Series.fillNulls*` methods, only with
+an additional String on integer argument specifying column position.
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNullsForward_DataFrame]
+----
+
+----
+c1 c2
+-- --
+1  1
+2  1
+2  2
+3 rows x 2 columns
+----
