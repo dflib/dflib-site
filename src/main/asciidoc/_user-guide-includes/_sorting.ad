@@ -111,7 +111,7 @@ need to use a non-standard ordering algorithm), you can provide your own functio
 ----
 include::../../../test/java/com/nhl/dflib/docs/SortingExample.java[tags=sortDataFrameRowValueMapper]
 ----
-<1> Sorting by first name *length*.
+<1> Sorting by the length of first name String.
 ----
 first  last      middle
 ------ --------- ------
