@@ -4,5 +4,7 @@ There are various ways to combine data from multiple `Series` or `DataFrames`. T
 described in this chapter. Series can be concatenated together producing a longer Series. DataFrames can be concatenated
 either vertically (along the rows axis) or horizontally (along the columns axis).
 
-=== Concatentaing Series
+=== Concatenating Series
+
+=== Concatenating DataFrames
 
