@@ -1,15 +1,16 @@
 == Cleaning up Data
 
-Data coming to DFLib may be of varying quality and hence may require cleanup before processing.
+Data coming to DFLib may be of varying quality and hence may require cleanup before processing. We've already discussed
+various DFLib features, that can be used for data cleanup. E.g. <<changing-column-type,column type conversion>> that
+allows to normalize data among other things. Here we'll look at a very typical cleanup case that wasn't mentioned before.
+Namely missing values. They are represented as regular Java `nulls`, and you may have to guess or extrapolate the actual
+values based on some internal knowledge of the dataset.
 
-We've already discussed various DFLib features, that can be used for data cleanup. E.g.
-<<changing-column-type,column type conversion>> that allows to normalize data among other things. Here we'll look at a
-very typical cleanup case that wasn't mentioned before. Namely missing values. They are represented as regular
-Java `nulls`, and you may have to guess or extrapolate the actual values based on some internal knowledge of the dataset.
+Outer joins and concatenation operations described further down in this document are also common source of null values,
+that may need to be replaced before the data is used.
+
 There are methods in both `Series` and `DataFrame` that allow to replace nulls with either fixed values or values from
-adjacent cells.
-
-First let's see how this works for `Series`...
+adjacent cells. First, let's see how this works for `Series`...
 
 === Filling Nulls in Series
 
@@ -48,7 +49,7 @@ c
 ----
 
 
-Finally there's a way to fill nulls using another `Series` object as a kind of "template" or "mask" :
+Finally, there's a way to fill nulls using another `Series` object as a kind of "template" or "mask" :
 
 [source,java,indent=0]
 ----
