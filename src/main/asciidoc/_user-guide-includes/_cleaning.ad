@@ -1,16 +1,14 @@
 == Cleaning up Data
 
 Data coming to DFLib may be of varying quality and hence may require cleanup before processing. We've already discussed
-various DFLib features, that can be used for data cleanup. E.g. <<changing-column-type,column type conversion>> that
-allows to normalize data among other things. Here we'll look at a very typical cleanup case that wasn't mentioned before.
-Namely missing values. They are represented as regular Java `nulls`, and you may have to guess or extrapolate the actual
-values based on some internal knowledge of the dataset.
+<<changing-column-type,column type conversion>> operation, that allows to normalize data among other things. Another
+typical case of data requiring cleanup is missing values. Such values are represented as regular Java `nulls`. There
+is a variety of reasons why data can be missing. A rather common one is outer joins and concatenation operations
+described further down in this document.
 
-Outer joins and concatenation operations described further down in this document are also common source of null values,
-that may need to be replaced before the data is used.
-
-There are methods in both `Series` and `DataFrame` that allow to replace nulls with either fixed values or values from
-adjacent cells. First, let's see how this works for `Series`...
+In all of these cases you may have to guess or extrapolate the actual values based on some internal knowledge of the
+dataset. There are methods in both `Series` and `DataFrame` that allow to replace nulls with either fixed values or
+values from adjacent cells. First, let's see how this works for `Series`...
 
 === Filling Nulls in Series
 

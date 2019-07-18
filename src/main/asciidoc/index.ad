@@ -26,9 +26,9 @@ include::_user-guide-includes/_selecting.ad[]
 
 include::_user-guide-includes/_columns-manipulation.ad[]
 
-include::_user-guide-includes/_sorting.ad[]
-
 include::_user-guide-includes/_cleaning.ad[]
+
+include::_user-guide-includes/_sorting.ad[]
 
 include::_user-guide-includes/_concatenating.ad[]
 
