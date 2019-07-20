@@ -144,3 +144,10 @@ first last
 Joan  O'Hara
 1 row x 2 columns
 ----
+
+=== Head and Tail
+
+When you only need the "first N" or "last M" rows of a DataFrame (or values of a Series) you can use `head` and `tail`
+operations:
+
+TODO...
