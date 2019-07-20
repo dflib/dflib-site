@@ -1,5 +1,7 @@
 package com.nhl.dflib.docs;
 
+import com.nhl.dflib.DataFrame;
+import com.nhl.dflib.JoinType;
 import com.nhl.dflib.Series;
 import com.nhl.dflib.concat.SeriesConcat;
 import org.junit.Test;
@@ -48,5 +50,96 @@ public class ConcatExample extends BaseExample {
 // end::concatSeries_Static[]
 
         print("concatSeries_Static", sConcat);
+    }
+
+    @Test
+    public void vConcat() {
+
+// tag::vConcat[]
+        DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
+                1, 2,
+                3, 4);
+
+        DataFrame df2 = DataFrame.newFrame("a", "b").foldByRow(
+                5, 6,
+                7, 8);
+
+        DataFrame dfv = df1.vConcat(df2); // <1>
+// end::vConcat[]
+
+        print("vConcat", dfv);
+    }
+
+    @Test
+    public void hConcat() {
+
+        DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
+                1, 2,
+                3, 4);
+
+        DataFrame df2 = DataFrame.newFrame("a", "b").foldByRow(
+                5, 6,
+                7, 8);
+
+// tag::hConcat[]
+        DataFrame dfh = df1.hConcat(df2); // <1>
+// end::hConcat[]
+
+        print("hConcat", dfh);
+    }
+
+    @Test
+    public void vConcat_InnerMismatch() {
+
+// tag::vConcat_InnerMismatch[]
+        DataFrame df1 = DataFrame.newFrame("b", "a").foldByRow(
+                1, 2,
+                3, 4);
+
+        DataFrame df2 = DataFrame.newFrame("a", "c").foldByRow( // <1>
+                5, 6,
+                7, 8);
+
+        DataFrame dfv = df1.vConcat(JoinType.inner, df2); // <2>
+// end::vConcat_InnerMismatch[]
+
+        print("vConcat_InnerMismatch", dfv);
+    }
+
+    @Test
+    public void vConcat_LeftMismatch() {
+
+        DataFrame df1 = DataFrame.newFrame("b", "a").foldByRow(
+                1, 2,
+                3, 4);
+
+        DataFrame df2 = DataFrame.newFrame("a", "c").foldByRow(
+                5, 6,
+                7, 8);
+
+// tag::vConcat_LeftMismatch[]
+        DataFrame dfv = df1.vConcat(JoinType.left, df2);
+// end::vConcat_LeftMismatch[]
+
+        print("vConcat_LeftMismatch", dfv);
+    }
+
+    @Test
+    public void hConcat_LeftMismatch() {
+
+// tag::hConcat_LeftMismatch[]
+        DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
+                1, 2,
+                3, 4,
+                5, 6);
+
+        DataFrame df2 = DataFrame.newFrame("c", "d").foldByRow(
+                7, 8,
+                9, 10);
+
+        DataFrame dfv = df1.hConcat(JoinType.left, df2);
+// end::hConcat_LeftMismatch[]
+
+        print("hConcat_LeftMismatch", dfv);
     }
 }
