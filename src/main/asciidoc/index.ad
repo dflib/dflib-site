@@ -32,18 +32,14 @@ include::_user-guide-includes/_sorting.ad[]
 
 include::_user-guide-includes/_concatenating.ad[]
 
-[#joins]
-== Joins
+include::_user-guide-includes/_joins.ad[]
 
+include::_user-guide-includes/_grouping.ad[]
 
-== Grouping and Aggregating
+include::_user-guide-includes/_csv.ad[]
 
-[#csv]
-== Working with .csv Files
-
-[#rdbms]
-== Working with Relational Databases
+include::_user-guide-includes/_rdbms.ad[]
 
 include::_user-guide-includes/_jupyter.ad[]
 
-== Unit Testing
+include::_user-guide-includes/_unit-testing.ad[]
