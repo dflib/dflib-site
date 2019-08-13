@@ -124,4 +124,34 @@ public class SelectingExample extends BaseExample {
 
         print("filterByBoolean", df1);
     }
+
+    @Test
+    public void headDataFrame() {
+
+        // tag::headDataFrame[]
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
+
+        DataFrame df1 = df.head(2); // <1>
+        // end::headDataFrame[]
+
+        print("headDataFrame", df1);
+    }
+
+    @Test
+    public void tailDataFrame() {
+
+        // tag::tailDataFrame[]
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
+
+        DataFrame df1 = df.tail(1); // <1>
+        // end::tailDataFrame[]
+
+        print("tailDataFrame", df1);
+    }
 }
