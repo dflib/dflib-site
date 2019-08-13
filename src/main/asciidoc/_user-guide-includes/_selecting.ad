@@ -164,7 +164,7 @@ Amanda Gabrielly
 2 rows x 2 columns
 ----
 
-`tail` works similarly, but returns the last N rows:
+`tail` works similarly, but returns the _last_ N rows:
 
 [source,java,indent=0]
 ----

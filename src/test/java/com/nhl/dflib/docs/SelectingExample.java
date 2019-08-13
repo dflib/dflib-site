@@ -149,7 +149,7 @@ public class SelectingExample extends BaseExample {
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
 
-        DataFrame df1 = df.tail(1); // <1>
+        DataFrame df1 = df.tail(1);
         // end::tailDataFrame[]
 
         print("tailDataFrame", df1);
