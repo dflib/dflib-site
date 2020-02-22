@@ -94,16 +94,12 @@ Delete before insert example:
 ----
 include::../../../test/java/com/nhl/dflib/docs/JdbcExample.java[tags=tableSaver_Delete]
 ----
-<1> Ensures that all the data is deleted from the target table before the DataFrame is inserted.
 
-Merge example:
+Merge by PK example (PK columns are detected from DB metadata) :
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/JdbcExample.java[tags=tableSaver_Merge]
 ----
-<1> Matches the data in `df` with DB table data using the table PK column. Issues inserts for missing records and updates
-for the existing ones. A flavor of "merge" also takes an arbitrary list of column names.
-
 
 === SqlLoader / SqlSaver
 

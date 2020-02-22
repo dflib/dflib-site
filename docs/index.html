@@ -2571,36 +2571,19 @@ extra columns is preserved.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
-        .deleteTableData() <i class="conum" data-value="1"></i><b>(1)</b>
+        .deleteTableData()
         .save(df);</code></pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Ensures that all the data is deleted from the target table before the DataFrame is inserted.</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
-<p>Merge example:</p>
+<p>Merge by PK example (PK columns are detected from DB metadata) :</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
-        .mergeByPk() <i class="conum" data-value="1"></i><b>(1)</b>
+        .mergeByPk()
         .save(df);</code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Matches the data in <code>df</code> with DB table data using the table PK column. Issues inserts for missing records and updates
-for the existing ones. A flavor of "merge" also takes an arbitrary list of column names.</td>
-</tr>
-</table>
 </div>
 </div>
 <div class="sect2">

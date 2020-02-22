@@ -120,7 +120,7 @@ public class JdbcExample extends BaseExample {
 
         // tag::tableSaver_Delete[]
         connector.tableSaver("person")
-                .deleteTableData() // <1>
+                .deleteTableData()
                 .save(df);
         // end::tableSaver_Delete[]
     }
@@ -143,7 +143,7 @@ public class JdbcExample extends BaseExample {
 
         // tag::tableSaver_Merge[]
         connector.tableSaver("person")
-                .mergeByPk() // <1>
+                .mergeByPk()
                 .save(df);
         // end::tableSaver_Merge[]
     }
