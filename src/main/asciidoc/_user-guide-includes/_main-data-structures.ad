@@ -69,7 +69,7 @@ DataFrame can contain columns of different kinds and is not parameterized for a 
 There are a few ways to create a DataFrame. Here we'll show "builder" API to convert arrays, Streams, Collections,
 Series and other in-memory data into DataFrames.
 
-NOTE: Alternatively a DataFrame can be loaded from (and saved to) a <<rdbms,database>> or a <<csv,CSV file>>.
+NOTE: Alternatively a DataFrame can be loaded from (and saved to) a <<jdbc,database>> or a <<csv,CSV file>>.
 Those data sources are discussed in separate documentation chapters.
 
 First example - adding data row by row:

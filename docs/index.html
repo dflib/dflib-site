@@ -581,7 +581,13 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_writing_dataframe_to_a_csv">Writing DataFrame to a CSV</a></li>
 </ul>
 </li>
-<li><a href="#rdbms">Working with Relational Databases</a></li>
+<li><a href="#jdbc">Working with Relational Databases</a>
+<ul class="sectlevel2">
+<li><a href="#_jdbcconnector">JdbcConnector</a></li>
+<li><a href="#_tableloader_tablesaver">TableLoader / TableSaver</a></li>
+<li><a href="#_sqlloader_sqlsaver">SqlLoader / SqlSaver</a></li>
+</ul>
+</li>
 <li><a href="#jupyter">Working in Jupyter Notebook</a>
 <ul class="sectlevel2">
 <li><a href="#_installing_jupyter_with_java_kernel">Installing Jupyter with Java Kernel</a></li>
@@ -793,7 +799,7 @@ Series and other in-memory data into DataFrames.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Alternatively a DataFrame can be loaded from (and saved to) a <a href="#rdbms">database</a> or a <a href="#csv">CSV file</a>.
+Alternatively a DataFrame can be loaded from (and saved to) a <a href="#jdbc">database</a> or a <a href="#csv">CSV file</a>.
 Those data sources are discussed in separate documentation chapters.
 </td>
 </tr>
@@ -2265,7 +2271,7 @@ advantage of this functionality:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
-    <span class="tag">&lt;artifactId&gt;</span>dflib-cvs<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-csv<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
@@ -2323,15 +2329,15 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Instead of "load" method use "loader"</td>
+<td>Instead of "load" method use "loader".</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Skip the header row</td>
+<td>Skip the header row.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Provide our own header</td>
+<td>Provide our own header.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -2383,7 +2389,7 @@ to a variety of destinations.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>Just like with loader, CSV saver provides its own set of options, if the defaults are not sufficient:</p>
+<p>Just like with the loader, CSV saver provides its own set of options, if the defaults are not sufficient:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2397,15 +2403,15 @@ to a variety of destinations.</td>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Instead of "save" method use "saver" to be able to customize the process</td>
+<td>Instead of "save" method use "saver" to be able to customize the process.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>If intermediate directories for the output file are missing, create them</td>
+<td>If intermediate directories for the output file are missing, create them.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Provide an alternative format (either from a collection of known formats, or user-own).</td>
+<td>Provide an alternative format (either from a collection of known formats, or user-specific).</td>
 </tr>
 </table>
 </div>
@@ -2413,9 +2419,185 @@ to a variety of destinations.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="rdbms">Working with Relational Databases</h2>
+<h2 id="jdbc">Working with Relational Databases</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Relational databases are arguably the most important type of data stores out there. Also they happen to map
+really well to DataFrames. DFLib provides advanced support for loading and saving DataFrames to RDBMS. It supports
+transactions, auto-generation of certain SQL statements, merging of data on top of the existing data
+("create-or-update"), building custom SQL for selects and updates. It knows how to treat different DB
+"flavors" and does a number of other cool database-related things.</p>
+</div>
+<div class="paragraph">
+<p>To start using all this, you need to import <code>dflib-jdbc</code> module:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-jdbc<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
 
+<span class="comment">&lt;!-- Of course you also need to import your preferred JDBC driver --&gt;</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbcconnector">JdbcConnector</h3>
+<div class="paragraph">
+<p>Once the imports are setup, you&#8217;d use <code>Jdbc</code> class to obtain an instance of <code>JdbcConnector</code> that can be later used for
+all DB operations. You may already have a preconfigured <code>javax.sql.DataSource</code>, so the simplest way to create a
+connector is to pass that DataSource to <code>Jdbc</code> factory method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">JdbcConnector connector = Jdbc.connector(dataSource);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively you can build everything from scratch:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">JdbcConnector connector = Jdbc
+        .connector(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc:derby:target/derby/mydb;create=true</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">// .driver(&quot;com.foo.MyDriver&quot;) </span><i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="comment">// .userName(&quot;root&quot;)</span>
+        <span class="comment">// .password(&quot;secret&quot;) </span><i class="conum" data-value="2"></i><b>(2)</b>
+        .build();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>(Optional) Driver name. Some drivers are not properly registered with the DriverManager, and require an explicit
+declaration.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>DB account username/password (not needed for our in-memory Derby example, but will definitely be required for a real database).</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tableloader_tablesaver">TableLoader / TableSaver</h3>
+<div class="paragraph">
+<p>Once you have the connector, you can start reading and persisting DataFrame data. Many DataFrames map directly to
+individual tables (or views) defined in the database. For those DFLib provides a set of rather straightforward
+operations that do not require the user to write SQL (all needed SQL is auto-generated by the framework):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>).load();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>id name             salary
+-- ---------------- --------
+ 1 Jerry Cosin      70000.0
+ 2 Amanda Gabrielly 85000.0
+ 3 Joan O'Hara      101000.0
+3 rows x 3 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Table loader provides a way to customize the load operation. It allows to select specific columns, set the maximum
+number of rows to read, sample rows, and even specify fetch condition as another DataFrame. Some examples:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame condition = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .addRow(<span class="integer">70</span>_000)
+        .addRow(<span class="integer">101</span>_000)
+        .create();
+
+DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
+        .includeColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .eq(condition)
+        .load();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name        salary
+----------- --------
+Jerry Cosin 70000.0
+Joan O'Hara 101000.0
+2 rows x 2 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What it doesn&#8217;t require (unlike <a href="#csv">CSV loader</a>) is explicit column types, as the proper value types are inferred
+from the database metadata.</p>
+</div>
+<div class="paragraph">
+<p>Table saver allows to save DataFrame to a table. Column names in the DataFrame should match column names in the DB table:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .addRow(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry Cosin</span><span class="delimiter">&quot;</span></span>, <span class="integer">70</span>_000)
+        .addRow(<span class="integer">2</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="integer">85</span>_000)
+        .addRow(<span class="integer">3</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">101</span>_000)
+        .create();
+
+connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>).save(df);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this scenario table saver executes insert for each DataFrame row. But what if there is already an existing data
+in the table? There are a few options the user has to overwrite or merge the data:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Append the data (that&#8217;s what we effectively did above).</p>
+</li>
+<li>
+<p>Delete all the existing data before doing the insert:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
+        .deleteTableData() <i class="conum" data-value="1"></i><b>(1)</b>
+        .save(df);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Ensures that all the data is deleted from the target table before the DataFrame is inserted.
+<div class="ulist">
+<ul>
+<li>
+<p>Merge the data by PK or an arbitrary set of columns. This is "create or update" operation that will insert missing
+rows, and update the existing rows. If the table has more columns than there are columns in the DataFrame, in this
+scenario the data in those extra columns is preserved.</p>
+</li>
+</ul>
+</div></td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
+        .mergeByPk() <i class="conum" data-value="1"></i><b>(1)</b>
+        .save(df);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sqlloader_sqlsaver">SqlLoader / SqlSaver</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2521,7 +2703,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-22 09:51:35 EST
+Last updated 2020-02-22 16:00:47 EST
 </div>
 </div>
 </body>

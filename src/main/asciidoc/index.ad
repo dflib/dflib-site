@@ -40,7 +40,7 @@ include::_user-guide-includes/_window.ad[]
 
 include::_user-guide-includes/_csv.ad[]
 
-include::_user-guide-includes/_rdbms.ad[]
+include::_user-guide-includes/_jdbc.ad[]
 
 include::_user-guide-includes/_jupyter.ad[]
 

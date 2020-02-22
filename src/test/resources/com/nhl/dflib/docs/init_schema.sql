@@ -1,0 +1,1 @@
+CREATE TABLE "person" ("id" bigint primary key, "name" varchar(100), "salary" double);
