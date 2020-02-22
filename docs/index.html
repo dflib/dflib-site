@@ -2556,9 +2556,17 @@ in the table? There are a few options the user has to overwrite or merge the dat
 <p>Append the data (that&#8217;s what we effectively did above).</p>
 </li>
 <li>
-<p>Delete all the existing data before doing the insert:</p>
+<p>Delete all existing data before doing the insert.</p>
+</li>
+<li>
+<p>Merge the data by comparing DataFrame and DB table data on PK column(s) or an arbitrary set of columns. Insert missing
+rows, update the existing rows. If the table has more columns than there are columns in the DataFrame, the data in those
+extra columns is preserved.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Delete before insert example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2571,18 +2579,12 @@ in the table? There are a few options the user has to overwrite or merge the dat
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Ensures that all the data is deleted from the target table before the DataFrame is inserted.
-<div class="ulist">
-<ul>
-<li>
-<p>Merge the data by PK or an arbitrary set of columns. This is "create or update" operation that will insert missing
-rows, and update the existing rows. If the table has more columns than there are columns in the DataFrame, in this
-scenario the data in those extra columns is preserved.</p>
-</li>
-</ul>
-</div></td>
+<td>Ensures that all the data is deleted from the target table before the DataFrame is inserted.</td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Merge example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2590,6 +2592,15 @@ scenario the data in those extra columns is preserved.</p>
         .mergeByPk() <i class="conum" data-value="1"></i><b>(1)</b>
         .save(df);</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Matches the data in <code>df</code> with DB table data using the table PK column. Issues inserts for missing records and updates
+for the existing ones. A flavor of "merge" also takes an arbitrary list of column names.</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">

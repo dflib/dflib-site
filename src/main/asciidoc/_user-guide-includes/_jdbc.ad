@@ -84,23 +84,26 @@ In this scenario table saver executes insert for each DataFrame row. But what if
 in the table? There are a few options the user has to overwrite or merge the data:
 
 * Append the data (that's what we effectively did above).
-* Delete all the existing data before doing the insert:
+* Delete all existing data before doing the insert.
+* Merge the data by comparing DataFrame and DB table data on PK column(s) or an arbitrary set of columns. Insert missing
+rows, update the existing rows. If the table has more columns than there are columns in the DataFrame, the data in those
+extra columns is preserved.
 
+Delete before insert example:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/JdbcExample.java[tags=tableSaver_Delete]
 ----
-
 <1> Ensures that all the data is deleted from the target table before the DataFrame is inserted.
 
-* Merge the data by PK or an arbitrary set of columns. This is "create or update" operation that will insert missing
-rows, and update the existing rows. If the table has more columns than there are columns in the DataFrame, in this
-scenario the data in those extra columns is preserved.
-
+Merge example:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/JdbcExample.java[tags=tableSaver_Merge]
 ----
+<1> Matches the data in `df` with DB table data using the table PK column. Issues inserts for missing records and updates
+for the existing ones. A flavor of "merge" also takes an arbitrary list of column names.
+
 
 === SqlLoader / SqlSaver
 
