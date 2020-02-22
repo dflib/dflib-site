@@ -36,6 +36,8 @@ include::_user-guide-includes/_joins.ad[]
 
 include::_user-guide-includes/_grouping.ad[]
 
+include::_user-guide-includes/_window.ad[]
+
 include::_user-guide-includes/_csv.ad[]
 
 include::_user-guide-includes/_rdbms.ad[]
