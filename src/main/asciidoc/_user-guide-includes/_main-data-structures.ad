@@ -72,13 +72,13 @@ Series and other in-memory data into DataFrames.
 NOTE: Alternatively a DataFrame can be loaded from (and saved to) a <<rdbms,database>> or a <<csv,CSV file>>.
 Those data sources are discussed in separate documentation chapters.
 
-First example - folding data by row:
+First example - adding data row by row:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createRowAtATime]
 ----
 <1> Builder is created from column names
-<2> Passing a varargs array of values, that is folded to match the specified number of columns, row by row.
+<2> Passing individual rows one by one
 
 The resulting DataFrame looks like this:
 ----
@@ -90,7 +90,15 @@ Joan   32
 3 rows x 2 columns
 ----
 
-Instead of folding by rows, builder can fold the array column by column:
+Another example - if we have a single array and need to "fold" it into a two-dimensional DataFrame row-by-row:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
+----
+<1> Builder is created from column names
+<2> Passing a varargs array of values, that is folded to match the specified number of columns, row by row.
+
+Same, but folding column-by-column:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByColumn]
@@ -115,15 +123,15 @@ col1 col2
 5000 rows x 2 columns
 ----
 
-As we've mentioned, DataFrame columns are stored as Series, so another way to create a DataFrame is to pass
-an array of Series:
-
+Finally, a DataFrame can be created from an array of Series, each Series representing a column:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromSeries]
 ----
 
-Now that we've discussed how to create Series and DataFrames, next we'll talk about <<printers,printing their contents>>,
+This is the fastest and most efficient way to make a DataFrame, as an array of Series is how it is structured internally.
+
+Now that we've discussed how to create Series and DataFrames, we'll talk about <<printers,printing their contents>>,
 and then will continue to the chapters that describe data operations.
 
 [#index]

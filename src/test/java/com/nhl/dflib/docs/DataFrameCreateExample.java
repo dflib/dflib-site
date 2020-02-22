@@ -10,6 +10,20 @@ import java.util.stream.IntStream;
 public class DataFrameCreateExample extends BaseExample {
 
     @Test
+    public void createRowAtATime() {
+// tag::createRowAtATime[]
+        DataFrame df = DataFrame
+                .newFrame("name", "age") // <1>
+                .addRow("Joe", 18)   // <2>
+                .addRow("Andrus", 45)
+                .addRow("Joan", 32)
+                .create();
+// end::createRowAtATime[]
+
+        print("createRowAtATime", df);
+    }
+
+    @Test
     public void createFoldByRow() {
 // tag::createFoldByRow[]
         DataFrame df = DataFrame

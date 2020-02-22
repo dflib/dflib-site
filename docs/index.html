@@ -794,7 +794,45 @@ Those data sources are discussed in separate documentation chapters.
 </table>
 </div>
 <div class="paragraph">
-<p>First example - folding data by row:</p>
+<p>First example - adding data row by row:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)   <i class="conum" data-value="2"></i><b>(2)</b>
+        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>)
+        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
+        .create();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Builder is created from column names</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Passing individual rows one by one</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The resulting DataFrame looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name   age
+------ ---
+Joe    18
+Andrus 45
+Joan   32
+3 rows x 2 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another example - if we have a single array and need to "fold" it into a two-dimensional DataFrame row-by-row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -816,20 +854,7 @@ Those data sources are discussed in separate documentation chapters.
 </table>
 </div>
 <div class="paragraph">
-<p>The resulting DataFrame looks like this:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>name   age
------- ---
-Joe    18
-Andrus 45
-Joan   32
-3 rows x 2 columns</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Instead of folding by rows, builder can fold the array column by column:</p>
+<p>Same, but foling column-by-column:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -864,8 +889,7 @@ of how to use Streams of primitive ints, creating a DataFrame made of memory-eff
 </div>
 </div>
 <div class="paragraph">
-<p>As we&#8217;ve mentioned, DataFrame columns are stored as Series, so another way to create a DataFrame is to pass
-an array of Series:</p>
+<p>Finally, a DataFrame can be created from an array of Series, each Series representing a column:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -878,7 +902,10 @@ an array of Series:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Now that we&#8217;ve discussed how to create Series and DataFrames, next we&#8217;ll talk about <a href="#printers">printing their contents</a>,
+<p>This is the fastest and most efficient way to make a DataFrame, as an array of Series is how it is structured internally.</p>
+</div>
+<div class="paragraph">
+<p>Now that we&#8217;ve discussed how to create Series and DataFrames, we&#8217;ll talk about <a href="#printers">printing their contents</a>,
 and then will continue to the chapters that describe data operations.</p>
 </div>
 </div>
@@ -2328,7 +2355,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-21 01:45:10 MSK
+Last updated 2019-07-20 18:45:10 EDT
 </div>
 </div>
 </body>
