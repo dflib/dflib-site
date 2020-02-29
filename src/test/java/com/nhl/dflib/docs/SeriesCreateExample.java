@@ -2,7 +2,8 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.Series;
-import com.nhl.dflib.series.builder.ObjectAccumulator;
+import com.nhl.dflib.accumulator.Accumulator;
+import com.nhl.dflib.accumulator.ObjectAccumulator;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -35,7 +36,7 @@ public class SeriesCreateExample extends BaseExample {
 
 // tag::createIncrementally[]
         // InputStream inputStream = ...
-        ObjectAccumulator<String> accum = new ObjectAccumulator<>();
+        Accumulator<String> accum = new ObjectAccumulator<>();
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNext()) {
             accum.add(scanner.next());
