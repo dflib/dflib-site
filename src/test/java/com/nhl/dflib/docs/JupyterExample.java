@@ -1,7 +1,7 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.jupyter.DFLibJupyter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JupyterExample extends BaseExample {
 

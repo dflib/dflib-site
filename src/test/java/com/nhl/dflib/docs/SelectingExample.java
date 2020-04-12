@@ -5,7 +5,7 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.Series;
 import com.nhl.dflib.series.IntSequenceSeries;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SelectingExample extends BaseExample {
 

@@ -4,9 +4,9 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.csv.Csv;
 import org.apache.commons.csv.CSVFormat;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CsvExample extends BaseExample {
 

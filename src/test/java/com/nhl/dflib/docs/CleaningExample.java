@@ -2,7 +2,7 @@ package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.Series;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CleaningExample extends BaseExample {
 

@@ -1,7 +1,7 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 

@@ -5,35 +5,34 @@ import com.nhl.dflib.docs.util.DbBootstrap;
 import com.nhl.dflib.jdbc.Jdbc;
 import com.nhl.dflib.jdbc.connector.JdbcConnector;
 import io.bootique.jdbc.test.Table;
-import io.bootique.jdbc.test.TestDataManager;
-import io.bootique.test.junit.BQTestFactory;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
+import io.bootique.jdbc.test.junit5.TestDataManager;
+import io.bootique.test.junit5.BQTestClassFactory;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import javax.sql.DataSource;
 
 public class JdbcExample extends BaseExample {
 
-    @ClassRule
-    public static final BQTestFactory testFactory = new BQTestFactory();
+    @RegisterExtension
+    public static final BQTestClassFactory testFactory = new BQTestClassFactory();
     private static DataSource dataSource;
     private static Table personTable;
 
-    @Rule
+    @RegisterExtension
     public final TestDataManager dataManager = new TestDataManager(true, personTable);
     private JdbcConnector connector;
 
-    @BeforeClass
+    @BeforeAll
     public static void initDerby() {
         DbBootstrap bootstrap = DbBootstrap.create(testFactory, "classpath:com/nhl/dflib/docs/init_schema.sql");
         dataSource = bootstrap.getDataSource();
         personTable = bootstrap.getPersonTable();
     }
 
-    @Before
+    @BeforeEach
     public void initConnector() {
 
         // tag::connectorDS[]

@@ -4,7 +4,7 @@ import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.Series;
 import com.nhl.dflib.accumulator.Accumulator;
 import com.nhl.dflib.accumulator.ObjectAccumulator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.util.Scanner;

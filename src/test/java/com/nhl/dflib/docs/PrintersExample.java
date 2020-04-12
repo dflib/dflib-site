@@ -4,7 +4,7 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.Printers;
 import com.nhl.dflib.print.Printer;
 import com.nhl.dflib.print.TabularPrinter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 

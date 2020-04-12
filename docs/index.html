@@ -768,7 +768,7 @@ Series out of it. E.g. the following example reads data from an InputStream line
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// InputStream inputStream = ...</span>
-ObjectAccumulator&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccumulator&lt;&gt;();
+Accumulator&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccumulator&lt;&gt;();
 <span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(inputStream);
 <span class="keyword">while</span> (scanner.hasNext()) {
     accum.add(scanner.next());
@@ -2697,7 +2697,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-22 16:00:47 EST
+Last updated 2020-02-23 00:00:47 MSK
 </div>
 </div>
 </body>

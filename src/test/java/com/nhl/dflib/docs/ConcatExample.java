@@ -4,7 +4,7 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.JoinType;
 import com.nhl.dflib.Series;
 import com.nhl.dflib.concat.SeriesConcat;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 

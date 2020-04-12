@@ -16,7 +16,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <asciidoctor.maven.plugin.version>1.5.6</asciidoctor.maven.plugin.version>
-        <bootique.version>1.1</bootique.version>
+        <bootique.version>2.0-SNAPSHOT</bootique.version>
+        <junit5.version>5.6.1</junit5.version>
     </properties>
 
     <licenses>
@@ -43,6 +44,16 @@
         <repository>
             <id>dflib-snapshots</id>
             <url>https://maven.objectstyle.org/nexus/content/repositories/linkrest-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>bootique-snapshots</id>
+            <url>https://maven.objectstyle.org/nexus/content/repositories/bootique-snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -79,14 +90,14 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit5.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derby</artifactId>
-                <version>10.14.1.0</version>
+                <version>10.14.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -120,7 +131,7 @@
         </dependency>
         <dependency>
             <groupId>io.bootique.jdbc</groupId>
-            <artifactId>bootique-jdbc-test</artifactId>
+            <artifactId>bootique-jdbc-test-junit5</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -129,8 +140,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
