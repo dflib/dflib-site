@@ -1,14 +1,10 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.docs.util.DbBootstrap;
 import com.nhl.dflib.jdbc.Jdbc;
 import com.nhl.dflib.jdbc.connector.JdbcConnector;
-import io.bootique.jdbc.test.Table;
-import io.bootique.jdbc.test.junit5.TestDataManager;
-import io.bootique.test.junit5.BQTestClassFactory;
+import io.bootique.jdbc.junit5.DbTester;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -17,29 +13,22 @@ import javax.sql.DataSource;
 public class JdbcExample extends BaseExample {
 
     @RegisterExtension
-    public static final BQTestClassFactory testFactory = new BQTestClassFactory();
-    private static DataSource dataSource;
-    private static Table personTable;
+    static final DbTester db = DbTester.derbyDb()
+            .initDB("classpath:com/nhl/dflib/docs/init_schema.sql")
+            .deleteBeforeEachTest("person");
 
-    @RegisterExtension
-    public final TestDataManager dataManager = new TestDataManager(true, personTable);
-    private JdbcConnector connector;
+    private static JdbcConnector connector;
 
     @BeforeAll
-    public static void initDerby() {
-        DbBootstrap bootstrap = DbBootstrap.create(testFactory, "classpath:com/nhl/dflib/docs/init_schema.sql");
-        dataSource = bootstrap.getDataSource();
-        personTable = bootstrap.getPersonTable();
-    }
+    public static void initConnector() {
 
-    @BeforeEach
-    public void initConnector() {
+        DataSource dataSource = db.getDataSource();
 
         // tag::connectorDS[]
         JdbcConnector connector = Jdbc.connector(dataSource);
         // end::connectorDS[]
 
-        this.connector = connector;
+        JdbcExample.connector = connector;
     }
 
     @Test
@@ -57,7 +46,7 @@ public class JdbcExample extends BaseExample {
     @Test
     public void tableLoader() {
 
-        personTable.insertColumns("id", "name", "salary")
+        db.getTable("person").insertColumns("id", "name", "salary")
                 .values(1, "Jerry Cosin", 70_000)
                 .values(2, "Amanda Gabrielly", 85_000)
                 .values(3, "Joan O'Hara", 101_000)
@@ -73,7 +62,7 @@ public class JdbcExample extends BaseExample {
     @Test
     public void tableLoader_wOptions() {
 
-        personTable.insertColumns("id", "name", "salary")
+        db.getTable("person").insertColumns("id", "name", "salary")
                 .values(1, "Jerry Cosin", 70_000)
                 .values(2, "Amanda Gabrielly", 85_000)
                 .values(3, "Joan O'Hara", 101_000)
