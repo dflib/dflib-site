@@ -4,16 +4,19 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.jdbc.Jdbc;
 import com.nhl.dflib.jdbc.connector.JdbcConnector;
 import io.bootique.jdbc.junit5.DbTester;
+import io.bootique.jdbc.junit5.derby.DerbyTester;
+import io.bootique.junit5.BQTest;
+import io.bootique.junit5.BQTestTool;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 import javax.sql.DataSource;
 
+@BQTest
 public class JdbcExample extends BaseExample {
 
-    @RegisterExtension
-    static final DbTester db = DbTester.derbyDb()
+    @BQTestTool
+    static final DbTester db = DerbyTester.db()
             .initDB("classpath:com/nhl/dflib/docs/init_schema.sql")
             .deleteBeforeEachTest("person");
 
