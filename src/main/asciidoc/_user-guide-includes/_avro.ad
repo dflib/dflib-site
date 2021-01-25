@@ -1,0 +1,26 @@
+[#csv]
+== Working with .avro Files
+
+Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
+schema. So when they are read back, the fields are converted to the correct original Java types. (This is different
+from say CSV. Reading a CSV to a DataFrame by default only produces String columns). To save or load DataFrames
+using the Avro format, include the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>com.nhl.dflib</groupId>
+    <artifactId>dflib-avro</artifactId>
+</dependency>
+----
+
+Once you do that, `Avro` class is the entry point to all the operations. With it you can save DataFrames to `.avro`
+files and load them back.
+
+=== Avro Schema
+
+In most cases you don't need to know anything about Avro schemas. DFLib automatically generates a schema for a
+DataFrame before it is saved. Alternatively you can create a custom `Schema` object based on
+https://avro.apache.org/docs/current/spec.html[Avro specification] and pass it to `AvroSaver`.
+
+TODO...
