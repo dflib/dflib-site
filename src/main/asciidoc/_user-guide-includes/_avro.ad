@@ -1,4 +1,4 @@
-[#csv]
+[#avro]
 == Working with .avro Files
 
 Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
