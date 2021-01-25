@@ -581,6 +581,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_writing_dataframe_to_a_csv">Writing DataFrame to a CSV</a></li>
 </ul>
 </li>
+<li><a href="#csv">Working with .avro Files</a>
+<ul class="sectlevel2">
+<li><a href="#_avro_schema">Avro Schema</a></li>
+</ul>
+</li>
 <li><a href="#jdbc">Working with Relational Databases</a>
 <ul class="sectlevel2">
 <li><a href="#_jdbcconnector">JdbcConnector</a></li>
@@ -2419,6 +2424,40 @@ to a variety of destinations.</td>
 </div>
 </div>
 <div class="sect1">
+<h2 id="csv">Working with .avro Files</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
+schema. So when they are read back, the fields are converted to the correct original Java types. (This is different
+from say CSV. Reading a CSV to a DataFrame by default only produces String columns). To save or load DataFrames
+using the Avro format, include the following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-avro<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you do that, <code>Avro</code> class is the entry point to all the operations. With it you can save DataFrames to <code>.avro</code>
+files and load them back.</p>
+</div>
+<div class="sect2">
+<h3 id="_avro_schema">Avro Schema</h3>
+<div class="paragraph">
+<p>In most cases you don&#8217;t need to know anything about Avro schemas. DFLib automatically generates a schema for a
+DataFrame before it is saved. Alternatively you can create a custom <code>Schema</code> object based on
+<a href="https://avro.apache.org/docs/current/spec.html">Avro specification</a> and pass it to <code>AvroSaver</code>.</p>
+</div>
+<div class="paragraph">
+<p>TODO&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="jdbc">Working with Relational Databases</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -2697,7 +2736,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-23 00:00:47 MSK
+Last updated 2021-01-25 09:28:16 MSK
 </div>
 </div>
 </body>

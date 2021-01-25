@@ -19,4 +19,4 @@ git commit -m 'Regenerating docs'
 git push
 ```
 
-TODO: publish with Travis 
+TODO: publish over CI/CD
