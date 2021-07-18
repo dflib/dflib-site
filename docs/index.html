@@ -1160,7 +1160,10 @@ methods of various <code>Exp</code> subclasses. E.g.:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// &quot;Condition&quot; is an Exp&lt;Boolean&gt; described in more detail below.</span>
-<span class="predefined-type">Condition</span> c = not(and(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).gt(<span class="integer">50000</span>.)));</code></pre>
+<span class="predefined-type">Condition</span> c = and(
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>),
+        <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).add(<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">benefits</span><span class="delimiter">&quot;</span></span>)).gt(<span class="integer">100000</span>.)
+);</code></pre>
 </div>
 </div>
 </div>

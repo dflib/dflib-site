@@ -35,7 +35,10 @@ public class ExpExample extends BaseExample {
 
 // tag::expChain[]
         // "Condition" is an Exp<Boolean> described in more detail below.
-        Condition c = not(and($str("last").startsWith("A"), $decimal("salary").gt(50000.)));
+        Condition c = and(
+                $str("last").startsWith("A"),
+                $decimal("salary").add($decimal("benefits")).gt(100000.)
+        );
 // end::expChain[]
     }
 }
