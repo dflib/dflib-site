@@ -82,7 +82,7 @@ public class SelectingExample extends BaseExample {
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
 
-        DataFrame df1 = df.filterRows(
+        DataFrame df1 = df.selectRows(
                 "first",
                 (String f) -> f != null && f.startsWith("J"));
 // end::filterByColumn[]
@@ -99,7 +99,7 @@ public class SelectingExample extends BaseExample {
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
 
-        DataFrame df1 = df.filterRows(r ->
+        DataFrame df1 = df.selectRows(r ->
                 r.get("first").toString().startsWith("J")
                         && r.get("last").toString().startsWith("O"));
         // end::filterByRow[]
@@ -119,7 +119,7 @@ public class SelectingExample extends BaseExample {
         Series<String> names = Series.forData("Sandra", "Anton", "Joan");
         BooleanSeries mask = names.eq(df.getColumn("first")); // <1>
 
-        DataFrame df1 = df.filterRows(mask);
+        DataFrame df1 = df.selectRows(mask);
         // end::filterByBoolean[]
 
         print("filterByBoolean", df1);

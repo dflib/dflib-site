@@ -541,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_selecting_columns">Selecting Columns</a></li>
 <li><a href="#_deleting_columns">Deleting Columns</a></li>
 <li><a href="#_selecting_rows">Selecting Rows</a></li>
-<li><a href="#_filtering_rows">Filtering Rows</a></li>
+<li><a href="#_selecting_rows_by_condition">Selecting Rows by Condition</a></li>
 <li><a href="#_head_and_tail">Head and Tail</a></li>
 </ul>
 </li>
@@ -639,7 +639,7 @@ multiple DFLib modules:</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.10<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.11<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
       <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
@@ -1205,16 +1205,16 @@ Jerry Cosin
 </div>
 </div>
 <div class="sect2">
-<h3 id="_filtering_rows">Filtering Rows</h3>
+<h3 id="_selecting_rows_by_condition">Selecting Rows by Condition</h3>
 <div class="paragraph">
-<p>A very common form of row selection is "filtering", i.e. building a DataFrame with a subset of rows that match a
-conditional expression. Unlike <code>selectRows</code>, <code>filterRows(..)</code> methods do not require direct references to row positions.
-Also filtering would not allow to reorder or duplicate rows. The following flavors of filtering are available:</p>
+<p>A very common form of row selection is "filtering", i.e. producing a DataFrame with only rows that match a
+conditional expression. This form of <code>selectRows</code> does not require direct references to row positions.
+Also it does not allow to reorder or duplicate rows. The following flavors of filtering are available:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>filterRows(..)</code> with column condition:</p>
+<p><code>selectRows(..)</code> with column condition:</p>
 </li>
 </ul>
 </div>
@@ -1225,7 +1225,7 @@ Also filtering would not allow to reorder or duplicate rows. The following flavo
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.filterRows(
+DataFrame df1 = df.selectRows(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>,
         (<span class="predefined-type">String</span> f) -&gt; f != <span class="predefined-constant">null</span> &amp;&amp; f.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
@@ -1242,7 +1242,7 @@ Joan  O'Hara
 <div class="ulist">
 <ul>
 <li>
-<p><code>filterRows(..)</code> with full row condition:</p>
+<p><code>selectRows(..)</code> with full row condition:</p>
 </li>
 </ul>
 </div>
@@ -1253,7 +1253,7 @@ Joan  O'Hara
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.filterRows(r -&gt;
+DataFrame df1 = df.selectRows(r -&gt;
         r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>)
                 &amp;&amp; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
@@ -1269,7 +1269,7 @@ Joan  O'Hara
 <div class="ulist">
 <ul>
 <li>
-<p><code>filterRows(..)</code> with <code>BooleanSeries</code> "index". We&#8217;ve already seen how to select rows using an <a href="#selectRowsIndex">IntSeries index</a>. It allowed to perform index calculation outside the DataFrame, whose rows we are filtering.
+<p><code>selectRows(..)</code> with <code>BooleanSeries</code> "index". We&#8217;ve already seen how to select rows using an <a href="#selectRowsIndex">IntSeries index</a>. It allowed to perform index calculation outside the DataFrame, whose rows we are filtering.
 <code>BooleanSeries</code> "index" (or "mask") can similarly serve as a filter condition. Such index is usually a result of a prior
 logical operation between Series. E.g.:</p>
 </li>
@@ -1285,7 +1285,7 @@ logical operation between Series. E.g.:</p>
 Series&lt;<span class="predefined-type">String</span>&gt; names = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
 BooleanSeries mask = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
 
-DataFrame df1 = df.filterRows(mask);</code></pre>
+DataFrame df1 = df.selectRows(mask);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
