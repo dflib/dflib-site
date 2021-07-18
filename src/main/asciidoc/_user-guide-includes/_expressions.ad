@@ -52,7 +52,7 @@ need to select the right type in your code to avoid ClassCastExceptions downstre
 
 === Complex Expressions
 
-Expressions can be composed from other expressions by invoking static methods of `Exp` and type-specific instance
+Expressions can be composed of other expressions by invoking static methods of `Exp` and type-specific instance
 methods of various `Exp` subclasses. E.g.:
 
 [source,java,indent=0]
@@ -72,7 +72,18 @@ TODO
 
 TODO
 
+[#sorter]
 === Sorters
 
-TODO
+`Sorter` is a special object, that allows to <<sort,sort DFLib data structures>>. Internally a Sorter is using an
+expression to retrieve values that comprise sorting criteria and index them in the specified order. Sorter can be
+created from any expression by calling its `asc()` or `desc()` methods:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ExpExample.java[tags=sorter]
+----
+
+NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime the actual type must be
+either a Java primitive or an instance of `Comparable`, or a ClassCastException will be thrown during sorting.
 

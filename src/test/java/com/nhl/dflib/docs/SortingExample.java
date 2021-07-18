@@ -7,13 +7,29 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 
+import static com.nhl.dflib.Exp.*;
+
 public class SortingExample extends BaseExample {
+
+    @Test
+    public void sortSeries_Sorter() {
+
+// tag::sortSeries_Sorter[]
+        // sort series by String length
+        Series<String> s = Series
+                .forData("12", "1", "123")
+                .sort($str("").mapVal(String::length).asc());
+// end::sortSeries_Sorter[]
+
+        print("sortSeries", s);
+    }
 
     @Test
     public void sortSeries() {
 
 // tag::sortSeries[]
-        Series<String> s = Series.forData("12", "1", "123")
+        Series<String> s = Series
+                .forData("12", "1", "123")
                 .sort(Comparator.comparingInt(String::length));
 // end::sortSeries[]
 
@@ -24,8 +40,9 @@ public class SortingExample extends BaseExample {
     public void sortSeries_Natural() {
 
 // tag::sortSeries_Natural[]
-        Series<String> s = Series.forData("c", "d", "a")
-                .sort(Comparator.naturalOrder());
+        Series<String> s = Series
+                .forData("c", "d", "a")
+                .sort($str("").asc());
 // end::sortSeries_Natural[]
 
         print("sortSeries_Natural", s);
@@ -35,11 +52,30 @@ public class SortingExample extends BaseExample {
     public void sortSeries_Long() {
 
 // tag::sortSeries_Long[]
-        LongSeries s = LongSeries.forLongs(Long.MAX_VALUE, 15L, 0L)
+        LongSeries s = LongSeries
+                .forLongs(Long.MAX_VALUE, 15L, 0L)
                 .sortLong();
 // end::sortSeries_Long[]
 
         print("sortSeries_Long", s);
+    }
+
+    @Test
+    public void sortDataFrame_Sorter() {
+
+// tag::sortDataFrame_Sorter[]
+        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+                "Jerry", "Cosin", "M",
+                "Amanda", "Gabrielly", null,
+                "Jerry", "Albert", null,
+                "Joan", "O'Hara", "J");
+
+        DataFrame df1 = df.sort(
+                $str("first").asc(),
+                $str("last").asc());
+// end::sortDataFrame_Sorter[]
+
+        print("sortDataFrame_Sorter", df1);
     }
 
     @Test
@@ -58,47 +94,18 @@ public class SortingExample extends BaseExample {
     }
 
     @Test
-    public void sortDataFrameComparableColumn_ByPosition() {
-
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-                "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
-                "Joan", "O'Hara", "J");
-
-// tag::sortDataFrameComparableColumn_ByPosition[]
-        DataFrame df1 = df.sort(0, true);
-// end::sortDataFrameComparableColumn_ByPosition[]
-
-        print("sortDataFrameComparableColumn_ByPosition", df1);
-    }
-
-    @Test
     public void sortDataFrameComparableColumns() {
 
 // tag::sortDataFrameComparableColumns[]
         DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-                "John", "Cosin", "M",
+                "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
-                "Joan", "Cosin", "J");
+                "Jerry", "Albert", null,
+                "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.sort(new String[]{"last", "first"}, new boolean[]{true, false});
 // end::sortDataFrameComparableColumns[]
 
         print("sortDataFrameComparableColumns", df1);
-    }
-
-    @Test
-    public void sortDataFrameRowValueMapper() {
-
-// tag::sortDataFrameRowValueMapper[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-                "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
-                "Joan", "O'Hara", "J");
-
-        DataFrame df1 = df.sort(r -> r.get(0).toString().length()); // <1>
-// end::sortDataFrameRowValueMapper[]
-
-        print("sortDataFrameRowValueMapper", df1);
     }
 }

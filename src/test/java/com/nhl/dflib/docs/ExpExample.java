@@ -41,4 +41,13 @@ public class ExpExample extends BaseExample {
         );
 // end::expChain[]
     }
+
+    @Test
+    public void sorter() {
+
+// tag::sorter[]
+        // sort by last name in the ascending order
+        Sorter s = $str("last").asc();
+// end::sorter[]
+    }
 }
