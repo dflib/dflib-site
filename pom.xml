@@ -52,16 +52,6 @@
             </snapshots>
         </repository>
         <repository>
-            <id>bootique-snapshots</id>
-            <url>https://maven.objectstyle.org/nexus/content/repositories/bootique-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2</url>
             <releases>
