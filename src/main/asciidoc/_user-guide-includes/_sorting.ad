@@ -58,9 +58,11 @@ Next we'll check how to sort a DataFrame.
 
 === Sorting DataFrame
 
-Rows in a DataFrame can be sorted with one or more <<sorter,sorters>>. Just like in other places where a Sorter might be
+Rows in a DataFrame can be sorted with one or more <<sorter,sorters>>.
+
+NOTE: Just like in other places where a Sorter might be
 used, there is an assumption that the Sorter expression produces values that are either Java primitives or are
-compatible with `java.lang.Comparable` (i.e., Strings, numbers, etc):
+compatible with `java.lang.Comparable` (i.e., Strings, numbers, etc).
 
 [source,java,indent=0]
 ----
