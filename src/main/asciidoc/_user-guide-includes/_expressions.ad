@@ -2,15 +2,30 @@
 == Expressions
 
 DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to manipulate columns and rows
-in DataFrames and data in Series. An expression takes a DataFrame or a Series and produces a Series of the specified
-type. Here are two simple expressions that return a named or positional column of the requested type:
+in DataFrames and data in Series. `Exp` is the interface representing an expression that takes a DataFrame or a
+Series and produces a Series of the specified type. It also provides an entry point to create expressions via its static
+factory methods.
 
+To use expressions, you'd start by adding a static import of the `Exp` interface, so that all its factory methods
+are available directly in the code:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ExpExample.java[tags=expImport]
+----
+Now let's create two simple expressions that return a named and a positional column of the requested type:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ExpExample.java[tags=columnExp]
 ----
 
-Here is how expressions can be evaluated:
+And now let's evaluate the expressions:
+[source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ExpExample.java[tags=columnExpEval]
 ----
+
+The following chapters will demonstrate various use cases for expressions.
+
+NOTE: Expressions work on DFLib data structures instead of individual values, so they allow to achieve the best
+possible performance for any given operation (filtering, sorting, aggregation, etc), and should be a preferred way
+to manipulate your data instead of using custom lambdas.

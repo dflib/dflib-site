@@ -5,14 +5,18 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+// tag::expImport[]
+import static com.nhl.dflib.Exp.*;
+// end::expImport[]
+
 public class ExpExample extends BaseExample {
 
     @Test
     public void columnExp() {
 
 // tag::columnExp[]
-        StrExp lastExp = Exp.$str("last");
-        DecimalExp salaryExp = Exp.$decimal(2);
+        StrExp lastExp = $str("last");
+        DecimalExp salaryExp = $decimal(2);
 // end::columnExp[]
 
 // tag::columnExpEval[]
