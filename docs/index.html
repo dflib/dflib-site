@@ -1207,9 +1207,9 @@ Jerry Cosin
 <div class="sect2">
 <h3 id="_selecting_rows_by_condition">Selecting Rows by Condition</h3>
 <div class="paragraph">
-<p>A very common form of row selection is "filtering", i.e. producing a DataFrame with only rows that match a
-conditional expression. This form of <code>selectRows</code> does not require direct references to row positions.
-Also it does not allow to reorder or duplicate rows. The following flavors of filtering are available:</p>
+<p>Most often than not we don&#8217;t know specific positions of rows we would like to select, and instead would like to evaluate
+each row against some condition to decide whether it should be included in the result. This flavor of <code>selectRows(..)</code> is
+described below. Unlike positional select it does not allow to reorder or duplicate rows.</p>
 </div>
 <div class="ulist">
 <ul>

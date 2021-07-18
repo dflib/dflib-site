@@ -93,9 +93,9 @@ Jerry Cosin
 
 === Selecting Rows by Condition
 
-A very common form of row selection is "filtering", i.e. producing a DataFrame with only rows that match a
-conditional expression. This form of `selectRows` does not require direct references to row positions.
-Also it does not allow to reorder or duplicate rows. The following flavors of filtering are available:
+Most often than not we don't know specific positions of rows we would like to select, and instead would like to evaluate
+each row against some condition to decide whether it should be included in the result. This flavor of `selectRows(..)` is
+described below. Unlike positional select it does not allow to reorder or duplicate rows.
 
 * `selectRows(..)` with column condition:
 
