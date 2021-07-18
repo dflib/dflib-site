@@ -22,7 +22,7 @@ include::_user-guide-includes/_main-data-structures.ad[]
 
 include::_user-guide-includes/_printers.ad[]
 
-include::_user-guide-includes/_expressions.ad
+include::_user-guide-includes/_expressions.ad[]
 
 include::_user-guide-includes/_selecting.ad[]
 
