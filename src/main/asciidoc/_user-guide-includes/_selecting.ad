@@ -94,29 +94,11 @@ Jerry Cosin
 === Selecting Rows by Condition
 
 Most often than not we don't know specific positions of rows we would like to select, and instead would like to evaluate
-each row against some condition to decide whether it should be included in the result. This flavor of `selectRows(..)` is
-described below. Unlike positional select it does not allow to reorder or duplicate rows.
-
-* `selectRows(..)` with column condition:
+each row against some condition to decide whether it should be included in the result:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByColumn]
-----
-
-----
-first last
------ ------
-Jerry Cosin
-Joan  O'Hara
-2 rows x 2 columns
-----
-
-* `selectRows(..)` with full row condition:
-
-[source,java,indent=0]
-----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByRow]
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectByCondition]
 ----
 
 ----
@@ -126,17 +108,28 @@ Joan  O'Hara
 1 row x 2 columns
 ----
 
-* `selectRows(..)` with `BooleanSeries` "index". We've already seen how to select rows using an <<selectRowsIndex,
-IntSeries index>>. It allowed to perform index calculation outside the DataFrame, whose rows we are filtering.
-`BooleanSeries` "index" (or "mask") can similarly serve as a filter condition. Such index is usually a result of a prior
-logical operation between Series. E.g.:
+NOTE: Unlike positional select this flavor does not allow to reorder or duplicate rows.
 
+In the example above select condition was provided using the `Condition` object. You can also use a lambda function on a
+single column:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByColumn]
+----
+Or a lambda function on the entire row:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByRow]
+----
+
+Finally, `BooleanSeries` can also serve as a filter condition (a "mask"). Such mask is usually a result of a prior logical
+operation between Series. E.g.:
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByBoolean]
 ----
 
-<1> Index is calculated by comparing a Series of names with DataFrame column of first names.
+<1> Mask is calculated by comparing a Series of names with DataFrame column of first names.
 
 ----
 first last

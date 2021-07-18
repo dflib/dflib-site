@@ -1,11 +1,10 @@
 package com.nhl.dflib.docs;
 
-import com.nhl.dflib.BooleanSeries;
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.IntSeries;
-import com.nhl.dflib.Series;
+import com.nhl.dflib.*;
 import com.nhl.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
+
+import static com.nhl.dflib.Exp.*;
 
 public class SelectingExample extends BaseExample {
 
@@ -71,6 +70,23 @@ public class SelectingExample extends BaseExample {
         // end::selectRowsIndex[]
 
         print("selectRowsIndex", df1);
+    }
+
+    @Test
+    public void selectByCondition() {
+
+// tag::selectByCondition[]
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
+
+        DataFrame df1 = df.selectRows(and(
+                $str("first").startsWith("J"),
+                $str("last").startsWith("O")));
+// end::selectByCondition[]
+
+        print("filterByColumn", df1);
     }
 
     @Test
