@@ -30,8 +30,8 @@ The browser opens. Click on "New > Java". In the document cell enter something l
 
 [source,java]
 ----
-%maven com.nhl.dflib:dflib:0.8
-%maven com.nhl.dflib:dflib-jupyter:0.8
+%maven com.nhl.dflib:dflib:0.11
+%maven com.nhl.dflib:dflib-jupyter:0.11
 
 import com.nhl.dflib.jupyter.*;
 import com.nhl.dflib.*;

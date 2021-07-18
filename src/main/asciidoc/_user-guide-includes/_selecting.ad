@@ -52,7 +52,7 @@ O'Hara
 3 rows x 1 column
 ----
 
-=== Selecting Rows
+=== Selecting Rows by Position
 
 * Selecting a subset of rows by position. As there are no row labels in DFLib yet, selecting by position is the only
 "direct" selection option. Just like with column selection, it allows to duplicate rows by referencing the same

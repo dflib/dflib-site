@@ -540,7 +540,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_selecting_columns">Selecting Columns</a></li>
 <li><a href="#_deleting_columns">Deleting Columns</a></li>
-<li><a href="#_selecting_rows">Selecting Rows</a></li>
+<li><a href="#_selecting_rows_by_position">Selecting Rows by Position</a></li>
 <li><a href="#_selecting_rows_by_condition">Selecting Rows by Condition</a></li>
 <li><a href="#_head_and_tail">Head and Tail</a></li>
 </ul>
@@ -1134,7 +1134,7 @@ O'Hara
 </div>
 </div>
 <div class="sect2">
-<h3 id="_selecting_rows">Selecting Rows</h3>
+<h3 id="_selecting_rows_by_position">Selecting Rows by Position</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2429,7 +2429,7 @@ to a variety of destinations.</td>
 <div class="paragraph">
 <p>Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
 schema. So when they are read back, the fields are converted to the correct original Java types. (This is different
-from say CSV. Reading a CSV to a DataFrame by default only produces String columns). To save or load DataFrames
+from say CSV. Reading a <code>.csv</code> to a DataFrame by default only produces String columns). To save or load DataFrames
 using the Avro format, include the following dependency:</p>
 </div>
 <div class="listingblock">
@@ -2680,8 +2680,8 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib:<span class="float">0.8</span>
-%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.8</span>
+<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib:<span class="float">0.11</span>
+%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.11</span>
 
 <span class="keyword">import</span> <span class="include">com.nhl.dflib.jupyter</span>.*;
 <span class="keyword">import</span> <span class="include">com.nhl.dflib</span>.*;
