@@ -1,0 +1,16 @@
+[#expressions]
+== Expressions
+
+DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to manipulate columns and rows
+in DataFrames and data in Series. An expression takes a DataFrame or a Series and produces a Series of the specified
+type. Here are two simple expressions that return a named or positional column of the requested type:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ExpExample.java[tags=columnExp]
+----
+
+Here is how expressions can be evaluated:
+----
+include::../../../test/java/com/nhl/dflib/docs/ExpExample.java[tags=columnExpEval]
+----
