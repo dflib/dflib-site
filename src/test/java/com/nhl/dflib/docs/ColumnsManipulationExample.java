@@ -1,7 +1,6 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.DoubleSeries;
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class ColumnsManipulationExample extends BaseExample {
 
@@ -57,7 +56,7 @@ public class ColumnsManipulationExample extends BaseExample {
                 "Joan", "O'Hara");
 
 // tag::addColumnFromSeries[]
-        IntSeries rowNumbers = new IntSequenceSeries(0, df.height()); // <1>
+        IntSeries rowNumbers = new IntSequenceSeries(1, df.height() + 1); // <1>
         DataFrame df1 = df.addColumn(
                 "number",
                 rowNumbers
@@ -75,7 +74,7 @@ public class ColumnsManipulationExample extends BaseExample {
                 "Joan", "O'Hara");
 
 // tag::addRowNumbers[]
-        DataFrame df1 = df.addRowNumber("number");
+        DataFrame df1 = df.addRowNumberColumn("number");
 // end::addRowNumbers[]
 
         print("addRowNumbers", df1);
@@ -186,11 +185,9 @@ public class ColumnsManipulationExample extends BaseExample {
                 .toDoubleColumn("sales", 0.); // <1>
 // end::toPrimitiveColumn[]
 
-        assertTrue(df1.getColumnAsInt(0) instanceof IntSeries);
-        assertTrue(df1.getColumnAsDouble(1) instanceof DoubleSeries);
+        assertDoesNotThrow(() -> df1.getColumnAsInt(0));
+        assertDoesNotThrow(() -> df1.getColumnAsDouble(1));
 
         print("toPrimitiveColumn", df1);
     }
-
-
 }

@@ -55,13 +55,13 @@ column. E.g. we can add a column that will number DataFrame rows:
 ----
 include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumnFromSeries]
 ----
-<1> A `Series` that produces a sequence of numbers from `0` to `df.height()`.
+<1> A `Series` that produces a sequence of numbers from `1` to `df.height() + 1`.
 ----
 first   last      number
 ------ --------- ------
-Jerry  Cosin          0
-Amanda Gabrielly      1
-Joan   O'Hara         2
+Jerry  Cosin          1
+Amanda Gabrielly      2
+Joan   O'Hara         3
 3 rows x 3 columns
 ----
 
