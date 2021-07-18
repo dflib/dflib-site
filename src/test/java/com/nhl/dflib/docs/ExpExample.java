@@ -29,4 +29,13 @@ public class ExpExample extends BaseExample {
         Series<BigDecimal> salary = salaryExp.eval(df);
 // end::columnExpEval[]
     }
+
+    @Test
+    public void expChain() {
+
+// tag::expChain[]
+        // "Condition" is an Exp<Boolean> described in more detail below.
+        Condition c = not(and($str("last").startsWith("A"), $decimal("salary").gt(50000.)));
+// end::expChain[]
+    }
 }

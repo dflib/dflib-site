@@ -536,7 +536,16 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#printers">Printers</a></li>
-<li><a href="#expressions">Expressions</a></li>
+<li><a href="#expressions">Expressions</a>
+<ul class="sectlevel2">
+<li><a href="#_column_expressions">Column Expressions</a></li>
+<li><a href="#_complex_expressions">Complex Expressions</a></li>
+<li><a href="#_numeric_expressions">Numeric Expressions</a></li>
+<li><a href="#_date_expressions">Date Expressions</a></li>
+<li><a href="#_conditions">Conditions</a></li>
+<li><a href="#_sorters">Sorters</a></li>
+</ul>
+</li>
 <li><a href="#selecting">Selecting Rows and Columns</a>
 <ul class="sectlevel2">
 <li><a href="#_selecting_columns">Selecting Columns</a></li>
@@ -1046,8 +1055,8 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <div class="paragraph">
 <p>DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to manipulate columns and rows
 in DataFrames and data in Series. <code>Exp</code> is the interface representing an expression that takes a DataFrame or a
-Series and produces a Series of the specified type. It also provides an entry point to create various types of
-expressions via static factory methods.</p>
+Series and produces a Series of the specified type. It also provides an entry point to create expressions via its static
+factory methods.</p>
 </div>
 <div class="paragraph">
 <p>To use expressions, you&#8217;d start by adding a static import of the <code>Exp</code> interface, so that all its factory methods
@@ -1082,7 +1091,9 @@ Series&lt;<span class="predefined-type">BigDecimal</span>&gt; salary = salaryExp
 </div>
 </div>
 <div class="paragraph">
-<p>The following chapters will demonstrate various use cases for expressions.</p>
+<p>This doesn&#8217;t look like much (other DFLib APIs would do the same), but this basic abstraction allows to implement a
+wide range of operations (filtering, sorting, aggregation, etc). The following chapters will demonstrate various use
+cases for expressions.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1091,12 +1102,91 @@ Series&lt;<span class="predefined-type">BigDecimal</span>&gt; salary = salaryExp
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Expressions work on DFLib data structures instead of individual values, so they allow to achieve the best
-possible performance for any given operation (filtering, sorting, aggregation, etc), and should be a preferred way
-to manipulate your data instead of using custom lambdas.
+DFLib expression language Expressions work on DFLib data structures instead of individual values, so they can
+achieve the best possible performance for any given operation. Expressions should be a preferred way to manipulate your
+data instead more "direct" API.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s look at various types of expressions&#8230;&#8203;</p>
+</div>
+<div class="sect2">
+<h3 id="_column_expressions">Column Expressions</h3>
+<div class="paragraph">
+<p><code>$str(..)</code> and <code>$decimal(..)</code> expressions in the example above are the column lookup expressions. They return a DataFrame
+column with a given name or at a given (zero-based) position without applying any transformations to the data.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+So what is returned when you evaluate a column expression with a Series object? Series can be thought of as a
+single (unnamed) column. So a column expression simply returns the Series unchanged, ignoring implied column
+name or position.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Factory methods for column expressions are easy to spot in the <code>Exp</code> interface - they all start with a dollar sign.
+Return type of the column expression is implied from the method name (<code>$str</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal</code> -
+<code>Series&lt;BigDecimal&gt;</code>, <code>$int</code> - <code>Series&lt;Integer&gt;</code> and so on).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As of v0.11 DFLib doesn&#8217;t do any type conversion in the original column data (the exception being <code>$bool</code>). So you
+need to select the right type in your code to avoid ClassCastExceptions downstream. This may change in the future.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complex_expressions">Complex Expressions</h3>
+<div class="paragraph">
+<p>Expressions can be composed from other expressions by invoking static methods of <code>Exp</code> and type-specific instance
+methods of various <code>Exp</code> subclasses. E.g.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// &quot;Condition&quot; is an Exp&lt;Boolean&gt; described in more detail below.</span>
+<span class="predefined-type">Condition</span> c = not(and(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).gt(<span class="integer">50000</span>.)));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_numeric_expressions">Numeric Expressions</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_date_expressions">Date Expressions</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conditions">Conditions</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sorters">Sorters</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
 </div>
 </div>
 </div>
