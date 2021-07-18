@@ -9,9 +9,44 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.nhl.dflib.Exp.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class ColumnsManipulationExample extends BaseExample {
+
+    @Test
+    public void addColumn() {
+// tag::addColumn[]
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
+
+        DataFrame df1 = df.addColumn(
+                concat($str("first"), $val(" "), $str("last")) // <1>
+                        .as("full")  // <2>
+        );
+// end::addColumn[]
+
+        print("addColumnFromRow", df1);
+    }
+
+    @Test
+    public void addColumns() {
+        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
+
+// tag::addColumns[]
+        DataFrame df1 = df.addColumns(
+                $str("last").mapVal(s -> s.charAt(0)).as("last_initial"),
+                $str("first").mapVal(s -> s.charAt(0)).as("first_initial")
+        );
+// end::addColumns[]
+
+        print("addColumnsFromRow", df1);
+    }
 
     @Test
     public void addColumnFromRow() {
@@ -28,24 +63,6 @@ public class ColumnsManipulationExample extends BaseExample {
 // end::addColumnFromRow[]
 
         print("addColumnFromRow", df1);
-    }
-
-    @Test
-    public void addColumnsFromRow() {
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-                "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
-                "Joan", "O'Hara");
-
-// tag::addColumnsFromRow[]
-        DataFrame df1 = df.addColumns(
-                new String[]{"last_initial", "first_initial"},
-                r -> r.get("last").toString().charAt(0),
-                r -> r.get("first").toString().charAt(0)
-        );
-// end::addColumnsFromRow[]
-
-        print("addColumnsFromRow", df1);
     }
 
     @Test

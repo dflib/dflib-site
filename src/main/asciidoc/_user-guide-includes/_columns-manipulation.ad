@@ -10,9 +10,18 @@ data. Here we'll demonstrate a few extra methods for DataFrame columns manipulat
 
 === Adding Columns
 
-There are a few ways to add columns to a DataFrame:
+There are a few ways to add columns to a DataFrame. A rather common case is adding a column by calculating cell values
+based on data from other columns:
 
-* Add a column by calculating cell values, based on data from other columns:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumn]
+----
+
+<1> Expression producing the column by concatenating values of other columns
+<2> "as" sets the name of the final expression, which will be the name of the new column
+
+The same can be done using a lambda instead of an expression (though the Expression API should be preferred) :
 
 [source,java,indent=0]
 ----
@@ -23,20 +32,11 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[t
 <2> Operation to produce values for the new column from the existing row. `r` is a special `RowProxy` object,
 providing access to the row being processed.
 
-----
-first   last      full
------- --------- ----------------
-Jerry  Cosin     Jerry Cosin
-Amanda Gabrielly Amanda Gabrielly
-Joan   O'Hara    Joan O'Hara
-3 rows x 3 columns
-----
-
-* Add multiple columns in a single method call (generally faster than adding them individually) :
+Multiple columns can be added in a single method call:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumnsFromRow]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumns]
 ----
 
 ----
@@ -48,14 +48,14 @@ Joan   O'Hara    O            J
 3 rows x 4 columns
 ----
 
-* Adding a Series. If you already have a Series object of the size matching the DataFrame height, it can be added as a
+If you have a Series object of the size matching the DataFrame height, it can be added as a
 column. E.g. we can add a column that will number DataFrame rows:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=addColumnFromSeries]
 ----
-<1> A `Series` that produces a sequence of numbers from `1` to `df.height()` (inclusive).
+<1> `IntSequenceSeries` is a special Series that produces a sequence of numbers in the specified range
 ----
 first   last      number
 ------ --------- ------
