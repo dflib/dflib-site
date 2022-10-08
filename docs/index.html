@@ -437,6 +437,95 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -562,17 +651,17 @@ multiple DFLib modules:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependencyManagement&gt;
-  &lt;dependencies&gt;
-    &lt;dependency&gt;
-      &lt;groupId&gt;com.nhl.dflib&lt;/groupId&gt;
-      &lt;artifactId&gt;dflib-bom&lt;/artifactId&gt;
-      &lt;version&gt;0.13&lt;/version&gt;
-      &lt;type&gt;pom&lt;/type&gt;
-      &lt;scope&gt;import&lt;/scope&gt;
-    &lt;/dependency&gt;
-  &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencyManagement&gt;</span>
+  <span class="tag">&lt;dependencies&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.13<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
+      <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+  <span class="tag">&lt;/dependencies&gt;</span>
+<span class="tag">&lt;/dependencyManagement&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -580,10 +669,10 @@ multiple DFLib modules:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.nhl.dflib&lt;/groupId&gt;
-    &lt;artifactId&gt;dflib&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -591,14 +680,14 @@ multiple DFLib modules:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = DataFrame
-        .newFrame("a", "b", "c")
-        .foldIntStreamByRow(IntStream.range(1, 10000));
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>)
+        .foldIntStreamByRow(IntStream.range(<span class="integer">1</span>, <span class="integer">10000</span>));
 
 DataFrame df2 = df1.selectRows(
-        df1.getColumnAsInt(0).indexInt(i -&gt; i % 2 == 0));
+        df1.getColumnAsInt(<span class="integer">0</span>).indexInt(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>));
 
-System.out.println(Printers.tabular.toString(df2));</code></pre>
+<span class="predefined-type">System</span>.out.println(Printers.tabular.toString(df2));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -670,7 +759,7 @@ discuss how to create Series.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; s = Series.forData("a", "bcd", "ef", "g");</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">bcd</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ef</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">g</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -687,7 +776,7 @@ g
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IntSeries is = IntSeries.forInts(0, 1, -300, Integer.MAX_VALUE);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries is = IntSeries.forInts(<span class="integer">0</span>, <span class="integer">1</span>, -<span class="integer">300</span>, <span class="predefined-type">Integer</span>.MAX_VALUE);</code></pre>
 </div>
 </div>
 </div>
@@ -700,14 +789,14 @@ Series out of it. E.g. the following example reads data from an InputStream line
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// InputStream inputStream = ...
-Accumulator&lt;String&gt; accum = new ObjectAccumulator&lt;&gt;();
-Scanner scanner = new Scanner(inputStream);
-while (scanner.hasNext()) {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// InputStream inputStream = ...</span>
+Accumulator&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccumulator&lt;&gt;();
+<span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(inputStream);
+<span class="keyword">while</span> (scanner.hasNext()) {
     accum.add(scanner.next());
 }
 
-Series&lt;String&gt; s = accum.toSeries();</code></pre>
+Series&lt;<span class="predefined-type">String</span>&gt; s = accum.toSeries();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -743,11 +832,11 @@ Those data sources are discussed in separate documentation chapters.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("name", "age") <i class="conum" data-value="1"></i><b>(1)</b>
-        .addRow("Joe", 18)   <i class="conum" data-value="2"></i><b>(2)</b>
-        .addRow("Andrus", 45)
-        .addRow("Joan", 32)
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)   <i class="conum" data-value="2"></i><b>(2)</b>
+        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>)
+        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
         .create();</code></pre>
 </div>
 </div>
@@ -781,9 +870,9 @@ Joan   32
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("name", "age") <i class="conum" data-value="1"></i><b>(1)</b>
-        .foldByRow("Joe", 18, "Andrus", 45, "Joan", 32); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -803,9 +892,9 @@ Joan   32
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("name", "age")
-        .foldByColumn("Joe", "Andrus", "Joan", 18, 45, 32);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
+        .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -814,9 +903,9 @@ of how to use Streams of primitive ints, creating a DataFrame made of memory-eff
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("col1", "col2")
-        .foldIntStreamByColumn(IntStream.range(0, 10000));</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
+        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -838,11 +927,11 @@ of how to use Streams of primitive ints, creating a DataFrame made of memory-eff
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("name", "age")
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
         .columns(
-                Series.forData("Joe", "Andrus", "Joan"),
-                IntSeries.forInts(18, 45, 32)
+                Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>),
+                IntSeries.forInts(<span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>)
         );</code></pre>
 </div>
 </div>
@@ -863,11 +952,11 @@ may use it to access DataFrame columns labels.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("col1", "col2")
-        .foldIntStreamByColumn(IntStream.range(0, 10000));
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
+        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
 
-String[] labels = df.getColumnsIndex().getLabels(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<span class="predefined-type">String</span><span class="type">[]</span> labels = df.getColumnsIndex().getLabels(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -897,12 +986,12 @@ printer:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame
-        .newFrame("col1", "col2", "col3")
-        .foldIntStreamByColumn(IntStream.range(0, 10000));
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col3</span><span class="delimiter">&quot;</span></span>)
+        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
 
-String table = Printers.tabular.toString(df);
-System.out.println(table);</code></pre>
+<span class="predefined-type">String</span> table = Printers.tabular.toString(df);
+<span class="predefined-type">System</span>.out.println(table);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -928,9 +1017,9 @@ longer than 30 chars are also truncated (since they are pretty short in our exam
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Printer printer = new TabularPrinter(3, 3); <i class="conum" data-value="1"></i><b>(1)</b>
-String table = printer.toString(df);
-System.out.println(table);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Printer printer = <span class="keyword">new</span> TabularPrinter(<span class="integer">3</span>, <span class="integer">3</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="predefined-type">String</span> table = printer.toString(df);
+<span class="predefined-type">System</span>.out.println(table);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -982,7 +1071,7 @@ are available directly in the code:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import static com.nhl.dflib.Exp.*;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">com.nhl.dflib.Exp</span>.*;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -990,8 +1079,8 @@ are available directly in the code:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">StrExp lastExp = $str("last");
-DecimalExp salaryExp = $decimal(2);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">StrExp lastExp = <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>);
+DecimalExp salaryExp = <span class="error">$</span>decimal(<span class="integer">2</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -999,13 +1088,13 @@ DecimalExp salaryExp = $decimal(2);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "salary").foldByRow(
-        "Jerry", "Cosin", new BigDecimal("120000"),
-        "Amanda", "Gabrielly", new BigDecimal("80000"),
-        "Joan", "O'Hara", new BigDecimal("95000"));
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">120000</span><span class="delimiter">&quot;</span></span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">80000</span><span class="delimiter">&quot;</span></span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">95000</span><span class="delimiter">&quot;</span></span>));
 
-Series&lt;String&gt; last = lastExp.eval(df);
-Series&lt;BigDecimal&gt; salary = salaryExp.eval(df);</code></pre>
+Series&lt;<span class="predefined-type">String</span>&gt; last = lastExp.eval(df);
+Series&lt;<span class="predefined-type">BigDecimal</span>&gt; salary = salaryExp.eval(df);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1077,10 +1166,10 @@ methods of various <code>Exp</code> subclasses. E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// "Condition" is an Exp&lt;Boolean&gt; described in more detail below.
-Condition c = and(
-        $str("last").startsWith("A"),
-        $decimal("salary").add($decimal("benefits")).gt(100000.)
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// &quot;Condition&quot; is an Exp&lt;Boolean&gt; described in more detail below.</span>
+<span class="predefined-type">Condition</span> c = and(
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>),
+        <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).add(<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">benefits</span><span class="delimiter">&quot;</span></span>)).gt(<span class="integer">100000</span>.)
 );</code></pre>
 </div>
 </div>
@@ -1112,8 +1201,8 @@ created from any expression by calling its <code>asc()</code> or <code>desc()</c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// sort by last name in the ascending order
-Sorter s = $str("last").asc();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sort by last name in the ascending order</span>
+Sorter s = <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).asc();</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1155,12 +1244,12 @@ reorder columns and even duplicate columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-        "Jerry", "Cosin", "M",
-        "Amanda", "Gabrielly", null,
-        "Joan", "O'Hara", "J");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.selectColumns("last", "first");</code></pre>
+DataFrame df1 = df.selectColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1182,12 +1271,12 @@ O'Hara    Joan
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-        "Jerry", "Cosin", "M",
-        "Amanda", "Gabrielly", null,
-        "Joan", "O'Hara", "J");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.selectColumns(1, 0);</code></pre>
+DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="integer">0</span>);</code></pre>
 </div>
 </div>
 </div>
@@ -1199,12 +1288,12 @@ but does not allow to reorder the remaining columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-        "Jerry", "Cosin", "M",
-        "Amanda", "Gabrielly", null,
-        "Joan", "O'Hara", "J");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.dropColumns("first", "middle"); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame df1 = df.dropColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1239,12 +1328,12 @@ position more than once, as well as reorder rows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.selectRows(2, 0, 0);</code></pre>
+DataFrame df1 = df.selectRows(<span class="integer">2</span>, <span class="integer">0</span>, <span class="integer">0</span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1267,14 +1356,14 @@ selection. An index often comes from applying a condition to a <code>Series</cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-IntSeries rowNumbers = new IntSequenceSeries(0, df.height());
+IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
 
-IntSeries selectionIndex = rowNumbers.indexInt(i -&gt; i % 3 == 0); <i class="conum" data-value="1"></i><b>(1)</b>
+IntSeries selectionIndex = rowNumbers.indexInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
 DataFrame df1 = df.selectRows(selectionIndex);</code></pre>
 </div>
@@ -1305,14 +1394,14 @@ each row against some condition to decide whether it should be included in the r
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectRows(and(
-        $str("first").startsWith("J"),
-        $str("last").startsWith("O")));</code></pre>
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>),
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>)));</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1341,14 +1430,14 @@ single column:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectRows(
-        "first",
-        (String f) -&gt; f != null &amp;&amp; f.startsWith("J"));</code></pre>
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>,
+        (<span class="predefined-type">String</span> f) -&gt; f != <span class="predefined-constant">null</span> &amp;&amp; f.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1356,14 +1445,14 @@ DataFrame df1 = df.selectRows(
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.selectRows(r -&gt;
-        r.get("first").toString().startsWith("J")
-                &amp;&amp; r.get("last").toString().startsWith("O"));</code></pre>
+        r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>)
+                &amp;&amp; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1372,13 +1461,13 @@ operation between Series. E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-Series&lt;String&gt; names = Series.forData("Sandra", "Anton", "Joan");
-BooleanSeries mask = names.eq(df.getColumn("first")); <i class="conum" data-value="1"></i><b>(1)</b>
+Series&lt;<span class="predefined-type">String</span>&gt; names = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
+BooleanSeries mask = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
 
 DataFrame df1 = df.selectRows(mask);</code></pre>
 </div>
@@ -1408,12 +1497,12 @@ operations. Here is how to get the top 2 rows of a DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.head(2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame df1 = df.head(<span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1438,12 +1527,12 @@ Amanda Gabrielly
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.tail(1);</code></pre>
+DataFrame df1 = df.tail(<span class="integer">1</span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1503,14 +1592,14 @@ based on data from other columns:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.addColumn(
-        concat($str("first"), $val(" "), $str("last")) <i class="conum" data-value="1"></i><b>(1)</b>
-                .as("full")  <i class="conum" data-value="2"></i><b>(2)</b>
+        concat(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)) <i class="conum" data-value="1"></i><b>(1)</b>
+                .as(<span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>)  <i class="conum" data-value="2"></i><b>(2)</b>
 );</code></pre>
 </div>
 </div>
@@ -1531,14 +1620,14 @@ DataFrame df1 = df.addColumn(
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Amanda", "Gabrielly",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.addColumn(
-        "full",                                   <i class="conum" data-value="1"></i><b>(1)</b>
-        r -&gt; r.get("first") + " " + r.get("last") <i class="conum" data-value="2"></i><b>(2)</b>
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>,                                   <i class="conum" data-value="1"></i><b>(1)</b>
+        r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
 );</code></pre>
 </div>
 </div>
@@ -1560,9 +1649,9 @@ providing access to the row being processed.</td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = df.addColumns(
-        $str("last").mapVal(s -&gt; s.charAt(0)).as("last_initial"),
-        $str("first").mapVal(s -&gt; s.charAt(0)).as("first_initial")
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addColumns(
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).mapVal(s -&gt; s.charAt(<span class="integer">0</span>)).as(<span class="string"><span class="delimiter">&quot;</span><span class="content">last_initial</span><span class="delimiter">&quot;</span></span>),
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).mapVal(s -&gt; s.charAt(<span class="integer">0</span>)).as(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_initial</span><span class="delimiter">&quot;</span></span>)
 );</code></pre>
 </div>
 </div>
@@ -1582,9 +1671,9 @@ column. E.g. we can add a column that will number DataFrame rows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">IntSeries rowNumbers = new IntSequenceSeries(1, df.height() + 1); <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">1</span>, df.height() + <span class="integer">1</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 DataFrame df1 = df.addColumn(
-        "number",
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>,
         rowNumbers
 );</code></pre>
 </div>
@@ -1612,7 +1701,7 @@ Joan   O'Hara         3
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = df.addRowNumberColumn("number");</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addRowNumberColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 </div>
@@ -1631,13 +1720,13 @@ cleanup to match the expectations of the application. There are a number of ways
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df
-        .renameColumn("first", "first_name")
-        .renameColumn("last", "last_name");</code></pre>
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>)
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1658,11 +1747,11 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.renameColumns("first_name", "last_name");</code></pre>
+DataFrame df1 = df.renameColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1683,12 +1772,12 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Map&lt;String, String&gt; nameMap = new HashMap&lt;&gt;();
-nameMap.put("first", "first_name");
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; nameMap = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
+nameMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
-        "Jerry", "Cosin",
-        "Joan", "O'Hara");
+DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.renameColumns(nameMap);</code></pre>
 </div>
@@ -1711,11 +1800,11 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("FIRST", "LAST").foldByRow(
-        "Jerry", "Cosin",
-        "Joan", "O'Hara");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">FIRST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.renameColumns(String::toLowerCase);</code></pre>
+DataFrame df1 = df.renameColumns(<span class="predefined-type">String</span>::toLowerCase);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1737,13 +1826,13 @@ generic is <code>convertColumn</code>, allowing to convert between any two data 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("year", "sales").foldByRow(
-        "2017", "2005365.01",
-        "2018", "4355098.75");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2017</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2018</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df
-        .convertColumn(0, (String s) -&gt; Integer.valueOf(s))
-        .convertColumn(1, (String s) -&gt; new BigDecimal(s));</code></pre>
+        .convertColumn(<span class="integer">0</span>, (<span class="predefined-type">String</span> s) -&gt; <span class="predefined-type">Integer</span>.valueOf(s))
+        .convertColumn(<span class="integer">1</span>, (<span class="predefined-type">String</span> s) -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1751,9 +1840,9 @@ DataFrame df1 = df
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = df
-        .toIntColumn("year", 0) <i class="conum" data-value="1"></i><b>(1)</b>
-        .toDoubleColumn("sales", 0.); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .toIntColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .toDoubleColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1798,8 +1887,8 @@ values from adjacent cells. First, let&#8217;s see how this works for <code>Seri
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; withNulls = Series.forData("a", "b", null, null, "c");
-Series&lt;String&gt; filled = withNulls.fillNulls("X");</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; withNulls = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNulls(<span class="string"><span class="delimiter">&quot;</span><span class="content">X</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1817,7 +1906,7 @@ c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; filled = withNulls.fillNullsForward(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsForward(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1844,8 +1933,8 @@ c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; mask = Series.forData("A", "B", "C", "D", "E", "F", "G");
-Series&lt;String&gt; filled = withNulls.fillNullsFromSeries(mask);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; mask = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">C</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">D</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">E</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">G</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsFromSeries(mask);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1871,14 +1960,14 @@ an additional String on integer argument specifying column position.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame withNulls = DataFrame.newFrame("c1", "c2").foldByRow(
-        "1", "1",
-        null, null,
-        "2", "2");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame withNulls = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
+        <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame filled = withNulls
-        .fillNullsBackwards("c1")
-        .fillNullsForward("c2");</code></pre>
+        .fillNullsBackwards(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>)
+        .fillNullsForward(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1911,10 +2000,10 @@ not alter the original object, and instead creates a new instance of either Seri
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">// sort series by String length
-Series&lt;String&gt; s = Series
-        .forData("12", "1", "123")
-        .sort($str("").mapVal(String::length).asc());</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sort series by String length</span>
+Series&lt;<span class="predefined-type">String</span>&gt; s = Series
+        .forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>).mapVal(<span class="predefined-type">String</span>::length).asc());</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1933,9 +2022,9 @@ Series&lt;String&gt; s = Series
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; s = Series
-        .forData("12", "1", "123")
-        .sort(Comparator.comparingInt(String::length));</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series
+        .forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="predefined-type">Comparator</span>.comparingInt(<span class="predefined-type">String</span>::length));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1943,9 +2032,9 @@ Series&lt;String&gt; s = Series
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; s = Series
-        .forData("c", "d", "a")
-        .sort($str("").asc());</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series
+        .forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>).asc());</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1961,8 +2050,8 @@ d
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">LongSeries s = LongSeries
-        .forLongs(Long.MAX_VALUE, 15L, 0L)
+<pre class="CodeRay highlight"><code data-lang="java">LongSeries s = LongSeries
+        .forLongs(<span class="predefined-type">Long</span>.MAX_VALUE, <span class="integer">15L</span>, <span class="integer">0L</span>)
         .sortLong();</code></pre>
 </div>
 </div>
@@ -2002,15 +2091,15 @@ compatible with <code>java.lang.Comparable</code> (i.e., Strings, numbers, etc).
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-        "Jerry", "Cosin", "M",
-        "Amanda", "Gabrielly", null,
-        "Jerry", "Albert", null,
-        "Joan", "O'Hara", "J");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Albert</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df.sort(
-        $str("first").asc(),
-        $str("last").asc());</code></pre>
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).asc(),
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).asc());</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2030,12 +2119,12 @@ Joan   O'Hara    J
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-        "Jerry", "Cosin", "M",
-        "Amanda", "Gabrielly", null,
-        "Joan", "O'Hara", "J");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.sort("first", true); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame df1 = df.sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2049,13 +2138,13 @@ direction (<code>true</code> for ascending, <code>false</code> - for descending 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
-        "Jerry", "Cosin", "M",
-        "Amanda", "Gabrielly", null,
-        "Jerry", "Albert", null,
-        "Joan", "O'Hara", "J");
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Albert</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.sort(new String[]{"last", "first"}, new boolean[]{true, false});</code></pre>
+DataFrame df1 = df.sort(<span class="keyword">new</span> <span class="predefined-type">String</span><span class="type">[]</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>}, <span class="keyword">new</span> <span class="type">boolean</span><span class="type">[]</span>{<span class="predefined-constant">true</span>, <span class="predefined-constant">false</span>});</code></pre>
 </div>
 </div>
 </div>
@@ -2077,11 +2166,11 @@ method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; s1 = Series.forData("x", "y", "z");
-Series&lt;String&gt; s2 = Series.forData("a");
-Series&lt;String&gt; s3 = Series.forData("m", "n");
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s1 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; s2 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; s3 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>);
 
-Series&lt;String&gt; sConcat = s1.concat(s2, s3);</code></pre>
+Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s1.concat(s2, s3);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2104,12 +2193,12 @@ n
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Collection&lt;Series&lt;String&gt;&gt; ss = asList(
-        Series.forData("x", "y", "z"),
-        Series.forData("a"),
-        Series.forData("m", "n"));
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Collection</span>&lt;Series&lt;<span class="predefined-type">String</span>&gt;&gt; ss = asList(
+        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
+        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
+        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));
 
-Series&lt;String&gt; sConcat = SeriesConcat.concat(ss);</code></pre>
+Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat.concat(ss);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2117,8 +2206,8 @@ Series&lt;String&gt; sConcat = SeriesConcat.concat(ss);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Series&lt;String&gt; s = Series.forData("x", "y");
-Series&lt;String&gt; sConcat = s.concat(s);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s.concat(s);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2139,13 +2228,13 @@ y
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
-        1, 2,
-        3, 4);
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="integer">1</span>, <span class="integer">2</span>,
+        <span class="integer">3</span>, <span class="integer">4</span>);
 
-DataFrame df2 = DataFrame.newFrame("a", "b").foldByRow(
-        5, 6,
-        7, 8);
+DataFrame df2 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="integer">5</span>, <span class="integer">6</span>,
+        <span class="integer">7</span>, <span class="integer">8</span>);
 
 DataFrame dfv = df1.vConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
@@ -2172,7 +2261,7 @@ passed to the method.</td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame dfh = df1.hConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame dfh = df1.hConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2234,13 +2323,13 @@ closely.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = DataFrame.newFrame("b", "a").foldByRow(
-        1, 2,
-        3, 4);
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="integer">1</span>, <span class="integer">2</span>,
+        <span class="integer">3</span>, <span class="integer">4</span>);
 
-DataFrame df2 = DataFrame.newFrame("a", "c").foldByRow( <i class="conum" data-value="1"></i><b>(1)</b>
-        5, 6,
-        7, 8);
+DataFrame df2 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>).foldByRow( <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="integer">5</span>, <span class="integer">6</span>,
+        <span class="integer">7</span>, <span class="integer">8</span>);
 
 DataFrame dfv = df1.vConcat(JoinType.inner, df2); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
@@ -2280,7 +2369,7 @@ are missing from the concatenated DataFrame are filled with nulls in the corresp
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame dfv = df1.vConcat(JoinType.left, df2);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame dfv = df1.vConcat(JoinType.left, df2);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2302,14 +2391,14 @@ null 7
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
-        1, 2,
-        3, 4,
-        5, 6);
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="integer">1</span>, <span class="integer">2</span>,
+        <span class="integer">3</span>, <span class="integer">4</span>,
+        <span class="integer">5</span>, <span class="integer">6</span>);
 
-DataFrame df2 = DataFrame.newFrame("c", "d").foldByRow(
-        7, 8,
-        9, 10);
+DataFrame df2 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>).foldByRow(
+        <span class="integer">7</span>, <span class="integer">8</span>,
+        <span class="integer">9</span>, <span class="integer">10</span>);
 
 DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
 </div>
@@ -2356,10 +2445,10 @@ advantage of this functionality:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.nhl.dflib&lt;/groupId&gt;
-    &lt;artifactId&gt;dflib-csv&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-csv<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2373,7 +2462,7 @@ below.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = Csv.load("src/test/resources/f1.csv"); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Csv.load(<span class="string"><span class="delimiter">&quot;</span><span class="content">src/test/resources/f1.csv</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2405,11 +2494,11 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = Csv.loader() <i class="conum" data-value="1"></i><b>(1)</b>
-        .skipRows(1) <i class="conum" data-value="2"></i><b>(2)</b>
-        .header("x", "y") <i class="conum" data-value="3"></i><b>(3)</b>
-        .intColumn("x") <i class="conum" data-value="4"></i><b>(4)</b>
-        .load("src/test/resources/f1.csv");</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Csv.loader() <i class="conum" data-value="1"></i><b>(1)</b>
+        .skipRows(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .header(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="3"></i><b>(3)</b>
+        .intColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
+        .load(<span class="string"><span class="delimiter">&quot;</span><span class="content">src/test/resources/f1.csv</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2463,7 +2552,7 @@ both load speed and memory use, so it is usually preferable.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Csv.save(df, "target/df.csv"); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Csv.save(df, <span class="string"><span class="delimiter">&quot;</span><span class="content">target/df.csv</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2480,10 +2569,10 @@ to a variety of destinations.</td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">Csv.saver() <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">Csv.saver() <i class="conum" data-value="1"></i><b>(1)</b>
         .createMissingDirs() <i class="conum" data-value="2"></i><b>(2)</b>
         .format(CSVFormat.EXCEL) <i class="conum" data-value="3"></i><b>(3)</b>
-        .save(df, "target/csv/df.csv");</code></pre>
+        .save(df, <span class="string"><span class="delimiter">&quot;</span><span class="content">target/csv/df.csv</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2516,10 +2605,10 @@ using the Avro format, include the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.nhl.dflib&lt;/groupId&gt;
-    &lt;artifactId&gt;dflib-avro&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-avro<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2554,12 +2643,12 @@ transactions, auto-generation of certain SQL statements, merging of data on top 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.nhl.dflib&lt;/groupId&gt;
-    &lt;artifactId&gt;dflib-jdbc&lt;/artifactId&gt;
-&lt;/dependency&gt;
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-jdbc<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span>
 
-&lt;!-- Of course you also need to import your preferred JDBC driver --&gt;</code></pre>
+<span class="comment">&lt;!-- Of course you also need to import your preferred JDBC driver --&gt;</span></code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -2571,7 +2660,7 @@ connector is to pass that DataSource to <code>Jdbc</code> factory method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">JdbcConnector connector = Jdbc.connector(dataSource);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">JdbcConnector connector = Jdbc.connector(dataSource);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2579,11 +2668,11 @@ connector is to pass that DataSource to <code>Jdbc</code> factory method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">JdbcConnector connector = Jdbc
-        .connector("jdbc:derby:target/derby/mydb;create=true")
-        // .driver("com.foo.MyDriver") <i class="conum" data-value="1"></i><b>(1)</b>
-        // .userName("root")
-        // .password("secret") <i class="conum" data-value="2"></i><b>(2)</b>
+<pre class="CodeRay highlight"><code data-lang="java">JdbcConnector connector = Jdbc
+        .connector(<span class="string"><span class="delimiter">&quot;</span><span class="content">jdbc:derby:target/derby/mydb;create=true</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">// .driver(&quot;com.foo.MyDriver&quot;) </span><i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="comment">// .userName(&quot;root&quot;)</span>
+        <span class="comment">// .password(&quot;secret&quot;) </span><i class="conum" data-value="2"></i><b>(2)</b>
         .build();</code></pre>
 </div>
 </div>
@@ -2610,7 +2699,7 @@ operations that do not require the user to write SQL (all needed SQL is auto-gen
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = connector.tableLoader("person").load();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>).load();</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2629,13 +2718,13 @@ number of rows to read, sample rows, and even specify fetch condition as another
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame condition = DataFrame.newFrame("salary")
-        .addRow(70_000)
-        .addRow(101_000)
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame condition = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .addRow(<span class="integer">70</span>_000)
+        .addRow(<span class="integer">101</span>_000)
         .create();
 
-DataFrame df = connector.tableLoader("person")
-        .includeColumns("name", "salary")
+DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
+        .includeColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
         .eq(condition)
         .load();</code></pre>
 </div>
@@ -2658,13 +2747,13 @@ from the database metadata.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("id", "name", "salary")
-        .addRow(1, "Jerry Cosin", 70_000)
-        .addRow(2, "Amanda Gabrielly", 85_000)
-        .addRow(3, "Joan O'Hara", 101_000)
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .addRow(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry Cosin</span><span class="delimiter">&quot;</span></span>, <span class="integer">70</span>_000)
+        .addRow(<span class="integer">2</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="integer">85</span>_000)
+        .addRow(<span class="integer">3</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">101</span>_000)
         .create();
 
-connector.tableSaver("person").save(df);</code></pre>
+connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>).save(df);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2691,7 +2780,7 @@ extra columns is preserved.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">connector.tableSaver("person")
+<pre class="CodeRay highlight"><code data-lang="java">connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
         .deleteTableData()
         .save(df);</code></pre>
 </div>
@@ -2701,7 +2790,7 @@ extra columns is preserved.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">connector.tableSaver("person")
+<pre class="CodeRay highlight"><code data-lang="java">connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
         .mergeByPk()
         .save(df);</code></pre>
 </div>
@@ -2762,11 +2851,11 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">%maven com.nhl.dflib:dflib:0.11
-%maven com.nhl.dflib:dflib-jupyter:0.11
+<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib:<span class="float">0.11</span>
+%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.11</span>
 
-import com.nhl.dflib.jupyter.*;
-import com.nhl.dflib.*;
+<span class="keyword">import</span> <span class="include">com.nhl.dflib.jupyter</span>.*;
+<span class="keyword">import</span> <span class="include">com.nhl.dflib</span>.*;
 
 DFLibJupyter.init(getKernelInstance());</code></pre>
 </div>
@@ -2777,9 +2866,9 @@ E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DataFrame df = DataFrame.newFrame("a", "b", "c").foldIntByColumn(-1, 1, 2, 3, 4, 5, 6);
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>).foldIntByColumn(-<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>);
 
-// the result of the last statement in a cell is printed just below it
+<span class="comment">// the result of the last statement in a cell is printed just below it</span>
 df</code></pre>
 </div>
 </div>
@@ -2791,8 +2880,8 @@ df</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">DFLibJupyter.setMaxDisplayRows(10);
-DFLibJupyter.setMaxDisplayColumnWidth(50);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DFLibJupyter.setMaxDisplayRows(<span class="integer">10</span>);
+DFLibJupyter.setMaxDisplayColumnWidth(<span class="integer">50</span>);</code></pre>
 </div>
 </div>
 </div>
