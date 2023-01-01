@@ -781,26 +781,39 @@ g
 </div>
 </div>
 <div class="sect3">
-<h4 id="_creating_series_incrementally">Creating Series Incrementally</h4>
+<h4 id="_creating_series_by_element">Creating Series By Element</h4>
 <div class="paragraph">
-<p>If we don&#8217;t have a full array or list to start with, and instead have code producing a sequence of
-values of unpredictable length, we can use special mutable "accumulators" to store the sequence and then produce a
-Series out of it. E.g. the following example reads data from an InputStream line by line as Strings:</p>
+<p>If we don&#8217;t have a data array or collection to start with, and instead somehow produce a sequence of
+values of unpredictable length, we can use <code>Series.byElement()</code> API. E.g. the following example reads data from
+an InputStream line by line as Strings:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// InputStream inputStream = ...</span>
-ValueAccum&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccum&lt;&gt;();
+SeriesAppender&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; appender = Series
+        .byElement(Extractor.&lt;<span class="predefined-type">String</span>&gt;<span class="error">$</span>col()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .appender();
+
 <span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(inputStream);
 <span class="keyword">while</span> (scanner.hasNext()) {
-    accum.push(scanner.next());
+    appender.append(scanner.next()); <i class="conum" data-value="2"></i><b>(2)</b>
 }
 
-Series&lt;<span class="predefined-type">String</span>&gt; s = accum.toSeries();</code></pre>
+Series&lt;<span class="predefined-type">String</span>&gt; s = appender.toSeries();</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Similarly, for primitive Series there are <code>IntAccum</code>, <code>LongAccum</code>, and so on.</p>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create Series "appender" that will accumulate values. For primitive Series you would use <code>Extractor.$int(..)</code>,
+<code>Extractor.$long(..)</code> and so on</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Append values as they are read one-by-one</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -834,11 +847,11 @@ Those data sources are discussed in separate documentation chapters.
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .byArrayRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .appendData() <i class="conum" data-value="2"></i><b>(2)</b>
+        .appender() <i class="conum" data-value="2"></i><b>(2)</b>
         .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)   <i class="conum" data-value="3"></i><b>(3)</b>
         .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">49</span>)
         .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
-        .build();</code></pre>
+        .toDataFrame();</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -866,19 +879,77 @@ methods to configure capacity, data sampling, etc.</td>
 <pre>name   age
 ------ ---
 Joe    18
-Andrus 45
+Andrus 49
 Joan   32
 3 rows x 2 columns</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Another example - if we have a single array and need to "fold" it into a two-dimensional DataFrame row-by-row:</p>
+<p>A more general example - creating a DataFrame from a list of objects by "extracting" column data from object properties:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>        record Person(String name, int age) {
+        }
+
+        List&lt;Person&gt; people = List.of(
+                new Person("Joe", 18),
+                new Person("Andrus", 49),
+                new Person("Joan", 32));
+
+        DataFrame df = DataFrame
+                .byRow( <i class="conum" data-value="1"></i><b>(1)</b>
+                        Extractor.$col(Person::name),
+                        Extractor.$int(Person::age))
+                .columnNames("name", "age") <i class="conum" data-value="2"></i><b>(2)</b>
+                .appender() <i class="conum" data-value="3"></i><b>(3)</b>
+                .append(people)   <i class="conum" data-value="4"></i><b>(4)</b>
+                .toDataFrame();</pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The builder is started with an array of Extractors. Each extractor generates its own column, filling it with a
+corresponding object property.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Specifying the names of the DataFrame columns. If omitted, column names are assigned automatically.
+in step 1.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Creating a row-by-row appender</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Appending the list.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The resulting DataFrame looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name   age
+------ ---
+Joe    18
+Andrus 49
+Joan   32
+3 rows x 2 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another example - a single-dimensional array can be "folded" into a DataFrame row-by-row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">49</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -900,11 +971,11 @@ Joan   32
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
         .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
-        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>);</code></pre>
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="integer">49</span>, <span class="integer">32</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can also create DataFrames from Collections and Streams (folded either by row or by column). Here is an example
+<p>You can also create DataFrames from collections or Streams (folded either by row or by column). Here is an example
 of how to use a Stream of primitive ints, creating a DataFrame made of memory-efficient <code>IntSeries</code> columns:</p>
 </div>
 <div class="listingblock">
@@ -937,12 +1008,12 @@ of how to use a Stream of primitive ints, creating a DataFrame made of memory-ef
         .byColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
         .of(
                 Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>),
-                Series.ofInt(<span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>)
+                Series.ofInt(<span class="integer">18</span>, <span class="integer">49</span>, <span class="integer">32</span>)
         );</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This is the fastest and most efficient way to make a DataFrame, as an array of Series is how it is structured internally.</p>
+<p>This is the most efficient way, as an array of Series is how each DataFrame is structured internally.</p>
 </div>
 <div class="paragraph">
 <p>Now that we&#8217;ve discussed how to create Series and DataFrames, we&#8217;ll talk about <a href="#printers">printing their contents</a>,
@@ -1472,7 +1543,7 @@ operation between Series. E.g.:</p>
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-Series&lt;<span class="predefined-type">String</span>&gt; names = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; names = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
 BooleanSeries mask = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
 
 DataFrame df1 = df.selectRows(mask);</code></pre>
@@ -2753,11 +2824,11 @@ from the database metadata.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.byArrayRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
-        .appendData()
+        .appender()
         .append(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry Cosin</span><span class="delimiter">&quot;</span></span>, <span class="integer">70</span>_000)
         .append(<span class="integer">2</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="integer">85</span>_000)
         .append(<span class="integer">3</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">101</span>_000)
-        .build();
+        .toDataFrame();
 
 connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>).save(df);</code></pre>
 </div>
