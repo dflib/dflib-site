@@ -19,4 +19,5 @@ git commit -m 'Regenerating docs'
 git push
 ```
 
-TODO: publish over CI/CD
+If the commit is to the `master` branch, the push will activate publishing of the website on 
+https://nhl.github.io/dflib-docs/ .
