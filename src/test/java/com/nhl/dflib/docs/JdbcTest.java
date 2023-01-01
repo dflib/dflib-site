@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 
 @BQTest
-public class JdbcExample extends BaseExample {
+public class JdbcTest extends BaseTest {
 
     @BQTestTool
     static final DbTester db = DerbyTester.db()
@@ -31,7 +31,7 @@ public class JdbcExample extends BaseExample {
         JdbcConnector connector = Jdbc.connector(dataSource);
         // end::connectorDS[]
 
-        JdbcExample.connector = connector;
+        JdbcTest.connector = connector;
     }
 
     @Test

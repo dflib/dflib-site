@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 import static com.nhl.dflib.Exp.*;
 
-public class SortingExample extends BaseExample {
+public class SortingTest extends BaseTest {
 
     @Test
     public void sortSeries_Sorter() {

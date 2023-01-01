@@ -30,7 +30,7 @@ discuss how to create Series.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=create]
+include::../../../test/java/com/nhl/dflib/docs/SeriesCreateTest.java[tags=create]
 ----
 
 ----
@@ -45,7 +45,7 @@ Primitive Series classes have their own factory methods. E.g.:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=createInt]
+include::../../../test/java/com/nhl/dflib/docs/SeriesCreateTest.java[tags=createInt]
 ----
 
 ==== Creating Series Incrementally
@@ -56,7 +56,7 @@ Series out of it. E.g. the following example reads data from an InputStream line
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SeriesCreateExample.java[tags=createIncrementally]
+include::../../../test/java/com/nhl/dflib/docs/SeriesCreateTest.java[tags=createIncrementally]
 ----
 
 Similarly there are `IntAccumulator`, `LongAccumulator`, etc.
@@ -75,7 +75,7 @@ Those data sources are discussed in separate documentation chapters.
 First example - adding data row by row:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createRowAtATime]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATime]
 ----
 <1> Builder is created from column names
 <2> Passing individual rows one by one
@@ -93,7 +93,7 @@ Joan   32
 Another example - if we have a single array and need to "fold" it into a two-dimensional DataFrame row-by-row:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByRow]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFoldByRow]
 ----
 <1> Builder is created from column names
 <2> Passing a varargs array of values, that is folded to match the specified number of columns, row by row.
@@ -101,13 +101,13 @@ include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=
 Same, but folding column-by-column:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFoldByColumn]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFoldByColumn]
 ----
 You can also create DataFrames from Collections and Streams (folded either by row or by column). Here is an example
 of how to use Streams of primitive ints, creating a DataFrame made of memory-efficient `IntSeries` columns:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromIntStream]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFromIntStream]
 ----
 
 ----
@@ -126,7 +126,7 @@ col1 col2
 Finally, a DataFrame can be created from an array of Series, each Series representing a column:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateExample.java[tags=createFromSeries]
+include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFromSeries]
 ----
 
 This is the fastest and most efficient way to make a DataFrame, as an array of Series is how it is structured internally.
@@ -143,7 +143,7 @@ may use it to access DataFrame columns labels.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/MainDataStructuresExample.java[tags=indexGetLabels]
+include::../../../test/java/com/nhl/dflib/docs/MainDataStructuresTest.java[tags=indexGetLabels]
 ----
 
 <1> Access DataFrame index and read label names.

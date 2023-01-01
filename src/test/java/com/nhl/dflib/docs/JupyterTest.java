@@ -3,7 +3,7 @@ package com.nhl.dflib.docs;
 import com.nhl.dflib.jupyter.DFLibJupyter;
 import org.junit.jupiter.api.Test;
 
-public class JupyterExample extends BaseExample {
+public class JupyterTest extends BaseTest {
 
     @Test
     public void setDisplayParams() {

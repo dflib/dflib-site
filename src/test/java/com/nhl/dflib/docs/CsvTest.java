@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CsvExample extends BaseExample {
+public class CsvTest extends BaseTest {
 
     @Test
     public void readCsv() {

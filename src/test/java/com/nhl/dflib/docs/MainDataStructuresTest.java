@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
-public class MainDataStructuresExample extends BaseExample {
+public class MainDataStructuresTest extends BaseTest {
 
     @Test
     public void indexGetLabels() {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.nhl.dflib.Exp.*;
 
-public class SelectingExample extends BaseExample {
+public class SelectingTest extends BaseTest {
 
     @Test
     public void selectAndReorderColumns() {

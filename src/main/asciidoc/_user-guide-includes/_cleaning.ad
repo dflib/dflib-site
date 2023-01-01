@@ -16,7 +16,7 @@ The simplest approach is to replace nulls with a constant value:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNulls_Series]
+include::../../../test/java/com/nhl/dflib/docs/CleaningTest.java[tags=fillNulls_Series]
 ----
 
 ----
@@ -32,7 +32,7 @@ Another strategy is to use values adjacent to the cells with nulls:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNullsForward_Series]
+include::../../../test/java/com/nhl/dflib/docs/CleaningTest.java[tags=fillNullsForward_Series]
 ----
 <1> `fillNullsForward` takes a non-null value preceding the null cell and uses it to replace nulls.
 Similarly there's a `fillNullsBackward` method that uses the value following the null cell.
@@ -51,7 +51,7 @@ Finally, there's a way to fill nulls using another `Series` object as a kind of 
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNullsFromSeries_Series]
+include::../../../test/java/com/nhl/dflib/docs/CleaningTest.java[tags=fillNullsFromSeries_Series]
 ----
 
 ----
@@ -73,7 +73,7 @@ an additional String on integer argument specifying column position.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CleaningExample.java[tags=fillNullsForward_DataFrame]
+include::../../../test/java/com/nhl/dflib/docs/CleaningTest.java[tags=fillNullsForward_DataFrame]
 ----
 
 ----

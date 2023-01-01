@@ -14,7 +14,7 @@ reorder columns and even duplicate columns.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectAndReorderColumns]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectAndReorderColumns]
 ----
 
 ----
@@ -30,7 +30,7 @@ O'Hara    Joan
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectAndReorderColumns_ByIndex]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectAndReorderColumns_ByIndex]
 ----
 
 === Deleting Columns
@@ -40,7 +40,7 @@ but does not allow to reorder the remaining columns.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationExample.java[tags=deleteColumns]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=deleteColumns]
 ----
 <1> Drop one or more columns from the DataFrame.
 ----
@@ -60,7 +60,7 @@ position more than once, as well as reorder rows:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectRows]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectRows]
 ----
 
 ----
@@ -78,7 +78,7 @@ selection. An index often comes from applying a condition to a `Series` that is 
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectRowsIndex]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectRowsIndex]
 ----
 
 <1> Index is calculated by applying a condition to a Series, that is not a part of the DataFrame, whose rows we are
@@ -98,7 +98,7 @@ each row against some condition to decide whether it should be included in the r
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=selectByCondition]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectByCondition]
 ----
 
 ----
@@ -114,19 +114,19 @@ In the example above select condition was provided using the `Condition` object.
 single column:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByColumn]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=filterByColumn]
 ----
 Or a lambda function on the entire row:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByRow]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=filterByRow]
 ----
 
 Finally, `BooleanSeries` can also serve as a filter condition (a "mask"). Such mask is usually a result of a prior logical
 operation between Series. E.g.:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=filterByBoolean]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=filterByBoolean]
 ----
 
 <1> Mask is calculated by comparing a Series of names with DataFrame column of first names.
@@ -145,7 +145,7 @@ operations. Here is how to get the top 2 rows of a DataFrame:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=headDataFrame]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=headDataFrame]
 ----
 <1> Returns a new DataFrame with two top rows of the original DataFrame.
 
@@ -161,7 +161,7 @@ Amanda Gabrielly
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SelectingExample.java[tags=tailDataFrame]
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=tailDataFrame]
 ----
 ----
 first last

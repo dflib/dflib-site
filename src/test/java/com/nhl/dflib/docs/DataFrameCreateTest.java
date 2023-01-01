@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
-public class DataFrameCreateExample extends BaseExample {
+public class DataFrameCreateTest extends BaseTest {
 
     @Test
     public void createRowAtATime() {

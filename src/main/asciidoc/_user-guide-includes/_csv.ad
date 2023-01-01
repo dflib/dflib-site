@@ -22,7 +22,7 @@ below.
 The simplest API for reading a CSV is this:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CsvExample.java[tags=readCsv]
+include::../../../test/java/com/nhl/dflib/docs/CsvTest.java[tags=readCsv]
 ----
 
 <1> The argument to the "load" method can be a filename, a file, or a Reader, so it can be loaded from a variety of
@@ -43,7 +43,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CsvExample.java[tags=readCsvLoader]
+include::../../../test/java/com/nhl/dflib/docs/CsvTest.java[tags=readCsvLoader]
 ----
 <1> Instead of "load" method use "loader".
 <2> Skip the header row.
@@ -68,7 +68,7 @@ both load speed and memory use, so it is usually preferable.
 Writing to a CSV is equally easy:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CsvExample.java[tags=writeCsv]
+include::../../../test/java/com/nhl/dflib/docs/CsvTest.java[tags=writeCsv]
 ----
 
 <1> The argument to the "save" method can be a filename, a file, a Writer (or generally Appendable), so it can be stored
@@ -77,7 +77,7 @@ to a variety of destinations.
 Just like with the loader, CSV saver provides its own set of options, if the defaults are not sufficient:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/CsvExample.java[tags=writeCsvSaver]
+include::../../../test/java/com/nhl/dflib/docs/CsvTest.java[tags=writeCsvSaver]
 ----
 
 <1> Instead of "save" method use "saver" to be able to customize the process.

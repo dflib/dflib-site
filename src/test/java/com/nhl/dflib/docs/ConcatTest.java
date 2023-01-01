@@ -10,7 +10,7 @@ import java.util.Collection;
 
 import static java.util.Arrays.asList;
 
-public class ConcatExample extends BaseExample {
+public class ConcatTest extends BaseTest {
 
     @Test
     public void concatSeries() {

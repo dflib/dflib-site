@@ -11,7 +11,7 @@ A more human-friendly form of output is done by using a _tabular_ printer. Here 
 printer:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/PrintersExample.java[tags=printDataFrame_Tabular]
+include::../../../test/java/com/nhl/dflib/docs/PrintersTest.java[tags=printDataFrame_Tabular]
 ----
 It prints the data as follows, displaying at most 6 rows and truncating the rest. Same goes for cell values. Values
 longer than 30 chars are also truncated (since they are pretty short in our example, value truncation is not obvious here).
@@ -31,7 +31,7 @@ You can change the truncation parameters by creating your own printer:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/PrintersExample.java[tags=printDataFrame_Tabular_Custom]
+include::../../../test/java/com/nhl/dflib/docs/PrintersTest.java[tags=printDataFrame_Tabular_Custom]
 ----
 
 <1> Create a printer that displays at most 3 rows and up to 3 characters in each cell.

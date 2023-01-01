@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
-public class GettingStartedExample extends BaseExample {
+public class GettingStartedTest extends BaseTest {
 
     @Test
     public void gettingStarted() {

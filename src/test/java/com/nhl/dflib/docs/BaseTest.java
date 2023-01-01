@@ -4,7 +4,7 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.Printers;
 import com.nhl.dflib.Series;
 
-public abstract class BaseExample {
+public abstract class BaseTest {
 
     protected void print(String label, DataFrame df) {
         System.out.println();

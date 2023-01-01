@@ -4,7 +4,7 @@ import com.nhl.dflib.DataFrame;
 import com.nhl.dflib.Series;
 import org.junit.jupiter.api.Test;
 
-public class CleaningExample extends BaseExample {
+public class CleaningTest extends BaseTest {
 
     @Test
     public void fillNulls_Series() {

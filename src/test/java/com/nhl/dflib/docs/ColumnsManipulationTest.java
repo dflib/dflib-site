@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.nhl.dflib.Exp.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-public class ColumnsManipulationExample extends BaseExample {
+public class ColumnsManipulationTest extends BaseTest {
 
     @Test
     public void addColumn() {

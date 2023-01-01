@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class SeriesCreateExample extends BaseExample {
+public class SeriesCreateTest extends BaseTest {
 
     @Test
     public void create() {

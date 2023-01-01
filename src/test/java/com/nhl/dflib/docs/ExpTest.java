@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import static com.nhl.dflib.Exp.*;
 // end::expImport[]
 
-public class ExpExample extends BaseExample {
+public class ExpTest extends BaseTest {
 
     @Test
     public void columnExp() {
