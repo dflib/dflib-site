@@ -90,25 +90,26 @@
         <dependency>
             <groupId>com.nhl.dflib</groupId>
             <artifactId>dflib</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.nhl.dflib</groupId>
             <artifactId>dflib-csv</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.nhl.dflib</groupId>
             <artifactId>dflib-jdbc</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.nhl.dflib</groupId>
             <artifactId>dflib-jupyter</artifactId>
-            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.nhl.dflib</groupId>
+            <artifactId>dflib-junit5</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
