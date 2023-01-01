@@ -12,8 +12,8 @@ public class MainDataStructuresTest extends BaseTest {
 
 // tag::indexGetLabels[]
         DataFrame df = DataFrame
-                .newFrame("col1", "col2")
-                .foldIntStreamByColumn(IntStream.range(0, 10000));
+                .foldByColumn("col1", "col2")
+                .of(IntStream.range(0, 10000));
 
         String[] labels = df.getColumnsIndex().getLabels(); // <1>
 // end::indexGetLabels[]

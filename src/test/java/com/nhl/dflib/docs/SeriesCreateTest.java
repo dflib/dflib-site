@@ -1,11 +1,13 @@
 package com.nhl.dflib.docs;
 
+import com.nhl.dflib.Extractor;
 import com.nhl.dflib.IntSeries;
 import com.nhl.dflib.Series;
-import com.nhl.dflib.accumulator.Accumulator;
-import com.nhl.dflib.accumulator.ObjectAccumulator;
+import com.nhl.dflib.builder.SeriesAppender;
+import com.nhl.dflib.junit5.SeriesAsserts;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -14,7 +16,7 @@ public class SeriesCreateTest extends BaseTest {
     @Test
     public void create() {
 // tag::create[]
-        Series<String> s = Series.forData("a", "bcd", "ef", "g");
+        Series<String> s = Series.of("a", "bcd", "ef", "g");
 // end::create[]
 
         print("create", s);
@@ -23,7 +25,7 @@ public class SeriesCreateTest extends BaseTest {
     @Test
     public void createInt() {
 // tag::createInt[]
-        IntSeries is = IntSeries.forInts(0, 1, -300, Integer.MAX_VALUE);
+        IntSeries is = Series.ofInt(0, 1, -300, Integer.MAX_VALUE);
 // end::createInt[]
 
         print("createInt", is);
@@ -32,19 +34,23 @@ public class SeriesCreateTest extends BaseTest {
     @Test
     public void createIncrementally() {
 
-        InputStream inputStream = getClass().getResourceAsStream("lines.txt");
+        InputStream inputStream = new ByteArrayInputStream("line1\nline2\nline3".getBytes());
 
 // tag::createIncrementally[]
         // InputStream inputStream = ...
-        Accumulator<String> accum = new ObjectAccumulator<>();
+        SeriesAppender<String, String> appender = Series
+                .byElement(Extractor.<String>$col()) // <1>
+                .appender();
+
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNext()) {
-            accum.add(scanner.next());
+            appender.append(scanner.next()); // <2>
         }
 
-        Series<String> s = accum.toSeries();
+        Series<String> s = appender.toSeries();
 // end::createIncrementally[]
 
+        new SeriesAsserts(s).expectData("line1", "line2", "line3");
         print("createIncrementally", s);
     }
 }

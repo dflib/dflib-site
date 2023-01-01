@@ -16,9 +16,9 @@ public class ConcatTest extends BaseTest {
     public void concatSeries() {
 
 // tag::concatSeries[]
-        Series<String> s1 = Series.forData("x", "y", "z");
-        Series<String> s2 = Series.forData("a");
-        Series<String> s3 = Series.forData("m", "n");
+        Series<String> s1 = Series.of("x", "y", "z");
+        Series<String> s2 = Series.of("a");
+        Series<String> s3 = Series.of("m", "n");
 
         Series<String> sConcat = s1.concat(s2, s3);
 // end::concatSeries[]
@@ -30,7 +30,7 @@ public class ConcatTest extends BaseTest {
     public void concatSeries_Self() {
 
 // tag::concatSeries_Self[]
-        Series<String> s = Series.forData("x", "y");
+        Series<String> s = Series.of("x", "y");
         Series<String> sConcat = s.concat(s);
 // end::concatSeries_Self[]
 
@@ -42,9 +42,9 @@ public class ConcatTest extends BaseTest {
 
 // tag::concatSeries_Static[]
         Collection<Series<String>> ss = asList(
-                Series.forData("x", "y", "z"),
-                Series.forData("a"),
-                Series.forData("m", "n"));
+                Series.of("x", "y", "z"),
+                Series.of("a"),
+                Series.of("m", "n"));
 
         Series<String> sConcat = SeriesConcat.concat(ss);
 // end::concatSeries_Static[]
@@ -56,11 +56,11 @@ public class ConcatTest extends BaseTest {
     public void vConcat() {
 
 // tag::vConcat[]
-        DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
+        DataFrame df1 = DataFrame.foldByRow("a", "b").of(
                 1, 2,
                 3, 4);
 
-        DataFrame df2 = DataFrame.newFrame("a", "b").foldByRow(
+        DataFrame df2 = DataFrame.foldByRow("a", "b").of(
                 5, 6,
                 7, 8);
 
@@ -73,11 +73,11 @@ public class ConcatTest extends BaseTest {
     @Test
     public void hConcat() {
 
-        DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
+        DataFrame df1 = DataFrame.foldByRow("a", "b").of(
                 1, 2,
                 3, 4);
 
-        DataFrame df2 = DataFrame.newFrame("a", "b").foldByRow(
+        DataFrame df2 = DataFrame.foldByRow("a", "b").of(
                 5, 6,
                 7, 8);
 
@@ -92,11 +92,11 @@ public class ConcatTest extends BaseTest {
     public void vConcat_InnerMismatch() {
 
 // tag::vConcat_InnerMismatch[]
-        DataFrame df1 = DataFrame.newFrame("b", "a").foldByRow(
+        DataFrame df1 = DataFrame.foldByRow("b", "a").of(
                 1, 2,
                 3, 4);
 
-        DataFrame df2 = DataFrame.newFrame("a", "c").foldByRow( // <1>
+        DataFrame df2 = DataFrame.foldByRow("a", "c").of( // <1>
                 5, 6,
                 7, 8);
 
@@ -109,11 +109,11 @@ public class ConcatTest extends BaseTest {
     @Test
     public void vConcat_LeftMismatch() {
 
-        DataFrame df1 = DataFrame.newFrame("b", "a").foldByRow(
+        DataFrame df1 = DataFrame.foldByRow("b", "a").of(
                 1, 2,
                 3, 4);
 
-        DataFrame df2 = DataFrame.newFrame("a", "c").foldByRow(
+        DataFrame df2 = DataFrame.foldByRow("a", "c").of(
                 5, 6,
                 7, 8);
 
@@ -128,12 +128,12 @@ public class ConcatTest extends BaseTest {
     public void hConcat_LeftMismatch() {
 
 // tag::hConcat_LeftMismatch[]
-        DataFrame df1 = DataFrame.newFrame("a", "b").foldByRow(
+        DataFrame df1 = DataFrame.foldByRow("a", "b").of(
                 1, 2,
                 3, 4,
                 5, 6);
 
-        DataFrame df2 = DataFrame.newFrame("c", "d").foldByRow(
+        DataFrame df2 = DataFrame.foldByRow("c", "d").of(
                 7, 8,
                 9, 10);
 

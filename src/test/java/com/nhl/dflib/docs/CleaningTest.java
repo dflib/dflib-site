@@ -9,7 +9,7 @@ public class CleaningTest extends BaseTest {
     @Test
     public void fillNulls_Series() {
 // tag::fillNulls_Series[]
-        Series<String> withNulls = Series.forData("a", "b", null, null, "c");
+        Series<String> withNulls = Series.of("a", "b", null, null, "c");
         Series<String> filled = withNulls.fillNulls("X");
 // end::fillNulls_Series[]
 
@@ -18,7 +18,7 @@ public class CleaningTest extends BaseTest {
 
     @Test
     public void fillNullsForward_Series() {
-        Series<String> withNulls = Series.forData("a", "b", null, null, "c");
+        Series<String> withNulls = Series.of("a", "b", null, null, "c");
 
 // tag::fillNullsForward_Series[]
         Series<String> filled = withNulls.fillNullsForward(); // <1>
@@ -30,11 +30,11 @@ public class CleaningTest extends BaseTest {
     @Test
     public void fillNullsFromSeries_Series() {
 
-        Series<String> withNulls = Series.forData("a", "b", null, null, "c");
+        Series<String> withNulls = Series.of("a", "b", null, null, "c");
 
 // tag::fillNullsFromSeries_Series[]
 
-        Series<String> mask = Series.forData("A", "B", "C", "D", "E", "F", "G");
+        Series<String> mask = Series.of("A", "B", "C", "D", "E", "F", "G");
         Series<String> filled = withNulls.fillNullsFromSeries(mask);
 
 // end::fillNullsFromSeries_Series[]
@@ -46,7 +46,7 @@ public class CleaningTest extends BaseTest {
     public void fillNullsForward_DataFrame() {
 
 // tag::fillNullsForward_DataFrame[]
-        DataFrame withNulls = DataFrame.newFrame("c1", "c2").foldByRow(
+        DataFrame withNulls = DataFrame.foldByRow("c1", "c2").of(
                 "1", "1",
                 null, null,
                 "2", "2");

@@ -1,6 +1,7 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
+import com.nhl.dflib.Series;
 import com.nhl.dflib.jdbc.Jdbc;
 import com.nhl.dflib.jdbc.connector.JdbcConnector;
 import io.bootique.jdbc.junit5.DbTester;
@@ -72,10 +73,9 @@ public class JdbcTest extends BaseTest {
                 .exec();
 
         // tag::tableLoader_wOptions[]
-        DataFrame condition = DataFrame.newFrame("salary")
-                .addRow(70_000)
-                .addRow(101_000)
-                .create();
+        DataFrame condition = DataFrame
+                .byColumn("salary")
+                .of(Series.ofInt(70_000, 101_000));
 
         DataFrame df = connector.tableLoader("person")
                 .includeColumns("name", "salary")
@@ -90,11 +90,12 @@ public class JdbcTest extends BaseTest {
     public void tableSaver() {
 
         // tag::tableSaver[]
-        DataFrame df = DataFrame.newFrame("id", "name", "salary")
-                .addRow(1, "Jerry Cosin", 70_000)
-                .addRow(2, "Amanda Gabrielly", 85_000)
-                .addRow(3, "Joan O'Hara", 101_000)
-                .create();
+        DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
+                .appender()
+                .append(1, "Jerry Cosin", 70_000)
+                .append(2, "Amanda Gabrielly", 85_000)
+                .append(3, "Joan O'Hara", 101_000)
+                .toDataFrame();
 
         connector.tableSaver("person").save(df);
         // end::tableSaver[]
@@ -103,11 +104,12 @@ public class JdbcTest extends BaseTest {
     @Test
     public void tableSaver_Delete() {
 
-        DataFrame df = DataFrame.newFrame("id", "name", "salary")
-                .addRow(1, "Jerry Cosin", 70_000)
-                .addRow(2, "Amanda Gabrielly", 85_000)
-                .addRow(3, "Joan O'Hara", 101_000)
-                .create();
+        DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
+                .appender()
+                .append(1, "Jerry Cosin", 70_000)
+                .append(2, "Amanda Gabrielly", 85_000)
+                .append(3, "Joan O'Hara", 101_000)
+                .toDataFrame();
 
         // tag::tableSaver_Delete[]
         connector.tableSaver("person")
@@ -119,18 +121,20 @@ public class JdbcTest extends BaseTest {
     @Test
     public void tableSaver_Merge() {
 
-        DataFrame df_prior = DataFrame.newFrame("id", "name", "salary")
-                .addRow(1L, "Jerry Cosin", 60_000)
-                .addRow(3L, "Joan O'Hara", 95_000)
-                .create();
+        DataFrame df_prior = DataFrame.byArrayRow("id", "name", "salary")
+                .appender()
+                .append(1L, "Jerry Cosin", 60_000)
+                .append(3L, "Joan O'Hara", 95_000)
+                .toDataFrame();
 
         connector.tableSaver("person").save(df_prior);
 
-        DataFrame df = DataFrame.newFrame("id", "name", "salary")
-                .addRow(1L, "Jerry Cosin", 70_000)
-                .addRow(2L, "Amanda Gabrielly", 85_000)
-                .addRow(3L, "Joan O'Hara", 101_000)
-                .create();
+        DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
+                .appender()
+                .append(1L, "Jerry Cosin", 70_000)
+                .append(2L, "Amanda Gabrielly", 85_000)
+                .append(3L, "Joan O'Hara", 101_000)
+                .toDataFrame();
 
         // tag::tableSaver_Merge[]
         connector.tableSaver("person")

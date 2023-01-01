@@ -12,7 +12,7 @@ public class SelectingTest extends BaseTest {
     public void selectAndReorderColumns() {
 
 // tag::selectAndReorderColumns[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
                 "Joan", "O'Hara", "J");
@@ -27,7 +27,7 @@ public class SelectingTest extends BaseTest {
     public void selectAndReorderColumns_ByIndex() {
 
 // tag::selectAndReorderColumns_ByIndex[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
                 "Joan", "O'Hara", "J");
@@ -42,7 +42,7 @@ public class SelectingTest extends BaseTest {
     public void selectRows() {
 
 // tag::selectRows[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -57,7 +57,7 @@ public class SelectingTest extends BaseTest {
     public void selectRowsIndex() {
 
         // tag::selectRowsIndex[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -76,7 +76,7 @@ public class SelectingTest extends BaseTest {
     public void selectByCondition() {
 
 // tag::selectByCondition[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -93,7 +93,7 @@ public class SelectingTest extends BaseTest {
     public void filterByColumn() {
 
 // tag::filterByColumn[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -110,7 +110,7 @@ public class SelectingTest extends BaseTest {
     public void filterByRow() {
 
         // tag::filterByRow[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -127,12 +127,12 @@ public class SelectingTest extends BaseTest {
     public void filterByBoolean() {
 
         // tag::filterByBoolean[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
 
-        Series<String> names = Series.forData("Sandra", "Anton", "Joan");
+        Series<String> names = Series.of("Sandra", "Anton", "Joan");
         BooleanSeries mask = names.eq(df.getColumn("first")); // <1>
 
         DataFrame df1 = df.selectRows(mask);
@@ -145,7 +145,7 @@ public class SelectingTest extends BaseTest {
     public void headDataFrame() {
 
         // tag::headDataFrame[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -160,7 +160,7 @@ public class SelectingTest extends BaseTest {
     public void tailDataFrame() {
 
         // tag::tailDataFrame[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");

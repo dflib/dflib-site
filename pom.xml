@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.nhl.dflib.docs</groupId>
-    <version>0.15</version>
+    <version>0.16-SNAPSHOT</version>
     <artifactId>dflib-docs</artifactId>
     <name>dflib-docs: documentation</name>
     <packaging>jar</packaging>
@@ -12,7 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.release>11</maven.compiler.release>
+        <!-- Use java 17 for docs, even though DFLib is compatible with Java 11. 17 allows records for readable examples -->
+        <maven.compiler.release>17</maven.compiler.release>
 
         <asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
         <bootique.version>3.0.M1</bootique.version>

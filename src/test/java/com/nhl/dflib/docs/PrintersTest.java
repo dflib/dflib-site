@@ -15,8 +15,8 @@ public class PrintersTest extends BaseTest {
 
 // tag::printDataFrame_Tabular[]
         DataFrame df = DataFrame
-                .newFrame("col1", "col2", "col3")
-                .foldIntStreamByColumn(IntStream.range(0, 10000));
+                .foldByColumn("col1", "col2", "col3")
+                .ofStream(IntStream.range(0, 10000));
 
         String table = Printers.tabular.toString(df);
         System.out.println(table);
@@ -26,8 +26,8 @@ public class PrintersTest extends BaseTest {
     @Test
     public void printDataFrame_Tabular_Custom() {
         DataFrame df = DataFrame
-                .newFrame("col1", "col2", "col3")
-                .foldIntStreamByColumn(IntStream.range(0, 10000));
+                .foldByColumn("col1", "col2", "col3")
+                .ofStream(IntStream.range(0, 10000));
 
 // tag::printDataFrame_Tabular_Custom[]
         Printer printer = new TabularPrinter(3, 3); // <1>

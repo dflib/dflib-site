@@ -17,7 +17,7 @@ public class SortingTest extends BaseTest {
 // tag::sortSeries_Sorter[]
         // sort series by String length
         Series<String> s = Series
-                .forData("12", "1", "123")
+                .of("12", "1", "123")
                 .sort($str("").mapVal(String::length).asc());
 // end::sortSeries_Sorter[]
 
@@ -29,7 +29,7 @@ public class SortingTest extends BaseTest {
 
 // tag::sortSeries[]
         Series<String> s = Series
-                .forData("12", "1", "123")
+                .of("12", "1", "123")
                 .sort(Comparator.comparingInt(String::length));
 // end::sortSeries[]
 
@@ -41,7 +41,7 @@ public class SortingTest extends BaseTest {
 
 // tag::sortSeries_Natural[]
         Series<String> s = Series
-                .forData("c", "d", "a")
+                .of("c", "d", "a")
                 .sort($str("").asc());
 // end::sortSeries_Natural[]
 
@@ -52,8 +52,8 @@ public class SortingTest extends BaseTest {
     public void sortSeries_Long() {
 
 // tag::sortSeries_Long[]
-        LongSeries s = LongSeries
-                .forLongs(Long.MAX_VALUE, 15L, 0L)
+        LongSeries s = Series
+                .ofLong(Long.MAX_VALUE, 15L, 0L)
                 .sortLong();
 // end::sortSeries_Long[]
 
@@ -64,7 +64,7 @@ public class SortingTest extends BaseTest {
     public void sortDataFrame_Sorter() {
 
 // tag::sortDataFrame_Sorter[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
                 "Jerry", "Albert", null,
@@ -82,7 +82,7 @@ public class SortingTest extends BaseTest {
     public void sortDataFrameComparableColumn() {
 
 // tag::sortDataFrameComparableColumn[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
                 "Joan", "O'Hara", "J");
@@ -97,7 +97,7 @@ public class SortingTest extends BaseTest {
     public void sortDataFrameComparableColumns() {
 
 // tag::sortDataFrameComparableColumns[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
                 "Jerry", "Albert", null,

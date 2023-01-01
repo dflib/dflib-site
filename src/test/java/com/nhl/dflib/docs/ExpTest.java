@@ -20,7 +20,7 @@ public class ExpTest extends BaseTest {
 // end::columnExp[]
 
 // tag::columnExpEval[]
-        DataFrame df = DataFrame.newFrame("first", "last", "salary").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "salary").of(
                 "Jerry", "Cosin", new BigDecimal("120000"),
                 "Amanda", "Gabrielly", new BigDecimal("80000"),
                 "Joan", "O'Hara", new BigDecimal("95000"));

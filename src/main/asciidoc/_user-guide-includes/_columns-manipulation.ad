@@ -149,7 +149,7 @@ generic is `convertColumn`, allowing to convert between any two data types:
 include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=convertColumn]
 ----
 
-Additionally there are methods that can convert Strings and Numbers to primitive values:
+Additionally, there are methods that can convert Strings and Numbers to primitive values:
 
 [source,java,indent=0]
 ----
@@ -158,9 +158,9 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags
 
 <1> The second method argument is the primitive value to use if the value being converted is null
 
-`toIntColumn` and other such methods are not just syntactic sugar. They convert DataFrame columns to _primitive_
-Series, that take significantly less memory and compute most operations faster than Object-based ones. You should
-always consider using them where possible.
+`toIntColumn`, `toDoubleColumn` and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to _primitive_ Series, that take significantly less memory and compute most operations faster than
+Object-based ones. You should consider using them where possible.
 
-In addition to methods for numeric primitives DataFrame has `toBooleanColumn`, `toEnumFromNumColumn` and
+In addition to methods for numeric primitives, DataFrame has `toBooleanColumn`, `toEnumFromNumColumn` and
 `toEnumFromStringColumn` methods that serve similar purpose, only for booleans and enums.

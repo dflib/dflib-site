@@ -1,7 +1,9 @@
 package com.nhl.dflib.docs;
 
 import com.nhl.dflib.DataFrame;
+import com.nhl.dflib.Exp;
 import com.nhl.dflib.IntSeries;
+import com.nhl.dflib.junit5.DataFrameAsserts;
 import com.nhl.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.nhl.dflib.Exp.*;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class ColumnsManipulationTest extends BaseTest {
 
     @Test
     public void addColumn() {
 // tag::addColumn[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -33,7 +34,7 @@ public class ColumnsManipulationTest extends BaseTest {
 
     @Test
     public void addColumns() {
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -51,7 +52,7 @@ public class ColumnsManipulationTest extends BaseTest {
     @Test
     public void addColumnFromRow() {
 // tag::addColumnFromRow[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -67,7 +68,7 @@ public class ColumnsManipulationTest extends BaseTest {
 
     @Test
     public void addColumnFromSeries() {
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -85,7 +86,7 @@ public class ColumnsManipulationTest extends BaseTest {
 
     @Test
     public void addRowNumbers() {
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Amanda", "Gabrielly",
                 "Joan", "O'Hara");
@@ -101,7 +102,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void deleteColumns() {
 
 // tag::deleteColumns[]
-        DataFrame df = DataFrame.newFrame("first", "last", "middle").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Amanda", "Gabrielly", null,
                 "Joan", "O'Hara", "J");
@@ -116,7 +117,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void renameColumn() {
 
 // tag::renameColumn[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Joan", "O'Hara");
 
@@ -132,7 +133,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void renameColumns() {
 
 // tag::renameColumns[]
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Joan", "O'Hara");
 
@@ -149,7 +150,7 @@ public class ColumnsManipulationTest extends BaseTest {
         Map<String, String> nameMap = new HashMap<>();
         nameMap.put("first", "first_name");
 
-        DataFrame df = DataFrame.newFrame("first", "last").foldByRow(
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Joan", "O'Hara");
 
@@ -163,7 +164,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void renameColumns_ToLowerCase() {
 
 // tag::renameColumns_ToLowerCase[]
-        DataFrame df = DataFrame.newFrame("FIRST", "LAST").foldByRow(
+        DataFrame df = DataFrame.foldByRow("FIRST", "LAST").of(
                 "Jerry", "Cosin",
                 "Joan", "O'Hara");
 
@@ -177,14 +178,18 @@ public class ColumnsManipulationTest extends BaseTest {
     public void convertColumn() {
 
 // tag::convertColumn[]
-        DataFrame df = DataFrame.newFrame("year", "sales").foldByRow(
+        DataFrame df = DataFrame.foldByRow("year", "sales").of(
                 "2017", "2005365.01",
                 "2018", "4355098.75");
 
         DataFrame df1 = df
-                .convertColumn(0, (String s) -> Integer.valueOf(s))
-                .convertColumn(1, (String s) -> new BigDecimal(s));
+                .convertColumn(0, Exp.$str(0).castAsInt())
+                .convertColumn(1, Exp.$str(1).castAsDecimal());
 // end::convertColumn[]
+
+        new DataFrameAsserts(df1, "year", "sales")
+                .expectRow(0, 2017, new BigDecimal("2005365.01"))
+                .expectRow(1, 2018, new BigDecimal("4355098.75"));
 
         print("convertColumn", df1);
     }
@@ -192,18 +197,21 @@ public class ColumnsManipulationTest extends BaseTest {
 
     @Test
     public void toPrimitiveColumn() {
-        DataFrame df = DataFrame.newFrame("year", "sales").foldByRow(
+        DataFrame df = DataFrame.foldByRow("year", "sales").of(
                 "2017", "2005365.01",
                 "2018", "4355098.75");
 
 // tag::toPrimitiveColumn[]
         DataFrame df1 = df
                 .toIntColumn("year", 0) // <1>
-                .toDoubleColumn("sales", 0.); // <1>
+                .toDoubleColumn("sales", 0.);
 // end::toPrimitiveColumn[]
 
-        assertDoesNotThrow(() -> df1.getColumnAsInt(0));
-        assertDoesNotThrow(() -> df1.getColumnAsDouble(1));
+        new DataFrameAsserts(df1, "year", "sales")
+                .expectIntColumns(0)
+                .expectDoubleColumns(1)
+                .expectRow(0, 2017, 2005365.01)
+                .expectRow(1, 2018, 4355098.75);
 
         print("toPrimitiveColumn", df1);
     }

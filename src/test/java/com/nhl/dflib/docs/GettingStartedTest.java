@@ -12,8 +12,8 @@ public class GettingStartedTest extends BaseTest {
     public void gettingStarted() {
 // tag::gettingStarted[]
         DataFrame df1 = DataFrame
-                .newFrame("a", "b", "c")
-                .foldIntStreamByRow(IntStream.range(1, 10000));
+                .foldByRow("a", "b", "c")
+                .ofStream(IntStream.range(1, 10000));
 
         DataFrame df2 = df1.selectRows(
                 df1.getColumnAsInt(0).indexInt(i -> i % 2 == 0));

@@ -37,11 +37,12 @@ public class CsvTest extends BaseTest {
     @Test
     public void writeCsv() {
         DataFrame df = DataFrame
-                .newFrame("name", "age")
-                .addRow("Joe", 18)
-                .addRow("Andrus", 45)
-                .addRow("Joan", 32)
-                .create();
+                .byArrayRow("name", "age")
+                .appender()
+                .append("Joe", 18)
+                .append("Andrus", 45)
+                .append("Joan", 32)
+                .toDataFrame();
 
         // tag::writeCsv[]
         Csv.save(df, "target/df.csv"); // <1>
@@ -51,11 +52,12 @@ public class CsvTest extends BaseTest {
     @Test
     public void writeCsvSaver() {
         DataFrame df = DataFrame
-                .newFrame("name", "age")
-                .addRow("Joe", 18)
-                .addRow("Andrus", 45)
-                .addRow("Joan", 32)
-                .create();
+                .byArrayRow("name", "age")
+                .appender()
+                .append("Joe", 18)
+                .append("Andrus", 45)
+                .append("Joan", 32)
+                .toDataFrame();
 
         // tag::writeCsvSaver[]
         Csv.saver() // <1>

@@ -656,7 +656,7 @@ multiple DFLib modules:</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.15<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.16<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
       <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
@@ -681,8 +681,8 @@ multiple DFLib modules:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>)
-        .foldIntStreamByRow(IntStream.range(<span class="integer">1</span>, <span class="integer">10000</span>));
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>)
+        .ofStream(IntStream.range(<span class="integer">1</span>, <span class="integer">10000</span>));
 
 DataFrame df2 = df1.selectRows(
         df1.getColumnAsInt(<span class="integer">0</span>).indexInt(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>));
@@ -734,7 +734,7 @@ is a 2-dimensional table-like object. Columns in a DataFrame are stored as Serie
 <p>Both DataFrame and Series (and Index) are fully <em>immutable</em>, so all operations on them return a new instance. Behind
 the scenes the library shares as much data as possible between instances, so copying these objects does not cause
 significant performance degradation, and in turn makes DFLib fully thread-safe, with multiple concurrent operations
-possible on the same data structure. Also immutability means that you can have full snapshots of your data at each
+possible on the same data structure. Also, immutability means that you can have full snapshots of your data at each
 step of a transformation, simplifying debugging and auditing of data pipelines.</p>
 </div>
 <div class="sect2">
@@ -742,24 +742,24 @@ step of a transformation, simplifying debugging and auditing of data pipelines.<
 <div class="paragraph">
 <p><code>Series</code> is the simplest of the two data structures. You can think of it as a wrapper around an array of values.
 You can use <code>Series</code> to model sequences of data such as timestamps in a time series. Series object is parameterized for
-the type of data that it holds. So there can be e.g. <code>Series&lt;String&gt;</code> or a <code>Series&lt;LocalDate&gt;</code>. There is also an
+the type of data that it holds. So there can be <code>Series&lt;String&gt;</code> or a <code>Series&lt;LocalDate&gt;</code>, etc. There is also an
 important category of "primitive" Series (<code>IntSeries</code>, <code>LongSeries</code>, <code>DoubleSeries</code>, <code>BooleanSeries</code>) that are optimized
-for memory use and arithmetic operations. While this would be less efficient, they can also be used as Series of a
-corresponding wrapper object type (e.g. <code>IntSeries</code> is also a <code>Series&lt;Integer&gt;</code>).</p>
+for memory use and arithmetic operations. Of course, each primitive Series can also pose as Series of a corresponding
+wrapper object type (e.g. <code>IntSeries</code> is also a <code>Series&lt;Integer&gt;</code>).</p>
 </div>
 <div class="paragraph">
-<p><code>Series</code> object is important as a building block of DataFrame, but it also defines a number of useful data
+<p><code>Series</code> object is an important building block of DataFrame, but it defines a number of useful data
 manipulation and transformation operations on its own. Those will be covered in the following chapters. Here we&#8217;ll
 discuss how to create Series.</p>
 </div>
 <div class="sect3">
 <h4 id="_creating_series_from_arrays">Creating Series from Arrays</h4>
 <div class="paragraph">
-<p><code>Series</code> can be created using static <code>forData</code> method on the <code>Series</code> interface:</p>
+<p><code>Series</code> can be created using static <code>ofXyz</code> methods on the <code>Series</code> interface:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">bcd</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ef</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">g</span><span class="delimiter">&quot;</span></span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">bcd</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ef</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">g</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -776,31 +776,31 @@ g
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">IntSeries is = IntSeries.forInts(<span class="integer">0</span>, <span class="integer">1</span>, -<span class="integer">300</span>, <span class="predefined-type">Integer</span>.MAX_VALUE);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries is = Series.ofInt(<span class="integer">0</span>, <span class="integer">1</span>, -<span class="integer">300</span>, <span class="predefined-type">Integer</span>.MAX_VALUE);</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_creating_series_incrementally">Creating Series Incrementally</h4>
 <div class="paragraph">
-<p>If we don&#8217;t have a full array of data to start with, and instead have code producing a sequence of
+<p>If we don&#8217;t have a full array or list to start with, and instead have code producing a sequence of
 values of unpredictable length, we can use special mutable "accumulators" to store the sequence and then produce a
 Series out of it. E.g. the following example reads data from an InputStream line by line as Strings:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// InputStream inputStream = ...</span>
-Accumulator&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccumulator&lt;&gt;();
+ValueAccum&lt;<span class="predefined-type">String</span>&gt; accum = <span class="keyword">new</span> ObjectAccum&lt;&gt;();
 <span class="predefined-type">Scanner</span> scanner = <span class="keyword">new</span> <span class="predefined-type">Scanner</span>(inputStream);
 <span class="keyword">while</span> (scanner.hasNext()) {
-    accum.add(scanner.next());
+    accum.push(scanner.next());
 }
 
 Series&lt;<span class="predefined-type">String</span>&gt; s = accum.toSeries();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Similarly there are <code>IntAccumulator</code>, <code>LongAccumulator</code>, etc.</p>
+<p>Similarly, for primitive Series there are <code>IntAccum</code>, <code>LongAccum</code>, and so on.</p>
 </div>
 </div>
 </div>
@@ -833,22 +833,28 @@ Those data sources are discussed in separate documentation chapters.
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)   <i class="conum" data-value="2"></i><b>(2)</b>
-        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>)
-        .addRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
-        .create();</code></pre>
+        .byArrayRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .appendData() <i class="conum" data-value="2"></i><b>(2)</b>
+        .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)   <i class="conum" data-value="3"></i><b>(3)</b>
+        .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">49</span>)
+        .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
+        .build();</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Builder is created from column names</td>
+<td>A special builder is created to append each row as a vararg array</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Passing individual rows one by one</td>
+<td>The builder creates an "appender" object. While here we are using the builder with default settings, it has extra
+methods to configure capacity, data sampling, etc.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Passing individual rows to the appender one-by-one</td>
 </tr>
 </table>
 </div>
@@ -871,15 +877,15 @@ Joan   32
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Builder is created from column names</td>
+<td>Folding Builder is created</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -893,19 +899,19 @@ Joan   32
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
-        .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>);</code></pre>
+        .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>You can also create DataFrames from Collections and Streams (folded either by row or by column). Here is an example
-of how to use Streams of primitive ints, creating a DataFrame made of memory-efficient <code>IntSeries</code> columns:</p>
+of how to use a Stream of primitive ints, creating a DataFrame made of memory-efficient <code>IntSeries</code> columns:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
-        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));</code></pre>
+        .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
+        .ofStream(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -928,10 +934,10 @@ of how to use Streams of primitive ints, creating a DataFrame made of memory-eff
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
-        .columns(
-                Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>),
-                IntSeries.forInts(<span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>)
+        .byColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
+        .of(
+                Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>),
+                Series.ofInt(<span class="integer">18</span>, <span class="integer">45</span>, <span class="integer">32</span>)
         );</code></pre>
 </div>
 </div>
@@ -947,14 +953,14 @@ and then will continue to the chapters that describe data operations.</p>
 <h3 id="index">Index</h3>
 <div class="paragraph">
 <p><code>Index</code> is somewhat similar to Series. It stores a sequence of String labels, corresponding to column labels in a
-DataFrame it is attached to. While you normally won&#8217;t need to create or manipulate Index outside of a DataFrame, you
+DataFrame it is attached to. While you normally won&#8217;t need to create or manipulate Index outside a DataFrame, you
 may use it to access DataFrame columns labels.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
-        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
+        .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>)
+        .of(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
 
 <span class="predefined-type">String</span><span class="type">[]</span> labels = df.getColumnsIndex().getLabels(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
@@ -987,8 +993,8 @@ printer:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
-        .newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col3</span><span class="delimiter">&quot;</span></span>)
-        .foldIntStreamByColumn(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
+        .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col3</span><span class="delimiter">&quot;</span></span>)
+        .ofStream(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
 
 <span class="predefined-type">String</span> table = Printers.tabular.toString(df);
 <span class="predefined-type">System</span>.out.println(table);</code></pre>
@@ -1088,7 +1094,7 @@ DecimalExp salaryExp = <span class="error">$</span>decimal(<span class="integer"
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">120000</span><span class="delimiter">&quot;</span></span>),
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">80000</span><span class="delimiter">&quot;</span></span>),
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">95000</span><span class="delimiter">&quot;</span></span>));
@@ -1244,7 +1250,7 @@ reorder columns and even duplicate columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
@@ -1271,7 +1277,7 @@ O'Hara    Joan
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
@@ -1288,7 +1294,7 @@ but does not allow to reorder the remaining columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
@@ -1328,7 +1334,7 @@ position more than once, as well as reorder rows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1356,7 +1362,7 @@ selection. An index often comes from applying a condition to a <code>Series</cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1394,7 +1400,7 @@ each row against some condition to decide whether it should be included in the r
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1430,7 +1436,7 @@ single column:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1445,7 +1451,7 @@ DataFrame df1 = df.selectRows(
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1461,7 +1467,7 @@ operation between Series. E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1497,7 +1503,7 @@ operations. Here is how to get the top 2 rows of a DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1527,7 +1533,7 @@ Amanda Gabrielly
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1592,7 +1598,7 @@ based on data from other columns:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1620,7 +1626,7 @@ DataFrame df1 = df.addColumn(
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
@@ -1720,7 +1726,7 @@ cleanup to match the expectations of the application. There are a number of ways
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
@@ -1747,7 +1753,7 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
@@ -1775,7 +1781,7 @@ Joan       O'Hara
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; nameMap = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
 nameMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).foldByRow(
+DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
@@ -1800,7 +1806,7 @@ Joan       O'Hara
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">FIRST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">FIRST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
@@ -1826,23 +1832,23 @@ generic is <code>convertColumn</code>, allowing to convert between any two data 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">2017</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">2018</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df
-        .convertColumn(<span class="integer">0</span>, (<span class="predefined-type">String</span> s) -&gt; <span class="predefined-type">Integer</span>.valueOf(s))
-        .convertColumn(<span class="integer">1</span>, (<span class="predefined-type">String</span> s) -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));</code></pre>
+        .convertColumn(<span class="integer">0</span>, Exp.<span class="error">$</span>str(<span class="integer">0</span>).castAsInt())
+        .convertColumn(<span class="integer">1</span>, Exp.<span class="error">$</span>str(<span class="integer">1</span>).castAsDecimal());</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Additionally there are methods that can convert Strings and Numbers to primitive values:</p>
+<p>Additionally, there are methods that can convert Strings and Numbers to primitive values:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .toIntColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .toDoubleColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .toDoubleColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1854,12 +1860,12 @@ DataFrame df1 = df
 </table>
 </div>
 <div class="paragraph">
-<p><code>toIntColumn</code> and other such methods are not just syntactic sugar. They convert DataFrame columns to <em>primitive</em>
-Series, that take significantly less memory and compute most operations faster than Object-based ones. You should
-always consider using them where possible.</p>
+<p><code>toIntColumn</code>, <code>toDoubleColumn</code> and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to <em>primitive</em> Series, that take significantly less memory and compute most operations faster than
+Object-based ones. You should consider using them where possible.</p>
 </div>
 <div class="paragraph">
-<p>In addition to methods for numeric primitives DataFrame has <code>toBooleanColumn</code>, <code>toEnumFromNumColumn</code> and
+<p>In addition to methods for numeric primitives, DataFrame has <code>toBooleanColumn</code>, <code>toEnumFromNumColumn</code> and
 <code>toEnumFromStringColumn</code> methods that serve similar purpose, only for booleans and enums.</p>
 </div>
 </div>
@@ -1887,7 +1893,7 @@ values from adjacent cells. First, let&#8217;s see how this works for <code>Seri
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; withNulls = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; withNulls = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
 Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNulls(<span class="string"><span class="delimiter">&quot;</span><span class="content">X</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
@@ -1933,7 +1939,7 @@ c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; mask = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">C</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">D</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">E</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">G</span><span class="delimiter">&quot;</span></span>);
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; mask = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">C</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">D</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">E</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">G</span><span class="delimiter">&quot;</span></span>);
 Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsFromSeries(mask);</code></pre>
 </div>
 </div>
@@ -1960,7 +1966,7 @@ an additional String on integer argument specifying column position.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame withNulls = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame withNulls = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
         <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>);
@@ -2002,7 +2008,7 @@ not alter the original object, and instead creates a new instance of either Seri
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sort series by String length</span>
 Series&lt;<span class="predefined-type">String</span>&gt; s = Series
-        .forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
         .sort(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>).mapVal(<span class="predefined-type">String</span>::length).asc());</code></pre>
 </div>
 </div>
@@ -2023,7 +2029,7 @@ Series&lt;<span class="predefined-type">String</span>&gt; s = Series
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series
-        .forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
         .sort(<span class="predefined-type">Comparator</span>.comparingInt(<span class="predefined-type">String</span>::length));</code></pre>
 </div>
 </div>
@@ -2033,7 +2039,7 @@ Series&lt;<span class="predefined-type">String</span>&gt; s = Series
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series
-        .forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>)
+        .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>)
         .sort(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>).asc());</code></pre>
 </div>
 </div>
@@ -2050,8 +2056,8 @@ d
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">LongSeries s = LongSeries
-        .forLongs(<span class="predefined-type">Long</span>.MAX_VALUE, <span class="integer">15L</span>, <span class="integer">0L</span>)
+<pre class="CodeRay highlight"><code data-lang="java">LongSeries s = Series
+        .ofLong(<span class="predefined-type">Long</span>.MAX_VALUE, <span class="integer">15L</span>, <span class="integer">0L</span>)
         .sortLong();</code></pre>
 </div>
 </div>
@@ -2091,7 +2097,7 @@ compatible with <code>java.lang.Comparable</code> (i.e., Strings, numbers, etc).
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Albert</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
@@ -2119,7 +2125,7 @@ Joan   O'Hara    J
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
@@ -2138,7 +2144,7 @@ direction (<code>true</code> for ascending, <code>false</code> - for descending 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Albert</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
@@ -2166,9 +2172,9 @@ method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s1 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; s2 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; s3 = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>);
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s1 = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; s2 = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
+Series&lt;<span class="predefined-type">String</span>&gt; s3 = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>);
 
 Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s1.concat(s2, s3);</code></pre>
 </div>
@@ -2194,9 +2200,9 @@ n
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Collection</span>&lt;Series&lt;<span class="predefined-type">String</span>&gt;&gt; ss = asList(
-        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
-        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
-        Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));
 
 Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat.concat(ss);</code></pre>
 </div>
@@ -2206,7 +2212,7 @@ Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.forData(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>);
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>);
 Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s.concat(s);</code></pre>
 </div>
 </div>
@@ -2228,11 +2234,11 @@ y
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
         <span class="integer">1</span>, <span class="integer">2</span>,
         <span class="integer">3</span>, <span class="integer">4</span>);
 
-DataFrame df2 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).foldByRow(
+DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
         <span class="integer">5</span>, <span class="integer">6</span>,
         <span class="integer">7</span>, <span class="integer">8</span>);
 
@@ -2323,11 +2329,11 @@ closely.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>).of(
         <span class="integer">1</span>, <span class="integer">2</span>,
         <span class="integer">3</span>, <span class="integer">4</span>);
 
-DataFrame df2 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>).foldByRow( <i class="conum" data-value="1"></i><b>(1)</b>
+DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>).of( <i class="conum" data-value="1"></i><b>(1)</b>
         <span class="integer">5</span>, <span class="integer">6</span>,
         <span class="integer">7</span>, <span class="integer">8</span>);
 
@@ -2391,12 +2397,12 @@ null 7
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).foldByRow(
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
         <span class="integer">1</span>, <span class="integer">2</span>,
         <span class="integer">3</span>, <span class="integer">4</span>,
         <span class="integer">5</span>, <span class="integer">6</span>);
 
-DataFrame df2 = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>).foldByRow(
+DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>).of(
         <span class="integer">7</span>, <span class="integer">8</span>,
         <span class="integer">9</span>, <span class="integer">10</span>);
 
@@ -2718,10 +2724,9 @@ number of rows to read, sample rows, and even specify fetch condition as another
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame condition = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
-        .addRow(<span class="integer">70</span>_000)
-        .addRow(<span class="integer">101</span>_000)
-        .create();
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame condition = DataFrame
+        .byColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .of(Series.ofInt(<span class="integer">70</span>_000, <span class="integer">101</span>_000));
 
 DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
         .includeColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
@@ -2747,11 +2752,12 @@ from the database metadata.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
-        .addRow(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry Cosin</span><span class="delimiter">&quot;</span></span>, <span class="integer">70</span>_000)
-        .addRow(<span class="integer">2</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="integer">85</span>_000)
-        .addRow(<span class="integer">3</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">101</span>_000)
-        .create();
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.byArrayRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .appendData()
+        .append(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry Cosin</span><span class="delimiter">&quot;</span></span>, <span class="integer">70</span>_000)
+        .append(<span class="integer">2</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Amanda Gabrielly</span><span class="delimiter">&quot;</span></span>, <span class="integer">85</span>_000)
+        .append(<span class="integer">3</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">101</span>_000)
+        .build();
 
 connector.tableSaver(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>).save(df);</code></pre>
 </div>
