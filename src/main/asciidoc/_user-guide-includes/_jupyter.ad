@@ -3,7 +3,7 @@
 
 While DFLib runs inside regular Java applications, it also works perfectly in a Jupyter notebook,
 which is a very common environment among data scientists, and is usually associated with Python / pandas. Jupyter
-Notebook is very visual and allows you to debug each step of your a data load and transformation pipeline individually
+Notebook is very visual and allows you to debug each step of your data load and transformation pipeline individually
 without a need to rerun the whole thing.
 
 Combining DFLib with Jupyter provides a pandas-like notebook experience, only in pure Java. The code developed in
@@ -13,10 +13,9 @@ easy.
 
 === Installing Jupyter with Java Kernel
 
-* You will need at least Java 9 run Java in Jupyter, as it requires `jshell`. Java 11 or later is recommended.
 * Install Jupyter. Follow Jupyter installation instructions. It requires Python. Out of the variety of installation
 options, the authors of this document are using Mac OS, +pyenv+, Python 3.7, and +pip+.
-* Install +iJava+ Jupyter "kernel"
+* Install https://github.com/SpencerPark/IJava[iJava Jupyter kernel].
 
 === Work with DFLib in Jupyter
 
