@@ -29,7 +29,7 @@ public class CsvTest extends BaseTest {
                 .load("src/test/resources/f1.csv");
         // end::readCsvLoader[]
 
-        assertTrue(df.getColumnAsInt("x") instanceof IntSeries);
+        assertTrue(df.getColumn("x").unsafeCastAs(Integer.class) instanceof IntSeries);
 
         print("readCsvLoader", df);
     }

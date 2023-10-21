@@ -137,30 +137,29 @@ Joan  O'Hara
 2 rows x 2 columns
 ----
 
-[#changing-column-type]
-=== Changing Column Type
+[#transforming-columns]
+=== Transforming Columns
 
-Data may come to us in various forms. Often it comes as Strings or binary objects, leaving it up to the application
-to interpret them. There are a few methods in DataFrame to convert column values from one type to another. The most
-generic is `convertColumn`, allowing to convert between any two data types:
-
-[source,java,indent=0]
-----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=convertColumn]
-----
-
-Additionally, there are methods that can convert Strings and Numbers to primitive values:
+A column in a DataFrame can be transformed in various ways. The most generic transformation method is `replaceColumn(..)`,
+allowing to apply an expression to the entire DataFrame, and then replace an existing column with the result. E.g. here
+is how to perform type conversions on a column:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=toPrimitiveColumn]
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=replaceColumn]
+----
+
+==== Compacting Columns
+
+A special kind of column transformations is converting Strings and Numbers to primitive values:
+
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=compact]
 ----
 
 <1> The second method argument is the primitive value to use if the value being converted is null
 
-`toIntColumn`, `toDoubleColumn` and other similar methods are not just syntactic sugar. They convert
-DataFrame columns to _primitive_ Series, that take significantly less memory and compute most operations faster than
-Object-based ones. You should consider using them where possible.
-
-In addition to methods for numeric primitives, DataFrame has `toBoolColumn`, `toEnumFromNumColumn` and
-`toEnumFromStringColumn` methods that serve similar purpose, only for booleans and enums.
+NOTE: `compactInt(..)`, `compactDouble(..)` and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to _primitive_ Series, that take significantly less memory (hence, the name "compact") and compute
+most operations faster than Object-based Series. So you should consider using them where possible.

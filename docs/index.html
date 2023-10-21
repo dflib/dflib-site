@@ -568,7 +568,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_adding_columns">Adding Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
-<li><a href="#changing-column-type">Changing Column Type</a></li>
+<li><a href="#transforming-columns">Transforming Columns</a></li>
 </ul>
 </li>
 <li><a href="#_cleaning_up_data">Cleaning up Data</a>
@@ -656,7 +656,7 @@ multiple DFLib modules:</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.17<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>0.18<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
       <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
@@ -685,7 +685,7 @@ multiple DFLib modules:</p>
         .ofStream(IntStream.range(<span class="integer">1</span>, <span class="integer">10000</span>));
 
 DataFrame df2 = df1.selectRows(
-        df1.getColumnAsInt(<span class="integer">0</span>).indexInt(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>));
+        df1.getColumn(<span class="integer">0</span>).castAsInt().indexInt(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>));
 
 <span class="predefined-type">System</span>.out.println(Printers.tabular.toString(df2));</code></pre>
 </div>
@@ -1895,11 +1895,11 @@ Joan  O'Hara
 </div>
 </div>
 <div class="sect2">
-<h3 id="changing-column-type">Changing Column Type</h3>
+<h3 id="transforming-columns">Transforming Columns</h3>
 <div class="paragraph">
-<p>Data may come to us in various forms. Often it comes as Strings or binary objects, leaving it up to the application
-to interpret them. There are a few methods in DataFrame to convert column values from one type to another. The most
-generic is <code>convertColumn</code>, allowing to convert between any two data types:</p>
+<p>A column in a DataFrame can be transformed in various ways. The most generic transformation method is <code>replaceColumn(..)</code>,
+allowing to apply an expression to the entire DataFrame, and then replace an existing column with the result. E.g. here
+is how to perform type conversions on a column:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1908,18 +1908,20 @@ generic is <code>convertColumn</code>, allowing to convert between any two data 
         <span class="string"><span class="delimiter">&quot;</span><span class="content">2018</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df
-        .convertColumn(<span class="integer">0</span>, Exp.<span class="error">$</span>str(<span class="integer">0</span>).castAsInt())
-        .convertColumn(<span class="integer">1</span>, Exp.<span class="error">$</span>str(<span class="integer">1</span>).castAsDecimal());</code></pre>
+        .replaceColumn(<span class="integer">0</span>, Exp.<span class="error">$</span>str(<span class="integer">0</span>).castAsInt())
+        .replaceColumn(<span class="integer">1</span>, Exp.<span class="error">$</span>str(<span class="integer">1</span>).castAsDecimal());</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_compacting_columns">Compacting Columns</h4>
 <div class="paragraph">
-<p>Additionally, there are methods that can convert Strings and Numbers to primitive values:</p>
+<p>A special kind of column transformations is converting Strings and Numbers to primitive values:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .toIntColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .toDoubleColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.);</code></pre>
+        .compactInt(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .compactDouble(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1930,14 +1932,20 @@ DataFrame df1 = df
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p><code>toIntColumn</code>, <code>toDoubleColumn</code> and other similar methods are not just syntactic sugar. They convert
-DataFrame columns to <em>primitive</em> Series, that take significantly less memory and compute most operations faster than
-Object-based ones. You should consider using them where possible.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>compactInt(..)</code>, <code>compactDouble(..)</code> and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to <em>primitive</em> Series, that take significantly less memory (hence, the name "compact") and compute
+most operations faster than Object-based Series. So you should consider using them where possible.
+</td>
+</tr>
+</table>
 </div>
-<div class="paragraph">
-<p>In addition to methods for numeric primitives, DataFrame has <code>toBoolColumn</code>, <code>toEnumFromNumColumn</code> and
-<code>toEnumFromStringColumn</code> methods that serve similar purpose, only for booleans and enums.</p>
 </div>
 </div>
 </div>
@@ -2984,7 +2992,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-18 16:11:04 +0200
+Last updated 2021-07-18 10:11:04 -0400
 </div>
 </div>
 </body>

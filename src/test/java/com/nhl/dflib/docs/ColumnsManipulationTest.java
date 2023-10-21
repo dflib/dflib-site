@@ -177,15 +177,15 @@ public class ColumnsManipulationTest extends BaseTest {
     @Test
     public void convertColumn() {
 
-// tag::convertColumn[]
+// tag::replaceColumn[]
         DataFrame df = DataFrame.foldByRow("year", "sales").of(
                 "2017", "2005365.01",
                 "2018", "4355098.75");
 
         DataFrame df1 = df
-                .convertColumn(0, Exp.$str(0).castAsInt())
-                .convertColumn(1, Exp.$str(1).castAsDecimal());
-// end::convertColumn[]
+                .replaceColumn(0, Exp.$str(0).castAsInt())
+                .replaceColumn(1, Exp.$str(1).castAsDecimal());
+// end::replaceColumn[]
 
         new DataFrameAsserts(df1, "year", "sales")
                 .expectRow(0, 2017, new BigDecimal("2005365.01"))
@@ -196,16 +196,16 @@ public class ColumnsManipulationTest extends BaseTest {
 
 
     @Test
-    public void toPrimitiveColumn() {
+    public void compact() {
         DataFrame df = DataFrame.foldByRow("year", "sales").of(
                 "2017", "2005365.01",
                 "2018", "4355098.75");
 
-// tag::toPrimitiveColumn[]
+// tag::compact[]
         DataFrame df1 = df
-                .toIntColumn("year", 0) // <1>
-                .toDoubleColumn("sales", 0.);
-// end::toPrimitiveColumn[]
+                .compactInt("year", 0) // <1>
+                .compactDouble("sales", 0.);
+// end::compact[]
 
         new DataFrameAsserts(df1, "year", "sales")
                 .expectIntColumns(0)
