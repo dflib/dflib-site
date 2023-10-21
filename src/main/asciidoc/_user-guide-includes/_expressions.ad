@@ -84,6 +84,6 @@ created from any expression by calling its `asc()` or `desc()` methods:
 include::../../../test/java/com/nhl/dflib/docs/ExpTest.java[tags=sorter]
 ----
 
-NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime the actual type must be
+NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
 either a Java primitive or an instance of `Comparable`, or a ClassCastException will be thrown during sorting.
 
