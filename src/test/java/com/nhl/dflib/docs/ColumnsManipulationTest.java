@@ -179,8 +179,8 @@ public class ColumnsManipulationTest extends BaseTest {
 
 // tag::replaceColumn[]
         DataFrame df = DataFrame.foldByRow("year", "sales").of(
-                "2017", "2005365.01",
-                "2018", "4355098.75");
+                "2022", "2005365.01",
+                "2023", "4355098.75");
 
         DataFrame df1 = df
                 .replaceColumn(0, Exp.$str(0).castAsInt())
@@ -188,8 +188,8 @@ public class ColumnsManipulationTest extends BaseTest {
 // end::replaceColumn[]
 
         new DataFrameAsserts(df1, "year", "sales")
-                .expectRow(0, 2017, new BigDecimal("2005365.01"))
-                .expectRow(1, 2018, new BigDecimal("4355098.75"));
+                .expectRow(0, 2022, new BigDecimal("2005365.01"))
+                .expectRow(1, 2023, new BigDecimal("4355098.75"));
 
         print("convertColumn", df1);
     }
@@ -198,8 +198,8 @@ public class ColumnsManipulationTest extends BaseTest {
     @Test
     public void compact() {
         DataFrame df = DataFrame.foldByRow("year", "sales").of(
-                "2017", "2005365.01",
-                "2018", "4355098.75");
+                "2022", "2005365.01",
+                "2023", "4355098.75");
 
 // tag::compact[]
         DataFrame df1 = df
@@ -210,8 +210,8 @@ public class ColumnsManipulationTest extends BaseTest {
         new DataFrameAsserts(df1, "year", "sales")
                 .expectIntColumns(0)
                 .expectDoubleColumns(1)
-                .expectRow(0, 2017, 2005365.01)
-                .expectRow(1, 2018, 4355098.75);
+                .expectRow(0, 2022, 2005365.01)
+                .expectRow(1, 2023, 4355098.75);
 
         print("toPrimitiveColumn", df1);
     }
