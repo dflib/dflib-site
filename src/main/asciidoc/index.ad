@@ -14,7 +14,7 @@ DFLib project's goal is to provide the same functionality for regular Java appli
 requires no special infrastructure. DFLib core is dependency-free.
 
 The code in this documentation can be run in any Java IDE, as well as (and this is pretty cool!) in a <<jupyter,
-Jupyter notebook>>. You will need Java 8 or newer. Running in Jupyter will require Java 9+.
+Jupyter notebook>>. You will need Java 11 or newer.
 
 include::_user-guide-includes/_get-started.ad[]
 
