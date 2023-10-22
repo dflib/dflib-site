@@ -1,0 +1,16 @@
+[#csv]
+== Working with Excel Files
+
+Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
+them to Excel. You need to add an extra dependency to your project to take
+advantage of this functionality:
+
+[source,xml]
+----
+<dependency>
+    <groupId>com.nhl.dflib</groupId>
+    <artifactId>dflib-excel</artifactId>
+</dependency>
+----
+
+TODO...

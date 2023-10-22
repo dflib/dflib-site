@@ -40,11 +40,13 @@ include::_user-guide-includes/_grouping.ad[]
 
 include::_user-guide-includes/_window.ad[]
 
+include::_user-guide-includes/_jdbc.ad[]
+
 include::_user-guide-includes/_csv.ad[]
 
-include::_user-guide-includes/_avro.ad[]
+include::_user-guide-includes/_excel.ad[]
 
-include::_user-guide-includes/_jdbc.ad[]
+include::_user-guide-includes/_avro.ad[]
 
 include::_user-guide-includes/_jupyter.ad[]
 
