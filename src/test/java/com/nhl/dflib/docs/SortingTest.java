@@ -66,7 +66,7 @@ public class SortingTest extends BaseTest {
 // tag::sortDataFrame_Sorter[]
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
+                "Juliana", "Walewski", null,
                 "Jerry", "Albert", null,
                 "Joan", "O'Hara", "J");
 
@@ -84,7 +84,7 @@ public class SortingTest extends BaseTest {
 // tag::sortDataFrameComparableColumn[]
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
+                "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.sort("first", true); // <1>
@@ -99,7 +99,7 @@ public class SortingTest extends BaseTest {
 // tag::sortDataFrameComparableColumns[]
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
+                "Juliana", "Walewski", null,
                 "Jerry", "Albert", null,
                 "Joan", "O'Hara", "J");
 

@@ -20,7 +20,7 @@ public class ColumnsManipulationTest extends BaseTest {
 // tag::addColumn[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.addColumn(
@@ -36,7 +36,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void addColumns() {
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
 // tag::addColumns[]
@@ -54,7 +54,7 @@ public class ColumnsManipulationTest extends BaseTest {
 // tag::addColumnFromRow[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.addColumn(
@@ -70,7 +70,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void addColumnFromSeries() {
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
 // tag::addColumnFromSeries[]
@@ -88,7 +88,7 @@ public class ColumnsManipulationTest extends BaseTest {
     public void addRowNumbers() {
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
 // tag::addRowNumbers[]
@@ -104,7 +104,7 @@ public class ColumnsManipulationTest extends BaseTest {
 // tag::deleteColumns[]
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
+                "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.dropColumns("first", "middle"); // <1>

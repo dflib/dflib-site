@@ -69,12 +69,12 @@ compatible with `java.lang.Comparable` (i.e., Strings, numbers, etc).
 include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortDataFrame_Sorter]
 ----
 ----
-first  last      middle
------- --------- ------
-Amanda Gabrielly null
-Jerry  Albert    null
-Jerry  Cosin     M
-Joan   O'Hara    J
+first   last      middle
+------- --------- ------
+Juliana Walewski  null
+Jerry   Albert    null
+Jerry   Cosin     M
+Joan    O'Hara    J
 4 rows x 3 columns
 ----
 

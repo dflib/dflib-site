@@ -14,7 +14,7 @@ public class SelectingTest extends BaseTest {
 // tag::selectAndReorderColumns[]
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
+                "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.selectColumns("last", "first");
@@ -29,7 +29,7 @@ public class SelectingTest extends BaseTest {
 // tag::selectAndReorderColumns_ByIndex[]
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
-                "Amanda", "Gabrielly", null,
+                "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "J");
 
         DataFrame df1 = df.selectColumns(1, 0);
@@ -44,7 +44,7 @@ public class SelectingTest extends BaseTest {
 // tag::selectRows[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.selectRows(2, 0, 0);
@@ -59,7 +59,7 @@ public class SelectingTest extends BaseTest {
         // tag::selectRowsIndex[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         IntSeries rowNumbers = new IntSequenceSeries(0, df.height());
@@ -78,7 +78,7 @@ public class SelectingTest extends BaseTest {
 // tag::selectByCondition[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.selectRows(and(
@@ -95,7 +95,7 @@ public class SelectingTest extends BaseTest {
 // tag::filterByColumn[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.selectRows(
@@ -112,7 +112,7 @@ public class SelectingTest extends BaseTest {
         // tag::filterByRow[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.selectRows(r ->
@@ -129,7 +129,7 @@ public class SelectingTest extends BaseTest {
         // tag::filterByBoolean[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         Series<String> names = Series.of("Sandra", "Anton", "Joan");
@@ -147,7 +147,7 @@ public class SelectingTest extends BaseTest {
         // tag::headDataFrame[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.head(2); // <1>
@@ -162,7 +162,7 @@ public class SelectingTest extends BaseTest {
         // tag::tailDataFrame[]
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         DataFrame df1 = df.tail(1);
@@ -177,7 +177,7 @@ public class SelectingTest extends BaseTest {
 
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
-                "Amanda", "Gabrielly",
+                "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         // tag::negativeHeadDataFrame[]

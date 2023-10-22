@@ -22,7 +22,7 @@ public class ExpTest extends BaseTest {
 // tag::columnExpEval[]
         DataFrame df = DataFrame.foldByRow("first", "last", "salary").of(
                 "Jerry", "Cosin", new BigDecimal("120000"),
-                "Amanda", "Gabrielly", new BigDecimal("80000"),
+                "Juliana", "Walewski", new BigDecimal("80000"),
                 "Joan", "O'Hara", new BigDecimal("95000"));
 
         Series<String> last = lastExp.eval(df);

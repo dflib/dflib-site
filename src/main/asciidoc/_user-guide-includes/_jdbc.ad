@@ -49,11 +49,11 @@ operations that do not require the user to write SQL (all needed SQL is auto-gen
 include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=tableLoader]
 ----
 ----
-id name             salary
--- ---------------- --------
- 1 Jerry Cosin      70000.0
- 2 Amanda Gabrielly 85000.0
- 3 Joan O'Hara      101000.0
+id name              salary
+-- ----------------- --------
+ 1 Jerry Cosin       70000.0
+ 2 Juliana Walewski  85000.0
+ 3 Joan O'Hara       101000.0
 3 rows x 3 columns
 ----
 

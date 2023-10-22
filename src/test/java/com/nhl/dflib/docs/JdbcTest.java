@@ -52,7 +52,7 @@ public class JdbcTest extends BaseTest {
 
         db.getTable("person").insertColumns("id", "name", "salary")
                 .values(1, "Jerry Cosin", 70_000)
-                .values(2, "Amanda Gabrielly", 85_000)
+                .values(2, "Juliana Walewski", 85_000)
                 .values(3, "Joan O'Hara", 101_000)
                 .exec();
 
@@ -68,7 +68,7 @@ public class JdbcTest extends BaseTest {
 
         db.getTable("person").insertColumns("id", "name", "salary")
                 .values(1, "Jerry Cosin", 70_000)
-                .values(2, "Amanda Gabrielly", 85_000)
+                .values(2, "Juliana Walewski", 85_000)
                 .values(3, "Joan O'Hara", 101_000)
                 .exec();
 
@@ -93,7 +93,7 @@ public class JdbcTest extends BaseTest {
         DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
                 .appender()
                 .append(1, "Jerry Cosin", 70_000)
-                .append(2, "Amanda Gabrielly", 85_000)
+                .append(2, "Juliana Walewski", 85_000)
                 .append(3, "Joan O'Hara", 101_000)
                 .toDataFrame();
 
@@ -107,7 +107,7 @@ public class JdbcTest extends BaseTest {
         DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
                 .appender()
                 .append(1, "Jerry Cosin", 70_000)
-                .append(2, "Amanda Gabrielly", 85_000)
+                .append(2, "Juliana Walewski", 85_000)
                 .append(3, "Joan O'Hara", 101_000)
                 .toDataFrame();
 
@@ -132,7 +132,7 @@ public class JdbcTest extends BaseTest {
         DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
                 .appender()
                 .append(1L, "Jerry Cosin", 70_000)
-                .append(2L, "Amanda Gabrielly", 85_000)
+                .append(2L, "Juliana Walewski", 85_000)
                 .append(3L, "Joan O'Hara", 101_000)
                 .toDataFrame();
 

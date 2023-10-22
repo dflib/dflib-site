@@ -41,10 +41,10 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags
 
 ----
 first   last      last_initial first_initial
------- --------- ------------ -------------
-Jerry  Cosin     C            J
-Amanda Gabrielly G            A
-Joan   O'Hara    O            J
+------- --------- ------------ -------------
+Jerry   Cosin     C            J
+Juliana Walewski  G            A
+Joan    O'Hara    O            J
 3 rows x 4 columns
 ----
 
@@ -58,10 +58,10 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags
 <1> `IntSequenceSeries` is a special Series that produces a sequence of numbers in the specified range
 ----
 first   last      number
------- --------- ------
-Jerry  Cosin          1
-Amanda Gabrielly      2
-Joan   O'Hara         3
+------- --------- ------
+Jerry   Cosin          1
+Juliana Walewski       2
+Joan    O'Hara         3
 3 rows x 3 columns
 ----
 

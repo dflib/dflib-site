@@ -19,9 +19,9 @@ include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectAnd
 
 ----
 last      first
---------- ------
+--------- -------
 Cosin     Jerry
-Gabrielly Amanda
+Walewski  Juliana
 O'Hara    Joan
 3 rows x 2 columns
 ----
@@ -47,7 +47,7 @@ include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags
 last
 ---------
 Cosin
-Gabrielly
+Walewski
 O'Hara
 3 rows x 1 column
 ----
@@ -150,10 +150,10 @@ include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=headDataF
 <1> Returns a new DataFrame with two top rows of the original DataFrame.
 
 ----
-first  last
------- ---------
-Jerry  Cosin
-Amanda Gabrielly
+first   last
+------- ---------
+Jerry   Cosin
+Juliana Walewski
 2 rows x 2 columns
 ----
 
@@ -176,7 +176,7 @@ of elements either from the top or from the bottom, and returns the remaining el
 ----
 include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=negativeHeadDataFrame]
 ----
-<1> Returns a new DataFrame with two top rows of the original DataFrame.
+<1> Returns a new DataFrame after skipping the two top rows of the original DataFrame.
 
 ----
 first  last
