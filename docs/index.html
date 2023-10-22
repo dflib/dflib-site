@@ -1228,8 +1228,8 @@ Return type of the column expression is implied from the method name (<code>$str
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-As of v0.11 DFLib doesn&#8217;t do any type conversion in the original column data (the exception being <code>$bool</code>). So you
-need to select the right type in your code to avoid ClassCastExceptions downstream. This may change in the future.
+DFLib doesn&#8217;t do any type conversion of the original column data (the exception being <code>$bool</code>). So you
+need to select the right type in your code to avoid ClassCastExceptions downstream.
 </td>
 </tr>
 </table>
@@ -1289,7 +1289,7 @@ Sorter s = <span class="error">$</span>str(<span class="string"><span class="del
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-DFLib would allow you to create a Sorter based on any expression type. In runtime the actual type must be
+DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
 either a Java primitive or an instance of <code>Comparable</code>, or a ClassCastException will be thrown during sorting.
 </td>
 </tr>
@@ -1616,6 +1616,31 @@ DataFrame df1 = df.tail(<span class="integer">1</span>);</code></pre>
 <div class="content">
 <pre>first last
 ----- ------
+Joan  O'Hara
+1 row x 2 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The argument to either <code>head(..)</code> or <code>tail(..)</code> can be negative. In which case the operation skips the specified number
+of elements either from the top or from the bottom, and returns the remaining elements:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.head(-<span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Returns a new DataFrame with two top rows of the original DataFrame.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first  last
+------ ---------
 Joan  O'Hara
 1 row x 2 columns</pre>
 </div>
@@ -2895,7 +2920,7 @@ extra columns is preserved.</p>
 <div class="paragraph">
 <p>While DFLib runs inside regular Java applications, it also works perfectly in a Jupyter notebook,
 which is a very common environment among data scientists, and is usually associated with Python / pandas. Jupyter
-Notebook is very visual and allows you to debug each step of your a data load and transformation pipeline individually
+Notebook is very visual and allows you to debug each step of your data load and transformation pipeline individually
 without a need to rerun the whole thing.</p>
 </div>
 <div class="paragraph">
@@ -2909,14 +2934,11 @@ easy.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>You will need at least Java 9 run Java in Jupyter, as it requires <code>jshell</code>. Java 11 or later is recommended.</p>
-</li>
-<li>
 <p>Install Jupyter. Follow Jupyter installation instructions. It requires Python. Out of the variety of installation
 options, the authors of this document are using Mac OS, pyenv, Python 3.7, and pip.</p>
 </li>
 <li>
-<p>Install iJava Jupyter "kernel"</p>
+<p>Install <a href="https://github.com/SpencerPark/IJava">iJava Jupyter kernel</a>.</p>
 </li>
 </ul>
 </div>
@@ -2936,8 +2958,8 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib:<span class="float">0.11</span>
-%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.11</span>
+<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib:<span class="float">0.18</span>
+%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.18</span>
 
 <span class="keyword">import</span> <span class="include">com.nhl.dflib.jupyter</span>.*;
 <span class="keyword">import</span> <span class="include">com.nhl.dflib</span>.*;

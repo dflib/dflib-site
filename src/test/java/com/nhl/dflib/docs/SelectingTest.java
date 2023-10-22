@@ -170,4 +170,20 @@ public class SelectingTest extends BaseTest {
 
         print("tailDataFrame", df1);
     }
+
+    @Test
+    public void negativeHeadDataFrame() {
+
+
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
+                "Jerry", "Cosin",
+                "Amanda", "Gabrielly",
+                "Joan", "O'Hara");
+
+        // tag::negativeHeadDataFrame[]
+        DataFrame df1 = df.head(-2); // <1>
+        // end::negativeHeadDataFrame[]
+
+        print("headDataFrame", df1);
+    }
 }

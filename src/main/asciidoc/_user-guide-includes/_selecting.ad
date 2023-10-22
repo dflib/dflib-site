@@ -170,6 +170,22 @@ Joan  O'Hara
 1 row x 2 columns
 ----
 
+The argument to either `head(..)` or `tail(..)` can be negative. In which case the operation skips the specified number
+of elements either from the top or from the bottom, and returns the remaining elements:
+[source,java,indent=0]
+----
+include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=negativeHeadDataFrame]
+----
+<1> Returns a new DataFrame with two top rows of the original DataFrame.
+
+----
+first  last
+------ ---------
+Joan  O'Hara
+1 row x 2 columns
+----
+
+
 `Series` also define `head(..)` and `tail(..)` operations that do what you'd expect from them, returning first or last N
 values.
 
