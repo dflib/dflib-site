@@ -1,4 +1,4 @@
-[#csv]
+[#excel]
 == Working with Excel Files
 
 Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
