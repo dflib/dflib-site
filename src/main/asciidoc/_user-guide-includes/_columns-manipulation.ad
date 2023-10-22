@@ -4,9 +4,11 @@
 <<selecting,Selecting>> rows and columns, described in the previous chapter, helps to produce a desired subset of
 data. Here we'll demonstrate a few extra methods for DataFrame columns manipulation:
 
-* Adding columns with new data, that may or may not be derived from the data in other DataFrame columns.
+* Adding columns with new data, that may or may not be derived from the data in other DataFrame columns
 * Renaming columns
-* Normalizing column data and converting it to a specific Java type
+* Transforming column data, converting it to a specific Java type and optimizing memory usage
+
+[#adding-columns]
 
 === Adding Columns
 

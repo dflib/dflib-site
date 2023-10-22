@@ -159,12 +159,13 @@ public class SelectingTest extends BaseTest {
     @Test
     public void tailDataFrame() {
 
-        // tag::tailDataFrame[]
+
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
+        // tag::tailDataFrame[]
         DataFrame df1 = df.tail(1);
         // end::tailDataFrame[]
 
@@ -173,8 +174,7 @@ public class SelectingTest extends BaseTest {
 
     @Test
     public void negativeHeadDataFrame() {
-
-
+        
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Juliana", "Walewski",

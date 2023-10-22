@@ -566,7 +566,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#column-manipulation">Columns Manipulation</a>
 <ul class="sectlevel2">
-<li><a href="#_adding_columns">Adding Columns</a></li>
+<li><a href="#adding-columns">Adding Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
 <li><a href="#transforming-columns">Transforming Columns</a></li>
 </ul>
@@ -1604,12 +1604,7 @@ Juliana Walewski
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.tail(<span class="integer">1</span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.tail(<span class="integer">1</span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1676,18 +1671,18 @@ data. Here we&#8217;ll demonstrate a few extra methods for DataFrame columns man
 <div class="ulist">
 <ul>
 <li>
-<p>Adding columns with new data, that may or may not be derived from the data in other DataFrame columns.</p>
+<p>Adding columns with new data, that may or may not be derived from the data in other DataFrame columns</p>
 </li>
 <li>
 <p>Renaming columns</p>
 </li>
 <li>
-<p>Normalizing column data and converting it to a specific Java type</p>
+<p>Transforming column data, converting it to a specific Java type and optimizing memory usage</p>
 </li>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_adding_columns">Adding Columns</h3>
+<h3 id="adding-columns">Adding Columns</h3>
 <div class="paragraph">
 <p>There are a few ways to add columns to a DataFrame. A rather common case is adding a column by calculating cell values
 based on data from other columns:</p>
