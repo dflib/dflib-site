@@ -26,7 +26,7 @@ discuss how to create Series.
 
 ==== Creating Series from Arrays
 
-`Series` can be created using static `ofXyz` methods on the `Series` interface:
+`Series` can be created using static `ofXyz(..)` methods on the `Series` interface:
 
 [source,java,indent=0]
 ----

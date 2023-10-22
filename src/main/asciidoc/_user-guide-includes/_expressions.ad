@@ -44,8 +44,8 @@ single (unnamed) column. So a column expression simply returns the Series unchan
 name or position.
 
 Factory methods for column expressions are easy to spot in the `Exp` interface - they all start with a dollar sign.
-Return type of the column expression is implied from the method name (`$str` produces a `Series<String>`, `$decimal` -
-`Series<BigDecimal>`, `$int` - `Series<Integer>` and so on).
+Return type of the column expression is implied from the method name (`$str(..)` produces a `Series<String>`, `$decimal(..)` -
+`Series<BigDecimal>`, `$int(..)` - `Series<Integer>` and so on).
 
 NOTE: DFLib doesn't do any type conversion of the original column data (the exception being `$bool`). So you
 need to select the right type in your code to avoid ClassCastExceptions downstream.

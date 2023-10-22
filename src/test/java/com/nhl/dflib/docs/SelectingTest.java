@@ -174,14 +174,14 @@ public class SelectingTest extends BaseTest {
 
     @Test
     public void negativeHeadDataFrame() {
-        
+
         DataFrame df = DataFrame.foldByRow("first", "last").of(
                 "Jerry", "Cosin",
                 "Juliana", "Walewski",
                 "Joan", "O'Hara");
 
         // tag::negativeHeadDataFrame[]
-        DataFrame df1 = df.head(-2); // <1>
+        DataFrame df1 = df.head(-2);
         // end::negativeHeadDataFrame[]
 
         print("headDataFrame", df1);

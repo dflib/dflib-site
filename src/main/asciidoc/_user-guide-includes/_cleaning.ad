@@ -34,8 +34,8 @@ Another strategy is to use values adjacent to the cells with nulls:
 ----
 include::../../../test/java/com/nhl/dflib/docs/CleaningTest.java[tags=fillNullsForward_Series]
 ----
-<1> `fillNullsForward` takes a non-null value preceding the null cell and uses it to replace nulls.
-Similarly there's a `fillNullsBackward` method that uses the value following the null cell.
+<1> `fillNullsForward(..)` takes a non-null value preceding the null cell and uses it to replace nulls.
+Similarly, there's a `fillNullsBackward(..)` method that uses the value following the null cell.
 
 ----
 a
@@ -68,7 +68,7 @@ Values between the two Series objects are aligned by position starting at zero.
 
 === Filling Nulls in DataFrame
 
-Filling nulls in a DataFrame is done by column, so the API is very similar to `Series.fillNulls*` methods, only with
+Filling nulls in a DataFrame is done by column, so the API is very similar to `Series.fillNulls*(..)` methods, only with
 an additional String on integer argument specifying column position.
 
 [source,java,indent=0]

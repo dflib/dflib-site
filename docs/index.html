@@ -755,7 +755,7 @@ discuss how to create Series.</p>
 <div class="sect3">
 <h4 id="_creating_series_from_arrays">Creating Series from Arrays</h4>
 <div class="paragraph">
-<p><code>Series</code> can be created using static <code>ofXyz</code> methods on the <code>Series</code> interface:</p>
+<p><code>Series</code> can be created using static <code>ofXyz(..)</code> methods on the <code>Series</code> interface:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1218,8 +1218,8 @@ name or position.
 </div>
 <div class="paragraph">
 <p>Factory methods for column expressions are easy to spot in the <code>Exp</code> interface - they all start with a dollar sign.
-Return type of the column expression is implied from the method name (<code>$str</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal</code> -
-<code>Series&lt;BigDecimal&gt;</code>, <code>$int</code> - <code>Series&lt;Integer&gt;</code> and so on).</p>
+Return type of the column expression is implied from the method name (<code>$str(..)</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal(..)</code> -
+<code>Series&lt;BigDecimal&gt;</code>, <code>$int(..)</code> - <code>Series&lt;Integer&gt;</code> and so on).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1360,8 +1360,8 @@ DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="in
 <div class="sect2">
 <h3 id="_deleting_columns">Deleting Columns</h3>
 <div class="paragraph">
-<p><code>DataFrame.dropColumns(..)</code> is an operation complimentary to <code>selectColumns</code>. It allows to remove one or more columns,
-but does not allow to reorder the remaining columns.</p>
+<p><code>DataFrame.dropColumn(..)</code> and <code>dropColumns(..)</code> are complimentary to <code>selectColumns(..)</code>. They allows to remove one or
+more columns, but do not allow to reorder the remaining columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1617,20 +1617,13 @@ Joan  O'Hara
 </div>
 <div class="paragraph">
 <p>The argument to either <code>head(..)</code> or <code>tail(..)</code> can be negative. In which case the operation skips the specified number
-of elements either from the top or from the bottom, and returns the remaining elements:</p>
+of elements either from the top or from the bottom, and returns the remaining elements. The following code returns a
+new DataFrame after skipping the two top rows of the original DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.head(-<span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.head(-<span class="integer">2</span>);</code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Returns a new DataFrame after skipping the two top rows of the original DataFrame.</td>
-</tr>
-</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2018,8 +2011,8 @@ c
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>fillNullsForward</code> takes a non-null value preceding the null cell and uses it to replace nulls.
-Similarly there&#8217;s a <code>fillNullsBackward</code> method that uses the value following the null cell.</td>
+<td><code>fillNullsForward(..)</code> takes a non-null value preceding the null cell and uses it to replace nulls.
+Similarly, there&#8217;s a <code>fillNullsBackward(..)</code> method that uses the value following the null cell.</td>
 </tr>
 </table>
 </div>
@@ -2060,7 +2053,7 @@ Values between the two Series objects are aligned by position starting at zero.<
 <div class="sect2">
 <h3 id="_filling_nulls_in_dataframe">Filling Nulls in DataFrame</h3>
 <div class="paragraph">
-<p>Filling nulls in a DataFrame is done by column, so the API is very similar to <code>Series.fillNulls*</code> methods, only with
+<p>Filling nulls in a DataFrame is done by column, so the API is very similar to <code>Series.fillNulls*(..)</code> methods, only with
 an additional String on integer argument specifying column position.</p>
 </div>
 <div class="listingblock">
