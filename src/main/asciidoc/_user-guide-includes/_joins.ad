@@ -78,16 +78,15 @@ null null      40 right_only
 4 rows x 4 columns
 ----
 The "join_type" column will contain a special enum `com.nhl.dflib.join.JoinIndicator` that allows to categorize rows
-in the produced DataFrame. Note that indicator column can be used with all join types, but it is only useful for the
-three outer joins.
+in the produced DataFrame. Note that indicator column can be applied to all join types, but it is only useful for the
+three outer joins (it will always be `both` for inner joins).
 
 === Nested Loop Joins
 The joins we've seen so far were all based on comparing left and right column values. They are knows as "hash joins",
-and are usually fast and efficient. However, they can not express every possible join condition, and sometimes we have
-to resort to "nested loop" joins that compare every row from the left DataFrame to every row from the right. Such
-joins are much slower, and should be avoided unless absolutely necessary. For instance, let's join a DataFrame of
-salaries with itself to produce pairs of names - a person with higher salary on the left vs. everyone with lower salary
-on the right:
+and are usually fast and efficient. However, they can not express every possible condition, and sometimes we have
+to resort to another kind of joins - "nested loop", that would compare every row from the left DataFrame to every row
+from the right. For instance, let's join a DataFrame of salaries with itself to produce pairs of names - a person with
+higher salary on the left vs. everyone with lower salary on the right:
 
 [source,java,indent=0]
 ----
@@ -104,5 +103,7 @@ Joan       Juliana
 Juliana    null
 4 rows x 2 columns
 ----
+
+NOTE: Nested loop joins are _much_ slower, and should be avoided unless absolutely necessary.
 
 
