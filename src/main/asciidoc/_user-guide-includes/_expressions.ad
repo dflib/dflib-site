@@ -45,7 +45,7 @@ name or position.
 
 Factory methods for column expressions are easy to spot in the `Exp` interface - they all start with a dollar sign.
 Return type of the column expression is implied from the method name (`$str(..)` produces a `Series<String>`, `$decimal(..)` -
-`Series<BigDecimal>`, `$int(..)` - `Series<Integer>` and so on).
+`Series<BigDecimal>`, `$int(..)` - `Series<Integer>`, `$date(..)` - `Series<LocalDate>` and so on).
 
 NOTE: DFLib doesn't do any type conversion of the original column data (the exception being `$bool`). So you
 need to select the right type in your code to avoid ClassCastExceptions downstream.

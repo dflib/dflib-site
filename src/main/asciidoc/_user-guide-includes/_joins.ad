@@ -67,7 +67,7 @@ Let's show it on a `fullJoin(..)` example:
 ----
 include::../../../test/java/com/nhl/dflib/docs/JoinsTest.java[tags=indicatorColumn]
 ----
-<1> Request an indicator column with a custom name.
+<1> Request an indicator column with a user-specified name.
 ----
   id name     age join_type
 ---- ------- ---- ----------
@@ -78,8 +78,10 @@ null null      40 right_only
 4 rows x 4 columns
 ----
 The "join_type" column will contain a special enum `com.nhl.dflib.join.JoinIndicator` that allows to categorize rows
-in the produced DataFrame. Note that indicator column can be applied to all join types, but it is only useful for the
-three outer joins (it will always be `both` for inner joins).
+in the produced DataFrame.
+
+NOTE: indicator column can be requested for all join types, but it is only useful for the three outer joins (it will
+always be `both` for inner joins).
 
 === Nested Loop Joins
 The joins we've seen so far were all based on comparing left and right column values. They are knows as "hash joins",

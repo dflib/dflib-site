@@ -599,6 +599,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#grouping">Grouping and Aggregating</a></li>
 <li><a href="#window">Window functions</a></li>
+<li><a href="#pivot">Pivot</a></li>
+<li><a href="#stack">Stack</a></li>
 <li><a href="#jdbc">Working with Relational Databases</a>
 <ul class="sectlevel2">
 <li><a href="#_jdbcconnector">JdbcConnector</a></li>
@@ -842,8 +844,8 @@ Series and other in-memory data into DataFrames.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Alternativelym a DataFrame can be loaded from (and saved to) external sources, like a <a href="#jdbc">database</a> or
-a <a href="#csv">CSV file</a>. Those are discussed in separate documentation chapters.
+More often than not, a DataFrame is not created manually and is instead loaded from (and saved to) an external
+source, like a <a href="#jdbc">database</a> or a <a href="#csv">CSV file</a>. Those are discussed in separate documentation chapters.
 </td>
 </tr>
 </table>
@@ -1227,7 +1229,7 @@ name or position.
 <div class="paragraph">
 <p>Factory methods for column expressions are easy to spot in the <code>Exp</code> interface - they all start with a dollar sign.
 Return type of the column expression is implied from the method name (<code>$str(..)</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal(..)</code> -
-<code>Series&lt;BigDecimal&gt;</code>, <code>$int(..)</code> - <code>Series&lt;Integer&gt;</code> and so on).</p>
+<code>Series&lt;BigDecimal&gt;</code>, <code>$int(..)</code> - <code>Series&lt;Integer&gt;</code>, <code>$date(..)</code> - <code>Series&lt;LocalDate&gt;</code> and so on).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2643,7 +2645,7 @@ Let&#8217;s show it on a <code>fullJoin(..)</code> example:</p>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Request an indicator column with a custom name.</td>
+<td>Request an indicator column with a user-specified name.</td>
 </tr>
 </table>
 </div>
@@ -2660,8 +2662,20 @@ null null      40 right_only
 </div>
 <div class="paragraph">
 <p>The "join_type" column will contain a special enum <code>com.nhl.dflib.join.JoinIndicator</code> that allows to categorize rows
-in the produced DataFrame. Note that indicator column can be applied to all join types, but it is only useful for the
-three outer joins (it will always be <code>both</code> for inner joins).</p>
+in the produced DataFrame.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+indicator column can be requested for all join types, but it is only useful for the three outer joins (it will
+always be <code>both</code> for inner joins).
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -2731,13 +2745,33 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 <div class="sect1">
 <h2 id="grouping">Grouping and Aggregating</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>TODO</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="window">Window functions</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="pivot">Pivot</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stack">Stack</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3231,7 +3265,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-10-22 17:40:37 -0400
+Last updated 2023-10-28 15:44:23 -0400
 </div>
 </div>
 </body>
