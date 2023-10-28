@@ -35,8 +35,8 @@ include::../../../test/java/com/nhl/dflib/docs/SelectingTest.java[tags=selectAnd
 
 === Deleting Columns
 
-`DataFrame.dropColumn(..)` and `dropColumns(..)` are complimentary to `selectColumns(..)`. They allows to remove one or
-more columns, but do not allow to reorder the remaining columns.
+`DataFrame.dropColumn(..)` and `dropColumns(..)` are complimentary to `selectColumns(..)`. They allow to remove one or
+more columns, but do not affect the order of the remaining columns.
 
 [source,java,indent=0]
 ----
