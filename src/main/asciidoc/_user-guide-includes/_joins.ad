@@ -2,8 +2,10 @@
 == Joins
 
 If you worked with relational databases before, you know what "joins" are. This is a way to combine related rows from
-two or more tables. DataFrames can be joined together, just like DB tables. DFLib provides 4 familiar flavors of joins:
-`inner`, `left` (outer), `right` (outer) and `full` (outer):
+multiple tables. DataFrames can be joined together, just like two DB tables. DFLib provides 4 familiar flavors of joins:
+`inner`, `left` (outer), `right` (outer) and `full` (outer).
+
+=== Inner Join
 
 [source,java,indent=0]
 ----
@@ -11,7 +13,7 @@ include::../../../test/java/com/nhl/dflib/docs/JoinsTest.java[tags=join]
 ----
 <1> Since we used `innerJoin()`, only the rows that are present in both DataFrames will be included in the result below.
 <2> Columns used in the join criteria have the same name in both DataFrames, so we can specify the name of the join column
-only once. But in general the names do not need to match, and multiple columns can participate in a join.
+only once. In general, the names do not need to match, and multiple columns can participate in a join.
 ----
 id name    id_ age
 -- ------- --- ---
@@ -20,9 +22,9 @@ id name    id_ age
 2 rows x 4 columns
 ----
 Notice how DFLib treats the `id` column in the join result. Since it is present in both left and right DataFrames, it
-is included in the result twice, but the second column is renamed to `id_` to avoid a name collision. The same renaming
+is included in the result twice, but the second column is renamed to `id_` to avoid a naming collision. The same renaming
 would occur for any other columns from the right DataFrame that have conflicting names with the columns from the left.
-A quick way to get rid of duplicate columns is to drop them by name pattern:
+A quick way to get rid of duplicate columns is to drop them by the name pattern:
 
 [source,java,indent=0]
 ----
@@ -35,6 +37,8 @@ id name    age
  3 Joan     30
 2 rows x 3 columns
 ----
+
+=== Outer Joins
 
 Now let's demonstrate outer joins. Here is a `leftJoin(..)` example using the same left and right DataFrames:
 
@@ -74,15 +78,16 @@ null null      40 right_only
 4 rows x 4 columns
 ----
 The "join_type" column will contain a special enum `com.nhl.dflib.join.JoinIndicator` that allows to categorize rows
-in the produced DataFrame.
+in the produced DataFrame. Note that indicator column can be used with all join types, but it is only useful for the
+three outer joins.
 
 === Nested Loop Joins
-The joins we've seen so far were all absed on comparing values in some columns and are knows as "hash joins". They are
-fast and efficient. However, they can not express every possible join condition, and sometimes we have to resort to a
-"nested loop" join that compares every row from the left DataFrame to every row from the right based. Such
-joins are much slower, and should be avoided unless absolutely necessary. E.g., let's join a DataFrame of salaries
-with itself to produce pairs of names - a person with higher salary on the left vs. everyone with lower salary on the
-right:
+The joins we've seen so far were all based on comparing left and right column values. They are knows as "hash joins",
+and are usually fast and efficient. However, they can not express every possible join condition, and sometimes we have
+to resort to "nested loop" joins that compare every row from the left DataFrame to every row from the right. Such
+joins are much slower, and should be avoided unless absolutely necessary. For instance, let's join a DataFrame of
+salaries with itself to produce pairs of names - a person with higher salary on the left vs. everyone with lower salary
+on the right:
 
 [source,java,indent=0]
 ----
