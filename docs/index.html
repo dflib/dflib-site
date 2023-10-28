@@ -589,7 +589,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_concatenating_dataframes">Concatenating DataFrames</a></li>
 </ul>
 </li>
-<li><a href="#joins">Joins</a></li>
+<li><a href="#joins">Joins</a>
+<ul class="sectlevel2">
+<li><a href="#_indicator_column">Indicator Column</a></li>
+<li><a href="#_nested_loop_joins">Nested Loop Joins</a></li>
+</ul>
+</li>
 <li><a href="#grouping">Grouping and Aggregating</a></li>
 <li><a href="#window">Window functions</a></li>
 <li><a href="#jdbc">Working with Relational Databases</a>
@@ -835,8 +840,8 @@ Series and other in-memory data into DataFrames.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Alternatively a DataFrame can be loaded from (and saved to) a <a href="#jdbc">database</a> or a <a href="#csv">CSV file</a>.
-Those data sources are discussed in separate documentation chapters.
+Alternativelym a DataFrame can be loaded from (and saved to) external sources, like a <a href="#jdbc">database</a> or
+a <a href="#csv">CSV file</a>. Those are discussed in separate documentation chapters.
 </td>
 </tr>
 </table>
@@ -1361,8 +1366,8 @@ DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="in
 <div class="sect2">
 <h3 id="_deleting_columns">Deleting Columns</h3>
 <div class="paragraph">
-<p><code>DataFrame.dropColumn(..)</code> and <code>dropColumns(..)</code> are complimentary to <code>selectColumns(..)</code>. They allows to remove one or
-more columns, but do not allow to reorder the remaining columns.</p>
+<p><code>DataFrame.dropColumn(..)</code> and <code>dropColumns(..)</code> are complimentary to <code>selectColumns(..)</code>. They allow to remove one or
+more columns, but do not affect the order of the remaining columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1659,8 +1664,8 @@ returning an empty DataFame (or Series) instead.
 <h2 id="column-manipulation">Columns Manipulation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="#selecting">Selecting</a> rows and columns, described in the previous chapter, helps to produce a desired subset of
-data. Here we&#8217;ll demonstrate a few extra methods for DataFrame columns manipulation:</p>
+<p><a href="#selecting">Selecting rows and columns</a>, described in the previous chapter, is intended to produce a desired subset of
+data. Here we&#8217;ll demonstrate methods for DataFrame columns manipulation:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2518,7 +2523,189 @@ DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
 <div class="sect1">
 <h2 id="joins">Joins</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>If you worked with relational databases before, you know what "joins" are. This is a way to combine related rows from
+two or more tables. DataFrames can be joined together, just like DB tables. DFLib provides 4 familiar flavors of joins:
+<code>inner</code>, <code>left</code> (outer), <code>right</code> (outer) and <code>full</code> (outer):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame left = DataFrame
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .of(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="integer">2</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="integer">3</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame right = DataFrame
+        .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
+        .of(<span class="integer">2</span>, <span class="integer">25</span>, <span class="integer">3</span>, <span class="integer">30</span>, <span class="integer">4</span>, <span class="integer">40</span>);
+
+DataFrame joined = left
+        .innerJoin() <i class="conum" data-value="1"></i><b>(1)</b>
+        .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .with(right);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Since we used <code>innerJoin()</code>, only the rows that are present in both DataFrames will be included in the result below.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Columns used in the join criteria have the same name in both DataFrames, so we can specify the name of the join column
+only once. But in general the names do not need to match, and multiple columns can participate in a join.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>id name    id_ age
+-- ------- --- ---
+ 2 Juliana   2  25
+ 3 Joan      3  30
+2 rows x 4 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how DFLib treats the <code>id</code> column in the join result. Since it is present in both left and right DataFrames, it
+is included in the result twice, but the second column is renamed to <code>id_</code> to avoid a name collision. The same renaming
+would occur for any other columns from the right DataFrame that have conflicting names with the columns from the left.
+A quick way to get rid of duplicate columns is to drop them by name pattern:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame joined = left
+        .innerJoin()
+        .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>)
+        .with(right)
+        .dropColumns(c -&gt; c.endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">_</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>id name    age
+-- ------- ---
+ 2 Juliana  25
+ 3 Joan     30
+2 rows x 3 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s demonstrate outer joins. Here is a <code>leftJoin(..)</code> example using the same left and right DataFrames:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame joined = left
+        .leftJoin()
+        .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>)
+        .with(right);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>id name     id_  age
+-- ------- ---- ----
+ 1 Jerry   null null
+ 2 Juliana    2   25
+ 3 Joan       3   30
+3 rows x 4 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It has all the rows from the left DataFrame, and only the matching rows from the right DataFrame. For left rows with no
+matching right rows, the right columns are filled with <code>null</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_indicator_column">Indicator Column</h3>
+<div class="paragraph">
+<p>Join API allows to explicitly identify which rows had a match, and which didn&#8217;t by adding a special "indicator" column.
+Let&#8217;s show it on a <code>fullJoin(..)</code> example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame joined = left
+        .fullJoin()
+        .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>)
+        .indicatorColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">join_type</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .with(right)
+        .dropColumns(c -&gt; c.endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">_</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Request an indicator column with a custom name.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  id name     age join_type
+---- ------- ---- ----------
+   1 Jerry   null left_only
+   2 Juliana   25 both
+   3 Joan      30 both
+null null      40 right_only
+4 rows x 4 columns</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The "join_type" column will contain a special enum <code>com.nhl.dflib.join.JoinIndicator</code> that allows to categorize rows
+in the produced DataFrame.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nested_loop_joins">Nested Loop Joins</h3>
+<div class="paragraph">
+<p>The joins we&#8217;ve seen so far were all absed on comparing values in some columns and are knows as "hash joins". They are
+fast and efficient. However, they can not express every possible join condition, and sometimes we have to resort to a
+"nested loop" join that compares every row from the left DataFrame to every row from the right based. Such
+joins are much slower, and should be avoided unless absolutely necessary. E.g., let&#8217;s join a DataFrame of salaries
+with itself to produce pairs of names - a person with higher salary on the left vs. everyone with lower salary on the
+right:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="integer">120</span>_000,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="integer">80</span>_000,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">95</span>_000);
+
+DataFrame joined = df
+        .leftJoin()
+        .predicatedBy((r1, r2) -&gt; ((<span class="predefined-type">Integer</span>) r1.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)) &gt; ((<span class="predefined-type">Integer</span>) r2.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>))) <i class="conum" data-value="1"></i><b>(1)</b>
+        .with(df)
+        .sort(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).desc(), <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary_</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="2"></i><b>(2)</b>
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">makes_more</span><span class="delimiter">&quot;</span></span>)
+        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">name_</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">makes_less</span><span class="delimiter">&quot;</span></span>)
+        .dropColumns(c -&gt; c.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Custom join condition</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Sorting and renaming the result columns for more user-friendly display</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>makes_more makes_less
+---------- ----------
+Jerry      Joan
+Jerry      Juliana
+Joan       Juliana
+Juliana    null
+4 rows x 2 columns</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
