@@ -3210,14 +3210,21 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib:<span class="float">0.18</span>
-%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.18</span>
+<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.18</span> <i class="conum" data-value="1"></i><b>(1)</b>
 
 <span class="keyword">import</span> <span class="include">com.nhl.dflib.jupyter</span>.*;
 <span class="keyword">import</span> <span class="include">com.nhl.dflib</span>.*;
 
 DFLibJupyter.init(getKernelInstance());</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>It is enough to include <code>dflib-jupyter</code>. All other DFLib modules will be added through its transitive dependencies.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Click "Shift + Return" to execute the cell. If the are no errors, you can start using DFLib API in the following cells.

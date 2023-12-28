@@ -29,14 +29,15 @@ The browser opens. Click on "New > Java". In the document cell enter something l
 
 [source,java]
 ----
-%maven com.nhl.dflib:dflib:0.18
-%maven com.nhl.dflib:dflib-jupyter:0.18
+%maven com.nhl.dflib:dflib-jupyter:0.18 // <1>
 
 import com.nhl.dflib.jupyter.*;
 import com.nhl.dflib.*;
 
 DFLibJupyter.init(getKernelInstance());
 ----
+
+<1> It is enough to include `dflib-jupyter`. All other DFLib modules will be added through its transitive dependencies.
 
 Click "Shift + Return" to execute the cell. If the are no errors, you can start using DFLib API in the following cells.
 E.g.:
