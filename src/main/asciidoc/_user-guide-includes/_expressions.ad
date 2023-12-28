@@ -30,7 +30,7 @@ cases for expressions.
 
 NOTE: DFLib expression language Expressions work on DFLib data structures instead of individual values, so they can
 achieve the best possible performance for any given operation. Expressions should be a preferred way to manipulate your
-data instead more "direct" API.
+data instead of more "direct" API.
 
 Now let's look at various types of expressions...
 
