@@ -172,6 +172,7 @@
                         <outputDirectory>docs/</outputDirectory>
                         <attributes>
                             <source-highlighter>coderay</source-highlighter>
+                            <docinfo>shared-footer</docinfo>
                         </attributes>
                     </configuration>
                 </plugin>
