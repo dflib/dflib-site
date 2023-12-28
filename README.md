@@ -2,7 +2,7 @@
 
 ## Published Site Location
 
-https://nhl.github.io/dflib-docs/
+https://dflib.org/
 
 ## Project Structure
 
@@ -19,5 +19,5 @@ git commit -m 'Regenerating docs'
 git push
 ```
 
-If the commit is to the `master` branch, the push will activate publishing of the website on 
-https://nhl.github.io/dflib-docs/ .
+If the commit is to the `master` branch, the push will activate publishing of the website at
+https://dflib.org/ .
