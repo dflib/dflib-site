@@ -168,8 +168,7 @@
                     <version>${asciidoctor.maven.plugin.version}</version>
                     <configuration>
                         <backend>html5</backend>
-                        <!-- This is a website publishing directory -->
-                        <outputDirectory>docs/</outputDirectory>
+                        <outputDirectory>static/docs/1.x</outputDirectory>
                         <attributes>
                             <source-highlighter>coderay</source-highlighter>
                             <docinfo>shared-footer</docinfo>
