@@ -44,7 +44,8 @@ E.g.:
 
 [source,java]
 ----
-DataFrame df = DataFrame.newFrame("a", "b", "c").foldIntByColumn(-1, 1, 2, 3, 4, 5, 6);
+DataFrame df = DataFrame.foldByColumn("a", "b", "c")
+    .ofInts(-1, 1, 2, 3, 4, 5, 6);
 
 // the result of the last statement in a cell is printed just below it
 df

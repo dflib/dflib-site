@@ -3232,7 +3232,8 @@ E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.newFrame(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>).foldIntByColumn(-<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>);
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>)
+    .ofInts(-<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>);
 
 <span class="comment">// the result of the last statement in a cell is printed just below it</span>
 df</code></pre>
@@ -3276,5 +3277,6 @@ off the data before commit.</p>
 Last updated 2023-10-28 15:44:23 -0400
 </div>
 </div>
+<link media="all" rel="stylesheet" href="css/style_v2.min.css" />
 </body>
 </html>
