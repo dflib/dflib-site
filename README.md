@@ -19,5 +19,5 @@ git commit -m 'Regenerating docs'
 git push
 ```
 
-If the commit is to the `master` branch, the push will activate publishing of the website at
+If the commit is to the `main` branch, the push will activate publishing of the website at
 https://dflib.org/ .

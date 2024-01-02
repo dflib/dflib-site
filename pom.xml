@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.nhl.dflib.docs</groupId>
+    <groupId>org.dflib</groupId>
     <version>1.0.0-SNAPSHOT</version>
-    <artifactId>dflib-docs</artifactId>
-    <name>dflib-docs: documentation</name>
+    <artifactId>dflib-site</artifactId>
+    <name>dflib-site: documentation</name>
     <packaging>jar</packaging>
 
     <properties>
