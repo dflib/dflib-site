@@ -8,9 +8,9 @@ multiple DFLib modules:
 <dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>com.nhl.dflib</groupId>
+      <groupId>org.dflib</groupId>
       <artifactId>dflib-bom</artifactId>
-      <version>0.18</version>
+      <version>1.0.0-M19</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -22,7 +22,7 @@ Next include DFLib core as a dependency:
 [source,xml]
 ----
 <dependency>
-    <groupId>com.nhl.dflib</groupId>
+    <groupId>org.dflib</groupId>
     <artifactId>dflib</artifactId>
 </dependency>
 ----
@@ -30,7 +30,7 @@ Next include DFLib core as a dependency:
 Create a DataFrame, do some manipulations with it, print the result:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/GettingStartedTest.java[tags=gettingStarted]
+include::../../../test/java/org/dflib/docs/GettingStartedTest.java[tags=gettingStarted]
 ----
 
 When you run this code, console output will look like this:

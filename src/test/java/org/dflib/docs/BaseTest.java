@@ -1,8 +1,8 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.Printers;
-import com.nhl.dflib.Series;
+import org.dflib.DataFrame;
+import org.dflib.Printers;
+import org.dflib.Series;
 
 public abstract class BaseTest {
 

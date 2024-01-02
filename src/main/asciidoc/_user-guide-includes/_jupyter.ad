@@ -29,10 +29,10 @@ The browser opens. Click on "New > Java". In the document cell enter something l
 
 [source,java]
 ----
-%maven com.nhl.dflib:dflib-jupyter:0.18 // <1>
+%maven org.dflib:dflib-jupyter:1.0.0-M19 // <1>
 
-import com.nhl.dflib.jupyter.*;
-import com.nhl.dflib.*;
+import org.dflib.jupyter.*;
+import org.dflib.*;
 
 DFLibJupyter.init(getKernelInstance());
 ----
@@ -57,7 +57,7 @@ To control truncation behavior, you can use static methods on `DFLibJupyter`:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JupyterTest.java[tags=setDisplayParams]
+include::../../../test/java/org/dflib/docs/JupyterTest.java[tags=setDisplayParams]
 ----
 
 === Notebooks and Version Control

@@ -1,7 +1,7 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.Series;
+import org.dflib.DataFrame;
+import org.dflib.Series;
 import org.junit.jupiter.api.Test;
 
 public class CleaningTest extends BaseTest {

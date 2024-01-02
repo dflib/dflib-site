@@ -664,9 +664,9 @@ multiple DFLib modules:</p>
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencyManagement&gt;</span>
   <span class="tag">&lt;dependencies&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
-      <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+      <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>0.18<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>1.0.0-M19<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
       <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
@@ -680,7 +680,7 @@ multiple DFLib modules:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>dflib<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -1158,7 +1158,7 @@ are available directly in the code:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">com.nhl.dflib.Exp</span>.*;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.dflib.Exp</span>.*;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2662,7 +2662,7 @@ null null      40 right_only
 </div>
 </div>
 <div class="paragraph">
-<p>The "join_type" column will contain a special enum <code>com.nhl.dflib.join.JoinIndicator</code> that allows to categorize rows
+<p>The "join_type" column will contain a special enum <code>org.dflib.join.JoinIndicator</code> that allows to categorize rows
 in the produced DataFrame.</p>
 </div>
 <div class="admonitionblock note">
@@ -2791,7 +2791,7 @@ transactions, auto-generation of certain SQL statements, merging of data on top 
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>dflib-jdbc<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span>
 
@@ -2963,7 +2963,7 @@ advantage of this functionality:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>dflib-csv<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -3122,7 +3122,7 @@ advantage of this functionality:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>dflib-excel<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -3144,7 +3144,7 @@ using the Avro format, include the following dependency:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>com.nhl.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>dflib-avro<span class="tag">&lt;/artifactId&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
 </div>
@@ -3210,10 +3210,10 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven com.nhl.dflib:dflib-jupyter:<span class="float">0.18</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">1.0</span><span class="float">.0</span>-M19 <i class="conum" data-value="1"></i><b>(1)</b>
 
-<span class="keyword">import</span> <span class="include">com.nhl.dflib.jupyter</span>.*;
-<span class="keyword">import</span> <span class="include">com.nhl.dflib</span>.*;
+<span class="keyword">import</span> <span class="include">org.dflib.jupyter</span>.*;
+<span class="keyword">import</span> <span class="include">org.dflib</span>.*;
 
 DFLibJupyter.init(getKernelInstance());</code></pre>
 </div>

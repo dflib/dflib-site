@@ -8,7 +8,7 @@ advantage of this functionality:
 [source,xml]
 ----
 <dependency>
-    <groupId>com.nhl.dflib</groupId>
+    <groupId>org.dflib</groupId>
     <artifactId>dflib-excel</artifactId>
 </dependency>
 ----

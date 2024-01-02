@@ -1,8 +1,8 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.Extractor;
-import com.nhl.dflib.Series;
+import org.dflib.DataFrame;
+import org.dflib.Extractor;
+import org.dflib.Series;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

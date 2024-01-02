@@ -11,7 +11,7 @@ method:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=concatSeries]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=concatSeries]
 ----
 The result is as expected contains values of all Series put together:
 ----
@@ -29,13 +29,13 @@ If you have a collection or an array of Series and want to "glue" them together,
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=concatSeries_Static]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=concatSeries_Static]
 ----
 The result is the same as in the previous example. Also you can concatenate Series with itself:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=concatSeries_Self]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=concatSeries_Self]
 ----
 ----
 x
@@ -52,7 +52,7 @@ DataFrame offers two options for concatenation - _vertical_ (stacking DataFrames
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=vConcat]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=vConcat]
 ----
 
 <1> Concatenate this and another DataFrame vertically. The argument is a vararg, so more than one DataFrame can be
@@ -69,7 +69,7 @@ a b
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=hConcat]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=hConcat]
 ----
 
 <1> Concatenate this and another DataFrame horizontally. The argument is a vararg, so more than one DataFrame can be
@@ -100,7 +100,7 @@ Let's look how this works with `vConcat`:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=vConcat_InnerMismatch]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=vConcat_InnerMismatch]
 ----
 
 <1> `df1` column names are "b" and "c", while `df2` - "a" and "c".
@@ -126,7 +126,7 @@ are missing from the concatenated DataFrame are filled with nulls in the corresp
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=vConcat_LeftMismatch]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=vConcat_LeftMismatch]
 ----
 
 ----
@@ -145,7 +145,7 @@ Leaving it as an exercise for the reader to try `right` and `full` joins.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ConcatTest.java[tags=hConcat_LeftMismatch]
+include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=hConcat_LeftMismatch]
 ----
 
 ----

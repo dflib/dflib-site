@@ -1,9 +1,9 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.JoinType;
-import com.nhl.dflib.Series;
-import com.nhl.dflib.concat.SeriesConcat;
+import org.dflib.DataFrame;
+import org.dflib.JoinType;
+import org.dflib.Series;
+import org.dflib.concat.SeriesConcat;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;

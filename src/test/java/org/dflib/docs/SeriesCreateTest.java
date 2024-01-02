@@ -1,10 +1,10 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.Extractor;
-import com.nhl.dflib.IntSeries;
-import com.nhl.dflib.Series;
-import com.nhl.dflib.builder.SeriesAppender;
-import com.nhl.dflib.junit5.SeriesAsserts;
+import org.dflib.Extractor;
+import org.dflib.IntSeries;
+import org.dflib.Series;
+import org.dflib.builder.SeriesAppender;
+import org.dflib.junit5.SeriesAsserts;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

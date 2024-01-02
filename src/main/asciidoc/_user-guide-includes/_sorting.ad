@@ -11,7 +11,7 @@ First let's look at sorting Series...
 Series provides a `sort` method to sort its data using a <<sorter,sorter>> built from an expression:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortSeries_Sorter]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortSeries_Sorter]
 ----
 The result is a new Series with sorted data:
 ----
@@ -24,12 +24,12 @@ The result is a new Series with sorted data:
 Alternatively the same can be achieved using a Comparator:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortSeries]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortSeries]
 ----
 The next example shows how to sort Series in the "natural" order (alphabetically for Strings):
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortSeries_Natural]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortSeries_Natural]
 ----
 
 ----
@@ -42,7 +42,7 @@ d
 Series of primitives have methods to sort values in the natural order without an explicit sorter or comparator:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortSeries_Long]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortSeries_Long]
 ----
 
 ----
@@ -66,7 +66,7 @@ compatible with `java.lang.Comparable` (i.e., Strings, numbers, etc).
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortDataFrame_Sorter]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortDataFrame_Sorter]
 ----
 ----
 first   last      middle
@@ -82,14 +82,14 @@ Alternatively sorting can be done by a single column name or an array of columns
 - values in columns used for sorting must be either Java primitive or implement `java.lang.Comparable`.
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortDataFrameComparableColumn]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortDataFrameComparableColumn]
 ----
 <1> The first argument is the column name (can also be column integer index), the second - a boolean indicating sort
 direction (`true` for ascending, `false` - for descending order).
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SortingTest.java[tags=sortDataFrameComparableColumns]
+include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortDataFrameComparableColumns]
 ----
 
 

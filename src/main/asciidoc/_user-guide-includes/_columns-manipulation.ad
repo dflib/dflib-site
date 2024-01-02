@@ -17,7 +17,7 @@ based on data from other columns:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=addColumn]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=addColumn]
 ----
 
 <1> Expression producing the column by concatenating values of other columns
@@ -27,7 +27,7 @@ The same can be done using a lambda instead of an expression (though the Express
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=addColumnFromRow]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=addColumnFromRow]
 ----
 
 <1> New column name
@@ -38,7 +38,7 @@ Multiple columns can be added in a single method call:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=addColumns]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=addColumns]
 ----
 
 ----
@@ -55,7 +55,7 @@ column. E.g. we can add a column that will number DataFrame rows:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=addColumnFromSeries]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=addColumnFromSeries]
 ----
 <1> `IntSequenceSeries` is a special Series that produces a sequence of numbers in the specified range
 ----
@@ -71,7 +71,7 @@ For this particular task (adding row numbers) there's a shortcut that does the s
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=addRowNumbers]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=addRowNumbers]
 ----
 
 === Renaming Columns
@@ -83,7 +83,7 @@ cleanup to match the expectations of the application. There are a number of ways
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=renameColumn]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=renameColumn]
 ----
 
 ----
@@ -98,7 +98,7 @@ Joan       O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=renameColumns]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=renameColumns]
 ----
 
 ----
@@ -113,7 +113,7 @@ Joan       O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=renameColumns_Map]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=renameColumns_Map]
 ----
 
 ----
@@ -128,7 +128,7 @@ Joan       O'Hara
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=renameColumns_ToLowerCase]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=renameColumns_ToLowerCase]
 ----
 
 ----
@@ -148,7 +148,7 @@ is how to perform type conversions on a column:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=replaceColumn]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=replaceColumn]
 ----
 
 ==== Compacting Columns
@@ -158,7 +158,7 @@ can be Numbers or Strings:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ColumnsManipulationTest.java[tags=compact]
+include::../../../test/java/org/dflib/docs/ColumnsManipulationTest.java[tags=compact]
 ----
 
 <1> The second method argument is the primitive value to use if the value being converted is null

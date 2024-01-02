@@ -6,7 +6,7 @@
     <groupId>org.dflib</groupId>
     <version>1.0.0-SNAPSHOT</version>
     <artifactId>dflib-site</artifactId>
-    <name>dflib-site: documentation</name>
+    <name>dflib-site: website and docs</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -23,7 +23,7 @@
     <licenses>
         <license>
             <name>Apache License</name>
-            <url>https://github.com/nhl/dflib/blob/master/LICENSE</url>
+            <url>https://github.com/dflib/dflib/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -38,7 +38,7 @@
         </developer>
     </developers>
 
-    <url>https://github.com/nhl/dflib-docs</url>
+    <url>https://github.com/dflib/dflib-site</url>
 
     <repositories>
         <repository>
@@ -66,7 +66,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.nhl.dflib</groupId>
+                <groupId>org.dflib</groupId>
                 <artifactId>dflib-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
@@ -98,27 +98,27 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.nhl.dflib</groupId>
+            <groupId>org.dflib</groupId>
             <artifactId>dflib</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.nhl.dflib</groupId>
+            <groupId>org.dflib</groupId>
             <artifactId>dflib-csv</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.nhl.dflib</groupId>
+            <groupId>org.dflib</groupId>
             <artifactId>dflib-jdbc</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.nhl.dflib</groupId>
+            <groupId>org.dflib</groupId>
             <artifactId>dflib-jupyter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.nhl.dflib</groupId>
+            <groupId>org.dflib</groupId>
             <artifactId>dflib-junit5</artifactId>
             <scope>test</scope>
         </dependency>

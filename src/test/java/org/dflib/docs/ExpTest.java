@@ -1,12 +1,12 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.*;
+import org.dflib.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 // tag::expImport[]
-import static com.nhl.dflib.Exp.*;
+import static org.dflib.Exp.*;
 // end::expImport[]
 
 public class ExpTest extends BaseTest {

@@ -30,7 +30,7 @@ discuss how to create Series.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SeriesCreateTest.java[tags=create]
+include::../../../test/java/org/dflib/docs/SeriesCreateTest.java[tags=create]
 ----
 
 ----
@@ -45,7 +45,7 @@ Primitive Series classes have their own factory methods. E.g.:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SeriesCreateTest.java[tags=createInt]
+include::../../../test/java/org/dflib/docs/SeriesCreateTest.java[tags=createInt]
 ----
 
 ==== Creating Series By Element
@@ -56,7 +56,7 @@ an InputStream line by line as Strings:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/SeriesCreateTest.java[tags=createIncrementally]
+include::../../../test/java/org/dflib/docs/SeriesCreateTest.java[tags=createIncrementally]
 ----
 <1> Create Series "appender" that will accumulate values. For primitive Series you would use `Extractor.$int(..)`,
 `Extractor.$long(..)` and so on
@@ -76,7 +76,7 @@ source, like a <<jdbc,database>> or a <<csv,CSV file>>. Those are discussed in s
 First example - adding data row by row:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATime]
+include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATime]
 ----
 <1> A special builder is created to append each row as a vararg array
 <2> The builder creates an "appender" object. While here we are using the builder with default settings, it has extra
@@ -95,7 +95,7 @@ Joan   32
 
 A more general example - creating a DataFrame from a list of objects by "extracting" column data from object properties:
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATimeFromObject]
+include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATimeFromObject]
 ----
 <1> The builder is started with an array of Extractors. Each extractor generates its own column, filling it with a
 corresponding object property.
@@ -117,7 +117,7 @@ Joan   32
 Another example - a single-dimensional array can be "folded" into a DataFrame row-by-row:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFoldByRow]
+include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createFoldByRow]
 ----
 <1> Folding Builder is created
 <2> Passing a varargs array of values, that is folded to match the specified number of columns, row by row.
@@ -125,13 +125,13 @@ include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=cre
 Same, but folding column-by-column:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFoldByColumn]
+include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createFoldByColumn]
 ----
 You can also create DataFrames from collections or Streams (folded either by row or by column). Here is an example
 of how to use a Stream of primitive ints, creating a DataFrame made of memory-efficient `IntSeries` columns:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFromIntStream]
+include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createFromIntStream]
 ----
 
 ----
@@ -150,7 +150,7 @@ col1 col2
 Finally, a DataFrame can be created from an array of Series, each Series representing a column:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/DataFrameCreateTest.java[tags=createFromSeries]
+include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createFromSeries]
 ----
 
 This is the most efficient way, as an array of Series is how each DataFrame is structured internally.
@@ -167,7 +167,7 @@ may use it to access DataFrame columns labels.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/MainDataStructuresTest.java[tags=indexGetLabels]
+include::../../../test/java/org/dflib/docs/MainDataStructuresTest.java[tags=indexGetLabels]
 ----
 
 <1> Access DataFrame index and read label names.

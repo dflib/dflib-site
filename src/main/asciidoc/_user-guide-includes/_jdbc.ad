@@ -11,7 +11,7 @@ To start using all this, you need to import `dflib-jdbc` module:
 [source,xml]
 ----
 <dependency>
-    <groupId>com.nhl.dflib</groupId>
+    <groupId>org.dflib</groupId>
     <artifactId>dflib-jdbc</artifactId>
 </dependency>
 
@@ -26,12 +26,12 @@ connector is to pass that DataSource to `Jdbc` factory method:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=connectorDS]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=connectorDS]
 ----
 Alternatively you can build everything from scratch:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=connectorManual]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=connectorManual]
 ----
 
 <1> (Optional) Driver name. Some drivers are not properly registered with the DriverManager, and require an explicit
@@ -46,7 +46,7 @@ operations that do not require the user to write SQL (all needed SQL is auto-gen
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=tableLoader]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=tableLoader]
 ----
 ----
 id name              salary
@@ -61,7 +61,7 @@ Table loader provides a way to customize the load operation. It allows to select
 number of rows to read, sample rows, and even specify fetch condition as another DataFrame. Some examples:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=tableLoader_wOptions]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=tableLoader_wOptions]
 ----
 ----
 name        salary
@@ -77,7 +77,7 @@ from the database metadata.
 Table saver allows to save DataFrame to a table. Column names in the DataFrame should match column names in the DB table:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=tableSaver]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=tableSaver]
 ----
 
 In this scenario table saver executes insert for each DataFrame row. But what if there is already an existing data
@@ -92,13 +92,13 @@ extra columns is preserved.
 Delete before insert example:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=tableSaver_Delete]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=tableSaver_Delete]
 ----
 
 Merge by PK example (PK columns are detected from DB metadata) :
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/JdbcTest.java[tags=tableSaver_Merge]
+include::../../../test/java/org/dflib/docs/JdbcTest.java[tags=tableSaver_Merge]
 ----
 
 === SqlLoader / SqlSaver

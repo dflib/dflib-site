@@ -1,17 +1,17 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.Exp;
-import com.nhl.dflib.IntSeries;
-import com.nhl.dflib.junit5.DataFrameAsserts;
-import com.nhl.dflib.series.IntSequenceSeries;
+import org.dflib.DataFrame;
+import org.dflib.Exp;
+import org.dflib.IntSeries;
+import org.dflib.junit5.DataFrameAsserts;
+import org.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.nhl.dflib.Exp.*;
+import static org.dflib.Exp.*;
 
 public class ColumnsManipulationTest extends BaseTest {
 

@@ -1,9 +1,9 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.Printers;
-import com.nhl.dflib.print.Printer;
-import com.nhl.dflib.print.TabularPrinter;
+import org.dflib.DataFrame;
+import org.dflib.Printers;
+import org.dflib.print.Printer;
+import org.dflib.print.TabularPrinter;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;

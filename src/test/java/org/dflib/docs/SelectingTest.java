@@ -1,10 +1,10 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.*;
-import com.nhl.dflib.series.IntSequenceSeries;
+import org.dflib.*;
+import org.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
 
-import static com.nhl.dflib.Exp.*;
+import static org.dflib.Exp.*;
 
 public class SelectingTest extends BaseTest {
 

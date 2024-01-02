@@ -1,13 +1,13 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.LongSeries;
-import com.nhl.dflib.Series;
+import org.dflib.DataFrame;
+import org.dflib.LongSeries;
+import org.dflib.Series;
 import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 
-import static com.nhl.dflib.Exp.*;
+import static org.dflib.Exp.*;
 
 public class SortingTest extends BaseTest {
 

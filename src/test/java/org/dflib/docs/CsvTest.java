@@ -1,8 +1,8 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.IntSeries;
-import com.nhl.dflib.csv.Csv;
+import org.dflib.DataFrame;
+import org.dflib.IntSeries;
+import org.dflib.csv.Csv;
 import org.apache.commons.csv.CSVFormat;
 import org.junit.jupiter.api.Test;
 

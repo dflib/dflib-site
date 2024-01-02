@@ -1,6 +1,6 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.jupyter.DFLibJupyter;
+import org.dflib.jupyter.DFLibJupyter;
 import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.display.Renderer;
 import org.junit.jupiter.api.Test;

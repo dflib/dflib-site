@@ -1,9 +1,9 @@
-package com.nhl.dflib.docs;
+package org.dflib.docs;
 
-import com.nhl.dflib.DataFrame;
-import com.nhl.dflib.Series;
-import com.nhl.dflib.jdbc.Jdbc;
-import com.nhl.dflib.jdbc.connector.JdbcConnector;
+import org.dflib.DataFrame;
+import org.dflib.Series;
+import org.dflib.jdbc.Jdbc;
+import org.dflib.jdbc.connector.JdbcConnector;
 import io.bootique.jdbc.junit5.DbTester;
 import io.bootique.jdbc.junit5.derby.DerbyTester;
 import io.bootique.junit5.BQTest;
@@ -18,7 +18,7 @@ public class JdbcTest extends BaseTest {
 
     @BQTestTool
     static final DbTester db = DerbyTester.db()
-            .initDB("classpath:com/nhl/dflib/docs/init_schema.sql")
+            .initDB("classpath:org/dflib/docs/init_schema.sql")
             .deleteBeforeEachTest("person");
 
     private static JdbcConnector connector;

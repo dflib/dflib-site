@@ -10,18 +10,18 @@ To use expressions, you'd start by adding a static import of the `Exp` interface
 are available directly in the code:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ExpTest.java[tags=expImport]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expImport]
 ----
 Now let's create two simple expressions that return a named and a positional column of the requested type:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ExpTest.java[tags=columnExp]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExp]
 ----
 
 And now let's evaluate the expressions:
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ExpTest.java[tags=columnExpEval]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExpEval]
 ----
 
 This doesn't look like much (other DFLib APIs would do the same), but this basic abstraction allows to implement a
@@ -57,7 +57,7 @@ methods of various `Exp` subclasses. E.g.:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ExpTest.java[tags=expChain]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expChain]
 ----
 
 === Numeric Expressions
@@ -81,7 +81,7 @@ created from any expression by calling its `asc()` or `desc()` methods:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/com/nhl/dflib/docs/ExpTest.java[tags=sorter]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=sorter]
 ----
 
 NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
