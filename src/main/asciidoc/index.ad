@@ -24,11 +24,11 @@ include::_user-guide-includes/_printers.ad[]
 
 include::_user-guide-includes/_expressions.ad[]
 
-include::_user-guide-includes/_selecting.ad[]
+include::_user-guide-includes/_column_ops.ad[]
 
-include::_user-guide-includes/_columns-manipulation.ad[]
+include::_user-guide-includes/_row_ops.ad[]
 
-include::_user-guide-includes/_cleaning.ad[]
+include::_user-guide-includes/_dataframe_ops.ad[]
 
 include::_user-guide-includes/_sorting.ad[]
 

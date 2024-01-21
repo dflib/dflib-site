@@ -9,36 +9,6 @@ import static org.dflib.Exp.*;
 public class SelectingTest extends BaseTest {
 
     @Test
-    public void selectAndReorderColumns() {
-
-// tag::selectAndReorderColumns[]
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Juliana", "Walewski", null,
-                "Joan", "O'Hara", "J");
-
-        DataFrame df1 = df.selectColumns("last", "first");
-// end::selectAndReorderColumns[]
-
-        print("selectAndReorderColumns", df1);
-    }
-
-    @Test
-    public void selectAndReorderColumns_ByIndex() {
-
-// tag::selectAndReorderColumns_ByIndex[]
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Juliana", "Walewski", null,
-                "Joan", "O'Hara", "J");
-
-        DataFrame df1 = df.selectColumns(1, 0);
-// end::selectAndReorderColumns_ByIndex[]
-
-        print("selectAndReorderColumns_ByIndex", df1);
-    }
-
-    @Test
     public void selectRows() {
 
 // tag::selectRows[]
@@ -139,51 +109,5 @@ public class SelectingTest extends BaseTest {
         // end::filterByBoolean[]
 
         print("filterByBoolean", df1);
-    }
-
-    @Test
-    public void headDataFrame() {
-
-        // tag::headDataFrame[]
-        DataFrame df = DataFrame.foldByRow("first", "last").of(
-                "Jerry", "Cosin",
-                "Juliana", "Walewski",
-                "Joan", "O'Hara");
-
-        DataFrame df1 = df.head(2); // <1>
-        // end::headDataFrame[]
-
-        print("headDataFrame", df1);
-    }
-
-    @Test
-    public void tailDataFrame() {
-
-
-        DataFrame df = DataFrame.foldByRow("first", "last").of(
-                "Jerry", "Cosin",
-                "Juliana", "Walewski",
-                "Joan", "O'Hara");
-
-        // tag::tailDataFrame[]
-        DataFrame df1 = df.tail(1);
-        // end::tailDataFrame[]
-
-        print("tailDataFrame", df1);
-    }
-
-    @Test
-    public void negativeHeadDataFrame() {
-
-        DataFrame df = DataFrame.foldByRow("first", "last").of(
-                "Jerry", "Cosin",
-                "Juliana", "Walewski",
-                "Joan", "O'Hara");
-
-        // tag::negativeHeadDataFrame[]
-        DataFrame df1 = df.head(-2);
-        // end::negativeHeadDataFrame[]
-
-        print("headDataFrame", df1);
     }
 }

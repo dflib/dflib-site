@@ -555,26 +555,28 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#sorter">Sorters</a></li>
 </ul>
 </li>
-<li><a href="#selecting">Selecting Rows and Columns</a>
+<li><a href="#column_ops">Column Operations</a>
 <ul class="sectlevel2">
-<li><a href="#_selecting_columns">Selecting Columns</a></li>
-<li><a href="#_deleting_columns">Deleting Columns</a></li>
-<li><a href="#_selecting_rows_by_position">Selecting Rows by Position</a></li>
-<li><a href="#_selecting_rows_by_condition">Selecting Rows by Condition</a></li>
-<li><a href="#_head_and_tail">Head and Tail</a></li>
-</ul>
-</li>
-<li><a href="#column-manipulation">Columns Manipulation</a>
-<ul class="sectlevel2">
-<li><a href="#adding-columns">Adding Columns</a></li>
+<li><a href="#_picking_columns">Picking Columns</a></li>
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
-<li><a href="#transforming-columns">Transforming Columns</a></li>
+<li><a href="#_transforming_columns">Transforming Columns</a></li>
+<li><a href="#_merging_columns">Merging Columns</a></li>
+<li><a href="#_filling_nulls">Filling Nulls</a></li>
+<li><a href="#_dropping_columns">Dropping Columns</a></li>
 </ul>
 </li>
-<li><a href="#_cleaning_up_data">Cleaning up Data</a>
+<li><a href="#row_ops">Row Operations</a>
 <ul class="sectlevel2">
-<li><a href="#_filling_nulls_in_series">Filling Nulls in Series</a></li>
-<li><a href="#_filling_nulls_in_dataframe">Filling Nulls in DataFrame</a></li>
+<li><a href="#_picking_rows">Picking Rows</a></li>
+<li><a href="#_transforming_rows">Transforming Rows</a></li>
+<li><a href="#_merging_rows">Merging Rows</a></li>
+<li><a href="#_dropping_rows">Dropping Rows</a></li>
+</ul>
+</li>
+<li><a href="#dataframe_ops">DataFrame Operations</a>
+<ul class="sectlevel2">
+<li><a href="#_compacting_columns">Compacting Columns</a></li>
+<li><a href="#_head_and_tail">Head and Tail</a></li>
 </ul>
 </li>
 <li><a href="#sort">Sorting</a>
@@ -830,8 +832,8 @@ Series&lt;<span class="predefined-type">String</span>&gt; s = appender.toSeries(
 <div class="sect2">
 <h3 id="_dataframe">DataFrame</h3>
 <div class="paragraph">
-<p><code>DataFrame</code> is an in-memory table with rows and columns. Each column has a name, and is represented as a <code>Series</code> object.
-DataFrame can contain columns of different kinds and is not parameterized for a single type.</p>
+<p><code>DataFrame</code> is an in-memory table with rows and columns. Each column has a name, and is stored as a <code>Series</code> object.
+DataFrame can contain columns of different kinds, so it is not parameterized for a single type.</p>
 </div>
 <div class="paragraph">
 <p>There are a few ways to create a DataFrame. Here we&#8217;ll show "builder" API to convert arrays, Streams, Collections,
@@ -851,7 +853,7 @@ source, like a <a href="#jdbc">database</a> or a <a href="#csv">CSV file</a>. Th
 </table>
 </div>
 <div class="paragraph">
-<p>First example - adding data row by row:</p>
+<p>First example, adding data row by row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1147,13 +1149,13 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <h2 id="expressions">Expressions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to manipulate columns and rows
-in DataFrames and data in Series. <code>Exp</code> is the interface representing an expression that takes a DataFrame or a
-Series and produces a Series of the specified type. It also provides an entry point to create expressions via its static
-factory methods.</p>
+<p>DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to perform column-centric
+operations on DataFrames and Series. <code>Exp</code> is the interface representing an expression that takes a DataFrame or a
+Series and produces a Series of the specified type. It also contains static factory methods to create all kinds of
+expressions.</p>
 </div>
 <div class="paragraph">
-<p>To use expressions, you&#8217;d start by adding a static import of the <code>Exp</code> interface, so that all its factory methods
+<p>To use expressions, you&#8217;d often start by adding a static import of the <code>Exp</code> interface, so that all its factory methods
 are available directly in the code:</p>
 </div>
 <div class="listingblock">
@@ -1196,9 +1198,9 @@ cases for expressions.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-DFLib expression language Expressions work on DFLib data structures instead of individual values, so they can
-achieve the best possible performance for any given operation. Expressions should be a preferred way to manipulate your
-data instead of more "direct" API.
+DFLib expression language Expressions work on Series instead of individual values, so they can achieve the best
+possible performance for any given operation. Expressions should be a preferred way to manipulate your data instead of
+more "direct" API.
 </td>
 </tr>
 </table>
@@ -1309,194 +1311,47 @@ either a Java primitive or an instance of <code>Comparable</code>, or a ClassCas
 </div>
 </div>
 <div class="sect1">
-<h2 id="selecting">Selecting Rows and Columns</h2>
+<h2 id="column_ops">Column Operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before analyzing or transforming a Series or a DataFrame, very often they need to be to narrowed down to just
-the relevant data. API for selecting and filtering rows and columns described in this chapter helps with such task.</p>
+<p>With a few exceptions, operations on DataFrame data are performed on a subset of rows and columns. Such operations
+begin with defining a <code>ColumnSet</code> or a <code>RowSet</code> and then applying an operation. Let&#8217;s first look at columns&#8230;&#8203;</p>
 </div>
 <div class="sect2">
-<h3 id="_selecting_columns">Selecting Columns</h3>
+<h3 id="_picking_columns">Picking Columns</h3>
 <div class="paragraph">
-<p><code>selectColumns(..)</code> method allows to do a few things at once: select a subset of columns in the DataFrame,
-reorder columns and even duplicate columns.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Selecting by column name. In the example below we are getting rid of the "middle" column and reordering "first" and
-"last" columns:</p>
-</li>
-</ul>
+<p>Here is a simple example of how to pick two columns from a DataFrame by <strong>column name</strong>, and return a new DataFrame with just those two columns:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>);
 
-DataFrame df1 = df.selectColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>last      first
---------- -------
-Cosin     Jerry
-Walewski  Juliana
-O'Hara    Joan
-3 rows x 2 columns</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Selecting by column position instead of the name:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.selectColumns(<span class="integer">1</span>, <span class="integer">0</span>);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_deleting_columns">Deleting Columns</h3>
-<div class="paragraph">
-<p><code>DataFrame.dropColumn(..)</code> and <code>dropColumns(..)</code> are complimentary to <code>selectColumns(..)</code>. They allow to remove one or
-more columns, but do not affect the order of the remaining columns.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.dropColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .select(); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Drop one or more columns from the DataFrame.</td>
+<td>Define a <code>ColumnSet</code> of two columns matching provided names.
+The order of columns in the <code>ColumnSet</code> matches the order of column names passed to this method.</td>
 </tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>last
----------
-Cosin
-Walewski
-O'Hara
-3 rows x 1 column</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_selecting_rows_by_position">Selecting Rows by Position</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Selecting a subset of rows by position. As there are no row labels in DFLib yet, selecting by position is the only
-"direct" selection option. Just like with column selection, it allows to duplicate rows by referencing the same
-position more than once, as well as reorder rows:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.selectRows(<span class="integer">2</span>, <span class="integer">0</span>, <span class="integer">0</span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first last
------ ------
-Joan  O'Hara
-Jerry Cosin
-Jerry Cosin
-3 rows x 2 columns</pre>
-</div>
-</div>
-<div id="selectRowsIndex" class="ulist">
-<ul>
-<li>
-<p>Selecting using an index. You may precalulate an "index" (an <code>IntSeries</code>) of row positions and then use it for row
-selection. An index often comes from applying a condition to a <code>Series</code> that is not a part of the <code>DataFrame</code>. E.g.:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
-
-IntSeries selectionIndex = rowNumbers.indexInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-
-DataFrame df1 = df.selectRows(selectionIndex);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
 <tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Index is calculated by applying a condition to a Series, that is not a part of the DataFrame, whose rows we are
-selecting.</td>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Return a new DataFrame matching the <code>ColumnSet</code>. More on this in the next chapter.</td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>first last
------ -----
-Jerry Cosin
-1 row x 2 columns</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_selecting_rows_by_condition">Selecting Rows by Condition</h3>
-<div class="paragraph">
-<p>Most often than not we don&#8217;t know specific positions of rows we would like to select, and instead would like to evaluate
-each row against some condition to decide whether it should be included in the result:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.selectRows(and(
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>),
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>)));</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first last
------ ------
-Joan  O'Hara
-1 row x 2 columns</pre>
+<pre>last     first
+-------- -------
+Cosin    Jerry
+O'Hara   Joan</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1506,74 +1361,591 @@ Joan  O'Hara
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Unlike positional select this flavor does not allow to reorder or duplicate rows.
+Passing columns in a specific order to the <code>cols(..)</code> method allowed us to reorder the columns in the result.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>In the example above select condition was provided using the <code>Condition</code> object. You can also use a lambda function on a
-single column:</p>
+<p>In the example above, the columns were picked by name. There are a few other ways to define a <code>ColumnSet</code>, as described
+below.</p>
+</div>
+<div class="paragraph">
+<p>By <strong>column positions</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.selectRows(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>,
-        (<span class="predefined-type">String</span> f) -&gt; f != <span class="predefined-constant">null</span> &amp;&amp; f.startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>));</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(<span class="integer">1</span>, <span class="integer">0</span>).select();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Or a lambda function on the entire row:</p>
+<p>By a <strong>custom predicate</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.selectRows(r -&gt;
-        r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>)
-                &amp;&amp; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).toString().startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">O</span><span class="delimiter">&quot;</span></span>));</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(c -&gt; !<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>.equals(c)).select();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Finally, <code>BooleanSeries</code> can also serve as a filter condition (a "mask"). Such mask is usually a result of a prior logical
-operation between Series. E.g.:</p>
+<p>This form of <code>cols(..)</code> does not allow to reorder the columns. The resulting columns will always follow the relative order of the original DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-Series&lt;<span class="predefined-type">String</span>&gt; names = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sandra</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Anton</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>);
-BooleanSeries mask = names.eq(df.getColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b>
-
-DataFrame df1 = df.selectRows(mask);</code></pre>
+<pre>first   last
+------- --------
+Jerry   Cosin
+Joan    O'Hara</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By specifying column names (or positions) <strong>excluded</strong> from the <code>ColumnSet</code>. This also doesn&#8217;t allow column reordering:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.colsExcept(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).select();</code></pre>
+</div>
+</div>
+<div id="dynamic-column-selection" class="paragraph">
+<p>By specifying no columns</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols().select();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the returned DataFrame will be the same as the source DataFrame (i.e. <code>.cols()</code> is equivalent to selecting
+all available columns), so it is fairly meaningless.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+"No-columns" picking style is a so-called <strong>dynamic column selection</strong>, when the result columns are resolved at a
+later stage, based on the semantics of an operation applied to the <code>ColumnSet</code>. So in general, it is quite useful.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_renaming_columns">Renaming Columns</h3>
+<div class="paragraph">
+<p>We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
+columns via <code>selectAs(..)</code>.</p>
+</div>
+<div class="paragraph">
+<p>Rename all column set columns:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
+        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Mask is calculated by comparing a Series of names with DataFrame column of first names.</td>
+<td>Passing new names for the <code>ColumnSet</code> columns. The order of the names must correspond to the order of columns
+in the <code>ColumnSet</code>, regardless of how it was defined.</td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
 <div class="content">
+<pre>last_name first_name
+--------- ----------
+Cosin     Jerry
+Walewski  Juliana</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rename a subset of columns. Specifying names of all columns at once may not be practical for
+"wide" column sets. Instead, you can pass a map of old to new names to <code>selectAs(..)</code> to rename just some columns.
+Names not present in the map will remain unchanged:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
+        .selectAs(<span class="predefined-type">Map</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST_NAME</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LAST_NAME first
+--------- -------
+Cosin     Jerry
+O'Hara    Joan</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rename with a function, applied to all column names in turn. This is useful e.g. to convert all names to lower or
+upper case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
+        .selectAs(<span class="predefined-type">String</span>::toUpperCase);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>LAST   FIRST
+------ -----
+Cosin  Jerry
+O'Hara Joan</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transforming_columns">Transforming Columns</h3>
+<div class="paragraph">
+<p>In the above examples we performed DataFrame vertical slicing, columns reordering and renaming. In this chapter
+we&#8217;ll show how to transform column data.</p>
+</div>
+<div class="paragraph">
+<p>Generating columns with expressions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp fmExp = concat(
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
+        ifNull(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).mapVal(s -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + s), <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>));
+
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .select(fmExp, <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>When defining the <code>ColumnSet</code>, we are allowed to specify columns that are not present in the original DataFrame, as
+we are naming the result columns, not the source columns.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>For each column in the <code>ColumnSet</code>, there should be an expression that generates the column. The first expression
+here transforms the data, the second simply picks a column from the source without modification.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first_middle last
+------------ ------
+Jerry M      Cosin
+Joan         O'Hara</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Generating columns row-by-row with a <code>RowMapper</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">RowMapper</span> mapper = (from, to) -&gt; {
+    <span class="predefined-type">String</span> middle = from.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>) != <span class="predefined-constant">null</span>
+            ? <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + from.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+            : <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+    to.set(<span class="integer">0</span>, from.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) + middle).set(<span class="integer">1</span>, from.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>));
+};
+
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .select(mapper);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There&#8217;s also a way to generating columns row-by-row with per-column array of <code>RowToValueMapper</code>. It is not very different
+from what we&#8217;ve seen so far, so we are leaving this as an exercise for the reader.</p>
+</div>
+<div class="paragraph">
+<p>Generating columns by splitting other columns:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555,111-666-6666,111-777-7777</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
+        .selectArrays(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>selectArrays(..)</code> takes an expression that splits a String with concatenated phones into a primary and secondary phone
+numbers. If a split has more than 2 numbers, the rest are ignored, if less - nulls are used for the missing elements</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>primary_phone secondary_phone
+------------- ---------------
+111-555-5555  111-666-6666
+222-555-5555  null</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t know the exact number of phones, but would like to
+capture them all in separate columns, simply do not specify any explicit column names when defining a <code>ColumnSet</code> (as
+mentioned in the <a href="#dynamic-column-selection">dynamic column selection</a>). As many columns as needed to fit the longest
+collection of phone numbers will be generated on the fly, and the names will be assigned dynamically:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols() <i class="conum" data-value="1"></i><b>(1)</b>
+        .selectArrays(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>));</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Not specifying any columns will result in split columns generated dynamically.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>0            1            2
+------------ ------------ ------------
+111-555-5555 111-666-6666 111-777-7777
+222-555-5555 null         null</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another flavor of <code>selectArrays(..)</code> is <code>selectIterables(..)</code> that takes an <code>Exp&lt;? extends Iterable&gt;</code> and expands it
+into columns, but otherwise works the same way.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_merging_columns">Merging Columns</h3>
+<div class="paragraph">
+<p>All the <code>ColumnSet</code> operations demonstrated so far resulted in discarding the source DataFrame, and returning only the
+columns defined within the set. But there are many situations when we would like to recombine <code>ColumnSet</code> with the
+original DataFrame. E.g., when you are doing data cleanup or "enriching" a data set. In fact, all the renaming and
+data transformation operations that we just discussed can be executed as "merge" operations (as opposed to "select").
+All the <code>ColumnsSet</code> methods that do not start with <code>select&#8230;&#8203;</code> are performing a merge with the source DataFrame.</p>
+</div>
+<div class="paragraph">
+<p>An example of cleaning up a data set and adding a new column:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>);
+
+Function&lt;<span class="predefined-type">String</span>, Exp&lt;<span class="predefined-type">String</span>&gt;&gt; cleanup = col -&gt; <span class="error">$</span>str(col).mapVal(
+        s -&gt; s != <span class="predefined-constant">null</span> &amp;&amp; !s.isEmpty()
+                ? <span class="predefined-type">Character</span>.toUpperCase(s.charAt(<span class="integer">0</span>)) + s.substring(<span class="integer">1</span>)
+                : <span class="predefined-constant">null</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .map( <i class="conum" data-value="3"></i><b>(3)</b>
+                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
+                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
+                concat(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>))
+        );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An expression that capitalizes the first letter of the name</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The columns we are going to generate or transform</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Instead of <code>select(..)</code>, use <code>map(..)</code> to merge to the original DataFrame</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s check the result. The first two columns in the <code>ColumnSet</code> ("last", "first") were  already present in the
+DataFrame, so they got replaced with the cleaned up versions. The last column ("full") was new, so it was appended to
+the right side of the DataFrame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last   middle full
+----- ------ ------ -----------
+Jerry Cosin  M      jerry cosin
+Joan  O'Hara null   Joan O'Hara</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>General merge rules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Merging is done <strong>by name</strong>. DataFrame&#8217;s columns with matching names are replaced with new versions, columns that
+are not a part of the <code>ColumnSet</code> are left unchanged, and columns in the <code>ColumnSet</code>, but not in the DataFrame, are
+appended on the right.</p>
+</li>
+<li>
+<p>The order of the existing columns in the <code>ColumnSet</code> has no effect on the order of replaced columns (i.e. they are
+placed in their original positions). The relative order of appended columns is respected.</p>
+</li>
+<li>
+<p>All transformation operations (such as expressions in our example) are applied to the original DataFrame columns
+(and can reference those outside the <code>ColumnSet</code>), but do not see the transformed columns. This is why there is a
+lowercase name in the resulting "full" column.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>What if we want to ensure that all of the <code>ColumnSet</code> columns are appended, and no replacement of the original columns
+occurs? For this you can manually specify <code>ColumnSet</code> labels that are not found in the source DataFrame, or you can use
+<code>DataFrame.colsAppend(..)</code>, and DFLib itself will ensure that the names are unique, appending <code>_</code> to each label until
+it doesn&#8217;t overlap with anything already in the DataFrame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .colsAppend(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .map(
+                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
+                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
+        );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Using <code>colsAppend(..)</code> instead of <code>cols()</code> ensures that both pre- and post-cleanup columns are preserved.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last   middle last_  first_
+----- ------ ------ ------ ------
+jerry cosin  M      Cosin  Jerry
+Joan  O'Hara null   O'Hara Joan</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Since we&#8217;ve already discussed various flavors of column renaming and transformation in the context of <code>select(..)</code>
+operation, we leave it as an exercise for the user to explore the remaining similar kinds of <code>as(..)</code> and <code>map(..)</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_filling_nulls">Filling Nulls</h3>
+<div class="paragraph">
+<p>As a part of a dataset cleanup effort, you might want to replace <code>null</code> values with something meaningful. For this you
+may have to guess or maybe extrapolate the existing values based on some internal knowledge of the dataset. To help with
+this task, <code>ColumnSet</code> provides a few methods discussed here.</p>
+</div>
+<div class="paragraph">
+<p>Filling nulls with a constant value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">a1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a2</span><span class="delimiter">&quot;</span></span>,
+        <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">b1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b2</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame clean = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).fillNulls(<span class="string"><span class="delimiter">&quot;</span><span class="content">X</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>c1 c2
+-- --
+a1 a2
+X  X
+b1 b2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Filling nulls with values adjacent to the cells with nulls:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame clean = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>).fillNullsBackwards() <i class="conum" data-value="1"></i><b>(1)</b>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).fillNullsForward(); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>fillNullsForward(..)</code> takes a non-null value preceding the null cell and uses it to replace nulls.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>fillNullsBackwards(..)</code> uses the first non-null value following the null cell.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>c1 c2
+-- --
+a1 a2
+b1 a2
+b1 b2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, there&#8217;s a way to fill nulls from another <code>Series</code> object used as a "template" or a "mask" :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; mask = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">C</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">D</span><span class="delimiter">&quot;</span></span>);
+DataFrame clean = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).fillNullsFromSeries(mask);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>c1 c2
+-- --
+a1 a2
+B  B
+b1 b2</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The "mask" Series can be longer (or shorter) than the DataFrame height. Values are aligned by position starting at zero.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dropping_columns">Dropping Columns</h3>
+<div class="paragraph">
+<p>To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop or select
+the columns you&#8217;d want to remain:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).drop();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.colsExcept(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).select();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In both cases, the result is the same:</p>
+</div>
+<div class="listingblock">
+<div class="content">
 <pre>first last
 ----- ------
-Joan  O'Hara
-1 row x 2 columns</pre>
+Jerry Cosin
+Joan  O'Hara</pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="row_ops">Row Operations</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_picking_rows">Picking Rows</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_transforming_rows">Transforming Rows</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_merging_rows">Merging Rows</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_dropping_rows">Dropping Rows</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dataframe_ops">DataFrame Operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As we&#8217;ve seen above, most operations within a single DataFrame are performed on row and column sets. Still there are
+a few that are applied to the DataFrame directly. In this chapter we will review some of them.</p>
+</div>
+<div class="sect2">
+<h3 id="_compacting_columns">Compacting Columns</h3>
+<div class="paragraph">
+<p>This transformation converts columns to primitives. The values in the columns to be converted can be either Numbers or
+Strings:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2022</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2023</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
+DataFrame df1 = df
+        .compactInt(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .compactDouble(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The second method argument is the primitive value to use if the value being converted is null</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>compactInt(..)</code>, <code>compactDouble(..)</code> and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to primitive Series, that take <em>significantly</em> less memory (hence, the name "compact") and compute
+most operations faster than Object-based Series. So you should consider using them where possible.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1626,9 +1998,9 @@ Joan  O'Hara
 </div>
 </div>
 <div class="paragraph">
-<p>The argument to either <code>head(..)</code> or <code>tail(..)</code> can be negative. In which case the operation skips the specified number
-of elements either from the top or from the bottom, and returns the remaining elements. The following code returns a
-new DataFrame after skipping the two top rows of the original DataFrame:</p>
+<p>The argument to either <code>head(..)</code> or <code>tail(..)</code> can be negative.
+In which case the operation skips the specified number of elements either from the top or from the bottom, and returns the remaining elements.
+The following code returns a new DataFrame after skipping the two top rows of the original DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1644,8 +2016,7 @@ Joan  O'Hara
 </div>
 </div>
 <div class="paragraph">
-<p><code>Series</code> also define <code>head(..)</code> and <code>tail(..)</code> operations that do what you&#8217;d expect from them, returning first or last N
-values.</p>
+<p><code>Series</code> also define <code>head(..)</code> and <code>tail(..)</code> operations that do what you&#8217;d expect from them, returning first or last N values.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1654,440 +2025,11 @@ values.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Unlike index operations on arrays and lists in Java, <code>head(..)</code> and <code>tail(..)</code> are safe in regards to bounds
-checking. They DO NOT throw exceptions when the length parameter is bigger than DataFrame height (or Series size),
-returning an empty DataFame (or Series) instead.
+Unlike index operations on arrays and lists in Java, <code>head(..)</code> and <code>tail(..)</code> are safe in regards to bounds checking.
+They DO NOT throw exceptions when the length parameter is bigger than DataFrame height (or Series size), returning an empty DataFame (or Series) instead.
 </td>
 </tr>
 </table>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="column-manipulation">Columns Manipulation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="#selecting">Selecting rows and columns</a>, described in the previous chapter, is intended to produce a desired subset of
-data. Here we&#8217;ll demonstrate methods for DataFrame columns manipulation:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Adding columns with new data, that may or may not be derived from the data in other DataFrame columns</p>
-</li>
-<li>
-<p>Renaming columns</p>
-</li>
-<li>
-<p>Transforming column data, converting it to a specific Java type and optimizing memory usage</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="adding-columns">Adding Columns</h3>
-<div class="paragraph">
-<p>There are a few ways to add columns to a DataFrame. A rather common case is adding a column by calculating cell values
-based on data from other columns:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.addColumn(
-        concat(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)) <i class="conum" data-value="1"></i><b>(1)</b>
-                .as(<span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>)  <i class="conum" data-value="2"></i><b>(2)</b>
-);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Expression producing the column by concatenating values of other columns</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>"as" sets the name of the final expression, which will be the name of the new column</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The same can be done using a lambda instead of an expression (though the Expression API should be preferred) :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.addColumn(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>,                                   <i class="conum" data-value="1"></i><b>(1)</b>
-        r -&gt; r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + r.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
-);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>New column name</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Operation to produce values for the new column from the existing row. <code>r</code> is a special <code>RowProxy</code> object,
-providing access to the row being processed.</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Multiple columns can be added in a single method call:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addColumns(
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).mapVal(s -&gt; s.charAt(<span class="integer">0</span>)).as(<span class="string"><span class="delimiter">&quot;</span><span class="content">last_initial</span><span class="delimiter">&quot;</span></span>),
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).mapVal(s -&gt; s.charAt(<span class="integer">0</span>)).as(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_initial</span><span class="delimiter">&quot;</span></span>)
-);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first   last      last_initial first_initial
-------- --------- ------------ -------------
-Jerry   Cosin     C            J
-Juliana Walewski  G            A
-Joan    O'Hara    O            J
-3 rows x 4 columns</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you have a Series object of the size matching the DataFrame height, it can be added as a
-column. E.g. we can add a column that will number DataFrame rows:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">IntSeries rowNumbers = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">1</span>, df.height() + <span class="integer">1</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-DataFrame df1 = df.addColumn(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>,
-        rowNumbers
-);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>IntSequenceSeries</code> is a special Series that produces a sequence of numbers in the specified range</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first   last      number
-------- --------- ------
-Jerry   Cosin          1
-Juliana Walewski       2
-Joan    O'Hara         3
-3 rows x 3 columns</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For this particular task (adding row numbers) there&#8217;s a shortcut that does the same thing as the code above:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.addRowNumberColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_renaming_columns">Renaming Columns</h3>
-<div class="paragraph">
-<p>Often DataFrames come from external sources (like CSV files or database tables) with column names requiring further
-cleanup to match the expectations of the application. There are a number of ways to rename columns:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Rename individual columns:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df
-        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>)
-        .renameColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first_name last_name
----------- ---------
-Jerry      Cosin
-Joan       O'Hara
-2 rows x 2 columns</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Specify the new names of <em>all</em> columns at once. This may not be practical for a large number of columns:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.renameColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first_name last_name
----------- ---------
-Jerry      Cosin
-Joan       O'Hara
-2 rows x 2 columns</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Rename using a map of old names to new names. Names not present in the map will remain unchanged:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; nameMap = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
-nameMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.renameColumns(nameMap);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first_name last
----------- ------
-Jerry      Cosin
-Joan       O'Hara
-2 rows x 2 columns</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Rename using a function, applied to all column names in turn. This is useful e.g. to convert all names to lower case:</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">FIRST</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">LAST</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df.renameColumns(<span class="predefined-type">String</span>::toLowerCase);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first last
------ ------
-Jerry Cosin
-Joan  O'Hara
-2 rows x 2 columns</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="transforming-columns">Transforming Columns</h3>
-<div class="paragraph">
-<p>A column in a DataFrame can be transformed in various ways. The most generic transformation method is <code>replaceColumn(..)</code>,
-allowing to apply an expression to the entire DataFrame, and then replace an existing column with the result. E.g. here
-is how to perform type conversions on a column:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">2022</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">2023</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df
-        .replaceColumn(<span class="integer">0</span>, Exp.<span class="error">$</span>str(<span class="integer">0</span>).castAsInt())
-        .replaceColumn(<span class="integer">1</span>, Exp.<span class="error">$</span>str(<span class="integer">1</span>).castAsDecimal());</code></pre>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_compacting_columns">Compacting Columns</h4>
-<div class="paragraph">
-<p>A special kind of column transformations is converting columns to primitives. The values in the columns to be converted
-can be Numbers or Strings:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .compactInt(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .compactDouble(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The second method argument is the primitive value to use if the value being converted is null</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>compactInt(..)</code>, <code>compactDouble(..)</code> and other similar methods are not just syntactic sugar. They convert
-DataFrame columns to <em>primitive</em> Series, that take significantly less memory (hence, the name "compact") and compute
-most operations faster than Object-based Series. So you should consider using them where possible.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_cleaning_up_data">Cleaning up Data</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Data coming to DFLib may be of varying quality and hence may require cleanup before processing. We&#8217;ve already discussed
-<a href="#changing-column-type">column type conversion</a> operation, that allows to normalize data among other things. Another
-typical case of data requiring cleanup is missing values. Such values are represented as regular Java <code>nulls</code>. There
-is a variety of reasons why data can be missing. A rather common one is outer joins and concatenation operations
-described further down in this document.</p>
-</div>
-<div class="paragraph">
-<p>In all of these cases you may have to guess or extrapolate the actual values based on some internal knowledge of the
-dataset. There are methods in both <code>Series</code> and <code>DataFrame</code> that allow to replace nulls with either fixed values or
-values from adjacent cells. First, let&#8217;s see how this works for <code>Series</code>&#8230;&#8203;</p>
-</div>
-<div class="sect2">
-<h3 id="_filling_nulls_in_series">Filling Nulls in Series</h3>
-<div class="paragraph">
-<p>The simplest approach is to replace nulls with a constant value:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; withNulls = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNulls(<span class="string"><span class="delimiter">&quot;</span><span class="content">X</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>a
-b
-X
-X
-c
-5 elements</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Another strategy is to use values adjacent to the cells with nulls:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsForward(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>fillNullsForward(..)</code> takes a non-null value preceding the null cell and uses it to replace nulls.
-Similarly, there&#8217;s a <code>fillNullsBackward(..)</code> method that uses the value following the null cell.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>a
-b
-b
-b
-c
-5 elements</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Finally, there&#8217;s a way to fill nulls using another <code>Series</code> object as a kind of "template" or "mask" :</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; mask = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">C</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">D</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">E</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">G</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; filled = withNulls.fillNullsFromSeries(mask);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>a
-b
-C
-D
-c
-5 elements</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Notice that the "mask" Series can be longer (or shorter) than the Series where the nulls are replaced.
-Values between the two Series objects are aligned by position starting at zero.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_filling_nulls_in_dataframe">Filling Nulls in DataFrame</h3>
-<div class="paragraph">
-<p>Filling nulls in a DataFrame is done by column, so the API is very similar to <code>Series.fillNulls*(..)</code> methods, only with
-an additional String on integer argument specifying column position.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame withNulls = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>,
-        <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame filled = withNulls
-        .fillNullsBackwards(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>)
-        .fillNullsForward(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>c1 c2
--- --
-1  1
-2  1
-2  2
-3 rows x 2 columns</pre>
-</div>
 </div>
 </div>
 </div>
@@ -3274,7 +3216,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-02 16:35:24 -0500
+Last updated 2024-01-21 17:17:15 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />
