@@ -16,8 +16,8 @@
         <maven.compiler.release>17</maven.compiler.release>
 
         <asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
-        <bootique.version>3.0.M1</bootique.version>
-        <junit5.version>5.8.1</junit5.version>
+        <bootique.version>3.0.M2</bootique.version>
+        <junit5.version>5.9.1</junit5.version>
     </properties>
 
     <licenses>
