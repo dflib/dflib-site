@@ -1,12 +1,12 @@
 [#expressions]
 == Expressions
 
-DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to manipulate columns and rows
-in DataFrames and data in Series. `Exp` is the interface representing an expression that takes a DataFrame or a
-Series and produces a Series of the specified type. It also provides an entry point to create expressions via its static
-factory methods.
+DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to perform column-centric
+operations on DataFrames and Series. `Exp` is the interface representing an expression that takes a DataFrame or a
+Series and produces a Series of the specified type. It also contains static factory methods to create all kinds of
+expressions.
 
-To use expressions, you'd start by adding a static import of the `Exp` interface, so that all its factory methods
+To use expressions, you'd often start by adding a static import of the `Exp` interface, so that all its factory methods
 are available directly in the code:
 [source,java,indent=0]
 ----
@@ -28,9 +28,9 @@ This doesn't look like much (other DFLib APIs would do the same), but this basic
 wide range of operations (filtering, sorting, aggregation, etc). The following chapters will demonstrate various use
 cases for expressions.
 
-NOTE: DFLib expression language Expressions work on DFLib data structures instead of individual values, so they can
-achieve the best possible performance for any given operation. Expressions should be a preferred way to manipulate your
-data instead of more "direct" API.
+NOTE: DFLib expression language Expressions work on Series instead of individual values, so they can achieve the best
+possible performance for any given operation. Expressions should be a preferred way to manipulate your data instead of
+more "direct" API.
 
 Now let's look at various types of expressions...
 

@@ -64,8 +64,8 @@ include::../../../test/java/org/dflib/docs/SeriesCreateTest.java[tags=createIncr
 
 === DataFrame
 
-`DataFrame` is an in-memory table with rows and columns. Each column has a name, and is represented as a `Series` object.
-DataFrame can contain columns of different kinds and is not parameterized for a single type.
+`DataFrame` is an in-memory table with rows and columns. Each column has a name, and is stored as a `Series` object.
+DataFrame can contain columns of different kinds, so it is not parameterized for a single type.
 
 There are a few ways to create a DataFrame. Here we'll show "builder" API to convert arrays, Streams, Collections,
 Series and other in-memory data into DataFrames.
@@ -73,7 +73,7 @@ Series and other in-memory data into DataFrames.
 NOTE: More often than not, a DataFrame is not created manually and is instead loaded from (and saved to) an external
 source, like a <<jdbc,database>> or a <<csv,CSV file>>. Those are discussed in separate documentation chapters.
 
-First example - adding data row by row:
+First example, adding data row by row:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATime]
