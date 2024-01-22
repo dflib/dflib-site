@@ -1771,6 +1771,7 @@ or Strings (or objects with <code>toString()</code> that can be parsed to a prim
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).of(
         <span class="string"><span class="delimiter">&quot;</span><span class="content">2022</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">2023</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
+
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>).compactInt(<span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).compactDouble(<span class="integer">0</span>.);</code></pre>
