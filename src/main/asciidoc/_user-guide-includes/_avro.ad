@@ -1,5 +1,5 @@
 [#avro]
-== Working with .avro Files
+== Using .avro Files
 
 Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
 schema. So when they are read back, the fields are converted to the correct original Java types. (This is different

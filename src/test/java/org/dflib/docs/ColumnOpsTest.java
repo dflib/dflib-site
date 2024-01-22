@@ -330,7 +330,7 @@ public class ColumnOpsTest extends BaseTest {
         DataFrame df = DataFrame.foldByRow("year", "sales").of(
                 "2022", "2005365.01",
                 "2023", "4355098.75");
-        
+
         DataFrame df1 = df
                 .cols("year").compactInt(0) // <1>
                 .cols("sales").compactDouble(0.);

@@ -1,5 +1,5 @@
 [#jupyter]
-== Working in Jupyter Notebook
+== Using Jupyter Notebook
 
 While DFLib runs inside regular Java applications, it also works perfectly in a Jupyter notebook,
 which is a very common environment among data scientists, and is usually associated with Python / pandas. Jupyter
@@ -11,13 +11,13 @@ notebook can be later copied and pasted into your application. Java developers s
 of their data project workflow, and DFLib design (and its Jupyter integration features described here) makes it rather
 easy.
 
-=== Installing Jupyter with Java Kernel
+=== Jupyter Installation with Java Kernel
 
 * Install Jupyter. Follow Jupyter installation instructions. It requires Python. Out of the variety of installation
 options, the authors of this document are using Mac OS, +pyenv+, Python 3.7, and +pip+.
 * Install https://github.com/SpencerPark/IJava[iJava Jupyter kernel].
 
-=== Work with DFLib in Jupyter
+=== DFLib in Jupyter
 
 Start Jupyter
 

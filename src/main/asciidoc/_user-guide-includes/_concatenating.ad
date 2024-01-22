@@ -1,10 +1,10 @@
-== Concatenating
+== Concatenation
 
 There are various ways to combine data from multiple `Series` or `DataFrames`. The simplest is _concatenation_,
 described in this chapter. Series can be concatenated together producing a longer Series. DataFrames can be concatenated
 either vertically (along the rows axis) or horizontally (along the columns axis).
 
-=== Concatenating Series
+=== Concatenate Series
 
 If you have a Series object and want to concatenate it with one or more other Series, you'd use `Series.concat(..)`
 method:
@@ -45,7 +45,7 @@ y
 4 elements
 ----
 
-=== Concatenating DataFrames
+=== Concatenate DataFrames
 
 DataFrame offers two options for concatenation - _vertical_ (stacking DataFrames on top of each other) and _horizontal_
 (putting them next to each other). Let's see some examples..

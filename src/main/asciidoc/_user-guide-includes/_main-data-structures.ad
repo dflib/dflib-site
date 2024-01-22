@@ -24,7 +24,7 @@ wrapper object type (e.g. `IntSeries` is also a `Series<Integer>`).
 manipulation and transformation operations on its own. Those will be covered in the following chapters. Here we'll
 discuss how to create Series.
 
-==== Creating Series from Arrays
+==== Creation of Series from Arrays
 
 `Series` can be created using static `ofXyz(..)` methods on the `Series` interface:
 
@@ -48,7 +48,7 @@ Primitive Series classes have their own factory methods. E.g.:
 include::../../../test/java/org/dflib/docs/SeriesCreateTest.java[tags=createInt]
 ----
 
-==== Creating Series By Element
+==== Creation of Series By Element
 
 If we don't have a data array or collection to start with, and instead somehow produce a sequence of
 values of unpredictable length, we can use `Series.byElement()` API. E.g. the following example reads data from

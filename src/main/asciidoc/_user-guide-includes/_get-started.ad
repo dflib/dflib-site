@@ -1,4 +1,4 @@
-== Getting Started with DFLib
+== Get Started with DFLib
 
 Include DFLib in a project. Assuming you are using Maven, start by declaring a "BOM" to have a common version for
 multiple DFLib modules:

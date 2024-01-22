@@ -6,7 +6,7 @@ not alter the original object, and instead creates a new instance of either Seri
 
 First let's look at sorting Series...
 
-=== Sorting Series
+=== Sort Series
 
 Series provides a `sort` method to sort its data using a <<sorter,sorter>> built from an expression:
 [source,java,indent=0]
@@ -56,7 +56,7 @@ Additionally, `IntSeries` has an optimized method to sort ints with a custom `In
 
 Next we'll check how to sort a DataFrame.
 
-=== Sorting DataFrame
+=== Sort DataFrame
 
 Rows in a DataFrame can be sorted with one or more <<sorter,sorters>>.
 

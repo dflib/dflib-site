@@ -536,7 +536,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_getting_started_with_dflib">Getting Started with DFLib</a></li>
+<li><a href="#_get_started_with_dflib">Get Started with DFLib</a></li>
 <li><a href="#_main_data_structures">Main Data Structures</a>
 <ul class="sectlevel2">
 <li><a href="#_series">Series</a></li>
@@ -557,21 +557,21 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#column_ops">Column Operations</a>
 <ul class="sectlevel2">
-<li><a href="#_picking_columns">Picking Columns</a></li>
-<li><a href="#_renaming_columns">Renaming Columns</a></li>
-<li><a href="#_transforming_columns">Transforming Columns</a></li>
-<li><a href="#_merging_columns">Merging Columns</a></li>
-<li><a href="#_compacting_columns">Compacting Columns</a></li>
-<li><a href="#_filling_nulls">Filling Nulls</a></li>
-<li><a href="#_dropping_columns">Dropping Columns</a></li>
+<li><a href="#_pick_columns">Pick Columns</a></li>
+<li><a href="#_rename_columns">Rename Columns</a></li>
+<li><a href="#_transform_columns">Transform Columns</a></li>
+<li><a href="#_merge_columns">Merge Columns</a></li>
+<li><a href="#_compact_columns">Compact Columns</a></li>
+<li><a href="#_fill_nulls">Fill Nulls</a></li>
+<li><a href="#_drop_columns">Drop Columns</a></li>
 </ul>
 </li>
 <li><a href="#row_ops">Row Operations</a>
 <ul class="sectlevel2">
-<li><a href="#_picking_rows">Picking Rows</a></li>
-<li><a href="#_transforming_rows">Transforming Rows</a></li>
-<li><a href="#_merging_rows">Merging Rows</a></li>
-<li><a href="#_dropping_rows">Dropping Rows</a></li>
+<li><a href="#_pick_rows">Pick Rows</a></li>
+<li><a href="#_transform_rows">Transform Rows</a></li>
+<li><a href="#_merge_rows">Merge Rows</a></li>
+<li><a href="#_drop_rows">Drop Rows</a></li>
 </ul>
 </li>
 <li><a href="#dataframe_ops">DataFrame Operations</a>
@@ -581,14 +581,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#sort">Sorting</a>
 <ul class="sectlevel2">
-<li><a href="#_sorting_series">Sorting Series</a></li>
-<li><a href="#_sorting_dataframe">Sorting DataFrame</a></li>
+<li><a href="#_sort_series">Sort Series</a></li>
+<li><a href="#_sort_dataframe">Sort DataFrame</a></li>
 </ul>
 </li>
-<li><a href="#_concatenating">Concatenating</a>
+<li><a href="#_concatenation">Concatenation</a>
 <ul class="sectlevel2">
-<li><a href="#_concatenating_series">Concatenating Series</a></li>
-<li><a href="#_concatenating_dataframes">Concatenating DataFrames</a></li>
+<li><a href="#_concatenate_series">Concatenate Series</a></li>
+<li><a href="#_concatenate_dataframes">Concatenate DataFrames</a></li>
 </ul>
 </li>
 <li><a href="#joins">Joins</a>
@@ -599,33 +599,33 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_nested_loop_joins">Nested Loop Joins</a></li>
 </ul>
 </li>
-<li><a href="#grouping">Grouping and Aggregating</a></li>
+<li><a href="#grouping">Group and Aggregate</a></li>
 <li><a href="#window">Window functions</a></li>
 <li><a href="#pivot">Pivot</a></li>
 <li><a href="#stack">Stack</a></li>
-<li><a href="#jdbc">Working with Relational Databases</a>
+<li><a href="#jdbc">Using Relational Databases</a>
 <ul class="sectlevel2">
 <li><a href="#_jdbcconnector">JdbcConnector</a></li>
 <li><a href="#_tableloader_tablesaver">TableLoader / TableSaver</a></li>
 <li><a href="#_sqlloader_sqlsaver">SqlLoader / SqlSaver</a></li>
 </ul>
 </li>
-<li><a href="#csv">Working with .csv Files</a>
+<li><a href="#csv">Using .csv Files</a>
 <ul class="sectlevel2">
-<li><a href="#_reading_dataframe_from_csv">Reading DataFrame from CSV</a></li>
-<li><a href="#_writing_dataframe_to_a_csv">Writing DataFrame to a CSV</a></li>
+<li><a href="#_read_dataframe_from_a_csv">Read DataFrame from a CSV</a></li>
+<li><a href="#_write_dataframe_to_a_csv">Write DataFrame to a CSV</a></li>
 </ul>
 </li>
-<li><a href="#excel">Working with Excel Files</a></li>
-<li><a href="#avro">Working with .avro Files</a>
+<li><a href="#excel">Using Excel Files</a></li>
+<li><a href="#avro">Using .avro Files</a>
 <ul class="sectlevel2">
 <li><a href="#_avro_schema">Avro Schema</a></li>
 </ul>
 </li>
-<li><a href="#jupyter">Working in Jupyter Notebook</a>
+<li><a href="#jupyter">Using Jupyter Notebook</a>
 <ul class="sectlevel2">
-<li><a href="#_installing_jupyter_with_java_kernel">Installing Jupyter with Java Kernel</a></li>
-<li><a href="#_work_with_dflib_in_jupyter">Work with DFLib in Jupyter</a></li>
+<li><a href="#_jupyter_installation_with_java_kernel">Jupyter Installation with Java Kernel</a></li>
+<li><a href="#_dflib_in_jupyter">DFLib in Jupyter</a></li>
 <li><a href="#_change_display_parameters">Change Display Parameters</a></li>
 <li><a href="#_notebooks_and_version_control">Notebooks and Version Control</a></li>
 </ul>
@@ -655,7 +655,7 @@ requires no special infrastructure. DFLib core is dependency-free.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_getting_started_with_dflib">Getting Started with DFLib</h2>
+<h2 id="_get_started_with_dflib">Get Started with DFLib</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Include DFLib in a project. Assuming you are using Maven, start by declaring a "BOM" to have a common version for
@@ -765,7 +765,7 @@ manipulation and transformation operations on its own. Those will be covered in 
 discuss how to create Series.</p>
 </div>
 <div class="sect3">
-<h4 id="_creating_series_from_arrays">Creating Series from Arrays</h4>
+<h4 id="_creation_of_series_from_arrays">Creation of Series from Arrays</h4>
 <div class="paragraph">
 <p><code>Series</code> can be created using static <code>ofXyz(..)</code> methods on the <code>Series</code> interface:</p>
 </div>
@@ -793,7 +793,7 @@ g
 </div>
 </div>
 <div class="sect3">
-<h4 id="_creating_series_by_element">Creating Series By Element</h4>
+<h4 id="_creation_of_series_by_element">Creation of Series By Element</h4>
 <div class="paragraph">
 <p>If we don&#8217;t have a data array or collection to start with, and instead somehow produce a sequence of
 values of unpredictable length, we can use <code>Series.byElement()</code> API. E.g. the following example reads data from
@@ -1318,7 +1318,7 @@ either a Java primitive or an instance of <code>Comparable</code>, or a ClassCas
 begin with defining a <code>ColumnSet</code> or a <code>RowSet</code> and then applying an operation. Let&#8217;s first look at columns&#8230;&#8203;</p>
 </div>
 <div class="sect2">
-<h3 id="_picking_columns">Picking Columns</h3>
+<h3 id="_pick_columns">Pick Columns</h3>
 <div class="paragraph">
 <p>Here is a simple example of how to pick two columns from a DataFrame by <strong>column name</strong>, and return a new DataFrame with just those two columns:</p>
 </div>
@@ -1432,7 +1432,7 @@ later stage, based on the semantics of an operation applied to the <code>ColumnS
 </div>
 </div>
 <div class="sect2">
-<h3 id="_renaming_columns">Renaming Columns</h3>
+<h3 id="_rename_columns">Rename Columns</h3>
 <div class="paragraph">
 <p>We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
 columns via <code>selectAs(..)</code>.</p>
@@ -1505,7 +1505,7 @@ O'Hara Joan</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_transforming_columns">Transforming Columns</h3>
+<h3 id="_transform_columns">Transform Columns</h3>
 <div class="paragraph">
 <p>In the above examples we performed DataFrame vertical slicing, columns reordering and renaming. In this chapter
 we&#8217;ll show how to transform column data.</p>
@@ -1633,7 +1633,7 @@ into columns, but otherwise works the same way.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_merging_columns">Merging Columns</h3>
+<h3 id="_merge_columns">Merge Columns</h3>
 <div class="paragraph">
 <p>All the <code>ColumnSet</code> operations demonstrated so far resulted in discarding the source DataFrame, and returning only the
 columns defined within the set. But there are many situations when we would like to recombine <code>ColumnSet</code> with the
@@ -1761,7 +1761,7 @@ operation, we leave it as an exercise for the user to explore the remaining simi
 </div>
 </div>
 <div class="sect2">
-<h3 id="_compacting_columns">Compacting Columns</h3>
+<h3 id="_compact_columns">Compact Columns</h3>
 <div class="paragraph">
 <p>This transformation converts columns to primitives. The values in the columns to be converted can be Numbers, Booleans
 or Strings (or objects with <code>toString()</code> that can be parsed to a primitive type):</p>
@@ -1801,7 +1801,7 @@ most operations faster than Object-based Series. So you should consider using th
 </div>
 </div>
 <div class="sect2">
-<h3 id="_filling_nulls">Filling Nulls</h3>
+<h3 id="_fill_nulls">Fill Nulls</h3>
 <div class="paragraph">
 <p>As a part of a dataset cleanup effort, you might want to replace <code>null</code> values with something meaningful. For this you
 may have to guess or maybe extrapolate the existing values based on some internal knowledge of the dataset. To help with
@@ -1892,7 +1892,7 @@ The "mask" Series can be longer (or shorter) than the DataFrame height. Values a
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dropping_columns">Dropping Columns</h3>
+<h3 id="_drop_columns">Drop Columns</h3>
 <div class="paragraph">
 <p>To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop or select
 the columns you&#8217;d want to remain:</p>
@@ -1925,19 +1925,19 @@ Joan  O'Hara</pre>
 <h2 id="row_ops">Row Operations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_picking_rows">Picking Rows</h3>
+<h3 id="_pick_rows">Pick Rows</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_transforming_rows">Transforming Rows</h3>
+<h3 id="_transform_rows">Transform Rows</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_merging_rows">Merging Rows</h3>
+<h3 id="_merge_rows">Merge Rows</h3>
 
 </div>
 <div class="sect2">
-<h3 id="_dropping_rows">Dropping Rows</h3>
+<h3 id="_drop_rows">Drop Rows</h3>
 
 </div>
 </div>
@@ -2046,7 +2046,7 @@ not alter the original object, and instead creates a new instance of either Seri
 <p>First let&#8217;s look at sorting Series&#8230;&#8203;</p>
 </div>
 <div class="sect2">
-<h3 id="_sorting_series">Sorting Series</h3>
+<h3 id="_sort_series">Sort Series</h3>
 <div class="paragraph">
 <p>Series provides a <code>sort</code> method to sort its data using a <a href="#sorter">sorter</a> built from an expression:</p>
 </div>
@@ -2123,7 +2123,7 @@ d
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sorting_dataframe">Sorting DataFrame</h3>
+<h3 id="_sort_dataframe">Sort DataFrame</h3>
 <div class="paragraph">
 <p>Rows in a DataFrame can be sorted with one or more <a href="#sorter">sorters</a>.</p>
 </div>
@@ -2203,7 +2203,7 @@ DataFrame df1 = df.sort(<span class="keyword">new</span> <span class="predefined
 </div>
 </div>
 <div class="sect1">
-<h2 id="_concatenating">Concatenating</h2>
+<h2 id="_concatenation">Concatenation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>There are various ways to combine data from multiple <code>Series</code> or <code>DataFrames</code>. The simplest is <em>concatenation</em>,
@@ -2211,7 +2211,7 @@ described in this chapter. Series can be concatenated together producing a longe
 either vertically (along the rows axis) or horizontally (along the columns axis).</p>
 </div>
 <div class="sect2">
-<h3 id="_concatenating_series">Concatenating Series</h3>
+<h3 id="_concatenate_series">Concatenate Series</h3>
 <div class="paragraph">
 <p>If you have a Series object and want to concatenate it with one or more other Series, you&#8217;d use <code>Series.concat(..)</code>
 method:</p>
@@ -2273,7 +2273,7 @@ y
 </div>
 </div>
 <div class="sect2">
-<h3 id="_concatenating_dataframes">Concatenating DataFrames</h3>
+<h3 id="_concatenate_dataframes">Concatenate DataFrames</h3>
 <div class="paragraph">
 <p>DataFrame offers two options for concatenation - <em>vertical</em> (stacking DataFrames on top of each other) and <em>horizontal</em>
 (putting them next to each other). Let&#8217;s see some examples..</p>
@@ -2687,7 +2687,7 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 </div>
 </div>
 <div class="sect1">
-<h2 id="grouping">Grouping and Aggregating</h2>
+<h2 id="grouping">Group and Aggregate</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>TODO</p>
@@ -2719,7 +2719,7 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 </div>
 </div>
 <div class="sect1">
-<h2 id="jdbc">Working with Relational Databases</h2>
+<h2 id="jdbc">Using Relational Databases</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Relational databases are arguably the most important type of data stores out there. Also they happen to map
@@ -2895,7 +2895,7 @@ extra columns is preserved.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="csv">Working with .csv Files</h2>
+<h2 id="csv">Using .csv Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>CSV (comma-separated values) is a very common and rather simple format for working with raw data. CSV files can be
@@ -2916,7 +2916,7 @@ advantage of this functionality:</p>
 below.</p>
 </div>
 <div class="sect2">
-<h3 id="_reading_dataframe_from_csv">Reading DataFrame from CSV</h3>
+<h3 id="_read_dataframe_from_a_csv">Read DataFrame from a CSV</h3>
 <div class="paragraph">
 <p>The simplest API for reading a CSV is this:</p>
 </div>
@@ -3006,7 +3006,7 @@ both load speed and memory use, so it is usually preferable.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_writing_dataframe_to_a_csv">Writing DataFrame to a CSV</h3>
+<h3 id="_write_dataframe_to_a_csv">Write DataFrame to a CSV</h3>
 <div class="paragraph">
 <p>Writing to a CSV is equally easy:</p>
 </div>
@@ -3055,7 +3055,7 @@ to a variety of destinations.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="excel">Working with Excel Files</h2>
+<h2 id="excel">Using Excel Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
@@ -3076,7 +3076,7 @@ advantage of this functionality:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="avro">Working with .avro Files</h2>
+<h2 id="avro">Using .avro Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
@@ -3110,7 +3110,7 @@ DataFrame before it is saved. Alternatively you can create a custom <code>Schema
 </div>
 </div>
 <div class="sect1">
-<h2 id="jupyter">Working in Jupyter Notebook</h2>
+<h2 id="jupyter">Using Jupyter Notebook</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>While DFLib runs inside regular Java applications, it also works perfectly in a Jupyter notebook,
@@ -3125,7 +3125,7 @@ of their data project workflow, and DFLib design (and its Jupyter integration fe
 easy.</p>
 </div>
 <div class="sect2">
-<h3 id="_installing_jupyter_with_java_kernel">Installing Jupyter with Java Kernel</h3>
+<h3 id="_jupyter_installation_with_java_kernel">Jupyter Installation with Java Kernel</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -3139,7 +3139,7 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_work_with_dflib_in_jupyter">Work with DFLib in Jupyter</h3>
+<h3 id="_dflib_in_jupyter">DFLib in Jupyter</h3>
 <div class="paragraph">
 <p>Start Jupyter</p>
 </div>

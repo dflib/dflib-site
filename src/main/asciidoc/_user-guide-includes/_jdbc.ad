@@ -1,5 +1,5 @@
 [#jdbc]
-== Working with Relational Databases
+== Using Relational Databases
 
 Relational databases are arguably the most important type of data stores out there. Also they happen to map
 really well to DataFrames. DFLib provides advanced support for loading and saving DataFrames to RDBMS. It supports
