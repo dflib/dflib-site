@@ -4,22 +4,6 @@
 As we've seen above, most operations within a single DataFrame are performed on row and column sets. Still there are
 a few that are applied to the DataFrame directly. In this chapter we will review some of them.
 
-=== Compacting Columns
-
-This transformation converts columns to primitives. The values in the columns to be converted can be either Numbers or
-Strings:
-
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=compact]
-----
-
-<1> The second method argument is the primitive value to use if the value being converted is null
-
-NOTE: `compactInt(..)`, `compactDouble(..)` and other similar methods are not just syntactic sugar. They convert
-DataFrame columns to primitive Series, that take _significantly_ less memory (hence, the name "compact") and compute
-most operations faster than Object-based Series. So you should consider using them where possible.
-
 === Head and Tail
 
 When you only need the "first N" or "last M" rows of a DataFrame (or values of a Series) you can use `head` and `tail`

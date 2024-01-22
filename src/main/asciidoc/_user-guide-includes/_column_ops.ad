@@ -236,6 +236,22 @@ Joan  O'Hara null   O'Hara Joan
 NOTE: Since we've already discussed various flavors of column renaming and transformation in the context of `select(..)`
 operation, we leave it as an exercise for the user to explore the remaining similar kinds of `as(..)` and `map(..)`.
 
+=== Compacting Columns
+
+This transformation converts columns to primitives. The values in the columns to be converted can be Numbers, Booleans
+or Strings (or objects with `toString()` that can be parsed to a primitive type):
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=compact]
+----
+
+<1> The argument to `compact` is the primitive value to use if the value being converted is null
+
+NOTE: `compactInt(..)`, `compactDouble(..)` and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to primitive Series, that take _significantly_ less memory (hence, the name "compact") and compute
+most operations faster than Object-based Series. So you should consider using them where possible.
+
 === Filling Nulls
 
 As a part of a dataset cleanup effort, you might want to replace `null` values with something meaningful. For this you

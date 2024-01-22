@@ -561,6 +561,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_renaming_columns">Renaming Columns</a></li>
 <li><a href="#_transforming_columns">Transforming Columns</a></li>
 <li><a href="#_merging_columns">Merging Columns</a></li>
+<li><a href="#_compacting_columns">Compacting Columns</a></li>
 <li><a href="#_filling_nulls">Filling Nulls</a></li>
 <li><a href="#_dropping_columns">Dropping Columns</a></li>
 </ul>
@@ -575,7 +576,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#dataframe_ops">DataFrame Operations</a>
 <ul class="sectlevel2">
-<li><a href="#_compacting_columns">Compacting Columns</a></li>
 <li><a href="#_head_and_tail">Head and Tail</a></li>
 </ul>
 </li>
@@ -1761,6 +1761,45 @@ operation, we leave it as an exercise for the user to explore the remaining simi
 </div>
 </div>
 <div class="sect2">
+<h3 id="_compacting_columns">Compacting Columns</h3>
+<div class="paragraph">
+<p>This transformation converts columns to primitives. The values in the columns to be converted can be Numbers, Booleans
+or Strings (or objects with <code>toString()</code> that can be parsed to a primitive type):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2022</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">2023</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>).compactInt(<span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).compactDouble(<span class="integer">0</span>.);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The argument to <code>compact</code> is the primitive value to use if the value being converted is null</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>compactInt(..)</code>, <code>compactDouble(..)</code> and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to primitive Series, that take <em>significantly</em> less memory (hence, the name "compact") and compute
+most operations faster than Object-based Series. So you should consider using them where possible.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_filling_nulls">Filling Nulls</h3>
 <div class="paragraph">
 <p>As a part of a dataset cleanup effort, you might want to replace <code>null</code> values with something meaningful. For this you
@@ -1908,45 +1947,6 @@ Joan  O'Hara</pre>
 <div class="paragraph">
 <p>As we&#8217;ve seen above, most operations within a single DataFrame are performed on row and column sets. Still there are
 a few that are applied to the DataFrame directly. In this chapter we will review some of them.</p>
-</div>
-<div class="sect2">
-<h3 id="_compacting_columns">Compacting Columns</h3>
-<div class="paragraph">
-<p>This transformation converts columns to primitives. The values in the columns to be converted can be either Numbers or
-Strings:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">2022</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">2005365.01</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">2023</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">4355098.75</span><span class="delimiter">&quot;</span></span>);
-DataFrame df1 = df
-        .compactInt(<span class="string"><span class="delimiter">&quot;</span><span class="content">year</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .compactDouble(<span class="string"><span class="delimiter">&quot;</span><span class="content">sales</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>.);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The second method argument is the primitive value to use if the value being converted is null</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>compactInt(..)</code>, <code>compactDouble(..)</code> and other similar methods are not just syntactic sugar. They convert
-DataFrame columns to primitive Series, that take <em>significantly</em> less memory (hence, the name "compact") and compute
-most operations faster than Object-based Series. So you should consider using them where possible.
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_head_and_tail">Head and Tail</h3>

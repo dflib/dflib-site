@@ -4,6 +4,7 @@ import org.dflib.DataFrame;
 import org.dflib.Exp;
 import org.dflib.RowMapper;
 import org.dflib.Series;
+import org.dflib.junit5.DataFrameAsserts;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -320,6 +321,27 @@ public class ColumnOpsTest extends BaseTest {
 // end::fillNullsFromSeries[]
 
         print("fillNullsFromSeries", clean);
+    }
+
+    @Test
+    public void compact() {
+
+// tag::compact[]
+        DataFrame df = DataFrame.foldByRow("year", "sales").of(
+                "2022", "2005365.01",
+                "2023", "4355098.75");
+        DataFrame df1 = df
+                .cols("year").compactInt(0) // <1>
+                .cols("sales").compactDouble(0.);
+// end::compact[]
+
+        new DataFrameAsserts(df1, "year", "sales")
+                .expectIntColumns(0)
+                .expectDoubleColumns(1)
+                .expectRow(0, 2022, 2005365.01)
+                .expectRow(1, 2023, 4355098.75);
+
+        print("compact", df1);
     }
 
 

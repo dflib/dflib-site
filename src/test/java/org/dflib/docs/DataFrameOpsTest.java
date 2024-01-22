@@ -8,26 +8,6 @@ import static org.dflib.Exp.$str;
 
 public class DataFrameOpsTest extends BaseTest {
 
-    @Test
-    public void compact() {
-
-// tag::compact[]
-        DataFrame df = DataFrame.foldByRow("year", "sales").of(
-                "2022", "2005365.01",
-                "2023", "4355098.75");
-        DataFrame df1 = df
-                .compactInt("year", 0) // <1>
-                .compactDouble("sales", 0.);
-// end::compact[]
-
-        new DataFrameAsserts(df1, "year", "sales")
-                .expectIntColumns(0)
-                .expectDoubleColumns(1)
-                .expectRow(0, 2022, 2005365.01)
-                .expectRow(1, 2023, 4355098.75);
-
-        print("compact", df1);
-    }
 
     @Test
     public void headDataFrame() {
