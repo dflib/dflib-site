@@ -1,4 +1,4 @@
-[#sort]
+[#sorting]
 == Sorting
 
 You can sort values in `Series`, and sort rows in `DataFrames`. As is the case everywhere else in DFLib, sorting does

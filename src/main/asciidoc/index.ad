@@ -32,11 +32,11 @@ include::_user-guide-includes/_dataframe_ops.ad[]
 
 include::_user-guide-includes/_sorting.ad[]
 
-include::_user-guide-includes/_concatenating.ad[]
+include::_user-guide-includes/_concatenation.ad[]
 
 include::_user-guide-includes/_joins.ad[]
 
-include::_user-guide-includes/_grouping.ad[]
+include::_user-guide-includes/_group_aggregate.ad[]
 
 include::_user-guide-includes/_window.ad[]
 
