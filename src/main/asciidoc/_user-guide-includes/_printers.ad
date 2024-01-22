@@ -7,7 +7,7 @@ data to the console. Both `DataFrame` and `Series` implement `toString()` method
 as a single line, truncating large data sets in the process, which is good for debugging applications running on a
 server.
 
-A more human-friendly form of output is done by using a _tabular_ printer. Here is how to use the default tabular
+A more human-friendly form of output is produced by a _tabular_ printer. Here is how to use the default tabular
 printer:
 [source,java,indent=0]
 ----
