@@ -1,12 +1,13 @@
 [#column_ops]
 == Column Operations
 
-With a few exceptions, operations on DataFrame data are performed on a subset of rows and columns. Such operations
-begin with defining a `ColumnSet` or a `RowSet` and then applying an operation. Let's first look at columns...
+With a few exceptions, operations on DataFrame data are performed on a subset of columns and/or rows. They start with
+creating either a `ColumnSet` or a `RowSet` and then applying an operation. Let's first look at columns...
 
 === Pick Columns
 
-Here is a simple example of how to pick two columns from a DataFrame by *column name*, and return a new DataFrame with just those two columns:
+Here is a simple example of how to pick two columns from a DataFrame by *column name*, and return a new DataFrame with
+just those two columns:
 
 [source,java,indent=0]
 ----

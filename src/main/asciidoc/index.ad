@@ -28,6 +28,8 @@ include::_user-guide-includes/_column_ops.ad[]
 
 include::_user-guide-includes/_row_ops.ad[]
 
+include::_user-guide-includes/_row_column_ops.ad[]
+
 include::_user-guide-includes/_dataframe_ops.ad[]
 
 include::_user-guide-includes/_sorting.ad[]

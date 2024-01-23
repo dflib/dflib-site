@@ -1,7 +1,101 @@
 [#row_ops]
 == Row Operations
 
+Just like with columns, row operations first define a `RowSet`, then execute some transformation, and then are either
+merged back to the original DataFrame, or "selected" as a new DataFrame. `RowSet` and `ColumnSet` have other
+similarities (e.g. the ability to evaluate expressions by column), but `RowSet` is also quite different in how we pick
+its rows and what other operations are available.
+
 === Pick Rows
+
+Rows are picked by condition, by positions and as a range. Let's take a look at each style...
+
+==== By Condition
+A *Condition* (a boolean `Exp`) can be used to pick matching rows:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByCondition]
+----
+<1> A `Condition` that defines rows of the `RowSet`
+<2> Returns a new DataFrame matching the `RowSet`
+
+----
+first   last     middle
+------- -------- ------
+Juliana Walewski null
+----
+
+Another form of condition is a *predicate lambda* (a `RowPredicate` object), evaluated row-by-row:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByPredicate]
+----
+
+A *condition can be precalculated* as a `BooleanSeries`. A common scenario is applying a condition to another `Series`
+or `DataFrame` to build a `BooleanSeries` "selector", and then using it to pick rows from a DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByConditionPrecalc]
+----
+<1> Precalculate the condition against the Series that is not a part of "our" DataFrame (pick every third row).
+
+----
+first last  middle
+----- ----- ------
+Jerry Cosin M
+----
+
+==== By Positions
+
+Here is an example of `RowSet` defined using an *array of row positions*.
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByArray]
+----
+
+<1> An `int[]` that defines a `RowSet`
+
+----
+first last   middle
+----- ------ ------
+Joan  O'Hara P
+Jerry Cosin  M
+Joan  O'Hara P
+----
+
+NOTE: An array of positions is also a kind of "condition". The main difference is that it allows
+to reorder rows by specifying positions in a desired sequence and/or duplicate rows by referencing the same position more
+than once. Both features are demonstrated in the example above.
+
+Instead of an array, positions can be defined as an *IntSeries "index"*. Just like with conditions, it is often
+calculated from another `Series` or `DataFrame`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByIndex]
+----
+<1> Precalculate the positions against the Series that is not a part of "our" DataFrame (pick every third row).
+----
+first last  middle
+----- ----- ------
+Jerry Cosin M
+----
+
+==== As a Range
+
+Finally, rows can be selected as a *continuous range of row positions*:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByRange]
+----
+<1> The range is defined by two ints: its starting index and the index, following its last index.
+----
+first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null
+----
 
 === Transform Rows
 

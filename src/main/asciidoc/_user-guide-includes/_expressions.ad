@@ -75,7 +75,7 @@ TODO
 [#sorter]
 === Sorters
 
-`Sorter` is a special object, that allows to <<sort,sort DFLib data structures>>. Internally a Sorter is using an
+`Sorter` is a special object, that allows to <<sorting,sort DFLib data structures>>. Internally a Sorter is using an
 expression to retrieve values that comprise sorting criteria and index them in the specified order. Sorter can be
 created from any expression by calling its `asc()` or `desc()` methods:
 
