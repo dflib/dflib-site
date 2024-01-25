@@ -43,9 +43,10 @@ public class RowOpsTest extends BaseTest {
                 "Joan", "O'Hara", "P");
 
 // tag::rowsByConditionPrecalc[]
-        IntSeries s = new IntSequenceSeries(0, df.height());
-        BooleanSeries c = s.locateInt(i -> i % 3 == 0); // <1>
-        DataFrame df1 = df.rows(c).select();
+        IntSeries salaries = Series.ofInt(100000, 50000, 45600); // <1>
+        BooleanSeries selector = salaries.locateInt(s -> s > 49999); // <2>
+
+        DataFrame df1 = df.rows(selector).select();
 // end::rowsByConditionPrecalc[]
 
         print("rowsByConditionPrecalc", df1);
@@ -90,10 +91,12 @@ public class RowOpsTest extends BaseTest {
                 "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "P");
 
+        IntSeries salaries = Series.ofInt(100000, 50000, 45600);
+
 // tag::rowsByIndex[]
-        IntSeries s = new IntSequenceSeries(0, df.height());
-        IntSeries index = s.indexInt(i -> i % 3 == 0); // <1>
-        DataFrame df1 = df.rows(index).select();
+        IntSeries selector = salaries.indexInt(s -> s > 49999); // <1>
+
+        DataFrame df1 = df.rows(selector).select();
 // end::rowsByIndex[]
 
         print("rowsByIndex", df1);
@@ -110,7 +113,7 @@ public class RowOpsTest extends BaseTest {
 
 // tag::rowsByRange[]
         DataFrame df1 = df
-                .rowsRangeOpenClosed(0, 2) // <1>
+                .rowsRange(0, 2) // <1>
                 .select();
 // end::rowsByRange[]
 

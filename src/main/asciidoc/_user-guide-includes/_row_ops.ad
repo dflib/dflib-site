@@ -11,12 +11,12 @@ its rows and what other operations are available.
 Rows are picked by condition, by positions and as a range. Let's take a look at each style...
 
 ==== By Condition
-A *Condition* (a boolean `Exp`) can be used to pick matching rows:
+A Condition (a boolean `Exp`) can be used to pick matching rows:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByCondition]
 ----
-<1> A `Condition` that defines rows of the `RowSet`
+<1> Applies a `Condition` to the DataFrame, to include matching rows in the `RowSet`.
 <2> Returns a new DataFrame matching the `RowSet`
 
 ----
@@ -25,30 +25,32 @@ first   last     middle
 Juliana Walewski null
 ----
 
-Another form of condition is a *predicate lambda* (a `RowPredicate` object), evaluated row-by-row:
+Another form of condition is a lambda "predicate" (a `RowPredicate` object), evaluated row-by-row:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByPredicate]
 ----
 
-A *condition can be precalculated* as a `BooleanSeries`. A common scenario is applying a condition to another `Series`
-or `DataFrame` to build a `BooleanSeries` "selector", and then using it to pick rows from a DataFrame:
+A condition can be precalculated as a `BooleanSeries`. A common scenario is calling `locate()` on another `Series`
+or a `DataFrame` / `RowSet` to build a `BooleanSeries` "selector", and then using it to pick rows from another DataFrame:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByConditionPrecalc]
 ----
-<1> Precalculate the condition against the Series that is not a part of "our" DataFrame (pick every third row).
+<1> A Series of salaries with elements positions matching row positions in the persons DataFrame.
+<2> Precalculates a reusable "selector"
 
 ----
-first last  middle
------ ----- ------
-Jerry Cosin M
+first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null
 ----
 
 ==== By Positions
 
-Here is an example of `RowSet` defined using an *array of row positions*.
+Here is an example of `RowSet` defined using an array of row positions.
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByArray]
@@ -68,23 +70,24 @@ NOTE: An array of positions is also a kind of "condition". The main difference i
 to reorder rows by specifying positions in a desired sequence and/or duplicate rows by referencing the same position more
 than once. Both features are demonstrated in the example above.
 
-Instead of an array, positions can be defined as an *IntSeries "index"*. Just like with conditions, it is often
-calculated from another `Series` or `DataFrame`:
+Instead of an array, positions can be defined as an `IntSeries` "index". Just like with conditions, it is often
+calculated from another `Series` or `DataFrame` / `RowSet`:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByIndex]
 ----
-<1> Precalculate the positions against the Series that is not a part of "our" DataFrame (pick every third row).
+<1> Precalculates a reusable "selector" with positions. Uses a Series of salaries that is not a part of "our" DataFrame
 ----
-first last  middle
------ ----- ------
-Jerry Cosin M
+first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null
 ----
 
 ==== As a Range
 
-Finally, rows can be selected as a *continuous range of row positions*:
+Finally, rows can be selected as a continuous range of row positions:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByRange]

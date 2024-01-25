@@ -1947,7 +1947,7 @@ its rows and what other operations are available.</p>
 <div class="sect3">
 <h4 id="_by_condition">By Condition</h4>
 <div class="paragraph">
-<p>A <strong>Condition</strong> (a boolean <code>Exp</code>) can be used to pick matching rows:</p>
+<p>A Condition (a boolean <code>Exp</code>) can be used to pick matching rows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1965,7 +1965,7 @@ DataFrame df1 = df
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>A <code>Condition</code> that defines rows of the <code>RowSet</code></td>
+<td>Applies a <code>Condition</code> to the DataFrame, to include matching rows in the <code>RowSet</code>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1981,7 +1981,7 @@ Juliana Walewski null</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Another form of condition is a <strong>predicate lambda</strong> (a <code>RowPredicate</code> object), evaluated row-by-row:</p>
+<p>Another form of condition is a lambda "predicate" (a <code>RowPredicate</code> object), evaluated row-by-row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1991,36 +1991,42 @@ Juliana Walewski null</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A <strong>condition can be precalculated</strong> as a <code>BooleanSeries</code>. A common scenario is applying a condition to another <code>Series</code>
-or <code>DataFrame</code> to build a <code>BooleanSeries</code> "selector", and then using it to pick rows from a DataFrame:</p>
+<p>A condition can be precalculated as a <code>BooleanSeries</code>. A common scenario is calling <code>locate()</code> on another <code>Series</code>
+or a <code>DataFrame</code> / <code>RowSet</code> to build a <code>BooleanSeries</code> "selector", and then using it to pick rows from another DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">IntSeries s = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
-BooleanSeries c = s.locateInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-DataFrame df1 = df.rows(c).select();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries salaries = Series.ofInt(<span class="integer">100000</span>, <span class="integer">50000</span>, <span class="integer">45600</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+BooleanSeries selector = salaries.locateInt(s -&gt; s &gt; <span class="integer">49999</span>); <i class="conum" data-value="2"></i><b>(2)</b>
+
+DataFrame df1 = df.rows(selector).select();</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Precalculate the condition against the Series that is not a part of "our" DataFrame (pick every third row).</td>
+<td>A Series of salaries with elements positions matching row positions in the persons DataFrame.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Precalculates a reusable "selector"</td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>first last  middle
------ ----- ------
-Jerry Cosin M</pre>
+<pre>first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_by_positions">By Positions</h4>
 <div class="paragraph">
-<p>Here is an example of <code>RowSet</code> defined using an <strong>array of row positions</strong>.</p>
+<p>Here is an example of <code>RowSet</code> defined using an array of row positions.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2061,41 +2067,42 @@ than once. Both features are demonstrated in the example above.
 </table>
 </div>
 <div class="paragraph">
-<p>Instead of an array, positions can be defined as an <strong>IntSeries "index"</strong>. Just like with conditions, it is often
-calculated from another <code>Series</code> or <code>DataFrame</code>:</p>
+<p>Instead of an array, positions can be defined as an <code>IntSeries</code> "index". Just like with conditions, it is often
+calculated from another <code>Series</code> or <code>DataFrame</code> / <code>RowSet</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">IntSeries s = <span class="keyword">new</span> IntSequenceSeries(<span class="integer">0</span>, df.height());
-IntSeries index = s.indexInt(i -&gt; i % <span class="integer">3</span> == <span class="integer">0</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-DataFrame df1 = df.rows(index).select();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries selector = salaries.indexInt(s -&gt; s &gt; <span class="integer">49999</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+DataFrame df1 = df.rows(selector).select();</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Precalculate the positions against the Series that is not a part of "our" DataFrame (pick every third row).</td>
+<td>Precalculates a reusable "selector" with positions. Uses a Series of salaries that is not a part of "our" DataFrame</td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>first last  middle
------ ----- ------
-Jerry Cosin M</pre>
+<pre>first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null</pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_as_a_range">As a Range</h4>
 <div class="paragraph">
-<p>Finally, rows can be selected as a <strong>continuous range of row positions</strong>:</p>
+<p>Finally, rows can be selected as a continuous range of row positions:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .rowsRangeOpenClosed(<span class="integer">0</span>, <span class="integer">2</span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .rowsRange(<span class="integer">0</span>, <span class="integer">2</span>) <i class="conum" data-value="1"></i><b>(1)</b>
         .select();</code></pre>
 </div>
 </div>
