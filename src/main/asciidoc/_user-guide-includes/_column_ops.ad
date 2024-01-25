@@ -6,7 +6,7 @@ creating either a `ColumnSet` or a `RowSet` and then applying an operation. Let'
 
 === Pick Columns
 
-Here is a simple example of how to pick two columns from a DataFrame by *column name*, and return a new DataFrame with
+Here is a simple example of how to pick two columns from a DataFrame by column name, and return a new DataFrame with
 just those two columns:
 
 [source,java,indent=0]
@@ -30,20 +30,21 @@ NOTE: Passing columns in a specific order to the `cols(..)` method allowed us to
 In the example above, the columns were picked by name. There are a few other ways to define a `ColumnSet`, as described
 below.
 
-By *column positions*:
+By column positions:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPos]
 ----
 
-By a *custom predicate*:
+By lambda "predicate":
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPredicate]
 ----
-This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative order of the original DataFrame:
+This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative
+order of the original DataFrame:
 ----
 first   last
 ------- --------
@@ -51,7 +52,7 @@ Jerry   Cosin
 Joan    O'Hara
 ----
 
-By specifying column names (or positions) *excluded* from the `ColumnSet`. This also doesn't allow column reordering:
+By specifying column names (or positions) excluded from the `ColumnSet`. This also doesn't allow column reordering:
 
 [source,java,indent=0]
 ----
@@ -67,7 +68,7 @@ include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsAll]
 Here, the returned DataFrame will be the same as the source DataFrame (i.e. `.cols()` is equivalent to selecting
 all available columns), so it is fairly meaningless.
 
-NOTE: "No-columns" picking style is a so-called *dynamic column selection*, when the result columns are resolved at a
+NOTE: "No-columns" picking style is a so-called dynamic column selection, when the result columns are resolved at a
 later stage, based on the semantics of an operation applied to the `ColumnSet`. So in general, it is quite useful.
 
 === Rename Columns

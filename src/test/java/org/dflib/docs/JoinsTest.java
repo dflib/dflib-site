@@ -1,6 +1,7 @@
 package org.dflib.docs;
 
 import org.dflib.DataFrame;
+import org.dflib.join.JoinPredicate;
 import org.junit.jupiter.api.Test;
 
 import static org.dflib.Exp.$int;
@@ -20,9 +21,9 @@ public class JoinsTest extends BaseTest {
                 .of(2, 25, 3, 30, 4, 40);
 
         DataFrame joined = left
-                .innerJoin() // <1>
+                .innerJoin(right) // <1>
                 .on("id") // <2>
-                .with(right);
+                .select();
 
         // end::join[]
 
@@ -42,10 +43,9 @@ public class JoinsTest extends BaseTest {
 
         // tag::joinNoDupeColumns[]
         DataFrame joined = left
-                .innerJoin()
+                .innerJoin(right)
                 .on("id")
-                .with(right)
-                .dropColumns(c -> c.endsWith("_"));
+                .selectExcept(c -> c.endsWith("_"));
 
         // end::joinNoDupeColumns[]
 
@@ -66,10 +66,9 @@ public class JoinsTest extends BaseTest {
 
         // tag::leftJoin[]
         DataFrame joined = left
-                .leftJoin()
+                .leftJoin(right)
                 .on("id")
-                .with(right);
-
+                .select();
         // end::leftJoin[]
 
         print("leftJoin", joined);
@@ -88,12 +87,10 @@ public class JoinsTest extends BaseTest {
 
         // tag::indicatorColumn[]
         DataFrame joined = left
-                .fullJoin()
+                .fullJoin(right)
                 .on("id")
                 .indicatorColumn("join_type") // <1>
-                .with(right)
-                .dropColumns(c -> c.endsWith("_"));
-
+                .selectExcept(c -> c.endsWith("_"));
         // end::indicatorColumn[]
 
         print("indicatorColumn", joined);
@@ -104,19 +101,19 @@ public class JoinsTest extends BaseTest {
 
         // tag::predicatedBy[]
         DataFrame df = DataFrame.foldByRow("name", "salary").of(
-                "Jerry", 120_000,
-                "Juliana", 80_000,
-                "Joan", 95_000);
+                "Jerry", 120000,
+                "Juliana", 80000,
+                "Joan", 95000);
+
+        JoinPredicate p = (r1, r2) ->
+                ((Integer) r1.get("salary")) > ((Integer) r2.get("salary"));
 
         DataFrame joined = df
-                .leftJoin()
-                .predicatedBy((r1, r2) -> ((Integer) r1.get("salary")) > ((Integer) r2.get("salary"))) // <1>
-                .with(df)
+                .leftJoin(df)
+                .predicatedBy(p) // <1>
+                .select()
                 .sort($int("salary").desc(), $int("salary_").desc()) // <2>
-                .renameColumn("name", "makes_more")
-                .renameColumn("name_", "makes_less")
-                .dropColumns(c -> c.startsWith("salary"));
-
+                .cols("name", "name_").selectAs("makes_more", "makes_less");
         // end::predicatedBy[]
 
         print("predicatedBy", joined);

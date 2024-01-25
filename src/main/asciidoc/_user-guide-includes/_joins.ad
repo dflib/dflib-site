@@ -11,7 +11,7 @@ multiple tables. DataFrames can be joined together, just like two DB tables. DFL
 ----
 include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=join]
 ----
-<1> Since we used `innerJoin()`, only the rows that are present in both DataFrames will be included in the result below.
+<1> Since we used `innerJoin(..)`, only the rows that are present in both DataFrames will be included in the result below.
 <2> Columns used in the join criteria have the same name in both DataFrames, so we can specify the name of the join column
 only once. In general, the names do not need to match, and multiple columns can participate in a join.
 ----
@@ -19,12 +19,11 @@ id name    id_ age
 -- ------- --- ---
  2 Juliana   2  25
  3 Joan      3  30
-2 rows x 4 columns
 ----
 Notice how DFLib treats the `id` column in the join result. Since it is present in both left and right DataFrames, it
 is included in the result twice, but the second column is renamed to `id_` to avoid a naming collision. The same renaming
 would occur for any other columns from the right DataFrame that have conflicting names with the columns from the left.
-A quick way to get rid of duplicate columns is to drop them by the name pattern:
+A quick way to get rid of duplicate columns is to exclude them from result using the name pattern:
 
 [source,java,indent=0]
 ----
@@ -35,7 +34,6 @@ id name    age
 -- ------- ---
  2 Juliana  25
  3 Joan     30
-2 rows x 3 columns
 ----
 
 === Outer Joins
@@ -52,7 +50,6 @@ id name     id_  age
  1 Jerry   null null
  2 Juliana    2   25
  3 Joan       3   30
-3 rows x 4 columns
 ----
 
 It has all the rows from the left DataFrame, and only the matching rows from the right DataFrame. For left rows with no
@@ -75,9 +72,8 @@ include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=indicatorColumn]
    2 Juliana   25 both
    3 Joan      30 both
 null null      40 right_only
-4 rows x 4 columns
 ----
-The "join_type" column will contain a special enum `org.dflib.join.JoinIndicator` that allows to categorize rows
+The `join_type` column will contain a special enum of `org.dflib.join.JoinIndicator` type that allows to categorize rows
 in the produced DataFrame.
 
 NOTE: indicator column can be requested for all join types, but it is only useful for the three outer joins (it will
@@ -85,7 +81,7 @@ always be `both` for inner joins).
 
 === Nested Loop Joins
 The joins we've seen so far were all based on comparing left and right column values. They are knows as "hash joins",
-and are usually fast and efficient. However, they can not express every possible condition, and sometimes we have
+and are usually as fast as joins can get. However, they can not express every possible condition, and sometimes we have
 to resort to another kind of joins - "nested loop", that would compare every row from the left DataFrame to every row
 from the right. For instance, let's join a DataFrame of salaries with itself to produce pairs of names - a person with
 higher salary on the left vs. everyone with lower salary on the right:
@@ -95,7 +91,7 @@ higher salary on the left vs. everyone with lower salary on the right:
 include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=predicatedBy]
 ----
 <1> Custom join condition
-<2> Sorting and renaming the result columns for more user-friendly display
+<2> Sorting and renaming the result columns for a user-friendly display
 ----
 makes_more makes_less
 ---------- ----------
@@ -103,7 +99,6 @@ Jerry      Joan
 Jerry      Juliana
 Joan       Juliana
 Juliana    null
-4 rows x 2 columns
 ----
 
 NOTE: Nested loop joins are _much_ slower, and should be avoided unless absolutely necessary.
