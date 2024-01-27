@@ -1,17 +1,17 @@
 [#row_ops]
 == Row Operations
 
-Just like with columns, row operations first define a `RowSet`, then execute some transformation, and then are either
-merged back to the original DataFrame, or "selected" as a new DataFrame. `RowSet` and `ColumnSet` have other
-similarities (e.g. the ability to evaluate expressions by column), but `RowSet` is also quite different in how we pick
-its rows and what other operations are available.
+Just like with columns, row operations first define a `RowSet`, execute some transformation, and then are either
+merged back with the original `DataFrame`, or "selected" as a standalone one. `RowSet` and `ColumnSet` have other
+similarities (e.g. the ability to evaluate expressions by column, and create `RowColumnSet`), but `RowSet` is also
+rather different in how its rows are picked and what other operations are available.
 
 === Pick Rows
 
-Rows are picked by condition, by positions and as a range. Let's take a look at each style...
+Rows are picked either by condition, by positions or as a range. Let's take a look at each style...
 
 ==== By Condition
-A Condition (a boolean `Exp`) can be used to pick matching rows:
+A `Condition` (a boolean `Exp`) can be used to pick matching rows:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByCondition]
@@ -25,7 +25,7 @@ first   last     middle
 Juliana Walewski null
 ----
 
-Another form of condition is a lambda "predicate" (a `RowPredicate` object), evaluated row-by-row:
+Another form of condition is a "predicate" lambda (a `RowPredicate` object), evaluated row-by-row:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByPredicate]

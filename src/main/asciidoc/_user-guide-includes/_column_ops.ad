@@ -1,12 +1,31 @@
 [#column_ops]
 == Column Operations
 
-With a few exceptions, operations on DataFrame data are performed on a subset of columns and/or rows. They start with
-creating either a `ColumnSet` or a `RowSet` and then applying an operation. Let's first look at columns...
+To manipulate data in a single `DataFrame`, with a few exceptions you would start by picking a subset of columns or
+rows. Those are represented as `ColumnSet` and `RowSet` objects. Let's look at columns first...
 
 === Pick Columns
 
-Here is a simple example of how to pick two columns from a DataFrame by column name, and return a new DataFrame with
+Columns are picked either by condition, by name, by position or implicitly. Let's take a look at each style...
+
+==== By Condition
+A condition is specified as a "predicate" lambda:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPredicate]
+----
+This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative
+order of the original `DataFrame`:
+----
+first   last
+------- --------
+Jerry   Cosin
+Joan    O'Hara
+----
+
+==== By Names
+Here is a simple example of how to pick two columns from a DataFrame by name, and return a new DataFrame with
 just those two columns:
 
 [source,java,indent=0]
@@ -25,51 +44,37 @@ Cosin    Jerry
 O'Hara   Joan
 ----
 
-NOTE: Passing columns in a specific order to the `cols(..)` method allowed us to reorder the columns in the result.
+NOTE: Passing names in a specific order to `cols(..)` allowed us to reorder the columns in the result.
 
-In the example above, the columns were picked by name. There are a few other ways to define a `ColumnSet`, as described
-below.
-
-By column positions:
-
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPos]
-----
-
-By lambda "predicate":
-
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPredicate]
-----
-This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative
-order of the original DataFrame:
-----
-first   last
-------- --------
-Jerry   Cosin
-Joan    O'Hara
-----
-
-By specifying column names (or positions) excluded from the `ColumnSet`. This also doesn't allow column reordering:
+Instead of listing included columns, you might specify which columns should be _excluded_ from selection. This flavor
+doesn't support reordering:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsExcept]
 ----
 
-[#dynamic-column-selection]
-By specifying no columns
+==== By Positions
+You can also pick columns by positions. The first position is "0".
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPos]
+----
+
+[#column_ops_implicit]
+==== Implicitly
+
+If you specify no columns at all when building a `RowSet`, the returned `DataFrame` will be the same as the source one.
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsAll]
 ----
-Here, the returned DataFrame will be the same as the source DataFrame (i.e. `.cols()` is equivalent to selecting
-all available columns), so it is fairly meaningless.
 
-NOTE: "No-columns" picking style is a so-called dynamic column selection, when the result columns are resolved at a
-later stage, based on the semantics of an operation applied to the `ColumnSet`. So in general, it is quite useful.
+NOTE: In this particular case, implicit column selection is not very useful. But in fact, this style is dynamic
+and may result in a smaller subset of columns selected based on the semantics of an operation applied to the
+`ColumnSet` (e.g. named expressions making specific columns). Also, it allows to apply a _transformation_ to
+all columns at once. These cases are described later in the <<column_ops_transform,columns transformation>> chapter.
 
 === Rename Columns
 
@@ -118,9 +123,10 @@ Cosin  Jerry
 O'Hara Joan
 ----
 
+[#column_ops_transform]
 === Transform Columns
 
-In the above examples we performed DataFrame vertical slicing, columns reordering and renaming. In this chapter
+In the above examples we performed `DataFrame` vertical slicing, columns reordering and renaming. In this chapter
 we'll show how to transform column data.
 
 Generating columns with expressions:
@@ -163,7 +169,7 @@ primary_phone secondary_phone
 
 If you don't know the exact number of phones, but would like to
 capture them all in separate columns, simply do not specify any explicit column names when defining a `ColumnSet` (as
-mentioned in the <<dynamic-column-selection,dynamic column selection>>). As many columns as needed to fit the longest
+mentioned in the <<column_ops_implicit,implicit column selection>> chapter). As many columns as needed to fit the longest
 collection of phone numbers will be generated on the fly, and the names will be assigned dynamically:
 [source,java,indent=0]
 ----
@@ -181,13 +187,19 @@ Another flavor of `selectArrays(..)` is `selectIterables(..)` that takes an `Exp
 into columns, but otherwise works the same way.
 
 === Merge Columns
-All the `ColumnSet` operations demonstrated so far resulted in discarding the source DataFrame, and returning only the
-columns defined within the set. But there are many situations when we would like to recombine `ColumnSet` with the
-original DataFrame. E.g., when you are doing data cleanup or "enriching" a data set. In fact, all the renaming and
-data transformation operations that we just discussed can be executed as "merge" operations (as opposed to "select").
-All the `ColumnsSet` methods that do not start with `select...` are performing a merge with the source DataFrame.
 
-An example of cleaning up a data set and adding a new column:
+The `ColumnSet` operations demonstrated so far resulted in discarding the source `DataFrame`, and returning only the
+columns defined within the set. But often we would like to recombine transformed `ColumnSet` with the original
+`DataFrame`. Any in-place data cleanup, data set enrichment, etc. fall in this category.
+
+NOTE: Of course, we call them "in-place" only in a logical sense, as `DataFrame` is immutable, and all modifications
+result in creation of a new instance.
+
+For this `ColumnSet` provides a number of "merging" methods. All the `ColumnsSet` methods that do not start with
+`select...` are performing a merge with the source DataFrame. In fact, all the renaming and data transformation
+operations that we just discussed can also be executed as "merges".
+
+Here is an example of cleaning up a data set and adding a new column:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsMap]
@@ -236,7 +248,7 @@ Joan  O'Hara null   O'Hara Joan
 ----
 
 NOTE: Since we've already discussed various flavors of column renaming and transformation in the context of `select(..)`
-operation, we leave it as an exercise for the user to explore the remaining similar kinds of `as(..)` and `map(..)`.
+operation, we leave it as an exercise for the user to explore their counterparts - `as(..)` and `map(..)`.
 
 === Compact Columns
 

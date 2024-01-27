@@ -559,7 +559,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_pick_columns">Pick Columns</a></li>
 <li><a href="#_rename_columns">Rename Columns</a></li>
-<li><a href="#_transform_columns">Transform Columns</a></li>
+<li><a href="#column_ops_transform">Transform Columns</a></li>
 <li><a href="#_merge_columns">Merge Columns</a></li>
 <li><a href="#_compact_columns">Compact Columns</a></li>
 <li><a href="#_fill_nulls">Fill Nulls</a></li>
@@ -1322,13 +1322,41 @@ either a Java primitive or an instance of <code>Comparable</code>, or a ClassCas
 <h2 id="column_ops">Column Operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With a few exceptions, operations on DataFrame data are performed on a subset of columns and/or rows. They start with
-creating either a <code>ColumnSet</code> or a <code>RowSet</code> and then applying an operation. Let&#8217;s first look at columns&#8230;&#8203;</p>
+<p>To manipulate data in a single <code>DataFrame</code>, with a few exceptions you would start by picking a subset of columns or
+rows. Those are represented as <code>ColumnSet</code> and <code>RowSet</code> objects. Let&#8217;s look at columns first&#8230;&#8203;</p>
 </div>
 <div class="sect2">
 <h3 id="_pick_columns">Pick Columns</h3>
 <div class="paragraph">
-<p>Here is a simple example of how to pick two columns from a DataFrame by column name, and return a new DataFrame with
+<p>Columns are picked either by condition, by name, by position or implicitly. Let&#8217;s take a look at each style&#8230;&#8203;</p>
+</div>
+<div class="sect3">
+<h4 id="_by_condition">By Condition</h4>
+<div class="paragraph">
+<p>A condition is specified as a "predicate" lambda:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(c -&gt; !<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>.equals(c)).select();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This form of <code>cols(..)</code> does not allow to reorder the columns. The resulting columns will always follow the relative
+order of the original <code>DataFrame</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first   last
+------- --------
+Jerry   Cosin
+Joan    O'Hara</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_by_names">By Names</h4>
+<div class="paragraph">
+<p>Here is a simple example of how to pick two columns from a DataFrame by name, and return a new DataFrame with
 just those two columns:</p>
 </div>
 <div class="listingblock">
@@ -1370,62 +1398,41 @@ O'Hara   Joan</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Passing columns in a specific order to the <code>cols(..)</code> method allowed us to reorder the columns in the result.
+Passing names in a specific order to <code>cols(..)</code> allowed us to reorder the columns in the result.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>In the example above, the columns were picked by name. There are a few other ways to define a <code>ColumnSet</code>, as described
-below.</p>
-</div>
-<div class="paragraph">
-<p>By column positions:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(<span class="integer">1</span>, <span class="integer">0</span>).select();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By lambda "predicate":</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(c -&gt; !<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>.equals(c)).select();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This form of <code>cols(..)</code> does not allow to reorder the columns. The resulting columns will always follow the relative
-order of the original DataFrame:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>first   last
-------- --------
-Jerry   Cosin
-Joan    O'Hara</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By specifying column names (or positions) excluded from the <code>ColumnSet</code>. This also doesn&#8217;t allow column reordering:</p>
+<p>Instead of listing included columns, you might specify which columns should be <em>excluded</em> from selection. This flavor
+doesn&#8217;t support reordering:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.colsExcept(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).select();</code></pre>
 </div>
 </div>
-<div id="dynamic-column-selection" class="paragraph">
-<p>By specifying no columns</p>
+</div>
+<div class="sect3">
+<h4 id="_by_positions">By Positions</h4>
+<div class="paragraph">
+<p>You can also pick columns by positions. The first position is "0".</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols(<span class="integer">1</span>, <span class="integer">0</span>).select();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="column_ops_implicit">Implicitly</h4>
+<div class="paragraph">
+<p>If you specify no columns at all when building a <code>RowSet</code>, the returned <code>DataFrame</code> will be the same as the source one.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df.cols().select();</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Here, the returned DataFrame will be the same as the source DataFrame (i.e. <code>.cols()</code> is equivalent to selecting
-all available columns), so it is fairly meaningless.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1434,11 +1441,14 @@ all available columns), so it is fairly meaningless.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-"No-columns" picking style is a so-called dynamic column selection, when the result columns are resolved at a
-later stage, based on the semantics of an operation applied to the <code>ColumnSet</code>. So in general, it is quite useful.
+In this particular case, implicit column selection is not very useful. But in fact, this style is dynamic
+and may result in a smaller subset of columns selected based on the semantics of an operation applied to the
+<code>ColumnSet</code> (e.g. named expressions correspond directly to columns). Also, it allows to apply a <em>transformation</em> to
+all columns at once. These cases are described later in the <a href="#column_ops_transform">columns transformation</a> chapter.
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1515,9 +1525,9 @@ O'Hara Joan</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_transform_columns">Transform Columns</h3>
+<h3 id="column_ops_transform">Transform Columns</h3>
 <div class="paragraph">
-<p>In the above examples we performed DataFrame vertical slicing, columns reordering and renaming. In this chapter
+<p>In the above examples we performed <code>DataFrame</code> vertical slicing, columns reordering and renaming. In this chapter
 we&#8217;ll show how to transform column data.</p>
 </div>
 <div class="paragraph">
@@ -1611,7 +1621,7 @@ numbers. If a split has more than 2 numbers, the rest are ignored, if less - nul
 <div class="paragraph">
 <p>If you don&#8217;t know the exact number of phones, but would like to
 capture them all in separate columns, simply do not specify any explicit column names when defining a <code>ColumnSet</code> (as
-mentioned in the <a href="#dynamic-column-selection">dynamic column selection</a>). As many columns as needed to fit the longest
+mentioned in the <a href="#column_ops_implicit">implicit column selection</a> chapter). As many columns as needed to fit the longest
 collection of phone numbers will be generated on the fly, and the names will be assigned dynamically:</p>
 </div>
 <div class="listingblock">
@@ -1645,14 +1655,30 @@ into columns, but otherwise works the same way.</p>
 <div class="sect2">
 <h3 id="_merge_columns">Merge Columns</h3>
 <div class="paragraph">
-<p>All the <code>ColumnSet</code> operations demonstrated so far resulted in discarding the source DataFrame, and returning only the
-columns defined within the set. But there are many situations when we would like to recombine <code>ColumnSet</code> with the
-original DataFrame. E.g., when you are doing data cleanup or "enriching" a data set. In fact, all the renaming and
-data transformation operations that we just discussed can be executed as "merge" operations (as opposed to "select").
-All the <code>ColumnsSet</code> methods that do not start with <code>select&#8230;&#8203;</code> are performing a merge with the source DataFrame.</p>
+<p>The <code>ColumnSet</code> operations demonstrated so far resulted in discarding the source <code>DataFrame</code>, and returning only the
+columns defined within the set. But often we would like to recombine transformed <code>ColumnSet</code> with the original
+<code>DataFrame</code>. Any in-place data cleanup, data set enrichment, etc. fall in this category.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Of course, we call them "in-place" only in a logical sense, as <code>DataFrame</code> is immutable, and all modifications
+result in creation of a new instance.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>An example of cleaning up a data set and adding a new column:</p>
+<p>For this <code>ColumnSet</code> provides a number of "merging" methods. All the <code>ColumnsSet</code> methods that do not start with
+<code>select&#8230;&#8203;</code> are performing a merge with the source DataFrame. In fact, all the renaming and data transformation
+operations that we just discussed can also be executed as "merges".</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of cleaning up a data set and adding a new column:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1764,7 +1790,7 @@ Joan  O'Hara null   O'Hara Joan</pre>
 </td>
 <td class="content">
 Since we&#8217;ve already discussed various flavors of column renaming and transformation in the context of <code>select(..)</code>
-operation, we leave it as an exercise for the user to explore the remaining similar kinds of <code>as(..)</code> and <code>map(..)</code>.
+operation, we leave it as an exercise for the user to explore their counterparts - <code>as(..)</code> and <code>map(..)</code>.
 </td>
 </tr>
 </table>
@@ -1935,20 +1961,20 @@ Joan  O'Hara</pre>
 <h2 id="row_ops">Row Operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Just like with columns, row operations first define a <code>RowSet</code>, then execute some transformation, and then are either
-merged back to the original DataFrame, or "selected" as a new DataFrame. <code>RowSet</code> and <code>ColumnSet</code> have other
-similarities (e.g. the ability to evaluate expressions by column), but <code>RowSet</code> is also quite different in how we pick
-its rows and what other operations are available.</p>
+<p>Just like with columns, row operations first define a <code>RowSet</code>, execute some transformation, and then are either
+merged back with the original <code>DataFrame</code>, or "selected" as a standalone one. <code>RowSet</code> and <code>ColumnSet</code> have other
+similarities (e.g. the ability to evaluate expressions by column, and create <code>RowColumnSet</code>), but <code>RowSet</code> is also
+rather different in how its rows are picked and what other operations are available.</p>
 </div>
 <div class="sect2">
 <h3 id="_pick_rows">Pick Rows</h3>
 <div class="paragraph">
-<p>Rows are picked by condition, by positions and as a range. Let&#8217;s take a look at each style&#8230;&#8203;</p>
+<p>Rows are picked either by condition, by positions or as a range. Let&#8217;s take a look at each style&#8230;&#8203;</p>
 </div>
 <div class="sect3">
-<h4 id="_by_condition">By Condition</h4>
+<h4 id="_by_condition_2">By Condition</h4>
 <div class="paragraph">
-<p>A Condition (a boolean <code>Exp</code>) can be used to pick matching rows:</p>
+<p>A <code>Condition</code> (a boolean <code>Exp</code>) can be used to pick matching rows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1982,7 +2008,7 @@ Juliana Walewski null</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Another form of condition is a lambda "predicate" (a <code>RowPredicate</code> object), evaluated row-by-row:</p>
+<p>Another form of condition is a "predicate" lambda (a <code>RowPredicate</code> object), evaluated row-by-row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2025,7 +2051,7 @@ Juliana Walewski null</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_by_positions">By Positions</h4>
+<h4 id="_by_positions_2">By Positions</h4>
 <div class="paragraph">
 <p>Here is an example of <code>RowSet</code> defined using an array of row positions.</p>
 </div>
