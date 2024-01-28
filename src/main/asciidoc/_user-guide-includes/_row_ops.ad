@@ -162,4 +162,16 @@ placed in their original positions). The relative order of added rows is respect
 
 === Drop Rows
 
+To get rid of certain rows in a DataFrame, you select those rows and call `drop()`:
 
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsDrop]
+----
+
+----
+first last   middle
+----- ------ ------
+Jerry Cosin  M
+Joan  O'Hara P
+----

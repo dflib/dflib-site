@@ -2279,7 +2279,27 @@ placed in their original positions). The relative order of added rows is respect
 </div>
 <div class="sect2">
 <h3 id="_drop_rows">Drop Rows</h3>
+<div class="paragraph">
+<p>To get rid of certain rows in a DataFrame, you select those rows and call <code>drop()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">P</span><span class="delimiter">&quot;</span></span>);
 
+DataFrame df1 = df.rows(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).isNull()).drop();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last   middle
+----- ------ ------
+Jerry Cosin  M
+Joan  O'Hara P</pre>
+</div>
+</div>
 </div>
 </div>
 </div>

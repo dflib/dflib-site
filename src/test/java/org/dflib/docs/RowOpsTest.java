@@ -182,4 +182,19 @@ public class RowOpsTest extends BaseTest {
 
         print("rowsMergeExp", df1);
     }
+
+    @Test
+    public void rowsDrop() {
+
+// tag::rowsDrop[]
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
+                "Jerry", "Cosin", "M",
+                "Juliana", "Walewski", null,
+                "Joan", "O'Hara", "P");
+
+        DataFrame df1 = df.rows($col("middle").isNull()).drop();
+// end::rowsDrop[]
+
+        print("colsDrop", df1);
+    }
 }
