@@ -102,7 +102,63 @@ Juliana Walewski null
 
 === Transform Rows
 
+Just like `ColumnSet`, `RowSet` defines a number of column- and row-based transformations. And just like with
+`ColumnSet`, each transformation can be invoked as a "select" or a "merge", returning either the `RowSet` rows or all
+rows from the original `DataFrame`. Here we will demonstrate selecting operations, and will talk about merging next.
+
+Transforming with column expressions:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectExp]
+----
+<1> Select the rows from each column without changes, except the last one, where we flip the "retires_soon" flag
+to "true".
+----
+first last   age retures_soon
+----- ------ --- ------------
+Jerry Cosin   61         true
+Joan  O'Hara  59         true
+----
+NOTE: We had to specify an expression for every column in the DataFrame, even though only a single column got transformed.
+This code can be improved by creating a `RowColumnSet` <<row_column_ops,described here>>.
+
+Transforming row-by-row with `RowMapper`:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectRowMapper]
+----
+There's also a way to transforming row-by-row with per-column array of `RowToValueMapper`. It is not very different
+from what we've seen so far, so we are leaving this as an exercise for the reader.
+
 === Merge Rows
+
+If we want to merge the result of a `RowSet` transformation to the original `DataFrame`, we'll need to use methods
+like `map(..)` (i.e. those that do not start with `select`):
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsMergeExp]
+----
+
+----
+first   last     age retires_soon
+------- -------- --- ------------
+Jerry   Cosin     61         true
+Juliana Walewski  25        false
+Joan    O'Hara    59         true
+----
+
+Merging rows is done similar to columns, except rows have no name labels, so it is done by position. General merge rules:
+
+* Merging is done by row position. DataFrame rows with matching positions are replaced with transformed versions, rows that
+are not a part of the `RowSet` are left unchanged, and rows in the `RowSet`, but not in the `DataFrame` (e.g.,
+intentionally duplicated rows or split rows) are appended in the bottom.
+* The order of the existing rows in the `RowSet` has no effect on the order of replaced rows (i.e. they are
+placed in their original positions). The relative order of added rows is respected.
+
+=== Split Rows
+
+=== Unique Rows
 
 === Drop Rows
 

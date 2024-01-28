@@ -145,7 +145,7 @@ Jerry M      Cosin
 Joan         O'Hara
 ----
 
-Generating columns row-by-row with a `RowMapper`:
+Generating columns row-by-row with `RowMapper`:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRowMapper]

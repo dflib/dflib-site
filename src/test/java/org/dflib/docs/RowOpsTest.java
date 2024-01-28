@@ -119,4 +119,67 @@ public class RowOpsTest extends BaseTest {
 
         print("rowsByRange", df1);
     }
+
+    @Test
+    public void rowsSelectExp() {
+
+// tag::rowsSelectExp[]
+        DataFrame df = DataFrame.foldByRow("first", "last", "age", "retires_soon").of(
+                "Jerry", "Cosin", 61, false,
+                "Juliana", "Walewski", 25, false,
+                "Joan", "O'Hara", 59, false);
+
+        DataFrame df1 = df
+                .rows($int("age").mapConditionVal(a -> 67 - a < 10))
+                .select(
+                        $col("first"),
+                        $col("last"),
+                        $col("age"),
+                        $val(true)); // <1>
+// end::rowsSelectExp[]
+
+        print("rowsSelectExp", df1);
+    }
+
+    @Test
+    public void rowsSelectRowMapper() {
+        DataFrame df = DataFrame.foldByRow("first", "last", "age", "retires_soon").of(
+                "Jerry", "Cosin", 61, false,
+                "Juliana", "Walewski", 25, false,
+                "Joan", "O'Hara", 59, false);
+
+// tag::rowsSelectRowMapper[]
+        RowMapper mapper = (from, to) -> {
+            from.copy(to);
+            to.set("retires_soon", true);
+        };
+
+        DataFrame df1 = df
+                .rows($int("age").mapConditionVal(a -> 67 - a < 10))
+                .select(mapper);
+// end::rowsSelectRowMapper[]
+
+        print("rowsSelectRowMapper", df1);
+    }
+
+    @Test
+    public void rowsMergeExp() {
+
+        DataFrame df = DataFrame.foldByRow("first", "last", "age", "retires_soon").of(
+                "Jerry", "Cosin", 61, false,
+                "Juliana", "Walewski", 25, false,
+                "Joan", "O'Hara", 59, false);
+
+        // tag::rowsMergeExp[]
+        DataFrame df1 = df
+                .rows($int("age").mapConditionVal(a -> 67 - a < 10))
+                .map(
+                        $col("first"),
+                        $col("last"),
+                        $col("age"),
+                        $val(true));
+// end::rowsMergeExp[]
+
+        print("rowsMergeExp", df1);
+    }
 }

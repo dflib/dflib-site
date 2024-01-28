@@ -571,6 +571,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_pick_rows">Pick Rows</a></li>
 <li><a href="#_transform_rows">Transform Rows</a></li>
 <li><a href="#_merge_rows">Merge Rows</a></li>
+<li><a href="#_split_rows">Split Rows</a></li>
+<li><a href="#_unique_rows">Unique Rows</a></li>
 <li><a href="#_drop_rows">Drop Rows</a></li>
 </ul>
 </li>
@@ -1564,7 +1566,7 @@ Joan         O'Hara</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Generating columns row-by-row with a <code>RowMapper</code>:</p>
+<p>Generating columns row-by-row with <code>RowMapper</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2150,10 +2152,129 @@ Juliana Walewski null</pre>
 </div>
 <div class="sect2">
 <h3 id="_transform_rows">Transform Rows</h3>
+<div class="paragraph">
+<p>Just like <code>ColumnSet</code>, <code>RowSet</code> defines a number of column- and row-based transformations. And just like with
+<code>ColumnSet</code>, each transformation can be invoked as a "select" or a "merge", returning either the <code>RowSet</code> rows or all
+rows from the original <code>DataFrame</code>. Here we will demonstrate selecting operations, and will talk about merging next.</p>
+</div>
+<div class="paragraph">
+<p>Transforming with column expressions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">retires_soon</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="integer">61</span>, <span class="predefined-constant">false</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="integer">25</span>, <span class="predefined-constant">false</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">59</span>, <span class="predefined-constant">false</span>);
 
+DataFrame df1 = df
+        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapConditionVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .select(
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>val(<span class="predefined-constant">true</span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Select the rows from each column without changes, except the last one, where we flip the "retires_soon" flag
+to "true".</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last   age retures_soon
+----- ------ --- ------------
+Jerry Cosin   61         true
+Joan  O'Hara  59         true</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We had to specify an expression for every column in the DataFrame, even though only a single column got transformed.
+This code can be improved by creating a <code>RowColumnSet</code> <a href="#row_column_ops">described here</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Transforming row-by-row with <code>RowMapper</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">RowMapper</span> mapper = (from, to) -&gt; {
+    from.copy(to);
+    to.set(<span class="string"><span class="delimiter">&quot;</span><span class="content">retires_soon</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">true</span>);
+};
+
+DataFrame df1 = df
+        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapConditionVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .select(mapper);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There&#8217;s also a way to transforming row-by-row with per-column array of <code>RowToValueMapper</code>. It is not very different
+from what we&#8217;ve seen so far, so we are leaving this as an exercise for the reader.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_merge_rows">Merge Rows</h3>
+<div class="paragraph">
+<p>If we want to merge the result of a <code>RowSet</code> transformation to the original <code>DataFrame</code>, we&#8217;ll need to use methods
+like <code>map(..)</code> (i.e. those that do not start with <code>select</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapConditionVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .map(
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>val(<span class="predefined-constant">true</span>));</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first   last     age retires_soon
+------- -------- --- ------------
+Jerry   Cosin     61         true
+Juliana Walewski  25        false
+Joan    O'Hara    59         true</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Merging rows is done similar to columns, except rows have no name labels, so it is done by position. General merge rules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Merging is done by row position. DataFrame rows with matching positions are replaced with transformed versions, rows that
+are not a part of the <code>RowSet</code> are left unchanged, and rows in the <code>RowSet</code>, but not in the <code>DataFrame</code> (e.g.,
+intentionally duplicated rows or split rows) are appended in the bottom.</p>
+</li>
+<li>
+<p>The order of the existing rows in the <code>RowSet</code> has no effect on the order of replaced rows (i.e. they are
+placed in their original positions). The relative order of added rows is respected.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_split_rows">Split Rows</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_unique_rows">Unique Rows</h3>
 
 </div>
 <div class="sect2">
