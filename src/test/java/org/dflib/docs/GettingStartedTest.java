@@ -15,8 +15,7 @@ public class GettingStartedTest extends BaseTest {
                 .foldByRow("a", "b", "c")
                 .ofStream(IntStream.range(1, 10000));
 
-        DataFrame df2 = df1.selectRows(
-                df1.getColumn(0).castAsInt().indexInt(i -> i % 2 == 0));
+        DataFrame df2 = df1.rows(r -> r.getInt(0) % 2 == 0).select();
 
         System.out.println(Printers.tabular.toString(df2));
 // end::gettingStarted[]

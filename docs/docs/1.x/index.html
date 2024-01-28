@@ -704,8 +704,7 @@ multiple DFLib modules:</p>
         .foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>)
         .ofStream(IntStream.range(<span class="integer">1</span>, <span class="integer">10000</span>));
 
-DataFrame df2 = df1.selectRows(
-        df1.getColumn(<span class="integer">0</span>).castAsInt().indexInt(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>));
+DataFrame df2 = df1.rows(r -&gt; r.getInt(<span class="integer">0</span>) % <span class="integer">2</span> == <span class="integer">0</span>).select();
 
 <span class="predefined-type">System</span>.out.println(Printers.tabular.toString(df2));</code></pre>
 </div>
@@ -1443,7 +1442,7 @@ doesn&#8217;t support reordering:</p>
 <td class="content">
 In this particular case, implicit column selection is not very useful. But in fact, this style is dynamic
 and may result in a smaller subset of columns selected based on the semantics of an operation applied to the
-<code>ColumnSet</code> (e.g. named expressions correspond directly to columns). Also, it allows to apply a <em>transformation</em> to
+<code>ColumnSet</code> (e.g. named expressions making specific columns). Also, it allows to apply a <em>transformation</em> to
 all columns at once. These cases are described later in the <a href="#column_ops_transform">columns transformation</a> chapter.
 </td>
 </tr>
