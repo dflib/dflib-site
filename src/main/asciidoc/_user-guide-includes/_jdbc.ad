@@ -54,7 +54,6 @@ id name              salary
  1 Jerry Cosin       70000.0
  2 Juliana Walewski  85000.0
  3 Joan O'Hara       101000.0
-3 rows x 3 columns
 ----
 
 Table loader provides a way to customize the load operation. It allows to select specific columns, set the maximum
@@ -68,7 +67,6 @@ name        salary
 ----------- --------
 Jerry Cosin 70000.0
 Joan O'Hara 101000.0
-2 rows x 2 columns
 ----
 
 What it doesn't require (unlike <<csv,CSV loader>>) is explicit column types, as the proper value types are inferred

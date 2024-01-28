@@ -34,9 +34,8 @@ A B
 - --
 1 s1
 4 s2
-2 rows x 2 columns
 ----
-DFLib made a few assumptions about the data in `f1.csv`, namely that the first row represents
+DFLib makes a few assumptions about the data in `f1.csv`, namely that the first row represents
 column names, that all columns are Strings, and that all of them need to be included. These assumptions are not
 necessarily true with many data sets. So there is a longer form of this API that allows to configure column types,
 skip rows and columns, or even sample the data without loading the entire CSV in memory. Some examples:
@@ -55,7 +54,6 @@ x y
 - --
 1 s1
 4 s2
-2 rows x 2 columns
 ----
 
 

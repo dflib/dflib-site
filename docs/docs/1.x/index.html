@@ -899,8 +899,7 @@ methods to configure capacity, data sampling, etc.</td>
 ------ ---
 Joe    18
 Andrus 49
-Joan   32
-3 rows x 2 columns</pre>
+Joan   32</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -957,8 +956,7 @@ in step 1.</td>
 ------ ---
 Joe    18
 Andrus 49
-Joan   32
-3 rows x 2 columns</pre>
+Joan   32</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2221,8 +2219,7 @@ DataFrame df1 = df.head(<span class="integer">2</span>); <i class="conum" data-v
 <pre>first   last
 ------- ---------
 Jerry   Cosin
-Juliana Walewski
-2 rows x 2 columns</pre>
+Juliana Walewski</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2404,8 +2401,7 @@ DataFrame df1 = df.sort(
 Juliana Walewski  null
 Jerry   Albert    null
 Jerry   Cosin     M
-Joan    O'Hara    J
-4 rows x 3 columns</pre>
+Joan    O'Hara    J</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2550,8 +2546,7 @@ passed to the method.</td>
 1 2
 3 4
 5 6
-7 8
-4 rows x 2 columns</pre>
+7 8</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -2573,8 +2568,7 @@ passed to the method.</td>
 <pre>a b a_ b_
 - - -- --
 1 2 5  6
-3 4 7  8
-2 rows x 4 columns</pre>
+3 4 7  8</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -2649,8 +2643,7 @@ default, omitting it will not change the outcome.</td>
 2
 4
 5
-7
-4 rows x 1 column</pre>
+7</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2674,8 +2667,7 @@ are missing from the concatenated DataFrame are filled with nulls in the corresp
 1    2
 3    4
 null 5
-null 7
-4 rows x 2 columns</pre>
+null 7</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2704,8 +2696,7 @@ DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
 - - ---- ----
 1 2 7    8
 3 4 9    10
-5 6 null null
-3 rows x 4 columns</pre>
+5 6 null null</pre>
 </div>
 </div>
 </div>
@@ -3035,8 +3026,7 @@ operations that do not require the user to write SQL (all needed SQL is auto-gen
 -- ----------------- --------
  1 Jerry Cosin       70000.0
  2 Juliana Walewski  85000.0
- 3 Joan O'Hara       101000.0
-3 rows x 3 columns</pre>
+ 3 Joan O'Hara       101000.0</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3060,8 +3050,7 @@ DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter
 <pre>name        salary
 ----------- --------
 Jerry Cosin 70000.0
-Joan O'Hara 101000.0
-2 rows x 2 columns</pre>
+Joan O'Hara 101000.0</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3179,12 +3168,11 @@ sources.</td>
 <pre>A B
 - --
 1 s1
-4 s2
-2 rows x 2 columns</pre>
+4 s2</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>DFLib made a few assumptions about the data in <code>f1.csv</code>, namely that the first row represents
+<p>DFLib makes a few assumptions about the data in <code>f1.csv</code>, namely that the first row represents
 column names, that all columns are Strings, and that all of them need to be included. These assumptions are not
 necessarily true with many data sets. So there is a longer form of this API that allows to configure column types,
 skip rows and columns, or even sample the data without loading the entire CSV in memory. Some examples:</p>
@@ -3223,8 +3211,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 <pre>x y
 - --
 1 s1
-4 s2
-2 rows x 2 columns</pre>
+4 s2</pre>
 </div>
 </div>
 <div class="admonitionblock note">

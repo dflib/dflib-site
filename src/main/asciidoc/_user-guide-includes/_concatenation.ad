@@ -64,7 +64,6 @@ a b
 3 4
 5 6
 7 8
-4 rows x 2 columns
 ----
 
 [source,java,indent=0]
@@ -79,7 +78,6 @@ a b a_ b_
 - - -- --
 1 2 5  6
 3 4 7  8
-2 rows x 4 columns
 ----
 
 NOTE: Since both `df1` and `df2` had the same column names, and a DataFrame must only have unique columns, `_` suffix was
@@ -114,7 +112,6 @@ a
 4
 5
 7
-4 rows x 1 column
 ----
 
 As you can see in the result, the behavior of `inner` join is to only keep columns that are present in both `df1` and
@@ -136,7 +133,6 @@ b    a
 3    4
 null 5
 null 7
-4 rows x 2 columns
 ----
 
 Leaving it as an exercise for the reader to try `right` and `full` joins.
@@ -154,5 +150,4 @@ a b c    d
 1 2 7    8
 3 4 9    10
 5 6 null null
-3 rows x 4 columns
 ----

@@ -90,7 +90,6 @@ name   age
 Joe    18
 Andrus 49
 Joan   32
-3 rows x 2 columns
 ----
 
 A more general example - creating a DataFrame from a list of objects by "extracting" column data from object properties:
@@ -111,7 +110,6 @@ name   age
 Joe    18
 Andrus 49
 Joan   32
-3 rows x 2 columns
 ----
 
 Another example - a single-dimensional array can be "folded" into a DataFrame row-by-row:

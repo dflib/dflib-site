@@ -21,7 +21,6 @@ first   last
 ------- ---------
 Jerry   Cosin
 Juliana Walewski
-2 rows x 2 columns
 ----
 
 `tail` works similarly, but returns the _last_ N rows:

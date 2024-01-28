@@ -75,7 +75,6 @@ Juliana Walewski  null
 Jerry   Albert    null
 Jerry   Cosin     M
 Joan    O'Hara    J
-4 rows x 3 columns
 ----
 
 Alternatively sorting can be done by a single column name or an array of columns. The assumption is the same as above
