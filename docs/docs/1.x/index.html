@@ -560,6 +560,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_pick_columns">Pick Columns</a></li>
 <li><a href="#_rename_columns">Rename Columns</a></li>
 <li><a href="#column_ops_transform">Transform Columns</a></li>
+<li><a href="#_split_columns">Split Columns</a></li>
 <li><a href="#_merge_columns">Merge Columns</a></li>
 <li><a href="#_compact_columns">Compact Columns</a></li>
 <li><a href="#_fill_nulls">Fill Nulls</a></li>
@@ -1586,8 +1587,12 @@ DataFrame df1 = df
 <p>There&#8217;s also a way to generating columns row-by-row with per-column array of <code>RowToValueMapper</code>. It is not very different
 from what we&#8217;ve seen so far, so we are leaving this as an exercise for the reader.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_split_columns">Split Columns</h3>
 <div class="paragraph">
-<p>Generating columns by splitting other columns:</p>
+<p>Column values can be split using an expression into iterable or array elements, and new columns can be generated
+from those elements, thus "expanding" each row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1597,15 +1602,16 @@ from what we&#8217;ve seen so far, so we are leaving this as an exercise for the
 
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
-        .selectArrays(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .selectExpandArray(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>selectArrays(..)</code> takes an expression that splits a String with concatenated phones into a primary and secondary phone
-numbers. If a split has more than 2 numbers, the rest are ignored, if less - nulls are used for the missing elements</td>
+<td><code>selectExpandArray(..)</code> takes an expression that splits a String with concatenated phones into a primary and
+secondary phone numbers. If a split has more than 2 numbers, the rest are ignored, if less - nulls are used for the
+missing elements</td>
 </tr>
 </table>
 </div>
@@ -1619,15 +1625,15 @@ numbers. If a split has more than 2 numbers, the rest are ignored, if less - nul
 </div>
 <div class="paragraph">
 <p>If you don&#8217;t know the exact number of phones, but would like to
-capture them all in separate columns, simply do not specify any explicit column names when defining a <code>ColumnSet</code> (as
+capture them all in separate columns, simply do not specify any explicit column names (as
 mentioned in the <a href="#column_ops_implicit">implicit column selection</a> chapter). As many columns as needed to fit the longest
-collection of phone numbers will be generated on the fly, and the names will be assigned dynamically:</p>
+array of phone numbers will be generated on the fly, and the names will be assigned dynamically:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .cols() <i class="conum" data-value="1"></i><b>(1)</b>
-        .selectArrays(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>));</code></pre>
+        .selectExpandArray(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>));</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1646,9 +1652,18 @@ collection of phone numbers will be generated on the fly, and the names will be 
 222-555-5555 null         null</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Another flavor of <code>selectArrays(..)</code> is <code>selectIterables(..)</code> that takes an <code>Exp&lt;? extends Iterable&gt;</code> and expands it
-into columns, but otherwise works the same way.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Another flavor of <code>selectExpandArray(..)</code> is <code>selectExpand(..)</code> that takes an <code>Exp&lt;? extends Iterable&gt;</code>,
+and generates columns from Iterables instead of arrays, but otherwise works the same way.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -1788,8 +1803,8 @@ Joan  O'Hara null   O'Hara Joan</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Since we&#8217;ve already discussed various flavors of column renaming and transformation in the context of <code>select(..)</code>
-operation, we leave it as an exercise for the user to explore their counterparts - <code>as(..)</code> and <code>map(..)</code>.
+Since we&#8217;ve already discussed various flavors of column renaming and transformation in the context of <code>select(..)</code>,
+we leave it as an exercise for the user to explore their "merging" counterparts - <code>as(..)</code>, <code>map(..)</code>, <code>expand(..)</code>, etc.
 </td>
 </tr>
 </table>

@@ -169,34 +169,34 @@ public class ColumnOpsTest extends BaseTest {
     }
 
     @Test
-    public void colsSelectArrays() {
-// tag::colsSelectArrays[]
+    public void colsSelectExpandArrays() {
+// tag::colsSelectExpandArrays[]
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
                 "Cosin", "111-555-5555,111-666-6666,111-777-7777",
                 "O'Hara", "222-555-5555");
 
         DataFrame df1 = df
                 .cols("primary_phone", "secondary_phone")
-                .selectArrays($str("phones").split(',')); // <1>
-// end::colsSelectArrays[]
+                .selectExpandArray($str("phones").split(',')); // <1>
+// end::colsSelectExpandArrays[]
 
-        print("colsSelectArrays", df1);
+        print("colsSelectExpandArrays", df1);
     }
 
     @Test
-    public void colsSelectArraysUnlim() {
+    public void colsSelectExpandArraysUnlim() {
 
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
                 "Cosin", "111-555-5555,111-666-6666,111-777-7777",
                 "O'Hara", "222-555-5555");
 
-// tag::colsSelectArraysUnlim[]
+// tag::colsSelectExpandArraysUnlim[]
         DataFrame df1 = df
                 .cols() // <1>
-                .selectArrays($str("phones").split(','));
-// end::colsSelectArraysUnlim[]
+                .selectExpandArray($str("phones").split(','));
+// end::colsSelectExpandArraysUnlim[]
 
-        print("colsSelectArraysUnlim", df1);
+        print("colsSelectExpandedArraysUnlim", df1);
     }
 
     @Test
