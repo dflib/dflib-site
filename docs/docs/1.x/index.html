@@ -1591,27 +1591,27 @@ from what we&#8217;ve seen so far, so we are leaving this as an exercise for the
 <div class="sect2">
 <h3 id="_split_columns">Split Columns</h3>
 <div class="paragraph">
-<p>Column values can be split using an expression into iterable or array elements, and new columns can be generated
-from those elements, thus "expanding" each row:</p>
+<p>Values can be split using an expression into iterable or array elements, and new columns can be generated
+from those elements, thus "expanding" each row. Here is an example of handling Lists of values (<code>List</code> is, of course,
+an <code>Iterable</code>) :</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555,111-666-6666,111-777-7777</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>);
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">111-666-6666</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">111-777-7777</span><span class="delimiter">&quot;</span></span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>));
 
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
-        .selectExpandArray(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .selectExpand(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>selectExpandArray(..)</code> takes an expression that splits a String with concatenated phones into a primary and
-secondary phone numbers. If a split has more than 2 numbers, the rest are ignored, if less - nulls are used for the
-missing elements</td>
+<td><code>selectExpand(..)</code> takes an expression that returns a column with lists. If each List has more than 2 numbers,
+the rest are ignored, if less - nulls are used for the  missing elements</td>
 </tr>
 </table>
 </div>
@@ -1624,16 +1624,16 @@ missing elements</td>
 </div>
 </div>
 <div class="paragraph">
-<p>If you don&#8217;t know the exact number of phones, but would like to
-capture them all in separate columns, simply do not specify any explicit column names (as
-mentioned in the <a href="#column_ops_implicit">implicit column selection</a> chapter). As many columns as needed to fit the longest
-array of phone numbers will be generated on the fly, and the names will be assigned dynamically:</p>
+<p>If you don&#8217;t know the exact number of phones, but would like to capture them all in separate columns, do not
+specify any explicit names (as mentioned in the <a href="#column_ops_implicit">implicit column selection</a> chapter).
+As many columns as needed to fit the longest array of phone numbers will be generated on the fly, and the names will
+be assigned dynamically:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .cols() <i class="conum" data-value="1"></i><b>(1)</b>
-        .selectExpandArray(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>));</code></pre>
+        .selectExpand(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1652,18 +1652,20 @@ array of phone numbers will be generated on the fly, and the names will be assig
 222-555-5555 null         null</pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Another flavor of <code>selectExpandArray(..)</code> is <code>selectExpand(..)</code> that takes an <code>Exp&lt;? extends Iterable&gt;</code>,
-and generates columns from Iterables instead of arrays, but otherwise works the same way.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>If the phone numbers were provided as a comma-separated <code>String</code> instead of a <code>List</code>, you can split the String into an
+array of numbers using the <code>split(..)</code> expression, and use <code>selectExpandArray(..)</code> to generate the columns:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555,111-666-6666,111-777-7777</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
+        .selectExpandArray(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>));</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">

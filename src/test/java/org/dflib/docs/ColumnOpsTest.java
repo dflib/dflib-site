@@ -7,6 +7,7 @@ import org.dflib.Series;
 import org.dflib.junit5.DataFrameAsserts;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -169,6 +170,37 @@ public class ColumnOpsTest extends BaseTest {
     }
 
     @Test
+    public void colsSelectExpand() {
+// tag::colsSelectExpand[]
+        DataFrame df = DataFrame.foldByRow("name", "phones").of(
+                "Cosin", List.of("111-555-5555","111-666-6666","111-777-7777"),
+                "O'Hara", List.of("222-555-5555"));
+
+        DataFrame df1 = df
+                .cols("primary_phone", "secondary_phone")
+                .selectExpand($col("phones"));
+// end::colsSelectExpand[]
+
+        print("colsSelectExpand", df1);
+    }
+
+    @Test
+    public void colsSelectExpandUnlim() {
+
+        DataFrame df = DataFrame.foldByRow("name", "phones").of(
+                "Cosin", List.of("111-555-5555","111-666-6666","111-777-7777"),
+                "O'Hara", List.of("222-555-5555"));
+
+// tag::colsSelectExpandUnlim[]
+        DataFrame df1 = df
+                .cols() // <1>
+                .selectExpand($col("phones"));
+// end::colsSelectExpandUnlim[]
+
+        print("colsSelectExpandUnlim", df1);
+    }
+
+    @Test
     public void colsSelectExpandArrays() {
 // tag::colsSelectExpandArrays[]
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
@@ -177,26 +209,10 @@ public class ColumnOpsTest extends BaseTest {
 
         DataFrame df1 = df
                 .cols("primary_phone", "secondary_phone")
-                .selectExpandArray($str("phones").split(',')); // <1>
+                .selectExpandArray($str("phones").split(','));
 // end::colsSelectExpandArrays[]
 
         print("colsSelectExpandArrays", df1);
-    }
-
-    @Test
-    public void colsSelectExpandArraysUnlim() {
-
-        DataFrame df = DataFrame.foldByRow("name", "phones").of(
-                "Cosin", "111-555-5555,111-666-6666,111-777-7777",
-                "O'Hara", "222-555-5555");
-
-// tag::colsSelectExpandArraysUnlim[]
-        DataFrame df1 = df
-                .cols() // <1>
-                .selectExpandArray($str("phones").split(','));
-// end::colsSelectExpandArraysUnlim[]
-
-        print("colsSelectExpandedArraysUnlim", df1);
     }
 
     @Test

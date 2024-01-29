@@ -155,16 +155,16 @@ from what we've seen so far, so we are leaving this as an exercise for the reade
 
 === Split Columns
 
-Column values can be split using an expression into iterable or array elements, and new columns can be generated
-from those elements, thus "expanding" each row:
+Values can be split using an expression into iterable or array elements, and new columns can be generated
+from those elements, thus "expanding" each row. Here is an example of handling Lists of values (`List` is, of course,
+an `Iterable`) :
 
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandArrays]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpand]
 ----
-<1> `selectExpandArray(..)` takes an expression that splits a String with concatenated phones into a primary and
-secondary phone numbers. If a split has more than 2 numbers, the rest are ignored, if less - nulls are used for the
-missing elements
+<1> `selectExpand(..)` takes an expression that returns a column with lists. If each List has more than 2 numbers,
+the rest are ignored, if less - nulls are used for the  missing elements
 ----
 primary_phone secondary_phone
 ------------- ---------------
@@ -172,13 +172,13 @@ primary_phone secondary_phone
 222-555-5555  null
 ----
 
-If you don't know the exact number of phones, but would like to
-capture them all in separate columns, simply do not specify any explicit column names (as
-mentioned in the <<column_ops_implicit,implicit column selection>> chapter). As many columns as needed to fit the longest
-array of phone numbers will be generated on the fly, and the names will be assigned dynamically:
+If you don't know the exact number of phones, but would like to capture them all in separate columns, do not
+specify any explicit names (as mentioned in the <<column_ops_implicit,implicit column selection>> chapter).
+As many columns as needed to fit the longest array of phone numbers will be generated on the fly, and the names will
+be assigned dynamically:
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandArraysUnlim]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandUnlim]
 ----
 <1> Not specifying any columns will result in split columns generated dynamically.
 ----
@@ -188,8 +188,12 @@ include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExp
 222-555-5555 null         null
 ----
 
-NOTE: Another flavor of `selectExpandArray(..)` is `selectExpand(..)` that takes an `Exp<? extends Iterable>`,
-and generates columns from Iterables instead of arrays, but otherwise works the same way.
+If the phone numbers were provided as a comma-separated `String` instead of a `List`, you can split the String into an
+array of numbers using the `split(..)` expression, and use `selectExpandArray(..)` to generate the columns:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandArrays]
+----
 
 === Merge Columns
 
