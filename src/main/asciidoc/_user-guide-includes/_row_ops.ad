@@ -178,6 +178,8 @@ NOTE: The expansion column can contain scalars, arrays or iterables.
 
 === Unique Rows
 
+TODO
+
 === Drop Rows
 
 To get rid of certain rows in a DataFrame, you select those rows and call `drop()`:
