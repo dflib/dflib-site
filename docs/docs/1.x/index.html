@@ -585,11 +585,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_drop_rows_and_columns">Drop Rows and Columns</a></li>
 </ul>
 </li>
-<li><a href="#dataframe_ops">DataFrame Operations</a>
-<ul class="sectlevel2">
-<li><a href="#_head_and_tail">Head and Tail</a></li>
-</ul>
-</li>
+<li><a href="#head_tail">Head and Tail</a></li>
 <li><a href="#sorting">Sorting</a>
 <ul class="sectlevel2">
 <li><a href="#_sort_series">Sort Series</a></li>
@@ -2342,14 +2338,12 @@ Joan  O'Hara P</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="dataframe_ops">DataFrame Operations</h2>
+<h2 id="head_tail">Head and Tail</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As we&#8217;ve seen above, most operations within a single DataFrame are performed on row and column sets. Still there are
-a few that are applied to the DataFrame directly. In this chapter we will review some of them.</p>
+<p>As we&#8217;ve seen previously, most operations within a single DataFrame are performed on row and column sets. Still, some
+are applied to the DataFrame directly. <code>head</code> and <code>tail</code> are such examples.</p>
 </div>
-<div class="sect2">
-<h3 id="_head_and_tail">Head and Tail</h3>
 <div class="paragraph">
 <p>When you only need the "first N" or "last M" rows of a DataFrame (or values of a Series) you can use <code>head</code> and <code>tail</code>
 operations. Here is how to get the top 2 rows of a DataFrame:</p>
@@ -2414,9 +2408,6 @@ Joan  O'Hara
 1 row x 2 columns</pre>
 </div>
 </div>
-<div class="paragraph">
-<p><code>Series</code> also define <code>head(..)</code> and <code>tail(..)</code> operations that do what you&#8217;d expect from them, returning first or last N values.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -2430,6 +2421,17 @@ They DO NOT throw exceptions when the length parameter is bigger than DataFrame 
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>Series</code> also define <code>head(..)</code> and <code>tail(..)</code> that do what you&#8217;d expect, returning first or last N values.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -3599,7 +3601,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-23 14:19:38 -0500
+Last updated 2024-01-29 17:17:01 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />
