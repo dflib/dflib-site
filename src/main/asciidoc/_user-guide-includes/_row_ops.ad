@@ -156,6 +156,9 @@ intentionally duplicated rows or split rows) are appended in the bottom.
 * The order of the existing rows in the `RowSet` has no effect on the order of replaced rows (i.e. they are
 placed in their original positions). The relative order of added rows is respected.
 
+NOTE: Just like with columns, for most `RowSet.select(..)` methods there are "merging" counterparts, such as  `map(..)`,
+`expand(..)`, etc.
+
 === Split Rows
 Splitting rows is somewhat simpler than <<column_ops_split,splitting columns>>. The API takes a single column
 (no expression is allowed), and splits any expandable values into new rows:
