@@ -11,6 +11,7 @@ import org.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -196,5 +197,20 @@ public class RowOpsTest extends BaseTest {
 // end::rowsDrop[]
 
         print("colsDrop", df1);
+    }
+
+    @Test
+    public void rowsSelectExpand() {
+// tag::rowsSelectExpand[]
+        DataFrame df = DataFrame.foldByRow("name", "phones").of(
+                "Cosin", List.of("111-555-5555","111-666-6666","111-777-7777"),
+                "O'Hara", List.of("222-555-5555"));
+
+        DataFrame df1 = df
+                .rows()
+                .selectExpand("phones");
+// end::rowsSelectExpand[]
+
+        print("rowsSelectExpand", df1);
     }
 }

@@ -560,7 +560,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_pick_columns">Pick Columns</a></li>
 <li><a href="#_rename_columns">Rename Columns</a></li>
 <li><a href="#column_ops_transform">Transform Columns</a></li>
-<li><a href="#_split_columns">Split Columns</a></li>
+<li><a href="#column_ops_split">Split Columns</a></li>
 <li><a href="#_merge_columns">Merge Columns</a></li>
 <li><a href="#_compact_columns">Compact Columns</a></li>
 <li><a href="#_fill_nulls">Fill Nulls</a></li>
@@ -1585,7 +1585,7 @@ from what we&#8217;ve seen so far, so we are leaving this as an exercise for the
 </div>
 </div>
 <div class="sect2">
-<h3 id="_split_columns">Split Columns</h3>
+<h3 id="column_ops_split">Split Columns</h3>
 <div class="paragraph">
 <p>Values can be split using an expression into iterable or array elements, and new columns can be generated
 from those elements, thus "expanding" each row. Here is an example of handling Lists of values (<code>List</code> is, of course,
@@ -2284,7 +2284,43 @@ placed in their original positions). The relative order of added rows is respect
 </div>
 <div class="sect2">
 <h3 id="_split_rows">Split Rows</h3>
+<div class="paragraph">
+<p>Splitting rows is somewhat simpler than <a href="#column_ops_split">splitting columns</a>. The API takes a single column
+(no expression is allowed), and splits any expandable values into new rows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">111-666-6666</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">111-777-7777</span><span class="delimiter">&quot;</span></span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>));
 
+DataFrame df1 = df
+        .rows()
+        .selectExpand(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name   phones
+------ ------------
+Cosin  111-555-5555
+Cosin  111-666-6666
+Cosin  111-777-7777
+O'Hara 222-555-5555</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The expansion column can contain scalars, arrays or iterables.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_unique_rows">Unique Rows</h3>

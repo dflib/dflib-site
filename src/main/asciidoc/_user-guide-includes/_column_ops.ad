@@ -153,6 +153,7 @@ include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRow
 There's also a way to generating columns row-by-row with per-column array of `RowToValueMapper`. It is not very different
 from what we've seen so far, so we are leaving this as an exercise for the reader.
 
+[#column_ops_split]
 === Split Columns
 
 Values can be split using an expression into iterable or array elements, and new columns can be generated

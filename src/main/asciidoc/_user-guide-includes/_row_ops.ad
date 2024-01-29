@@ -157,6 +157,24 @@ intentionally duplicated rows or split rows) are appended in the bottom.
 placed in their original positions). The relative order of added rows is respected.
 
 === Split Rows
+Splitting rows is somewhat simpler than <<column_ops_split,splitting columns>>. The API takes a single column
+(no expression is allowed), and splits any expandable values into new rows:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectExpand]
+----
+
+----
+name   phones
+------ ------------
+Cosin  111-555-5555
+Cosin  111-666-6666
+Cosin  111-777-7777
+O'Hara 222-555-5555
+----
+
+NOTE: The expansion column can contain scalars, arrays or iterables.
 
 === Unique Rows
 
