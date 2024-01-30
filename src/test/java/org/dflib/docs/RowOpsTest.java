@@ -125,15 +125,14 @@ public class RowOpsTest extends BaseTest {
     public void rowsSelectExp() {
 
 // tag::rowsSelectExp[]
-        DataFrame df = DataFrame.foldByRow("first", "last", "age", "retires_soon").of(
-                "Jerry", "Cosin", 61, false,
-                "Juliana", "Walewski", 25, false,
-                "Joan", "O'Hara", 59, false);
+        DataFrame df = DataFrame.foldByRow("last", "age", "retires_soon").of(
+                "Cosin", 61, false,
+                "Walewski", 25, false,
+                "O'Hara", 59, false);
 
         DataFrame df1 = df
                 .rows($int("age").mapConditionVal(a -> 67 - a < 10))
                 .select(
-                        $col("first"),
                         $col("last"),
                         $col("age"),
                         $val(true)); // <1>
@@ -144,10 +143,10 @@ public class RowOpsTest extends BaseTest {
 
     @Test
     public void rowsSelectRowMapper() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "age", "retires_soon").of(
-                "Jerry", "Cosin", 61, false,
-                "Juliana", "Walewski", 25, false,
-                "Joan", "O'Hara", 59, false);
+        DataFrame df = DataFrame.foldByRow("last", "age", "retires_soon").of(
+                "Cosin", 61, false,
+                "Walewski", 25, false,
+                "O'Hara", 59, false);
 
 // tag::rowsSelectRowMapper[]
         RowMapper mapper = (from, to) -> {
@@ -166,16 +165,15 @@ public class RowOpsTest extends BaseTest {
     @Test
     public void rowsMergeExp() {
 
-        DataFrame df = DataFrame.foldByRow("first", "last", "age", "retires_soon").of(
-                "Jerry", "Cosin", 61, false,
-                "Juliana", "Walewski", 25, false,
-                "Joan", "O'Hara", 59, false);
-
         // tag::rowsMergeExp[]
+        DataFrame df = DataFrame.foldByRow("last", "age", "retires_soon").of(
+                "Cosin", 61, false,
+                "Walewski", 25, false,
+                "O'Hara", 59, false);
+
         DataFrame df1 = df
                 .rows($int("age").mapConditionVal(a -> 67 - a < 10))
                 .map(
-                        $col("first"),
                         $col("last"),
                         $col("age"),
                         $val(true));
@@ -203,7 +201,7 @@ public class RowOpsTest extends BaseTest {
     public void rowsSelectExpand() {
 // tag::rowsSelectExpand[]
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
-                "Cosin", List.of("111-555-5555","111-666-6666","111-777-7777"),
+                "Cosin", List.of("111-555-5555", "111-666-6666", "111-777-7777"),
                 "O'Hara", List.of("222-555-5555"));
 
         DataFrame df1 = df
