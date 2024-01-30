@@ -1942,8 +1942,8 @@ The "mask" Series can be longer (or shorter) than the DataFrame height. Values a
 <div class="sect2">
 <h3 id="_drop_columns">Drop Columns</h3>
 <div class="paragraph">
-<p>To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop or select
-the columns you&#8217;d want to remain:</p>
+<p>To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop and call <code>drop()</code>
+or select the columns you’d want to remain and call <code>select()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2397,7 +2397,8 @@ Joan  O'Hara</pre>
 <div class="sect2">
 <h3 id="_drop_rows">Drop Rows</h3>
 <div class="paragraph">
-<p>To get rid of certain rows in a DataFrame, you select those rows and call <code>drop()</code>:</p>
+<p>To get rid of certain rows in a DataFrame, you can either select the rows you would want to drop, and call <code>drop()</code>
+or select the rows you’d want to remain and call <code>select()</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2408,6 +2409,19 @@ Joan  O'Hara</pre>
 
 DataFrame df1 = df.rows(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).isNull()).drop();</code></pre>
 </div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">P</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.rowsExcept(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).isNull()).select();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In both cases, the result is the same:</p>
 </div>
 <div class="listingblock">
 <div class="content">

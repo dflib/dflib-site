@@ -211,13 +211,20 @@ Joan  O'Hara
 
 === Drop Rows
 
-To get rid of certain rows in a DataFrame, you select those rows and call `drop()`:
+To get rid of certain rows in a DataFrame, you can either select the rows you would want to drop, and call `drop()`
+or select the rows you’d want to remain and call `select()`:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsDrop]
 ----
 
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsExceptSelect]
+----
+
+In both cases, the result is the same:
 ----
 first last   middle
 ----- ------ ------

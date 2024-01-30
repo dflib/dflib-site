@@ -276,14 +276,14 @@ public class ColumnOpsTest extends BaseTest {
     }
 
     @Test
-    public void colsSelectToDrop() {
+    public void colsExceptSelect() {
         DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
                 "Jerry", "Cosin", "M",
                 "Joan", "O'Hara", null);
 
-// tag::colsSelectToDrop[]
+// tag::colsExceptSelect[]
         DataFrame df1 = df.colsExcept("middle").select();
-// end::colsSelectToDrop[]
+// end::colsExceptSelect[]
 
         print("colsSelectToDrop", df1);
     }

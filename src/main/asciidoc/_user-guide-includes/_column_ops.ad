@@ -330,8 +330,8 @@ NOTE: The "mask" Series can be longer (or shorter) than the DataFrame height. Va
 
 === Drop Columns
 
-To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop or select
-the columns you'd want to remain:
+To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop and call `drop()`
+or select the columns you’d want to remain and call `select()`:
 
 [source,java,indent=0]
 ----
@@ -339,7 +339,7 @@ include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsDrop]
 ----
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectToDrop]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsExceptSelect]
 ----
 In both cases, the result is the same:
 ----

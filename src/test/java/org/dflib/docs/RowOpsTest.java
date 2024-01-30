@@ -197,6 +197,22 @@ public class RowOpsTest extends BaseTest {
         print("colsDrop", df1);
     }
 
+
+    @Test
+    public void rowsExceptSelect() {
+
+// tag::rowsExceptSelect[]
+        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
+                "Jerry", "Cosin", "M",
+                "Juliana", "Walewski", null,
+                "Joan", "O'Hara", "P");
+
+        DataFrame df1 = df.rowsExcept($col("middle").isNull()).select();
+// end::rowsExceptSelect[]
+
+        print("rowsExceptSelect", df1);
+    }
+
     @Test
     public void rowsSelectExpand() {
 // tag::rowsSelectExpand[]
