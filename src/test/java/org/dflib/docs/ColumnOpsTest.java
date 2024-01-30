@@ -340,6 +340,21 @@ public class ColumnOpsTest extends BaseTest {
     }
 
     @Test
+    public void fillNullsWithExp() {
+// tag::fillNullsWithExp[]
+        DataFrame df = DataFrame.foldByRow("c1", "c2").of(
+                "a1", "a2",
+                null, null,
+                "b1", "b2");
+
+        DataFrame clean = df.cols("c1", "c2")
+                .fillNullsWithExp(rowNum()); // <1>
+// end::fillNullsWithExp[]
+
+        print("fillNullsWithExp", clean);
+    }
+
+    @Test
     public void compact() {
 
 // tag::compact[]

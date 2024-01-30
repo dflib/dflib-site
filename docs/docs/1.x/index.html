@@ -1910,7 +1910,7 @@ b1 b2</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Finally, there&#8217;s a way to fill nulls from another <code>Series</code> object used as a "template" or a "mask" :</p>
+<p>There&#8217;s also a way to fill nulls from another <code>Series</code> object used as a "mask" :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1934,10 +1934,43 @@ b1 b2</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The "mask" Series can be longer (or shorter) than the DataFrame height. Values are aligned by position starting at zero.
+The "mask" <code>Series</code> can be longer or shorter than the <code>DataFrame</code> height. Values are aligned by position
+starting at zero.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Finally, we can use an <code>Exp</code> to calculate values for nulls:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>        DataFrame df = DataFrame.foldByRow("c1", "c2").of(
+                "a1", "a2",
+                null, null,
+                "b1", "b2");
+
+        DataFrame clean = df.cols("c1", "c2")
+                .fillNullsWithExp(rowNum()); <i class="conum" data-value="1"></i><b>(1)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>Exp.rowNum()</code> generates a <code>Series</code> with row numbers, so the nulls are replaced by the number denoting their position
+in the <code>DataFrame</code>:</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>c1 c2
+-- --
+a1 a2
+2  2
+b1 b2</pre>
+</div>
 </div>
 </div>
 <div class="sect2">

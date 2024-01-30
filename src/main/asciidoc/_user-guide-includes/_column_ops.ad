@@ -312,7 +312,7 @@ b1 a2
 b1 b2
 ----
 
-Finally, there's a way to fill nulls from another `Series` object used as a "template" or a "mask" :
+There's also a way to fill nulls from another `Series` object used as a "mask" :
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsFromSeries]
@@ -326,7 +326,23 @@ B  B
 b1 b2
 ----
 
-NOTE: The "mask" Series can be longer (or shorter) than the DataFrame height. Values are aligned by position starting at zero.
+NOTE: The "mask" `Series` can be longer or shorter than the `DataFrame` height. Values are aligned by position
+starting at zero.
+
+Finally, we can use an `Exp` to calculate values for nulls:
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsWithExp]
+----
+<1> `Exp.rowNum()` generates a `Series` with row numbers, so the nulls are replaced by the number denoting their position
+in the `DataFrame`:
+----
+c1 c2
+-- --
+a1 a2
+2  2
+b1 b2
+----
+
 
 === Drop Columns
 
