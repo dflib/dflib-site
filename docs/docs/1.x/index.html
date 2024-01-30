@@ -600,7 +600,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#joins">Joins</a>
 <ul class="sectlevel2">
-<li><a href="#_inner_join">Inner Join</a></li>
+<li><a href="#_inner_joins">Inner Joins</a></li>
+<li><a href="#_column_namespace">Column Namespace</a></li>
 <li><a href="#_outer_joins">Outer Joins</a></li>
 <li><a href="#_indicator_column">Indicator Column</a></li>
 <li><a href="#_nested_loop_joins">Nested Loop Joins</a></li>
@@ -2998,7 +2999,7 @@ multiple tables. DataFrames can be joined together, just like two DB tables. DFL
 <code>inner</code>, <code>left</code> (outer), <code>right</code> (outer) and <code>full</code> (outer).</p>
 </div>
 <div class="sect2">
-<h3 id="_inner_join">Inner Join</h3>
+<h3 id="_inner_joins">Inner Joins</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame left = DataFrame
@@ -3010,7 +3011,7 @@ DataFrame right = DataFrame
         .of(<span class="integer">2</span>, <span class="integer">25</span>, <span class="integer">3</span>, <span class="integer">30</span>, <span class="integer">4</span>, <span class="integer">40</span>);
 
 DataFrame joined = left
-        .innerJoin(right) <i class="conum" data-value="1"></i><b>(1)</b>
+        .join(right) <i class="conum" data-value="1"></i><b>(1)</b>
         .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
         .select();</code></pre>
 </div>
@@ -3019,7 +3020,8 @@ DataFrame joined = left
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Since we used <code>innerJoin(..)</code>, only the rows that are present in both DataFrames will be included in the result below.</td>
+<td><code>join(..)</code> is an alias for <code>innerJoin(..)</code> (just like in SQL). With "inner" semantics, only the matching rows that
+are present in both DataFrames will be included in the result below.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -3036,16 +3038,19 @@ only once. In general, the names do not need to match, and multiple columns can 
  3 Joan      3  30</pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_column_namespace">Column Namespace</h3>
 <div class="paragraph">
-<p>Notice how DFLib treats the <code>id</code> column in the join result. Since it is present in both left and right DataFrames, it
-is included in the result twice, but the second column is renamed to <code>id_</code> to avoid a naming collision. The same renaming
-would occur for any other columns from the right DataFrame that have conflicting names with the columns from the left.
-A quick way to get rid of duplicate columns is to exclude them from result using the name pattern:</p>
+<p>Notice how DFLib treated the <code>id</code> column in the join result above. Since it was present in both left and right DataFrames,
+it was included in the result twice, but the second instance was renamed to <code>id_</code> to avoid a naming collision. The same
+renaming would occur for any other columns from the right DataFrame that have conflicting names with the columns from
+the left. A quick way to get rid of duplicate columns is to exclude them from result using the name pattern:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame joined = left
-        .innerJoin(right)
+        .join(right)
         .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>)
         .selectExcept(c -&gt; c.endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">_</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
@@ -3057,6 +3062,54 @@ A quick way to get rid of duplicate columns is to exclude them from result using
  2 Juliana  25
  3 Joan     30</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>For better clarity, you can assign names to the left and/or the right DataFrames just before the join, and the
+column names in the result will be prefixed with the corresponding <code>DataFrame</code> name, thus avoiding the trailing underscore:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame joined = left.as(<span class="string"><span class="delimiter">&quot;</span><span class="content">left</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .join(right.as(<span class="string"><span class="delimiter">&quot;</span><span class="content">right</span><span class="delimiter">&quot;</span></span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+        .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>)
+        .select();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Assign the name to the "left" DataFrame</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Assign the name to the "right" DataFrame</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This way it is much easier to identify the origin of each column.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>left.id left.name right.id right.age
+------- --------- -------- ---------
+      2 Juliana          2        25
+      3 Joan             3        30</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>DataFrame</code> immutability applies to name assignments as well. Calling <code>.as()</code> creates a separate
+<code>DataFrame</code>, so the original one remains unnamed.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">

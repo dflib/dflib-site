@@ -21,7 +21,7 @@ public class JoinsTest extends BaseTest {
                 .of(2, 25, 3, 30, 4, 40);
 
         DataFrame joined = left
-                .innerJoin(right) // <1>
+                .join(right) // <1>
                 .on("id") // <2>
                 .select();
 
@@ -43,7 +43,7 @@ public class JoinsTest extends BaseTest {
 
         // tag::joinNoDupeColumns[]
         DataFrame joined = left
-                .innerJoin(right)
+                .join(right)
                 .on("id")
                 .selectExcept(c -> c.endsWith("_"));
 
@@ -51,6 +51,30 @@ public class JoinsTest extends BaseTest {
 
         print("joinNoDupeColumns", joined);
     }
+
+    @Test
+    public void joinAs() {
+
+        DataFrame left = DataFrame
+                .foldByRow("id", "name")
+                .of(1, "Jerry", 2, "Juliana", 3, "Joan");
+
+        DataFrame right = DataFrame
+                .foldByRow("id", "age")
+                .of(2, 25, 3, 30, 4, 40);
+
+        // tag::joinAs[]
+
+        DataFrame joined = left.as("left") // <1>
+                .join(right.as("right")) // <2>
+                .on("id")
+                .select();
+
+        // end::joinAs[]
+
+        print("joinAs", joined);
+    }
+
 
     @Test
     public void leftJoin() {

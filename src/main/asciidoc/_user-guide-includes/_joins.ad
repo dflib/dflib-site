@@ -5,13 +5,14 @@ If you worked with relational databases before, you know what "joins" are. This 
 multiple tables. DataFrames can be joined together, just like two DB tables. DFLib provides 4 familiar flavors of joins:
 `inner`, `left` (outer), `right` (outer) and `full` (outer).
 
-=== Inner Join
+=== Inner Joins
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=join]
 ----
-<1> Since we used `innerJoin(..)`, only the rows that are present in both DataFrames will be included in the result below.
+<1> `join(..)` is an alias for `innerJoin(..)` (just like in SQL). With "inner" semantics, only the matching rows that
+are present in both DataFrames will be included in the result below.
 <2> Columns used in the join criteria have the same name in both DataFrames, so we can specify the name of the join column
 only once. In general, the names do not need to match, and multiple columns can participate in a join.
 ----
@@ -20,10 +21,13 @@ id name    id_ age
  2 Juliana   2  25
  3 Joan      3  30
 ----
-Notice how DFLib treats the `id` column in the join result. Since it is present in both left and right DataFrames, it
-is included in the result twice, but the second column is renamed to `id_` to avoid a naming collision. The same renaming
-would occur for any other columns from the right DataFrame that have conflicting names with the columns from the left.
-A quick way to get rid of duplicate columns is to exclude them from result using the name pattern:
+
+=== Column Namespace
+
+Notice how DFLib treated the `id` column in the join result above. Since it was present in both left and right DataFrames,
+it was included in the result twice, but the second instance was renamed to `id_` to avoid a naming collision. The same
+renaming would occur for any other columns from the right DataFrame that have conflicting names with the columns from
+the left. A quick way to get rid of duplicate columns is to exclude them from result using the name pattern:
 
 [source,java,indent=0]
 ----
@@ -35,6 +39,27 @@ id name    age
  2 Juliana  25
  3 Joan     30
 ----
+
+For better clarity, you can assign names to the left and/or the right DataFrames just before the join, and the
+column names in the result will be prefixed with the corresponding `DataFrame` name, thus avoiding the trailing underscore:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=joinAs]
+----
+<1> Assign the name to the "left" DataFrame
+<2> Assign the name to the "right" DataFrame
+
+This way it is much easier to identify the origin of each column.
+----
+left.id left.name right.id right.age
+------- --------- -------- ---------
+      2 Juliana          2        25
+      3 Joan             3        30
+----
+
+NOTE: `DataFrame` immutability applies to name assignments as well. Calling `.as()` creates a separate
+`DataFrame`, so the original one remains unnamed.
 
 === Outer Joins
 
