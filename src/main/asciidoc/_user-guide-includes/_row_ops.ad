@@ -157,7 +157,7 @@ intentionally duplicated rows or split rows) are appended in the bottom.
 placed in their original positions). The relative order of added rows is respected.
 
 NOTE: Just like with columns, for most `RowSet.select(..)` methods there are "merging" counterparts, such as  `map(..)`,
-`expand(..)`, etc.
+`expand(..)`, `unique(..)`, etc.
 
 === Split Rows
 Splitting rows is somewhat simpler than <<column_ops_split,splitting columns>>. The API takes a single column
@@ -181,7 +181,33 @@ NOTE: The expansion column can contain scalars, arrays or iterables.
 
 === Unique Rows
 
-TODO
+To deduplicate DataFrames, there's an API to select fully or partially-unique rows. Uniqueness is checked either on
+all columns of each row, or a preselected subset:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectUniqueAll]
+----
+<1> Keep only fully unique rows
+----
+first last
+----- ------
+Jerry Cosin
+Jerry Jones
+Joan  O'Hara
+----
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectUnique]
+----
+<2> Deduplicate first names. Picking the row of each earliest-encountered unique first name.
+----
+first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+----
 
 === Drop Rows
 

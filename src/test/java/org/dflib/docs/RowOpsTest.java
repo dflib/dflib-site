@@ -211,4 +211,28 @@ public class RowOpsTest extends BaseTest {
 
         print("rowsSelectExpand", df1);
     }
+
+    @Test
+    public void rowsSelectUnique() {
+
+        // tag::rowsSelectUniqueAll[]
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
+                "Jerry", "Cosin",
+                "Jerry", "Jones",
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
+
+        DataFrame df1 = df.rows().selectUnique(); // <1>
+// end::rowsSelectUniqueAll[]
+
+        print("rowsSelectUniqueAll", df1);
+
+        // tag::rowsSelectUnique[]
+        DataFrame df2 = df.rows().selectUnique("first"); // <1>
+        // end::rowsSelectUnique[]
+
+        print("rowsSelectUnique", df2);
+    }
+
+
 }

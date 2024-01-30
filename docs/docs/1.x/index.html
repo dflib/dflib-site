@@ -2292,7 +2292,7 @@ placed in their original positions). The relative order of added rows is respect
 </td>
 <td class="content">
 Just like with columns, for most <code>RowSet.select(..)</code> methods there are "merging" counterparts, such as  <code>map(..)</code>,
-<code>expand(..)</code>, etc.
+<code>expand(..)</code>, <code>unique(..)</code>, etc.
 </td>
 </tr>
 </table>
@@ -2341,7 +2341,57 @@ The expansion column can contain scalars, arrays or iterables.
 <div class="sect2">
 <h3 id="_unique_rows">Unique Rows</h3>
 <div class="paragraph">
-<p>TODO</p>
+<p>To deduplicate DataFrames, there&#8217;s an API to select fully or partially-unique rows. Uniqueness is checked either on
+all columns of each row, or a preselected subset:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Jones</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df.rows().selectUnique(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Keep only fully unique rows</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Jerry Cosin
+Jerry Jones
+Joan  O'Hara</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df2 = df.rows().selectUnique(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Deduplicate first names. Picking the row of each earliest-encountered unique first name.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- ------
+Jerry Cosin
+Joan  O'Hara</pre>
+</div>
 </div>
 </div>
 <div class="sect2">
