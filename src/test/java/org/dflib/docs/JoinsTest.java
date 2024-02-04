@@ -4,7 +4,7 @@ import org.dflib.DataFrame;
 import org.dflib.join.JoinPredicate;
 import org.junit.jupiter.api.Test;
 
-import static org.dflib.Exp.$int;
+import static org.dflib.Exp.*;
 
 public class JoinsTest extends BaseTest {
 
@@ -18,7 +18,7 @@ public class JoinsTest extends BaseTest {
 
         DataFrame right = DataFrame
                 .foldByRow("id", "age")
-                .of(2, 25, 3, 30, 4, 40);
+                .of(2, 25, 3, 59, 4, 40);
 
         DataFrame joined = left
                 .join(right) // <1>
@@ -39,13 +39,14 @@ public class JoinsTest extends BaseTest {
 
         DataFrame right = DataFrame
                 .foldByRow("id", "age")
-                .of(2, 25, 3, 30, 4, 40);
+                .of(2, 25, 3, 59, 4, 40);
 
         // tag::joinNoDupeColumns[]
         DataFrame joined = left
                 .join(right)
                 .on("id")
-                .selectExcept(c -> c.endsWith("_"));
+                .colsExcept(c -> c.endsWith("_"))
+                .select();
 
         // end::joinNoDupeColumns[]
 
@@ -61,18 +62,46 @@ public class JoinsTest extends BaseTest {
 
         DataFrame right = DataFrame
                 .foldByRow("id", "age")
-                .of(2, 25, 3, 30, 4, 40);
+                .of(2, 25, 3, 59, 4, 40);
 
         // tag::joinAs[]
 
-        DataFrame joined = left.as("left") // <1>
-                .join(right.as("right")) // <2>
+        DataFrame joined = left.as("L") // <1>
+                .join(right.as("R")) // <2>
                 .on("id")
                 .select();
 
         // end::joinAs[]
 
         print("joinAs", joined);
+    }
+
+
+    @Test
+    public void selectExp() {
+
+        DataFrame left = DataFrame
+                .foldByRow("id", "name")
+                .of(1, "Jerry", 2, "Juliana", 3, "Joan");
+
+        DataFrame right = DataFrame
+                .foldByRow("id", "age")
+                .of(2, 25, 3, 59, 4, 40);
+
+        // tag::selectExp[]
+
+        DataFrame joined = left.as("L")
+                .join(right.as("R"))
+                .on("id")
+                .cols("name", "retires_soon")
+                .select(
+                        $col("name"),
+                        $int("R.age").gt(57)
+                );
+
+        // end::selectExp[]
+
+        print("selectExp", joined);
     }
 
 
@@ -86,7 +115,7 @@ public class JoinsTest extends BaseTest {
 
         DataFrame right = DataFrame
                 .foldByRow("id", "age")
-                .of(2, 25, 3, 30, 4, 40);
+                .of(2, 25, 3, 59, 4, 40);
 
         // tag::leftJoin[]
         DataFrame joined = left
@@ -107,14 +136,15 @@ public class JoinsTest extends BaseTest {
 
         DataFrame right = DataFrame
                 .foldByRow("id", "age")
-                .of(2, 25, 3, 30, 4, 40);
+                .of(2, 25, 3, 59, 4, 40);
 
         // tag::indicatorColumn[]
         DataFrame joined = left
                 .fullJoin(right)
                 .on("id")
                 .indicatorColumn("join_type") // <1>
-                .selectExcept(c -> c.endsWith("_"));
+                .colsExcept(c -> c.endsWith("_"))
+                .select();
         // end::indicatorColumn[]
 
         print("indicatorColumn", joined);
