@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DFLib</title>
+    <title>DFLib, a Java DataFrame Library</title>
+    <meta name="description" content="DFLib is a lightweight Java implementation of a common DataFrame data structure">
+    <meta name="keywords" content="DFLib, DataFrame, Java, ETL, data analysis, Jupyter, notebook">
     <style>
         @font-face{font-family:Lato;src:url(fonts/Lato-Black.woff2) format("woff2"),url(fonts/Lato-Black.woff) format("woff");font-weight:900;font-style:normal;font-display:swap}@font-face{font-family:Lato;src:url(fonts/Lato-Bold.woff2) format("woff2"),url(fonts/Lato-Bold.woff) format("woff");font-weight:700;font-style:normal;font-display:swap}@font-face{font-family:Lato;src:url(fonts/Lato-Regular.woff2) format("woff2"),url(fonts/Lato-Regular.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}html{font-family:Lato,sans-serif;font-size:16px;font-weight:400;line-height:1.5;-webkit-text-size-adjust:100%;background:#141518;color:#fff}body{margin:0;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh}.d_sctn{display:flow-root;box-sizing:border-box;padding:40px 0}.d_cntnr{display:flow-root;box-sizing:content-box;max-width:1120px;margin-left:auto;margin-right:auto;padding-left:15px;padding-right:15px}.d_rw{display:flex;flex-wrap:wrap;column-gap:30px;row-gap:30px;box-sizing:border-box}.d_rw+.d_rw{margin-top:40px}[class^=d_cl]{flex:1 1 100%;box-sizing:border-box}.d_cl_a{flex-grow:0;flex-shrink:0;flex-basis:auto}.d_n_xs{display:none}button{background:0 0;border:none;padding:0}button:hover{cursor:pointer}h1{font-size:1.5rem;line-height:1.333;font-weight:700;margin-top:0;margin-bottom:0}h1 strong{color:#34c759;font-weight:800}a{text-decoration:none;color:#fff;text-transform:uppercase;font-weight:600}a:hover{text-decoration:underline}.d_btn{margin:0;color:#fff;display:inline-block;font-size:1rem;line-height:1.5;font-weight:700;text-align:center;text-decoration:none;padding:10px;background:#1b1c21;transition:background .3s ease-in-out;margin-left:auto;margin-right:auto;border-radius:40px;min-width:246px}.d_btn:hover{background:#383a43}.d_btn:active{background:#fff;color:#333}header{padding:21px 0;background:#1b1c21}header .d_rw{justify-content:space-between;align-items:center}header .d_m_m{display:none}header .d_m_m.d_show{display:flex}.d_logo_box a{display:flex}.d_hbrg{padding:6px 0;display:flex}.d_hbrg i,.d_hbrg i:after,.d_hbrg i:before{transition:all .2s ease-out;background:#fff;border-radius:2px;height:2px;width:21px}.d_hbrg i{position:relative;line-height:1}.d_hbrg i:after,.d_hbrg i:before{content:"";position:absolute;left:0}.d_hbrg i:after{bottom:-5px}.d_hbrg i:before{top:-5px}.d_v_s{display:none}.d_crd{background:#1b1c21;border-radius:19px;padding:34px 40px;display:flex;justify-content:center;align-items:center}.d_crd:not(:last-child){position:relative}.d_crd:not(:last-child)::before{content:'';width:28px;height:24px;position:absolute;background-image:url("data:image/svg+xml,%3Csvg width='30' height='36' viewBox='0 0 30 36' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 4L22 18L8 32' stroke='%238BA98F' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");background-size:contain;background-repeat:no-repeat;left:50%;transform:translateX(-50%) rotate(90deg);bottom:-32px}.o_modal{display:none}
     </style>
@@ -15,15 +17,15 @@
                 <div class="d_cl d_cl_a d_cl_1_3@s d_n_xs">
                     <ul>
                         <li>
-                            <a href="https://dflib.org/docs/1.x/">Documentation</a>
+                            <a href="./docs/1.x/index.html">Documentation</a>
                         </li>
                         <li>
-                            <a href="/#">CLA</a>
+                            <a href="https://github.com/dflib/dflib/discussions">Forum</a>
                         </li>
                     </ul>
                 </div>
                 <div class="d_cl d_cl_a d_cl_1_3@s d_logo_box">
-                    <a href="/">
+                    <a href="./index.html">
                         <svg width="94" height="28" viewBox="0 0 94 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 2C0 0.895431 0.895431 0 2 0H27C28.1046 0 29 0.895431 29 2V8H0V2Z" fill="#34C759"/>
                             <path d="M1 11H28V26C28 26.5523 27.5523 27 27 27H2C1.44772 27 1 26.5523 1 26V11Z" stroke="#8BA98F" stroke-width="2"/>
@@ -65,10 +67,10 @@
                 <div>
                     <ul>
                         <li>
-                            <a href="https://dflib.org/docs/1.x/">Documentation</a>
+                            <a href="./docs/1.x/index.html">Documentation</a>
                         </li>
                         <li>
-                            <a href="/#">CLA</a>
+                            <a href="https://github.com/dflib/dflib/discussions">Forum</a>
                         </li>
                     </ul>
                 </div>
@@ -98,7 +100,7 @@
                 <div class="d_rw">
                     <div class="d_cl d_intro">
                         <h1>
-                            <strong>DFLib (DataFrame Library)</strong> is a lightweight pure Java implementation of a common DataFrame data structure.
+                            <strong>DFLib</strong>, a Java DataFrame library 
                         </h1>
                     </div>
                 </div>
@@ -113,42 +115,22 @@
                         <img src="images/illustrations/3.svg" width="240" height="240" alt="illustrations 3" loading="lazy" decoding="async">
                     </div>
                 </div>
-                <div class="d_rw d_v">
-                    <div class="d_cl">
-                        <button class="d_btn o_modal_open" data-video="WSqvEdRZsuE" aria-label="Open video">VIDEO FROM DFLib</button>
-                    </div>
-                </div>
+                
                 <div class="d_rw d_desc_box">
                     <div class="d_cl">
                         <p>
-                            With DFLib you get essentially the same data manipulation tools you may be used to in SQL (such as queries and joins), only you can use them in-memory and over dynamically defined data structures.
+                            DFLib is a lightweight pure Java implementation of a common DataFrame data structure. With DataFrame, you get essentially the data manipulation capabilities similar to SQL (filtering, joins, unions, and so on), only you done as step-by-step in-memory transformations that are easy to compose and to understand. DFLib comes with connectors for CSV, Excel, RDBMS, Avro, JSON, etc. and can be easily adapted other formats.
                         </p>
-                        <p>
-                            It is somewhat close to Python pandas, except it is intended to be used with Java and other JVM languages.
-                        </p>
-                        <p>
-                            DFLib comes with connectors for a variety of data formats: CSV, Excel, RDBMS (JDBC), Avro, JSON, etc.
-                        </p>
+                        <p>To get started, <a href="./docs/1.x/index.html#_get_started_with_dflib">follow the documentation</a></p>
                     </div>
                 </div>
             </div>
         </section>
-        <div id="o_video_modal" class="o_modal">
-            <div class="d_cntnr">
-                <button class="o_close" aria-label="Close video"></button>
-                <div class="o_body_modal">
-                    <div class="o_iframe_box">
-                        <img class="o_placeholder" src="images/placeholder.jpg" width="1080" height="607" alt="img" loading="lazy" decoding="async">
-                        <div id="WSqvEdRZsuE"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </main>
     <footer>
         <span>© 2024 ObjectStyle LLC and individual authors</span>
         <link rel="stylesheet" href="css/style.min.css">
-        <script src="https://www.youtube.com/iframe_api" async></script>
         <script src="js/scripts.min.js" async></script>
     </footer>
 </body>
