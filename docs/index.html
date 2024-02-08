@@ -25,7 +25,7 @@
                     </ul>
                 </div>
                 <div class="d_cl d_cl_a d_cl_1_3@s d_logo_box">
-                    <a href="./index.html">
+                    <a href="./index.html" aria-label="Home page">
                         <svg width="94" height="28" viewBox="0 0 94 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 2C0 0.895431 0.895431 0 2 0H27C28.1046 0 29 0.895431 29 2V8H0V2Z" fill="#34C759"/>
                             <path d="M1 11H28V26C28 26.5523 27.5523 27 27 27H2C1.44772 27 1 26.5523 1 26V11Z" stroke="#8BA98F" stroke-width="2"/>
@@ -130,7 +130,8 @@
     </main>
     <footer>
         <span>© 2024 ObjectStyle LLC and individual authors</span>
-        <link rel="stylesheet" href="css/style.min.css">
+        <link rel="preload" href="css/style.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="css/style.min.css"></noscript>
         <script src="js/scripts.min.js" async></script>
     </footer>
 </body>

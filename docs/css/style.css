@@ -28,6 +28,10 @@ p {
 p:not(:first-child) {
   margin-top: 10px;
 }
+.d_desc_box a {
+  text-transform: none;
+  color: #34C759;
+}
 /*Last text end*/
 /*footer start*/
 footer {
@@ -350,4 +354,12 @@ body.o_overflow_hidden {
     padding: 26px 16px;
   }
   /*modal end*/
+}
+main,
+header,
+footer {
+  display: block;
+}
+.o_preload {
+  display: none;
 }
