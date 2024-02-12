@@ -3785,9 +3785,8 @@ described here) makes it rather easy.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Currently, DFLib only provides an explicit integration for Jupyter, but you can use other notebooks that support
-Java, such as Apache Zeppelin, etc. Though you may need to write some code of your own for the best DataFrame
-display experience.
+Currently, DFLib only provides integration for Jupyter. You can use other notebooks if they support Java. But you&#8217;ll
+be on your own. E.g. Apache Zeppelin, etc. Though you may have to write special code for the best DataFrame display experience.
 </td>
 </tr>
 </table>
@@ -3801,32 +3800,42 @@ display experience.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-While IntelliJ IDE supports Jupyter / Python, as of this writing, it seems that it does not support Java, so you
-will have to run the notebooks outside the IDE in the web browser.
+While IntelliJ IDE supports Jupyter / Python, as of this writing, it seems that it does not support custom kernels,
+so we suggest to run your notebooks outside the IDE in the web browser.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p>You will need to install Python, Jupyter and <a href="https://github.com/SpencerPark/IJava">iJava Jupyter kernel</a>. There are
-multiple ways of doing it. Here is arguably the simplest approach on MacOS using Homebrew:</p>
+multiple ways of doing it. If you are on MacOS, using Homebrew is probably the easiest:</p>
 </div>
-<div class="paragraph">
-<p>Download the latest release of <code>iJava</code> from <a href="https://github.com/SpencerPark/IJava/releases" class="bare">https://github.com/SpencerPark/IJava/releases</a> , unpack it to some temporary
-directory, and run the following commands:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the latest release of <code>iJava</code> from <a href="https://github.com/SpencerPark/IJava/releases" class="bare">https://github.com/SpencerPark/IJava/releases</a></p>
+</li>
+<li>
+<p>Unpack it to some temporary directory</p>
+</li>
+<li>
+<p>Run the following commands:</p>
+</li>
+</ol>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash"># Install Jupyter (and, implicitly, Python)
 brew install jupyter
 
-# Change to the directory where you unpacked the IJava kernel
+# Change the directory to where you unpacked the IJava kernel
 cd ijava-*
 
 # find the version of Python used by Jupyter
 PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
 
-# sanity check. The output should point to a Python binary
+# sanity check - the output should be a valid Python binary
+# such as &quot;/opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/bin/python&quot;
 echo $PY
 
 # install Java &quot;kernel&quot;
@@ -3834,7 +3843,7 @@ $PY install.py --sys-prefix</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If all these steps finished successfully, you can check that the Java kernel is installed. E.g.:</p>
+<p>If all these steps finished successfully, check that the Java kernel is installed:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3912,7 +3921,7 @@ notebooks under version control. Assuming you are using Git, you will need to ad
 off the data before commit.</p>
 </div>
 <div class="paragraph">
-<p>TODO: a recipe for excluding the data</p>
+<p><em>TODO: a recipe for excluding data</em></p>
 </div>
 </div>
 </div>
