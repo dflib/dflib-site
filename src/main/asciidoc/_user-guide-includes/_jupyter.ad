@@ -1,21 +1,54 @@
 [#jupyter]
 == Using Jupyter Notebook
 
-While DFLib runs inside regular Java applications, it also works perfectly in a Jupyter notebook,
-which is a very common environment among data scientists, and is usually associated with Python / pandas. Jupyter
-Notebook is very visual and allows you to debug each step of your data load and transformation pipeline individually
-without a need to rerun the whole thing.
+While DFLib runs inside regular Java applications, it also works perfectly in Jupyter, which is a very common "notebook"
+environment among data scientists. In a notebook, you interact with your code via a web browser in a rather "visual"
+way. It allows to run each step of a data transformation one-by-one and inspect the data between the steps.
+Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.
 
-Combining DFLib with Jupyter provides a pandas-like notebook experience, only in pure Java. The code developed in
-notebook can be later copied and pasted into your application. Java developers should consider using Jupyter as a part
-of their data project workflow, and DFLib design (and its Jupyter integration features described here) makes it rather
-easy.
+The code developed in a notebook can be later copied and pasted into your application. Java developers should consider
+using either Jupyter as a part of their data project workflow, and DFLib design (and its Jupyter integration features
+described here) makes it rather easy.
+
+NOTE: Currently, DFLib only provides an explicit integration for Jupyter, but you can use other notebooks that support
+Java, such as Apache Zeppelin, etc. Though you may need to write some code of your own for the best DataFrame
+display experience.
 
 === Jupyter Installation with Java Kernel
 
-* Install Jupyter. Follow Jupyter installation instructions. It requires Python. Out of the variety of installation
-options, the authors of this document are using Mac OS, +pyenv+, Python 3.7, and +pip+.
-* Install https://github.com/SpencerPark/IJava[iJava Jupyter kernel].
+NOTE: While IntelliJ IDE supports Jupyter / Python, as of this writing, it seems that it does not support Java, so you
+will have to run the notebooks outside the IDE in the web browser.
+
+You will need to install Python, Jupyter and https://github.com/SpencerPark/IJava[iJava Jupyter kernel]. There are
+multiple ways of doing it. Here is arguably the simplest approach on MacOS using Homebrew:
+
+Download the latest release of `iJava` from https://github.com/SpencerPark/IJava/releases , unpack it to some temporary
+directory, and run the following commands:
+
+```bash
+# Install Jupyter (and, implicitly, Python)
+brew install jupyter
+
+# Change to the directory where you unpacked the IJava kernel
+cd ijava-*
+
+# find the version of Python used by Jupyter
+PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
+
+# sanity check. The output should point to a Python binary
+echo $PY
+
+# install Java "kernel"
+$PY install.py --sys-prefix
+```
+If all these steps finished successfully, you can check that the Java kernel is installed. E.g.:
+```bash
+jupyter kernelspec list
+
+Available kernels:
+  python3    /opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/lib/python3.12/site-packages/ipykernel/resources
+  java       /opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/share/jupyter/kernels/java
+```
 
 === DFLib in Jupyter
 
@@ -24,8 +57,8 @@ Start Jupyter
 ----
 jupyter notebook
 ----
-
-The browser opens. Click on "New > Java". In the document cell enter something like this:
+The browser opens. Click on "New > Notebook", and when asked to select a kernel, pick "Java" from the dropdown. In the
+document cell enter something like this:
 
 [source,java]
 ----
@@ -39,7 +72,7 @@ DFLibJupyter.init(getKernelInstance());
 
 <1> It is enough to include `dflib-jupyter`. All other DFLib modules will be added through its transitive dependencies.
 
-Click "Shift + Return" to execute the cell. If the are no errors, you can start using DFLib API in the following cells.
+Click "Shift + Return" to execute the cell. If there are no errors, you can start using DFLib API in the following cells.
 E.g.:
 
 [source,java]
