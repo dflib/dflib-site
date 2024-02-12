@@ -3768,29 +3768,82 @@ DataFrame before it is saved. Alternatively you can create a custom <code>Schema
 <h2 id="jupyter">Using Jupyter Notebook</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>While DFLib runs inside regular Java applications, it also works perfectly in a Jupyter notebook,
-which is a very common environment among data scientists, and is usually associated with Python / pandas. Jupyter
-Notebook is very visual and allows you to debug each step of your data load and transformation pipeline individually
-without a need to rerun the whole thing.</p>
+<p>While DFLib runs inside regular Java applications, it also works perfectly in Jupyter, which is a very common "notebook"
+environment among data scientists. In a notebook, you interact with your code via a web browser in a rather "visual"
+way. It allows to run each step of a data transformation one-by-one and inspect the data between the steps.
+Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.</p>
 </div>
 <div class="paragraph">
-<p>Combining DFLib with Jupyter provides a pandas-like notebook experience, only in pure Java. The code developed in
-notebook can be later copied and pasted into your application. Java developers should consider using Jupyter as a part
-of their data project workflow, and DFLib design (and its Jupyter integration features described here) makes it rather
-easy.</p>
+<p>The code developed in a notebook can be later copied and pasted into your application. Java developers should consider
+using either Jupyter as a part of their data project workflow, and DFLib design (and its Jupyter integration features
+described here) makes it rather easy.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Currently, DFLib only provides an explicit integration for Jupyter, but you can use other notebooks that support
+Java, such as Apache Zeppelin, etc. Though you may need to write some code of your own for the best DataFrame
+display experience.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_jupyter_installation_with_java_kernel">Jupyter Installation with Java Kernel</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Install Jupyter. Follow Jupyter installation instructions. It requires Python. Out of the variety of installation
-options, the authors of this document are using Mac OS, pyenv, Python 3.7, and pip.</p>
-</li>
-<li>
-<p>Install <a href="https://github.com/SpencerPark/IJava">iJava Jupyter kernel</a>.</p>
-</li>
-</ul>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+While IntelliJ IDE supports Jupyter / Python, as of this writing, it seems that it does not support Java, so you
+will have to run the notebooks outside the IDE in the web browser.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You will need to install Python, Jupyter and <a href="https://github.com/SpencerPark/IJava">iJava Jupyter kernel</a>. There are
+multiple ways of doing it. Here is arguably the simplest approach on MacOS using Homebrew:</p>
+</div>
+<div class="paragraph">
+<p>Download the latest release of <code>iJava</code> from <a href="https://github.com/SpencerPark/IJava/releases" class="bare">https://github.com/SpencerPark/IJava/releases</a> , unpack it to some temporary
+directory, and run the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash"># Install Jupyter (and, implicitly, Python)
+brew install jupyter
+
+# Change to the directory where you unpacked the IJava kernel
+cd ijava-*
+
+# find the version of Python used by Jupyter
+PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
+
+# sanity check. The output should point to a Python binary
+echo $PY
+
+# install Java &quot;kernel&quot;
+$PY install.py --sys-prefix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If all these steps finished successfully, you can check that the Java kernel is installed. E.g.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">jupyter kernelspec list
+
+Available kernels:
+  python3    /opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/lib/python3.12/site-packages/ipykernel/resources
+  java       /opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/share/jupyter/kernels/java</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3804,7 +3857,8 @@ options, the authors of this document are using Mac OS, pyenv, Python 3.7, and p
 </div>
 </div>
 <div class="paragraph">
-<p>The browser opens. Click on "New &gt; Java". In the document cell enter something like this:</p>
+<p>The browser opens. Click on "New &gt; Notebook", and when asked to select a kernel, pick "Java" from the dropdown. In the
+document cell enter something like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3825,7 +3879,7 @@ DFLibJupyter.init(getKernelInstance());</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>Click "Shift + Return" to execute the cell. If the are no errors, you can start using DFLib API in the following cells.
+<p>Click "Shift + Return" to execute the cell. If there are no errors, you can start using DFLib API in the following cells.
 E.g.:</p>
 </div>
 <div class="listingblock">
