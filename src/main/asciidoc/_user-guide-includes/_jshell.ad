@@ -1,0 +1,55 @@
+[#jshell]
+== Using JShell
+
+Modern JDK installations come with `jshell`, a Read-Evaluate-Print Loop tool (aka REPL). DFLib can be used in
+JShell environment for interactive data exploration and code prototyping. For the best experience, you may want to
+configure a couple of things. Start `jshell` and execute the following commands:
+
+```
+// Set classpath. There's no automatic dependency management in jshell.
+// You will need to include all DFLib jars and their dependencies explicitly
+
+/env --class-path /path/to/dflib-1.0.0-M20.jar:/path/to/dflib-csv-1.0.0-M20.jar
+```
+
+```
+// Disable data truncation. You want your data to be visible.
+
+/set mode mine normal -command
+/set truncation mine 40000
+/set feedback mine
+```
+
+```
+// Add needed imports
+
+import org.dflib.*;
+import org.dflib.csv.*;
+
+import static org.dflib.Exp.*;
+```
+
+```
+// Set tabular printer
+
+Environment.setPrinter(Printers.tabular());
+```
+
+After this, you can start working with DataFrames and immediately check the output:
+```
+var df = Csv.load("../data/stuff.csv");
+```
+JShell may print something like this
+----
+df ==>
+id   name              salary
+---- ----------------- --------
+   1 Jerry Cosin       70000.0
+   2 Juliana Walewski  85000.0
+   3 Joan O'Hara       101000.0
+...
+ 997 Jenny Harris      65000.0
+ 998 Matt Ostin        52000.0
+ 999 Andrew Tsui       99000.0
+1000 rows x 3 columns
+----

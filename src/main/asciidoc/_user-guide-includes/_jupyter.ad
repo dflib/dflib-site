@@ -1,7 +1,7 @@
 [#jupyter]
 == Using Jupyter Notebook
 
-While DFLib runs inside regular Java applications, it also works perfectly in Jupyter, which is a very common "notebook"
+While DFLib runs inside regular Java applications or `jshell`, it also works perfectly in Jupyter, which is a very common "notebook"
 environment among data scientists. In a notebook, you interact with your code via a web browser in a rather "visual"
 way. It allows to run each step of a data transformation one-by-one and inspect the data between the steps.
 Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.

@@ -631,6 +631,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_avro_schema">Avro Schema</a></li>
 </ul>
 </li>
+<li><a href="#jshell">Using JShell</a></li>
 <li><a href="#jupyter">Using Jupyter Notebook</a>
 <ul class="sectlevel2">
 <li><a href="#_jupyter_installation_with_java_kernel">Jupyter Installation with Java Kernel</a></li>
@@ -3765,10 +3766,80 @@ DataFrame before it is saved. Alternatively you can create a custom <code>Schema
 </div>
 </div>
 <div class="sect1">
+<h2 id="jshell">Using JShell</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Modern JDK installations come with <code>jshell</code>, a Read-Evaluate-Print Loop tool (aka REPL). DFLib can be used in
+JShell environment for interactive data exploration and code prototyping. For the best experience, you may want to
+configure a couple of things. Start <code>jshell</code> and execute the following commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>// Set classpath. There's no automatic dependency management in jshell.
+// You will need to include all DFLib jars and their dependencies explicitly
+
+/env --class-path /path/to/dflib-1.0.0-M20.jar:/path/to/dflib-csv-1.0.0-M20.jar</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>// Disable data truncation. You want your data to be visible.
+
+/set mode mine normal -command
+/set truncation mine 40000
+/set feedback mine</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>// Add needed imports
+
+import org.dflib.*;
+import org.dflib.csv.*;
+
+import static org.dflib.Exp.*;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>// Set tabular printer
+
+Environment.setPrinter(Printers.tabular());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After this, you can start working with DataFrames and immediately check the output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>var df = Csv.load(&quot;../data/stuff.csv&quot;);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>JShell may print something like this</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>df ==&gt;
+id   name              salary
+---- ----------------- --------
+   1 Jerry Cosin       70000.0
+   2 Juliana Walewski  85000.0
+   3 Joan O'Hara       101000.0
+...
+ 997 Jenny Harris      65000.0
+ 998 Matt Ostin        52000.0
+ 999 Andrew Tsui       99000.0
+1000 rows x 3 columns</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="jupyter">Using Jupyter Notebook</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>While DFLib runs inside regular Java applications, it also works perfectly in Jupyter, which is a very common "notebook"
+<p>While DFLib runs inside regular Java applications or <code>jshell</code>, it also works perfectly in Jupyter, which is a very common "notebook"
 environment among data scientists. In a notebook, you interact with your code via a web browser in a rather "visual"
 way. It allows to run each step of a data transformation one-by-one and inspect the data between the steps.
 Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.</p>
@@ -3935,7 +4006,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-29 17:17:01 -0500
+Last updated 2024-02-26 19:11:20 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />
