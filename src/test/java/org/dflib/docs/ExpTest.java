@@ -54,9 +54,9 @@ public class ExpTest extends BaseTest {
                 "Joan", "O'Hara", new BigDecimal("95000"));
 
 // tag::constantConcatExp[]
-        Series<String> fn = concat(
+        Series<String> fn = concat( // <1>
                 $str("first"),
-                $val(" "), // <1>
+                $val(" "), // <2>
                 $str("last")).eval(df);
 // end::constantConcatExp[]
 
@@ -67,10 +67,10 @@ public class ExpTest extends BaseTest {
     public void expChain() {
 
 // tag::expChain[]
-        // "Condition" is an Exp<Boolean> described in more detail below.
-        Condition c = and(
-                $str("last").startsWith("A"),
-                $decimal("salary").add($decimal("benefits")).gt(100000.)
+        // <1>
+        Condition c = and( // <2>
+                $str("last").startsWith("A"), // <3>
+                $decimal("salary").add($decimal("benefits")).gt(100000.) // <4>
         );
 // end::expChain[]
     }

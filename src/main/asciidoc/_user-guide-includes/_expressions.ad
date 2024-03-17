@@ -63,13 +63,14 @@ hi!
 hi!
 hi!
 ----
-A useful case for constant expressions is to produce a separator for String concatenation:
+A useful case for `$val(..)` is to create a separator for String concatenation:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=constantConcatExp]
 ----
-<1> Inserting space between first and last name
+<1> This is a static import of `Exp.concat(..)`, an expression that takes a variable number of arguments
+<2> Inserting space between first and last name
 
 ----
 Jerry Cosin
@@ -79,13 +80,17 @@ Joan O'Hara
 
 === Complex Expressions
 
-Expressions can be composed of other expressions by invoking static methods of `Exp` and type-specific instance
-methods of various `Exp` subclasses. E.g.:
+Expressions can be expanded by calling methods on the `Exp` object. Also, as we've already
+seen above, they can be composed of other expressions by invoking static methods of `Exp`. E.g.:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expChain]
 ----
+<1> "Condition" is an `Exp<Boolean>` described in more detail below
+<2> `and(..)` is a statically-imported `Exp.and(..)`
+<3> `startsWith(..)` produces a condition based on another string expression
+<4> `add(..)` produces an addition operation for two numeric expressions, `gt(..)` produces a condition from the result of the addition
 
 === Numeric Expressions
 

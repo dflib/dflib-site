@@ -1273,13 +1273,13 @@ hi!</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A useful case for constant expressions is to produce a separator for String concatenation:</p>
+<p>A useful case for <code>$val(..)</code> is to create a separator for String concatenation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; fn = concat(
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; fn = concat( <i class="conum" data-value="1"></i><b>(1)</b>
         <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
-        <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="2"></i><b>(2)</b>
         <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)).eval(df);</code></pre>
 </div>
 </div>
@@ -1287,6 +1287,10 @@ hi!</pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This is a static import of <code>Exp.concat(..)</code>, an expression that takes a variable number of arguments</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>Inserting space between first and last name</td>
 </tr>
 </table>
@@ -1302,17 +1306,37 @@ Joan O'Hara</pre>
 <div class="sect2">
 <h3 id="_complex_expressions">Complex Expressions</h3>
 <div class="paragraph">
-<p>Expressions can be composed of other expressions by invoking static methods of <code>Exp</code> and type-specific instance
-methods of various <code>Exp</code> subclasses. E.g.:</p>
+<p>Expressions can be expanded by calling methods on the <code>Exp</code> object. Also, as we&#8217;ve already
+seen above, they can be composed of other expressions by invoking static methods of <code>Exp</code>. E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// &quot;Condition&quot; is an Exp&lt;Boolean&gt; described in more detail below.</span>
-<span class="predefined-type">Condition</span> c = and(
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>),
-        <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).add(<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">benefits</span><span class="delimiter">&quot;</span></span>)).gt(<span class="integer">100000</span>.)
+<pre class="CodeRay highlight"><code data-lang="java"><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="predefined-type">Condition</span> c = and( <i class="conum" data-value="2"></i><b>(2)</b>
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).add(<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">benefits</span><span class="delimiter">&quot;</span></span>)).gt(<span class="integer">100000</span>.) <i class="conum" data-value="4"></i><b>(4)</b>
 );</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>"Condition" is an <code>Exp&lt;Boolean&gt;</code> described in more detail below</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>and(..)</code> is a statically-imported <code>Exp.and(..)</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>startsWith(..)</code> produces a condition based on another string expression</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>add(..)</code> produces an addition operation for two numeric expressions, <code>gt(..)</code> produces a condition from the result of the addition</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
