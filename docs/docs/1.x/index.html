@@ -3452,26 +3452,118 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 <h2 id="udfs">User-Defined Functions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>User-defined functions (aka "UDF") is a way to build highly-reusable expressions. <a href="#expressions">Expressions</a> provide
-an API for abstract transformations of columns. However, they encode the locations of columns they operate on. So for instance,
-you can&#8217;t apply the same expression to two different sets of columns in the same DataFrame. UDFs exist to address this
-limitation and are making expressions fully dynamic.</p>
+<p>User-defined functions (aka "UDF") is a way to create highly-reusable expressions. <a href="#expressions">Expressions</a> are,
+of course, abstract transformations of columns, so they are already somewhat reusable. However, they encode names
+(or positions) of all columns they operate on. So you won&#8217;t be able to apply the same expression to two different sets
+of columns in the same DataFrame. UDFs are intended to address this limitation and make expressions fully dynamic.</p>
 </div>
 <div class="paragraph">
-<p>A UDF is just a function (usually implemented via a lambda) that produces an expression for one or more other expressions:</p>
+<p>As the name implies, a UDF is a function (usually implemented as a lambda or a method ref). It takes one or more
+expressions as parameters, and produces a single expression:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">void</span> formatNames() {
+    DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">JERRY</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">COSIN</span><span class="delimiter">&quot;</span></span>,
+            <span class="string"><span class="delimiter">&quot;</span><span class="content">juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">waLEwsKi</span><span class="delimiter">&quot;</span></span>);
+
+    Udf1&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; formatName = e -&gt;
+            e.castAsStr().mapVal(<span class="local-variable">this</span>::formatName); <i class="conum" data-value="1"></i><b>(1)</b>
+
+    DataFrame clean = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).map(
+            formatName.call(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
+            formatName.call(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="2"></i><b>(2)</b>
+}
+
+<span class="predefined-type">String</span> formatName(<span class="predefined-type">String</span> raw) {
+    <span class="keyword">return</span> <span class="predefined-type">Character</span>.toUpperCase(raw.charAt(<span class="integer">0</span>))
+            + raw.substring(<span class="integer">1</span>).toLowerCase();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Define a UDF that takes a single parameter and performs proper name capitalization</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Apply the same UDF separately to the "first" and "last" name columns</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first   last
+------- --------
+Jerry   Cosin
+Juliana Walewski</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p>In the example above, we called the UDF multiple times, each time with a different column name. A UDF can also
+be invoked with a numeric position or a full expression instead of a column name.</p>
 </div>
 <div class="paragraph">
-<p>So UDF column resolution happens at the latest possible moment, when they are applied to a <code>DataFrame</code>. Hence, they can
-be evaluated with differently-structured <code>DataFrames</code>, or with different parts of the same <code>DataFrame</code>:</p>
+<p>Above, we used <code>Udf1</code> function, that takes only one expression (or column) as an input. Generally, UDFs can take
+any number of expressions (columns). There are <code>Udf1</code>, <code>Udf2</code>, <code>Udf3</code> and <code>UdfN</code> interfaces. The latter can take any
+number of arguments and should be used to model UDFs with more than 3 inputs or a variable number of inputs:</p>
 </div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="predefined-constant">null</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>);
+
+UdfN&lt;<span class="predefined-type">Boolean</span>&gt; noNulls = exps -&gt; and( <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="predefined-type">List</span>.of(exps)
+                .stream()
+                .map(Exp::isNotNull)
+                .toArray(<span class="predefined-type">Condition</span><span class="type">[]</span>::<span class="keyword">new</span>)
+);
+
+DataFrame clean = df
+        .rows(noNulls.call(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).castAsBool()) <i class="conum" data-value="2"></i><b>(2)</b>
+        .select();</code></pre>
 </div>
-<div class="paragraph">
-<p><em>TODO</em></p>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Build a UDF with dynamic number of input parameters packaged in the <code>Exp[]</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Call the UDF to create a row filter. Since the UDF return type is <code>Exp&lt;Boolean&gt;</code>,
+we need to explicitly "cast" it to <code>Condition</code> expected by the <code>RowSet</code>, so we used  <code>castAsBool()</code></td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>first last
+----- -----
+Jerry Cosin</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Performance hint: If the logic within a UDF requires converting a column to a specific data type,
+and the column you are applying it to is known to be of that type already, you can speed up evaluation
+by passing an expression of that type to the UDF. E.g. if a UDF calls <code>castAsInt()</code> on its argument,
+<code>udf.call($int("a"))</code> is much faster than <code>udf.call("a")</code>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -3709,7 +3801,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Csv.loader() <i class="conum" data-value="1"></i><b>(1)</b>
-        .skipRows(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .offset(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
         .header(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="3"></i><b>(3)</b>
         .intColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
         .load(<span class="string"><span class="delimiter">&quot;</span><span class="content">src/test/resources/f1.csv</span><span class="delimiter">&quot;</span></span>);</code></pre>

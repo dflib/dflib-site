@@ -23,7 +23,7 @@ public class CsvTest extends BaseTest {
     public void readCsvLoader() {
         // tag::readCsvLoader[]
         DataFrame df = Csv.loader() // <1>
-                .skipRows(1) // <2>
+                .offset(1) // <2>
                 .header("x", "y") // <3>
                 .intColumn("x") // <4>
                 .load("src/test/resources/f1.csv");
