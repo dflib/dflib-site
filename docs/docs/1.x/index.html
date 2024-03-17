@@ -548,6 +548,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#expressions">Expressions</a>
 <ul class="sectlevel2">
 <li><a href="#_column_expressions">Column Expressions</a></li>
+<li><a href="#_constant_expressions">Constant Expressions</a></li>
 <li><a href="#_complex_expressions">Complex Expressions</a></li>
 <li><a href="#_numeric_expressions">Numeric Expressions</a></li>
 <li><a href="#_date_expressions">Date Expressions</a></li>
@@ -1206,7 +1207,7 @@ cases for expressions.</p>
 </td>
 <td class="content">
 DFLib expression language Expressions work on Series instead of individual values, so they can achieve the best
-possible performance for any given operation. Expressions should be a preferred way to manipulate your data instead of
+possible performance for any given operation. Expressions should be the preferred way to manipulate your data instead of
 more "direct" API.
 </td>
 </tr>
@@ -1252,6 +1253,50 @@ need to select the right type in your code to avoid ClassCastExceptions downstre
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_constant_expressions">Constant Expressions</h3>
+<div class="paragraph">
+<p>If we want to generate a Series with the same repeating value, we can use the <code>$val(..)</code> expression:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; hi = <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content">hi!</span><span class="delimiter">&quot;</span></span>).eval(df);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>hi!
+hi!
+hi!</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A useful case for constant expressions is to produce a separator for String concatenation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; fn = concat(
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
+        <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)).eval(df);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Inserting space between first and last name</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Jerry Cosin
+Juliana Walewski
+Joan O'Hara</pre>
+</div>
 </div>
 </div>
 <div class="sect2">
