@@ -46,6 +46,8 @@ include::_user-guide-includes/_pivot.ad[]
 
 include::_user-guide-includes/_stack.ad[]
 
+include::_user-guide-includes/_user_defined_functions.ad[]
+
 include::_user-guide-includes/_jdbc.ad[]
 
 include::_user-guide-includes/_csv.ad[]

@@ -613,6 +613,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#window">Window functions</a></li>
 <li><a href="#pivot">Pivot</a></li>
 <li><a href="#stack">Stack</a></li>
+<li><a href="#udfs">User-Defined Functions</a></li>
 <li><a href="#jdbc">Using Relational Databases</a>
 <ul class="sectlevel2">
 <li><a href="#_jdbcconnector">JdbcConnector</a></li>
@@ -3448,6 +3449,33 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 </div>
 </div>
 <div class="sect1">
+<h2 id="udfs">User-Defined Functions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>User-defined functions (aka "UDF") is a way to build highly-reusable expressions. <a href="#expressions">Expressions</a> provide
+an API for abstract transformations of columns. However, they encode the locations of columns they operate on. So for instance,
+you can&#8217;t apply the same expression to two different sets of columns in the same DataFrame. UDFs exist to address this
+limitation and are making expressions fully dynamic.</p>
+</div>
+<div class="paragraph">
+<p>All UDFs are functional interfaces that produce an expression for one or more other expressions:</p>
+</div>
+<div class="paragraph">
+<p>&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>So UDF column resolution happens at the latest possible moment, when they are applied to a <code>DataFrame</code>. Hence, they can
+be evaluated with differently-structured <code>DataFrames</code>, or with different parts of the same <code>DataFrame</code>:</p>
+</div>
+<div class="paragraph">
+<p>&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p><em>TODO</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="jdbc">Using Relational Databases</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -4075,7 +4103,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-26 19:11:20 -0500
+Last updated 2024-03-17 12:12:24 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />

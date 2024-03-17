@@ -1,0 +1,18 @@
+[#udfs]
+== User-Defined Functions
+
+User-defined functions (aka "UDF") is a way to build highly-reusable expressions. <<expressions,Expressions>> provide
+an API for abstract transformations of columns. However, they encode the locations of columns they operate on. So for instance,
+you can't apply the same expression to two different sets of columns in the same DataFrame. UDFs exist to address this
+limitation and are making expressions fully dynamic.
+
+All UDFs are functional interfaces that produce an expression for one or more other expressions:
+
+...
+
+So UDF column resolution happens at the latest possible moment, when they are applied to a `DataFrame`. Hence, they can
+be evaluated with differently-structured `DataFrames`, or with different parts of the same `DataFrame`:
+
+...
+
+_TODO_
