@@ -64,14 +64,18 @@ include::../../../test/java/org/dflib/docs/SeriesCreateTest.java[tags=createIncr
 
 === DataFrame
 
-`DataFrame` is an in-memory table with rows and columns. Each column has a name, and is stored as a `Series` object.
-DataFrame can contain columns of different kinds, so it is not parameterized for a single type.
+`DataFrame` is an in-memory table made of an `Index` header and a number of named columns. Each column is
+a `Series`, and has an associated name in the `Index`. `DataFrame` can contain columns of different
+kinds, so it is not parameterized for any single type.
 
-There are a few ways to create a DataFrame. Here we'll show "builder" API to convert arrays, Streams, Collections,
-Series and other in-memory data into DataFrames.
+"Rows" is a purely virtual concept as the data is organized by column, yet there is a number of APIs that appear to
+operate on rows for user convenience.
 
-NOTE: More often than not, a DataFrame is not created manually and is instead loaded from (and saved to) an external
-source, like a <<jdbc,database>> or a <<csv,CSV file>>. Those are discussed in separate documentation chapters.
+There are a few ways to create a DataFrame. Here we'll show how to convert various in-memory objects to DataFrames
+(arrays, Streams, Collections, Series).
+
+NOTE: More often than not, a DataFrame is not created from an in-memory object, but is rather loaded from (and saved to) an
+external source, like a <<jdbc,database>> or a <<csv,CSV file>>. Those are discussed in separate chapters.
 
 First example, adding data row by row:
 [source,java,indent=0]
@@ -152,19 +156,14 @@ include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createF
 
 This is the most efficient way, as an array of Series is how each DataFrame is structured internally.
 
-Now that we've discussed how to create Series and DataFrames, we'll talk about <<printers,printing their contents>>,
-and then will continue to the chapters that describe data operations.
-
 [#index]
 === Index
 
-`Index` is somewhat similar to Series. It stores a sequence of String labels, corresponding to column labels in a
-DataFrame it is attached to. While you normally won't need to create or manipulate Index outside a DataFrame, you
-may use it to access DataFrame columns labels.
+`Index` is somewhat similar to Series. It serves as a `DataFrame` "header" and internally allows to quickly resolve
+column String labels to their numeric positions. You'd work with `Index` instances outside a DataFrame only
+occasionally, but it is still good to know its capabilities. E.g., here is how to get all the column labels:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/MainDataStructuresTest.java[tags=indexGetLabels]
 ----
-
-<1> Access DataFrame index and read label names.

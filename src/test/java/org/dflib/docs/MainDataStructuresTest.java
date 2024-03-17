@@ -9,13 +9,12 @@ public class MainDataStructuresTest extends BaseTest {
 
     @Test
     public void indexGetLabels() {
-
-// tag::indexGetLabels[]
         DataFrame df = DataFrame
                 .foldByColumn("col1", "col2")
                 .of(IntStream.range(0, 10000));
 
-        String[] labels = df.getColumnsIndex().getLabels(); // <1>
+// tag::indexGetLabels[]
+        String[] labels = df.getColumnsIndex().getLabels();
 // end::indexGetLabels[]
     }
 }
