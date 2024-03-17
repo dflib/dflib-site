@@ -98,8 +98,7 @@ include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createR
 ----
 <1> The builder is started with an array of Extractors. Each extractor generates its own column, filling it with a
 corresponding object property.
-<2> Specifying the names of the DataFrame columns. If omitted, column names are assigned automatically.
-in step 1.
+<2> Specifying the names of the DataFrame columns. If omitted, column names are assigned automatically
 <3> Creating a row-by-row appender
 <4> Appending the list.
 
