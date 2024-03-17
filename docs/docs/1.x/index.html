@@ -916,22 +916,22 @@ Joan   32</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>        record Person(String name, int age) {
-        }
+<pre class="CodeRay highlight"><code data-lang="java">record Person(<span class="predefined-type">String</span> name, <span class="type">int</span> age) {
+}
 
-        List&lt;Person&gt; people = List.of(
-                new Person("Joe", 18),
-                new Person("Andrus", 49),
-                new Person("Joan", 32));
+<span class="predefined-type">List</span>&lt;Person&gt; people = <span class="predefined-type">List</span>.of(
+        <span class="keyword">new</span> Person(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>),
+        <span class="keyword">new</span> Person(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">49</span>),
+        <span class="keyword">new</span> Person(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>));
 
-        DataFrame df = DataFrame
-                .byRow( <i class="conum" data-value="1"></i><b>(1)</b>
-                        Extractor.$col(Person::name),
-                        Extractor.$int(Person::age))
-                .columnNames("name", "age") <i class="conum" data-value="2"></i><b>(2)</b>
-                .appender() <i class="conum" data-value="3"></i><b>(3)</b>
-                .append(people)   <i class="conum" data-value="4"></i><b>(4)</b>
-                .toDataFrame();</pre>
+DataFrame df = DataFrame
+        .byRow( <i class="conum" data-value="1"></i><b>(1)</b>
+                Extractor.<span class="error">$</span>col(Person::name),
+                Extractor.<span class="error">$</span><span class="type">int</span>(Person::age))
+        .columnNames(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .appender() <i class="conum" data-value="3"></i><b>(3)</b>
+        .append(people)   <i class="conum" data-value="4"></i><b>(4)</b>
+        .toDataFrame();</code></pre>
 </div>
 </div>
 <div class="colist arabic">

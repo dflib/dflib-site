@@ -97,6 +97,7 @@ Joan   32
 ----
 
 A more general example - creating a DataFrame from a list of objects by "extracting" column data from object properties:
+[source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/DataFrameCreateTest.java[tags=createRowAtATimeFromObject]
 ----
