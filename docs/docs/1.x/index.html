@@ -621,14 +621,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_sqlloader_sqlsaver">SqlLoader / SqlSaver</a></li>
 </ul>
 </li>
-<li><a href="#csv">Using .csv Files</a>
+<li><a href="#csv">CSV Files</a>
 <ul class="sectlevel2">
-<li><a href="#_read_dataframe_from_a_csv">Read DataFrame from a CSV</a></li>
-<li><a href="#_write_dataframe_to_a_csv">Write DataFrame to a CSV</a></li>
+<li><a href="#_reading_from_csv">Reading from CSV</a></li>
+<li><a href="#_writing_to_csv">Writing to CSV</a></li>
 </ul>
 </li>
-<li><a href="#excel">Using Excel Files</a></li>
-<li><a href="#avro">Using .avro Files</a>
+<li><a href="#excel">Excel Files</a></li>
+<li><a href="#avro">Avro Files</a>
 <ul class="sectlevel2">
 <li><a href="#_avro_schema">Avro Schema</a></li>
 </ul>
@@ -3458,7 +3458,7 @@ you can&#8217;t apply the same expression to two different sets of columns in th
 limitation and are making expressions fully dynamic.</p>
 </div>
 <div class="paragraph">
-<p>All UDFs are functional interfaces that produce an expression for one or more other expressions:</p>
+<p>A UDF is just a function (usually implemented via a lambda) that produces an expression for one or more other expressions:</p>
 </div>
 <div class="paragraph">
 <p>&#8230;&#8203;</p>
@@ -3650,10 +3650,10 @@ extra columns is preserved.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="csv">Using .csv Files</h2>
+<h2 id="csv">CSV Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>CSV (comma-separated values) is a very common and rather simple format for working with raw data. CSV files can be
+<p>CSV (comma-separated values) is a very common and rather simple format for working with raw data. <code>*.csv</code> files can be
 manipulated programmatically or manually (via Excel/LibreOffice), loaded to / from databases, etc. DFLib supports
 reading DataFrames from CSV and storing them to CSV. You need to add an extra dependency to your project to take
 advantage of this functionality:</p>
@@ -3671,9 +3671,9 @@ advantage of this functionality:</p>
 below.</p>
 </div>
 <div class="sect2">
-<h3 id="_read_dataframe_from_a_csv">Read DataFrame from a CSV</h3>
+<h3 id="_reading_from_csv">Reading from CSV</h3>
 <div class="paragraph">
-<p>The simplest API for reading a CSV is this:</p>
+<p>The simplest API for reading a DataFrame from a CSV is this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3750,7 +3750,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In theory you don&#8217;t have to do most of these tweaks via CSV loader. You can load the raw data, and then use
+In theory, you don&#8217;t have to do most of these tweaks via CSV loader. You can load the raw data, and then use
 standard DataFrame transformations to shape the result. However doing it via the loader allows to optimize
 both load speed and memory use, so it is usually preferable.
 </td>
@@ -3759,7 +3759,7 @@ both load speed and memory use, so it is usually preferable.
 </div>
 </div>
 <div class="sect2">
-<h3 id="_write_dataframe_to_a_csv">Write DataFrame to a CSV</h3>
+<h3 id="_writing_to_csv">Writing to CSV</h3>
 <div class="paragraph">
 <p>Writing to a CSV is equally easy:</p>
 </div>
@@ -3808,7 +3808,7 @@ to a variety of destinations.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="excel">Using Excel Files</h2>
+<h2 id="excel">Excel Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
@@ -3829,13 +3829,13 @@ advantage of this functionality:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="avro">Using .avro Files</h2>
+<h2 id="avro">Avro Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Avro binary file format is common in data engineering. Its main advantage is that files are saved with an embedded
-schema. So when they are read back, the fields are converted to the correct original Java types. (This is different
-from say CSV. Reading a <code>.csv</code> to a DataFrame by default only produces String columns). To save or load DataFrames
-using the Avro format, include the following dependency:</p>
+<p>Avro binary format is common in data engineering. Its main advantage is that <code>*.avro</code> files are saved with
+an embedded schema. So when they are read back, the fields are converted to the correct Java types. This is different
+from CSV, as reading a <code>.csv</code> by default produces a DataFrame with all String columns. To work with the Avro format,
+include the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">

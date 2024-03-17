@@ -1,7 +1,7 @@
 [#csv]
-== Using .csv Files
+== CSV Files
 
-CSV (comma-separated values) is a very common and rather simple format for working with raw data. CSV files can be
+CSV (comma-separated values) is a very common and rather simple format for working with raw data. `*.csv` files can be
 manipulated programmatically or manually (via Excel/LibreOffice), loaded to / from databases, etc. DFLib supports
 reading DataFrames from CSV and storing them to CSV. You need to add an extra dependency to your project to take
 advantage of this functionality:
@@ -17,9 +17,9 @@ advantage of this functionality:
 Once you do that, `Csv` class is the entry point to all the `.csv` related operations as discussed
 below.
 
-=== Read DataFrame from a CSV
+=== Reading from CSV
 
-The simplest API for reading a CSV is this:
+The simplest API for reading a DataFrame from a CSV is this:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/CsvTest.java[tags=readCsv]
@@ -57,11 +57,11 @@ x y
 ----
 
 
-NOTE: In theory you don't have to do most of these tweaks via CSV loader. You can load the raw data, and then use
+NOTE: In theory, you don't have to do most of these tweaks via CSV loader. You can load the raw data, and then use
 standard DataFrame transformations to shape the result. However doing it via the loader allows to optimize
 both load speed and memory use, so it is usually preferable.
 
-=== Write DataFrame to a CSV
+=== Writing to CSV
 
 Writing to a CSV is equally easy:
 [source,java,indent=0]

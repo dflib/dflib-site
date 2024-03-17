@@ -6,7 +6,7 @@ an API for abstract transformations of columns. However, they encode the locatio
 you can't apply the same expression to two different sets of columns in the same DataFrame. UDFs exist to address this
 limitation and are making expressions fully dynamic.
 
-All UDFs are functional interfaces that produce an expression for one or more other expressions:
+A UDF is just a function (usually implemented via a lambda) that produces an expression for one or more other expressions:
 
 ...
 
