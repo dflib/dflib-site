@@ -3661,7 +3661,7 @@ number of rows to read, sample rows, and even specify fetch condition as another
         .of(Series.ofInt(<span class="integer">70</span>_000, <span class="integer">101</span>_000));
 
 DataFrame df = connector.tableLoader(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>)
-        .includeColumns(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
         .eq(condition)
         .load();</code></pre>
 </div>

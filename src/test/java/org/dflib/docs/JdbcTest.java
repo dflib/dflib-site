@@ -78,7 +78,7 @@ public class JdbcTest extends BaseTest {
                 .of(Series.ofInt(70_000, 101_000));
 
         DataFrame df = connector.tableLoader("person")
-                .includeColumns("name", "salary")
+                .cols("name", "salary")
                 .eq(condition)
                 .load();
         // end::tableLoader_wOptions[]
