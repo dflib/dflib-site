@@ -1,0 +1,164 @@
+@font-face {
+  font-family: "Lato";
+  src: url("../../fonts/Lato-Bold.woff2") format("woff2"), url("../../fonts/Lato-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("../../fonts/Lato-Regular.woff2") format("woff2"), url("../../fonts/Lato-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  margin: 0;
+}
+/*Main start*/
+.header,
+.footer {
+  font-family: "Lato", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  background: #141518;
+  color: #fff;
+  position: relative;
+  z-index: 9999;
+}
+.d_cntnr {
+  display: flow-root;
+  box-sizing: content-box;
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.d_rw {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 30px;
+  box-sizing: border-box;
+}
+.d_rw + .d_rw {
+  margin-top: 40px;
+}
+[class^="d_cl"] {
+  flex: 1 1 100%;
+  box-sizing: border-box;
+}
+.d_cl_a {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+.d_cl_expand {
+  flex: 1;
+}
+.d_n_xs {
+  display: none;
+}
+button {
+  background: none;
+  border: none;
+  padding: 0;
+}
+button:hover {
+  cursor: pointer;
+}
+.header {
+  margin-bottom: 40px;
+}
+.header a {
+  text-decoration: none;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.header a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.d_content h1 {
+  margin-top: 20px;
+}
+.d_btn {
+  margin: 0;
+  color: #fff;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  background: #1B1C21;
+  transition: background 0.3s ease-in-out;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 40px;
+  min-width: 246px;
+}
+.d_btn:hover {
+  background: #383A43;
+}
+.d_btn:active {
+  background: #fff;
+  color: #333;
+}
+/*Main end*/
+/*.header start*/
+.header {
+  padding: 21px 0;
+  background: #1B1C21;
+}
+.header .d_rw {
+  justify-content: space-between;
+  align-items: center;
+}
+.header .d_m_m {
+  display: none;
+}
+.header .d_m_m.d_show {
+  display: flex;
+}
+.d_logo_box a {
+  display: flex;
+}
+.d_hbrg {
+  padding: 6px 0;
+  display: flex;
+}
+.d_hbrg i,
+.d_hbrg i:after,
+.d_hbrg i:before {
+  transition: all 0.2s ease-out;
+  background: #fff;
+  border-radius: 2px;
+  height: 2px;
+  width: 21px;
+}
+.d_hbrg i {
+  position: relative;
+  line-height: 1;
+}
+.d_hbrg i:after,
+.d_hbrg i:before {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.d_hbrg i:after {
+  bottom: -5px;
+}
+.d_hbrg i:before {
+  top: -5px;
+}
+.d_v_s {
+  display: none;
+}
+/*.header end*/
