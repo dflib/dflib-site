@@ -36,7 +36,20 @@ window.addEventListener("load", ()=>{
     }
   });
 
+  dropdownToggle();
+
 });
+
+var dropdownToggle = () => {
+  var dropdownsOpeners = document.querySelectorAll('.d_opener');
+  if(!dropdownsOpeners) return;
+  dropdownsOpeners.forEach(dropdownOpener => {
+    dropdownOpener.addEventListener('click',  (event) => {
+        event.preventDefault();
+        dropdownOpener.classList.toggle('d_active');
+    });
+  });
+}
 
 /**
  * Open navigation menu
@@ -165,3 +178,5 @@ const showOverflow = ()=>{
 //   iframeWindow.postMessage(message, '*');
 //   iframeElement.classList.add('o_hide_video');
 // }
+
+

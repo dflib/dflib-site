@@ -442,6 +442,110 @@ body.o_overflow_hidden{
     /*modal end*/
 }
 
+//dropdown start
+header{
+    ul li a{
+        word-wrap: normal;
+    }
+    ul:not(.d_dropdown) li{
+        position: relative;
+    }
+    .d_opener{
+        position: relative;
+        padding-right: 20px;
+        margin-right: -20px;
+        &::after{
+            content: '';
+            background-image: url("data:image/svg+xml,%3Csvg width='8' height='4' viewBox='0 0 8 4' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 4L3.49691e-07 1.58735e-08L8 7.15256e-07L4 4Z' fill='white'/%3E%3C/svg%3E%0A");
+            position: absolute;
+            top: 50%;
+            right: 7px;
+            width: 8px;
+            height: 4px;
+            transform: translateY(-50%);
+            transition: transform 0.2s ease-in-out;
+        }
+        &.d_active{
+            &+.d_dropdown{
+                display: block;
+            }
+            &:after{
+                transform: translateY(-50%) rotate(180deg);
+            }
+        }
+        &:hover,
+        &.d_active,
+        &:active,
+        &:focus{
+            color: #fff;
+            text-decoration: none;
+        }
+    }
+    .d_dropdown{
+        display: none;
+        box-sizing: border-box;
+        &>li {
+            padding: 8px 0;
+            line-height: 1;
+            a{
+                font-size: 0.875rem;
+                line-height: 1.428;
+                text-transform: none;
+                font-weight: 600;
+            }
+        }
+    }
+    .d_nav ul.d_dropdown li + li{
+        margin-top: 0;
+    }
+    
+}
+@media(min-width: 768px){
+    header{
+        .d_rw{
+            column-gap: 47px;
+        }
+        .d_cl_1_3\@s{
+            flex-basis: auto;
+            min-width: 250px;
+            &.d_logo_box{
+                min-width: auto;
+            }
+        }
+        .d_opener{
+            margin-right: 0;
+        }
+        .d_dropdown{
+            position: absolute;
+            top: 52px;
+            left: -20px;
+            width: 173px;
+            padding: 8px 20px;
+            background: #fff;
+            box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.08);
+            &>li {
+                a{
+                    color: #333333;
+                }
+            }
+        }
+        
+    }
+}
+@media(min-width: 1200px){
+    header{
+        .d_rw{
+            column-gap: 30px;
+        }
+        .d_cl_1_3\@s{
+            flex-basis: calc((100% / 3) - @g_g);
+            min-width: auto;
+        }
+        
+    }
+}
+//dropdown end
+
 main, header, footer {
     display:block;
 }

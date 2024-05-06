@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="Asciidoctor 2.0.17" />
+    <meta name="author" content="Andrus Adamchik and other contributors" />
+    <title>DFLib Documentation</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"
+    />
+    <style>
+        @font-face{font-family:Lato;src:url(../../fonts/Lato-Bold.woff2) format("woff2"),url(../../fonts/Lato-Bold.woff) format("woff");font-weight:700;font-style:normal;font-display:swap}@font-face{font-family:Lato;src:url(../../fonts/Lato-Regular.woff2) format("woff2"),url(../../fonts/Lato-Regular.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}body{margin:0}.footer,.header{font-family:Lato,sans-serif;font-size:16px;font-weight:400;line-height:1.5;-webkit-text-size-adjust:100%;background:#141518;color:#fff;position:relative;z-index:9999}.d_cntnr{display:flow-root;box-sizing:content-box;max-width:1120px;margin-left:auto;margin-right:auto;padding-left:15px;padding-right:15px}.d_rw{display:flex;flex-wrap:wrap;column-gap:30px;row-gap:30px;box-sizing:border-box}.d_rw+.d_rw{margin-top:40px}[class^=d_cl]{flex:1 1 100%;box-sizing:border-box}.d_cl_a{flex-grow:0;flex-shrink:0;flex-basis:auto}.d_cl_expand{flex:1}.d_n_xs{display:none}button{background:0 0;border:none;padding:0}button:hover{cursor:pointer}.header{margin-bottom:40px}.header a{text-decoration:none;color:#fff;text-transform:uppercase;font-weight:600}.header a:hover{color:#fff;text-decoration:underline}.d_content h1{margin-top:20px}.d_btn{margin:0;color:#fff;display:inline-block;font-size:1rem;line-height:1.5;font-weight:700;text-align:center;text-decoration:none;padding:10px;background:#1b1c21;transition:background .3s ease-in-out;margin-left:auto;margin-right:auto;border-radius:40px;min-width:246px}.d_btn:hover{background:#383a43}.d_btn:active{background:#fff;color:#333}.header{padding:21px 0;background:#1b1c21}.header .d_rw{justify-content:space-between;align-items:center}.header .d_m_m{display:none}.header .d_m_m.d_show{display:flex}.d_logo_box a{display:flex}.d_hbrg{padding:6px 0;display:flex}.d_hbrg i,.d_hbrg i:after,.d_hbrg i:before{transition:all .2s ease-out;background:#fff;border-radius:2px;height:2px;width:21px}.d_hbrg i{position:relative;line-height:1}.d_hbrg i:after,.d_hbrg i:before{content:"";position:absolute;left:0}.d_hbrg i:after{bottom:-5px}.d_hbrg i:before{top:-5px}.d_v_s{display:none}
+    </style>
+    <link media="all" rel="stylesheet" href="../../css/docs_style.min.css" />
+  </head>
+  <body class="article toc2 toc-left">
+    <header class="header">
+      <div class="d_cntnr">
+        <div class="d_rw">
+          <div class="d_cl d_cl_a d_cl_1_3@s d_n_xs">
+            <ul>
+              <li>
+                <a href="./docs/1.x/" class="_d_opener">Documentation</a>
+                <!-- <ul class="d_dropdown">
+                  <li><a href="">Version 3.0 (alpha)</a></li>
+                  <li><a href="">Version 2.0 (stable)</a></li>
+                  <li><a href="">Version 1.4 (old)</a></li>
+                  <li><a href="">Version 1.0 (old)</a></li>
+                </ul> -->
+              </li>
+              <li>
+                <a href="https://github.com/dflib/dflib/discussions">Forum</a>
+              </li>
+            </ul>
+          </div>
+          <div class="d_cl d_cl_a d_cl_1_3@s d_logo_box">
+            <a href="./" aria-label="Home page">
+              <svg
+                width="94"
+                height="28"
+                viewBox="0 0 94 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 2C0 0.895431 0.895431 0 2 0H27C28.1046 0 29 0.895431 29 2V8H0V2Z"
+                  fill="#34C759"
+                />
+                <path
+                  d="M1 11H28V26C28 26.5523 27.5523 27 27 27H2C1.44772 27 1 26.5523 1 26V11Z"
+                  stroke="#8BA98F"
+                  stroke-width="2"
+                />
+                <rect x="9" y="12" width="2" height="14" fill="#8BA98F" />
+                <rect x="18" y="12" width="2" height="14" fill="#8BA98F" />
+                <path
+                  d="M51.5127 14.1527C51.5127 15.2622 51.3114 16.2875 50.9089 17.2284C50.5137 18.1624 49.9538 18.9734 49.2293 19.6616C48.5048 20.3428 47.6302 20.8765 46.6056 21.2627C45.5883 21.6419 44.4576 21.8315 43.2135 21.8315H37V6.48453H43.2135C44.4576 6.48453 45.5883 6.67764 46.6056 7.06386C47.6302 7.45008 48.5048 7.98376 49.2293 8.66491C49.9538 9.34606 50.5137 10.1571 50.9089 11.0981C51.3114 12.032 51.5127 13.0503 51.5127 14.1527ZM47.7144 14.1527C47.7144 13.3943 47.6119 12.7097 47.407 12.0987C47.2021 11.4878 46.9057 10.9717 46.5178 10.5504C46.1372 10.122 45.6688 9.79548 45.1126 9.57077C44.5564 9.33904 43.9234 9.22317 43.2135 9.22317H40.7325V19.0928H43.2135C43.9234 19.0928 44.5564 18.9805 45.1126 18.7558C45.6688 18.524 46.1372 18.1975 46.5178 17.7762C46.9057 17.3478 47.2021 16.8282 47.407 16.2172C47.6119 15.6063 47.7144 14.9181 47.7144 14.1527Z"
+                  fill="white"
+                />
+                <path
+                  d="M57.4351 9.22317V13.1099H62.902V15.8591H57.4351V21.8315H53.7026V6.48453H63.9998V9.22317H57.4351Z"
+                  fill="white"
+                />
+                <path
+                  d="M75.777 18.9875V21.8315H66.1384V6.48453H69.8489V18.9875H75.777Z"
+                  fill="white"
+                />
+                <path
+                  d="M80.7585 10.9085V21.8315H77.3554V10.9085H80.7585ZM81.1098 7.91705C81.1098 8.17687 81.0549 8.42265 80.9451 8.65438C80.8353 8.87909 80.6853 9.07922 80.495 9.25477C80.3048 9.4233 80.0815 9.56024 79.8254 9.66557C79.5766 9.76388 79.3094 9.81303 79.024 9.81303C78.7459 9.81303 78.4861 9.76388 78.2446 9.66557C78.0031 9.56024 77.7872 9.4233 77.5969 9.25477C77.4139 9.07922 77.2676 8.87909 77.1578 8.65438C77.0553 8.42265 77.0041 8.17687 77.0041 7.91705C77.0041 7.65021 77.0553 7.40092 77.1578 7.16919C77.2676 6.93746 77.4139 6.73382 77.5969 6.55826C77.7872 6.38271 78.0031 6.24578 78.2446 6.14746C78.4861 6.04915 78.7459 6 79.024 6C79.3094 6 79.5766 6.04915 79.8254 6.14746C80.0815 6.24578 80.3048 6.38271 80.495 6.55826C80.6853 6.73382 80.8353 6.93746 80.9451 7.16919C81.0549 7.40092 81.1098 7.65021 81.1098 7.91705Z"
+                  fill="white"
+                />
+                <path
+                  d="M86.5351 18.8611C86.7912 19.1279 87.0693 19.3175 87.3694 19.4299C87.6694 19.5422 87.9732 19.5984 88.2805 19.5984C88.6026 19.5984 88.899 19.5422 89.1698 19.4299C89.4405 19.3105 89.6711 19.1209 89.8614 18.8611C90.059 18.5943 90.2126 18.2467 90.3224 17.8183C90.4322 17.3829 90.4871 16.8492 90.4871 16.2172C90.4871 15.6695 90.4432 15.2061 90.3554 14.8269C90.2749 14.4406 90.1504 14.1282 89.9821 13.8894C89.8211 13.6436 89.6162 13.4681 89.3674 13.3627C89.1258 13.2504 88.8477 13.1942 88.533 13.1942C88.1159 13.1942 87.7536 13.282 87.4462 13.4575C87.1389 13.6331 86.8351 13.8894 86.5351 14.2265V18.8611ZM86.5351 12.0671C86.9742 11.6669 87.4536 11.3474 87.9732 11.1086C88.5001 10.8628 89.0856 10.74 89.7296 10.74C90.3737 10.74 90.9591 10.8664 91.4861 11.1192C92.013 11.372 92.4631 11.7336 92.8363 12.2041C93.2096 12.6675 93.495 13.2293 93.6926 13.8894C93.8975 14.5495 94 15.2868 94 16.1014C94 16.9862 93.8829 17.7902 93.6487 18.5135C93.4145 19.2368 93.0815 19.8582 92.6497 20.3779C92.2252 20.8905 91.7166 21.2908 91.1238 21.5787C90.531 21.8596 89.876 22 89.1588 22C88.8148 22 88.5074 21.9684 88.2366 21.9052C87.9659 21.842 87.717 21.7542 87.4901 21.6419C87.2633 21.5225 87.0547 21.3821 86.8644 21.2205C86.6814 21.059 86.5021 20.8835 86.3265 20.6939L86.2057 21.2416C86.1472 21.4663 86.052 21.6208 85.9203 21.7051C85.7886 21.7893 85.6129 21.8315 85.3934 21.8315H83.1319V6.0632H86.5351V12.0671Z"
+                  fill="white"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="d_cl d_cl_a d_cl_1_3@s">
+            <button class="d_hbrg d_n_s" aria-label="Toggle navigation menu">
+              <i></i>
+            </button>
+            <div class="d_v_s">
+              <a href="https://github.com/dflib/dflib" class="d_btn d_gh">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_6212_21903)">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M11.9642 0.5C5.34833 0.5 0 5.77083 0 12.2916C0 17.5039 3.42686 21.9161 8.18082 23.4777C8.77518 23.5951 8.9929 23.224 8.9929 22.9118C8.9929 22.6385 8.9733 21.7014 8.9733 20.7251C5.64514 21.4281 4.95208 19.3195 4.95208 19.3195C4.41722 17.9529 3.62473 17.6017 3.62473 17.6017C2.53543 16.8794 3.70408 16.8794 3.70408 16.8794C4.91241 16.9575 5.54645 18.0897 5.54645 18.0897C6.61592 19.8856 8.33926 19.3782 9.03257 19.0658C9.13151 18.3044 9.44865 17.7773 9.78539 17.4845C7.13094 17.2112 4.33812 16.1961 4.33812 11.6667C4.33812 10.3783 4.81322 9.32409 5.56604 8.50424C5.44726 8.21147 5.03118 7.00085 5.68506 5.38055C5.68506 5.38055 6.69526 5.06814 8.97306 6.59093C9.94827 6.33281 10.954 6.20151 11.9642 6.20041C12.9744 6.20041 14.0042 6.33721 14.9552 6.59093C17.2332 5.06814 18.2434 5.38055 18.2434 5.38055C18.8973 7.00085 18.481 8.21147 18.3622 8.50424C19.1349 9.32409 19.5904 10.3783 19.5904 11.6667C19.5904 16.1961 16.7975 17.1915 14.1233 17.4845C14.5592 17.8554 14.9353 18.5581 14.9353 19.671C14.9353 21.2522 14.9158 22.5213 14.9158 22.9116C14.9158 23.224 15.1337 23.5951 15.7278 23.478C20.4818 21.9159 23.9087 17.5039 23.9087 12.2916C23.9282 5.77083 18.5603 0.5 11.9642 0.5Z"
+                      fill="white"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_6212_21903">
+                      <rect
+                        width="24"
+                        height="23"
+                        fill="white"
+                        transform="translate(0 0.5)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span> GitHub </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="d_m_m d_nav">
+          <div>
+            <ul>
+              <li>
+                <a href="./docs/1.x/" class="_d_opener">Documentation</a>
+                <!-- <ul class="d_dropdown">
+                  <li><a href="">Version 3.0 (alpha)</a></li>
+                  <li><a href="">Version 2.0 (stable)</a></li>
+                  <li><a href="">Version 1.4 (old)</a></li>
+                  <li><a href="">Version 1.0 (old)</a></li>
+                </ul> -->
+              </li>
+              <li>
+                <a href="https://github.com/dflib/dflib/discussions">Forum</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <a href="https://github.com/dflib/dflib" class="d_btn d_gh">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_6212_21902)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M11.9642 0.5C5.34833 0.5 0 5.77083 0 12.2916C0 17.5039 3.42686 21.9161 8.18082 23.4777C8.77518 23.5951 8.9929 23.224 8.9929 22.9118C8.9929 22.6385 8.9733 21.7014 8.9733 20.7251C5.64514 21.4281 4.95208 19.3195 4.95208 19.3195C4.41722 17.9529 3.62473 17.6017 3.62473 17.6017C2.53543 16.8794 3.70408 16.8794 3.70408 16.8794C4.91241 16.9575 5.54645 18.0897 5.54645 18.0897C6.61592 19.8856 8.33926 19.3782 9.03257 19.0658C9.13151 18.3044 9.44865 17.7773 9.78539 17.4845C7.13094 17.2112 4.33812 16.1961 4.33812 11.6667C4.33812 10.3783 4.81322 9.32409 5.56604 8.50424C5.44726 8.21147 5.03118 7.00085 5.68506 5.38055C5.68506 5.38055 6.69526 5.06814 8.97306 6.59093C9.94827 6.33281 10.954 6.20151 11.9642 6.20041C12.9744 6.20041 14.0042 6.33721 14.9552 6.59093C17.2332 5.06814 18.2434 5.38055 18.2434 5.38055C18.8973 7.00085 18.481 8.21147 18.3622 8.50424C19.1349 9.32409 19.5904 10.3783 19.5904 11.6667C19.5904 16.1961 16.7975 17.1915 14.1233 17.4845C14.5592 17.8554 14.9353 18.5581 14.9353 19.671C14.9353 21.2522 14.9158 22.5213 14.9158 22.9116C14.9158 23.224 15.1337 23.5951 15.7278 23.478C20.4818 21.9159 23.9087 17.5039 23.9087 12.2916C23.9282 5.77083 18.5603 0.5 11.9642 0.5Z"
+                    fill="white"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_6212_21902">
+                    <rect
+                      width="24"
+                      height="23"
+                      fill="white"
+                      transform="translate(0 0.5)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+              <span> GitHub </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+        
+    </main>
+    <footer class="footer">
+      <span>© 2024 ObjectStyle LLC and individual authors</span>
+    </footer>
+    <script src="../../js/nav_scroll.min.js" async></script>
+    <script src="../../js/scripts.min.js" async></script>
+  </body>
+</html>
