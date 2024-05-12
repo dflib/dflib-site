@@ -1,10 +1,10 @@
 [#jupyter]
 == Using Jupyter Notebook
 
-While DFLib runs inside regular Java applications or `jshell`, it also works perfectly in Jupyter, which is a very common "notebook"
-environment among data scientists. In a notebook, you interact with your code via a web browser in a rather "visual"
-way. It allows to run each step of a data transformation one-by-one and inspect the data between the steps.
-Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.
+While DFLib runs inside regular Java applications or `jshell`, it also works perfectly in Jupyter, which is a very
+common "notebook" environment among data scientists and data engineers. In a notebook, you interact with your code via
+a web browser in a rather "visual" way. It allows to run each step of a data transformation one-by-one and inspect the
+data between the steps. Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.
 
 The code developed in a notebook can be later copied and pasted into your application. Java developers should consider
 using either Jupyter as a part of their data project workflow, and DFLib design (and its Jupyter integration features
@@ -18,10 +18,10 @@ be on your own. E.g. Apache Zeppelin, etc. Though you may have to write special 
 NOTE: While IntelliJ IDE supports Jupyter / Python, as of this writing, it seems that it does not support custom kernels,
 so we suggest to run your notebooks outside the IDE in the web browser.
 
-You will need to install Python, Jupyter and https://github.com/SpencerPark/IJava[iJava Jupyter kernel]. There are
+You will need to install Python, Jupyter and https://github.com/dflib/jjava[JJava Jupyter kernel]. There are
 multiple ways of doing it. If you are on MacOS, using Homebrew is probably the easiest:
 
-1. Download the latest release of `iJava` from https://github.com/SpencerPark/IJava/releases
+1. Download the latest release of `JJava` from https://github.com/dflib/jjava/releases
 2. Unpack it to some temporary directory
 3. Run the following commands:
 
@@ -29,8 +29,8 @@ multiple ways of doing it. If you are on MacOS, using Homebrew is probably the e
 # Install Jupyter (and, implicitly, Python)
 brew install jupyter
 
-# Change the directory to where you unpacked the IJava kernel
-cd ijava-*
+# Change the directory to where you unpacked the JJava kernel
+cd jjava-*
 
 # find the version of Python used by Jupyter
 PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
