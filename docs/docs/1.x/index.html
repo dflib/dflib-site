@@ -2275,7 +2275,7 @@ rows from the original <code>DataFrame</code>. Here we will demonstrate selectin
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">59</span>, <span class="predefined-constant">false</span>);
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapConditionVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
         .select(
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
@@ -2323,7 +2323,7 @@ This code can be improved by creating a <code>RowColumnSet</code> <a href="#row_
 };
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapConditionVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
         .select(mapper);</code></pre>
 </div>
 </div>
@@ -2346,7 +2346,7 @@ like <code>map(..)</code> (i.e. those that do not start with <code>select</code>
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">59</span>, <span class="predefined-constant">false</span>);
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapConditionVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
         .map(
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
@@ -3507,8 +3507,7 @@ number of arguments and should be used to model UDFs with more than 3 inputs or 
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>);
 
 UdfN&lt;<span class="predefined-type">Boolean</span>&gt; noNulls = exps -&gt; and( <i class="conum" data-value="1"></i><b>(1)</b>
-        <span class="predefined-type">List</span>.of(exps)
-                .stream()
+        Stream.of(exps)
                 .map(Exp::isNotNull)
                 .toArray(<span class="predefined-type">Condition</span><span class="type">[]</span>::<span class="keyword">new</span>)
 );
@@ -4183,7 +4182,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-17 12:12:24 -0400
+Last updated 2024-03-17 16:12:24 UTC
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />

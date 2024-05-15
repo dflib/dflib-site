@@ -2,18 +2,12 @@ package org.dflib.docs;
 
 import org.dflib.BooleanSeries;
 import org.dflib.DataFrame;
-import org.dflib.Exp;
 import org.dflib.IntSeries;
 import org.dflib.RowMapper;
 import org.dflib.Series;
-import org.dflib.junit5.DataFrameAsserts;
-import org.dflib.series.IntSequenceSeries;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 import static org.dflib.Exp.*;
 
@@ -131,7 +125,7 @@ public class RowOpsTest extends BaseTest {
                 "O'Hara", 59, false);
 
         DataFrame df1 = df
-                .rows($int("age").mapConditionVal(a -> 67 - a < 10))
+                .rows($int("age").mapBoolVal(a -> 67 - a < 10))
                 .select(
                         $col("last"),
                         $col("age"),
@@ -155,7 +149,7 @@ public class RowOpsTest extends BaseTest {
         };
 
         DataFrame df1 = df
-                .rows($int("age").mapConditionVal(a -> 67 - a < 10))
+                .rows($int("age").mapBoolVal(a -> 67 - a < 10))
                 .select(mapper);
 // end::rowsSelectRowMapper[]
 
@@ -172,7 +166,7 @@ public class RowOpsTest extends BaseTest {
                 "O'Hara", 59, false);
 
         DataFrame df1 = df
-                .rows($int("age").mapConditionVal(a -> 67 - a < 10))
+                .rows($int("age").mapBoolVal(a -> 67 - a < 10))
                 .map(
                         $col("last"),
                         $col("age"),

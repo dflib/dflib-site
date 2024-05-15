@@ -1,10 +1,7 @@
 package org.dflib.docs;
 
 import org.dflib.DataFrame;
-import org.dflib.junit5.DataFrameAsserts;
 import org.junit.jupiter.api.Test;
-
-import static org.dflib.Exp.$str;
 
 public class DataFrameOpsTest extends BaseTest {
 

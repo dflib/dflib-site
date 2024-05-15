@@ -7,7 +7,7 @@ import org.dflib.Udf1;
 import org.dflib.UdfN;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import static org.dflib.Exp.and;
 
@@ -47,8 +47,7 @@ public class UdfTest extends BaseTest {
                 "Joan", null);
 
         UdfN<Boolean> noNulls = exps -> and( // <1>
-                List.of(exps)
-                        .stream()
+                Stream.of(exps)
                         .map(Exp::isNotNull)
                         .toArray(Condition[]::new)
         );
