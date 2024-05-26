@@ -1,0 +1,78 @@
+<svg width="380" height="250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 380 250">
+<rect width="380" height="250" x="0" y="0" fill="none"></rect>
+<path d="M38 180.5L342 180.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 160.5L342 160.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 140.5L342 140.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 120.5L342 120.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 100.5L342 100.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 80.5L342 80.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 60.5L342 60.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M38 180.5L342 180.5" fill="transparent" stroke="#6E7079" stroke-linecap="round" class="zr0-cls-0"></path>
+<path d="M38.5 180L38.5 185" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M139.5 180L139.5 185" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M240.5 180L240.5 185" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M342.5 180L342.5 185" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 180)" fill="#6E7079">0</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 160)" fill="#6E7079">20</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 140)" fill="#6E7079">40</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 120)" fill="#6E7079">60</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 100)" fill="#6E7079">80</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 80)" fill="#6E7079">100</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(30 60)" fill="#6E7079">120</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(88.6667 188)" fill="#6E7079">A</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(190 188)" fill="#6E7079">B</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(291.3333 188)" fill="#6E7079">C</text>
+<path d="M53.7067 180l69.92 0l0 -3l-69.92 0Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M155.04 180l69.92 0l0 -11l-69.92 0Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M256.3733 180l69.92 0l0 -14l-69.92 0Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M53.7067 177l69.92 0l0 -20l-69.92 0Z" fill="#91cc75" class="zr0-cls-2"></path>
+<path d="M155.04 169l69.92 0l0 -40l-69.92 0Z" fill="#91cc75" class="zr0-cls-2"></path>
+<path d="M256.3733 166l69.92 0l0 -28l-69.92 0Z" fill="#91cc75" class="zr0-cls-2"></path>
+<path d="M53.7067 157l69.92 0l0 -30l-69.92 0Z" fill="#fac858" class="zr0-cls-3"></path>
+<path d="M155.04 129l69.92 0l0 -25l-69.92 0Z" fill="#fac858" class="zr0-cls-3"></path>
+<path d="M256.3733 138l69.92 0l0 -26l-69.92 0Z" fill="#fac858" class="zr0-cls-3"></path>
+<path d="M53.7067 127l69.92 0l0 -8l-69.92 0Z" fill="#ee6666" class="zr0-cls-4"></path>
+<path d="M155.04 104l69.92 0l0 -15l-69.92 0Z" fill="#ee6666" class="zr0-cls-4"></path>
+<path d="M256.3733 112l69.92 0l0 -40l-69.92 0Z" fill="#ee6666" class="zr0-cls-4"></path>
+<path d="M-5 -5l210.6667 0l0 24l-210.6667 0Z" transform="translate(89.6667 5)" fill="rgb(0,0,0)" fill-opacity="0" stroke="#ccc" stroke-width="0" class="zr0-cls-0"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(89.6667 5)" fill="#5470c6" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(89.6667 5)" fill="#333">s1</text>
+<path d="M0 0l42.6667 0l0 14l-42.6667 0Z" transform="translate(89.6667 5)" fill="transparent" class="zr0-cls-5"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(142.3333 5)" fill="#91cc75" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(142.3333 5)" fill="#333">s2</text>
+<path d="M0 0l42.6667 0l0 14l-42.6667 0Z" transform="translate(142.3333 5)" fill="transparent" class="zr0-cls-5"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(195 5)" fill="#fac858" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(195 5)" fill="#333">s3</text>
+<path d="M0 0l42.6667 0l0 14l-42.6667 0Z" transform="translate(195 5)" fill="transparent" class="zr0-cls-5"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(247.6667 5)" fill="#ee6666" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(247.6667 5)" fill="#333">s4</text>
+<path d="M0 0l42.6667 0l0 14l-42.6667 0Z" transform="translate(247.6667 5)" fill="transparent" class="zr0-cls-5"></path>
+<style ><![CDATA[
+.zr0-cls-0:hover {
+pointer-events:none;
+}
+.zr0-cls-1:hover {
+cursor:pointer;
+fill:rgba(92,123,217,1);
+}
+.zr0-cls-2:hover {
+cursor:pointer;
+fill:rgba(159,224,128,1);
+}
+.zr0-cls-3:hover {
+cursor:pointer;
+fill:rgba(255,220,96,1);
+}
+.zr0-cls-4:hover {
+cursor:pointer;
+fill:rgba(255,112,112,1);
+}
+.zr0-cls-5:hover {
+cursor:pointer;
+fill:rgba(0,0,0,0);
+}
+
+]]>
+
+</style>
+</svg>
