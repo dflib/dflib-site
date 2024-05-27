@@ -1,4 +1,114 @@
 [#group_aggregate]
 == Group and Aggregate
 
-TODO
+DataFrame rows can be combined into groups based on common column values. For instance, here is a payroll report
+that contains payments to employees over time:
+
+----
+name             amount date
+---------------- ------ ----------
+Jerry Cosin        8000 2024-01-15
+Juliana Walewski   8500 2024-01-15
+Joan O'Hara        9300 2024-01-15
+Jerry Cosin        4000 2024-02-15
+Juliana Walewski   8500 2024-02-15
+Joan O'Hara        9300 2024-02-15
+Jerry Cosin        8000 2024-03-15
+Joan O'Hara        9300 2024-03-15
+----
+
+We can group it by date like this:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=groupBy]
+----
+<1> Here we are grouping by a single column, but multiple columns can be specified as well
+
+`GroupBy` object has a number of useful operations to transform grouped data. The most common one is aggregation of
+values to produce one row per group (similar to SQL `GROUP BY` clause). E.g., we can calculate some statistics about
+each payroll period by passing a list of "aggregating" expressions to the `agg(..)` method:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg]
+----
+<1> `first(..)` expression is applied to the column used in the grouping, as each value in that column within
+each group will be the same, and we simply want to display it
+<2> Here we are producing a sum of per-person payroll amounts within each group. So the result is payroll total
+amount for a given period
+<3> `count()` returns the number of rows in each group
+
+----
+date       sum(amount) count
+---------- ----------- -----
+2024-01-15     25800.0     3
+2024-02-15     21800.0     3
+2024-03-15     17300.0     2
+----
+
+`first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" ones that produce
+a Series of the same size as the input Series, aggregating ones result in a Series with just a single value. Hence,
+the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`.
+
+Let's make a minor improvement to the example above and provide more descriptive column names:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg_cols]
+----
+
+----
+date         total employees
+---------- ------- ---------
+2024-01-15 25800.0         3
+2024-02-15 21800.0         3
+2024-03-15 17300.0         2
+----
+
+NOTE: There's a similarity between `GroupBy.cols(..)` API and `DataFrame.cols(..)` Per later examples, a few more
+methods (`select(..)` and  `map(..)`) work the same as in `ColumnSet`.
+
+Another `GroupBy` operation is per-group ranking. E.g. here we rank employees by their salary amount vs other employees
+in the same period. Note that this operation produces the same number of rows as the original DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=rank]
+----
+<1> To produce a proper ranking, we need to order rows within each group
+<2> Instead of aggregating expressions, we are using "normal" expressions in `select(..)`, but they are applied to
+each group independently.
+
+----
+date       name             rank
+---------- ---------------- ----
+2024-01-15 Joan O'Hara         1
+2024-01-15 Juliana Walewski    2
+2024-01-15 Jerry Cosin         3
+2024-02-15 Joan O'Hara         1
+2024-02-15 Juliana Walewski    2
+2024-02-15 Jerry Cosin         3
+2024-03-15 Joan O'Hara         1
+2024-03-15 Jerry Cosin         2
+----
+
+The resulting DataFrame has the same number of rows as the original one, but the ordering is different, and the columns
+are the ones that we requested.
+
+We can also use `GroupBy.head(..)` and (`tail(..)`) to filter rows with top amounts within each payroll period. Notice,
+that this operation doesn't do any aggregation. Just sorting within groups and picking the top result:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=topSalary]
+----
+<1> Do the same sorting as before
+<2> Pick the top row in each group
+
+----
+name        amount date
+----------- ------ ----------
+Joan O'Hara   9300 2024-01-15
+Joan O'Hara   9300 2024-02-15
+Joan O'Hara   9300 2024-03-15
+----

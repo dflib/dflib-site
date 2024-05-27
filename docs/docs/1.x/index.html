@@ -3408,7 +3408,203 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 <h2 id="group_aggregate">Group and Aggregate</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>DataFrame rows can be combined into groups based on common column values. For instance, here is a payroll report
+that contains payments to employees over time:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             amount date
+---------------- ------ ----------
+Jerry Cosin        8000 2024-01-15
+Juliana Walewski   8500 2024-01-15
+Joan O'Hara        9300 2024-01-15
+Jerry Cosin        4000 2024-02-15
+Juliana Walewski   8500 2024-02-15
+Joan O'Hara        9300 2024-02-15
+Jerry Cosin        8000 2024-03-15
+Joan O'Hara        9300 2024-03-15</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can group it by date like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">GroupBy groupBy = df.group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Here we are grouping by a single column, but multiple columns can be specified as well</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>GroupBy</code> object has a number of useful operations to transform grouped data. The most common one is aggregation of
+values to produce one row per group (similar to SQL <code>GROUP BY</code> clause). E.g., we can calculate some statistics about
+each payroll period by passing a list of "aggregating" expressions to the <code>agg(..)</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame agg = df
+        .group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
+        .agg(
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).first(), <i class="conum" data-value="1"></i><b>(1)</b>
+                <span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).sum(), <i class="conum" data-value="2"></i><b>(2)</b>
+                count() <i class="conum" data-value="3"></i><b>(3)</b>
+        );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>first(..)</code> expression is applied to the column used in the grouping, as each value in that column within
+each group will be the same, and we simply want to display it</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Here we are producing a sum of per-person payroll amounts within each group. So the result is payroll total
+amount for a given period</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>count()</code> returns the number of rows in each group</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>date       sum(amount) count
+---------- ----------- -----
+2024-01-15     25800.0     3
+2024-02-15     21800.0     3
+2024-03-15     17300.0     2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>first(..)</code>, <code>sum(..)</code> and <code>count()</code> are special "aggregating" expressions. Unlike the "normal" ones that produce
+a Series of the same size as the input Series, aggregating ones result in a Series with just a single value. Hence,
+the number of rows in the aggregated DataFrame is equal to the number of groups in <code>GroupBy</code>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s make a minor improvement to the example above and provide more descriptive column names:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame agg = df
+        .group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">total</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">employees</span><span class="delimiter">&quot;</span></span>)
+        .agg(
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).first(),
+                <span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).sum(),
+                count()
+        );</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>date         total employees
+---------- ------- ---------
+2024-01-15 25800.0         3
+2024-02-15 21800.0         3
+2024-03-15 17300.0         2</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There&#8217;s a similarity between <code>GroupBy.cols(..)</code> API and <code>DataFrame.cols(..)</code> Per later examples, a few more
+methods (<code>select(..)</code> and  <code>map(..)</code>) work the same as in <code>ColumnSet</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Another <code>GroupBy</code> operation is per-group ranking. E.g. here we rank employees by their salary amount vs other employees
+in the same period. Note that this operation produces the same number of rows as the original DataFrame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame ranked = df.group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">rank</span><span class="delimiter">&quot;</span></span>)
+        .select( <i class="conum" data-value="2"></i><b>(2)</b>
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>),
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>),
+                rowNum()
+        );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>To produce a proper ranking, we need to order rows within each group</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Instead of aggregating expressions, we are using "normal" expressions in <code>select(..)</code>, but they are applied to
+each group independently.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>date       name             rank
+---------- ---------------- ----
+2024-01-15 Joan O'Hara         1
+2024-01-15 Juliana Walewski    2
+2024-01-15 Jerry Cosin         3
+2024-02-15 Joan O'Hara         1
+2024-02-15 Juliana Walewski    2
+2024-02-15 Jerry Cosin         3
+2024-03-15 Joan O'Hara         1
+2024-03-15 Jerry Cosin         2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting DataFrame has the same number of rows as the original one, but the ordering is different, and the columns
+are the ones that we requested.</p>
+</div>
+<div class="paragraph">
+<p>We can also use <code>GroupBy.head(..)</code> and (<code>tail(..)</code>) to filter rows with top amounts within each payroll period. Notice,
+that this operation doesn&#8217;t do any aggregation. Just sorting within groups and picking the top result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame topSalary = df.group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .head(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .select();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Do the same sorting as before</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Pick the top row in each group</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name        amount date
+----------- ------ ----------
+Joan O'Hara   9300 2024-01-15
+Joan O'Hara   9300 2024-02-15
+Joan O'Hara   9300 2024-03-15</pre>
+</div>
 </div>
 </div>
 </div>
