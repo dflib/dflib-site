@@ -63,7 +63,7 @@ document cell enter something like this:
 
 [source,java]
 ----
-%maven org.dflib:dflib-jupyter:1.0.0-M20 // <1>
+%maven org.dflib:dflib-jupyter:1.0.0-M21 // <1>
 
 import org.dflib.jupyter.*;
 import org.dflib.*;
