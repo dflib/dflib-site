@@ -3486,7 +3486,8 @@ we can simply select the first one for our aggregated row</td>
 <div class="paragraph">
 <p><code>first(..)</code>, <code>sum(..)</code> and <code>count()</code> are special "aggregating" expressions. Unlike the "normal" expressions that produce
 Series of the same size as input Series, aggregating ones output Series with single values. Hence,
-the number of rows in the aggregated DataFrame is equal to the number of groups in <code>GroupBy</code>.</p>
+the number of rows in the aggregated DataFrame is equal to the number of groups in <code>GroupBy</code>. There are more aggregating
+expressions that can concatenate values within a group, calculate min, max, avg values, etc.</p>
 </div>
 <div class="paragraph">
 <p>Let&#8217;s make a minor improvement to the example above and provide more descriptive column names:</p>

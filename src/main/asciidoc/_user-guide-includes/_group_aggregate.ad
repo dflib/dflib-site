@@ -47,7 +47,8 @@ date       sum(amount) count
 
 `first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" expressions that produce
 Series of the same size as input Series, aggregating ones output Series with single values. Hence,
-the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`.
+the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`. There are more aggregating
+expressions that can concatenate values within a group, calculate min, max, avg values, etc.
 
 Let's make a minor improvement to the example above and provide more descriptive column names:
 
