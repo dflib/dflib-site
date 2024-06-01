@@ -85,7 +85,9 @@ DataFrame df = DataFrame.foldByColumn("a", "b", "c")
 df
 ----
 
-In addition to `Series` and `DataFrames`, Jupyter is also able to display <<echarts,the charts>> produced by DFLib.
+In addition to `Series` and `DataFrames`, Jupyter is also able to display <<echarts,charts>> produced by DFLib:
+
+image::https://dflib.org/images/charts/chart-in-jupyter.png[]
 
 === Change Display Parameters
 

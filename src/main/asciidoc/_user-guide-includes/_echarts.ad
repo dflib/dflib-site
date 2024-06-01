@@ -1,11 +1,12 @@
 [#echarts]
 == Charting with ECharts
 
-DFLib provides a simple Java DSL to generate charts from the DataFrame data based on the Apache ECharts library. The
+DFLib provides a simple Java DSL to generate charts from DataFrames based on the Apache ECharts library. The
 charts are produced as pieces of HTML/JavaScript code and can be rendered either in Jupyter notebooks or served to
 the browser in a webapp.
 
-To work with the ECharts API, you should include the following dependency (already included in DFLib Jupyter integration):
+To work with the ECharts API, you should include the following dependency (already included if you are in the
+<<jupyter,Jupyter environment>>):
 
 [source,xml]
 ----
@@ -24,10 +25,15 @@ include::../../../test/java/org/dflib/docs/EChartsTest.java[tags=barChart]
 
 image::https://dflib.org/images/charts/doc-chart1.svg[]
 
-NOTE: Running this code in <<jupyter,Jupyter Notebook>> will render the chart inline. You don't need any other web
-application to display it.
+If you are planning to embed charts in a web application, you'll need to inspect `EChartHtml.getContainer()`,
+`EChartHtml.getExternalScript()`, `EChartHtml.getScript()` methods and embed them in your HTML as you see fit.
 
-NOTE: Apache ECharts provides a very large number of options. DFLib `ECharts` class supports a (growing) subset of its
-API. If we are missing a feature that you need, please open a task on GitHub for us to integrate it in the API.
+NOTE: Running this code in a <<jupyter,Jupyter Notebook>> will render the chart inline. You won't need anything
+special to display it.
+
+
+NOTE: Apache ECharts provides a very large number of chart types and configuration options. DFLib `ECharts` class
+supports a growing, but incomplete subset of that API. If we are missing a feature that you need, please open a task
+on GitHub, and we'll do our best to integrate it.
 
 TODO: more examples

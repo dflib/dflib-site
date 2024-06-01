@@ -4354,7 +4354,12 @@ df</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In addition to <code>Series</code> and <code>DataFrames</code>, Jupyter is also able to display <a href="#echarts">the charts</a> produced by DFLib.</p>
+<p>In addition to <code>Series</code> and <code>DataFrames</code>, Jupyter is also able to display <a href="#echarts">charts</a> produced by DFLib:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://dflib.org/images/charts/chart-in-jupyter.png" alt="chart in jupyter">
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -4386,12 +4391,13 @@ off the data before commit.</p>
 <h2 id="echarts">Charting with ECharts</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib provides a simple Java DSL to generate charts from the DataFrame data based on the Apache ECharts library. The
+<p>DFLib provides a simple Java DSL to generate charts from DataFrames based on the Apache ECharts library. The
 charts are produced as pieces of HTML/JavaScript code and can be rendered either in Jupyter notebooks or served to
 the browser in a webapp.</p>
 </div>
 <div class="paragraph">
-<p>To work with the ECharts API, you should include the following dependency (already included in DFLib Jupyter integration):</p>
+<p>To work with the ECharts API, you should include the following dependency (already included if you are in the
+<a href="#jupyter">Jupyter environment</a>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4427,6 +4433,10 @@ EChartHtml chart = ECharts
 <img src="https://dflib.org/images/charts/doc-chart1.svg" alt="doc chart1">
 </div>
 </div>
+<div class="paragraph">
+<p>If you are planning to embed charts in a web application, you&#8217;ll need to inspect <code>EChartHtml.getContainer()</code>,
+<code>EChartHtml.getExternalScript()</code>, <code>EChartHtml.getScript()</code> methods and embed them in your HTML as you see fit.</p>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -4434,8 +4444,8 @@ EChartHtml chart = ECharts
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Running this code in <a href="#jupyter">Jupyter Notebook</a> will render the chart inline. You don&#8217;t need any other web
-application to display it.
+Running this code in a <a href="#jupyter">Jupyter Notebook</a> will render the chart inline. You won&#8217;t need anything
+special to display it.
 </td>
 </tr>
 </table>
@@ -4447,8 +4457,9 @@ application to display it.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Apache ECharts provides a very large number of options. DFLib <code>ECharts</code> class supports a (growing) subset of its
-API. If we are missing a feature that you need, please open a task on GitHub for us to integrate it in the API.
+Apache ECharts provides a very large number of chart types and configuration options. DFLib <code>ECharts</code> class
+supports a growing, but incomplete subset of that API. If we are missing a feature that you need, please open a task
+on GitHub, and we&#8217;ll do our best to integrate it.
 </td>
 </tr>
 </table>
