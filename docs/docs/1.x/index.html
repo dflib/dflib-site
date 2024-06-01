@@ -3485,7 +3485,7 @@ we can simply select the first one for our aggregated row</td>
 </div>
 <div class="paragraph">
 <p><code>first(..)</code>, <code>sum(..)</code> and <code>count()</code> are special "aggregating" expressions. Unlike the "normal" expressions that produce
-a Series of the same size as the input Series, aggregating ones output Series with single values. Hence,
+Series of the same size as input Series, aggregating ones output Series with single values. Hence,
 the number of rows in the aggregated DataFrame is equal to the number of groups in <code>GroupBy</code>.</p>
 </div>
 <div class="paragraph">
@@ -3519,7 +3519,7 @@ the number of rows in the aggregated DataFrame is equal to the number of groups 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-There&#8217;s a similarity between <code>GroupBy.cols(..)</code> method and <code>DataFrame.cols(..)</code>. As we&#8217;ll see in the later
+There&#8217;s a similarity between <code>GroupBy.cols(..)</code> method and <code>DataFrame.cols(..)</code>. And, as we&#8217;ll see in the later
 examples, a few more methods (<code>select(..)</code> and  <code>map(..)</code>) work the same as in <code>ColumnSet</code>. So <code>GroupBy</code> is essentially
 a <code>ColumnSet</code> with operations applied per group.
 </td>
@@ -3527,7 +3527,8 @@ a <code>ColumnSet</code> with operations applied per group.
 </table>
 </div>
 <div class="paragraph">
-<p>Another <code>GroupBy</code> operation is per-group ranking. E.g., here we rank employees by their salary amount vs other employees
+<p>Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformation.
+E.g. we can do row ranking within groups. Here we&#8217;ll rank employees by their salary amount vs other employees
 in the same period:</p>
 </div>
 <div class="listingblock">

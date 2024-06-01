@@ -46,7 +46,7 @@ date       sum(amount) count
 ----
 
 `first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" expressions that produce
-a Series of the same size as the input Series, aggregating ones output Series with single values. Hence,
+Series of the same size as input Series, aggregating ones output Series with single values. Hence,
 the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`.
 
 Let's make a minor improvement to the example above and provide more descriptive column names:
@@ -64,11 +64,12 @@ date         total employees
 2024-03-15 17300.0         2
 ----
 
-NOTE: There's a similarity between `GroupBy.cols(..)` method and `DataFrame.cols(..)`. As we'll see in the later
+NOTE: There's a similarity between `GroupBy.cols(..)` method and `DataFrame.cols(..)`. And, as we'll see in the later
 examples, a few more methods (`select(..)` and  `map(..)`) work the same as in `ColumnSet`. So `GroupBy` is essentially
 a `ColumnSet` with operations applied per group.
 
-Another `GroupBy` operation is per-group ranking. E.g., here we rank employees by their salary amount vs other employees
+Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformation.
+E.g. we can do row ranking within groups. Here we'll rank employees by their salary amount vs other employees
 in the same period:
 [source,java,indent=0]
 ----
