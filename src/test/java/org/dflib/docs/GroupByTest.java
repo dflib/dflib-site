@@ -2,7 +2,6 @@ package org.dflib.docs;
 
 import org.dflib.DataFrame;
 import org.dflib.GroupBy;
-import org.dflib.Printers;
 import org.dflib.print.TabularPrinter;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 
 import static org.dflib.Exp.*;
 
-public class GroupByTest {
+public class GroupByTest extends BaseTest {
 
     static final DataFrame df = DataFrame.foldByRow("name", "amount", "date").of(
             "Jerry Cosin", 8000, LocalDate.of(2024, 1, 15),
@@ -45,7 +44,7 @@ public class GroupByTest {
                 );
 // end::agg[]
 
-        System.out.println(Printers.tabular.toString(agg));
+        print("agg", agg);
     }
 
     @Test
@@ -61,7 +60,7 @@ public class GroupByTest {
                 );
 // end::agg_cols[]
 
-        System.out.println(Printers.tabular.toString(agg));
+        print("agg_cols", agg);
     }
 
     @Test
@@ -90,7 +89,6 @@ public class GroupByTest {
                 .select();
 // end::topSalary[]
 
-        System.out.println(new TabularPrinter(8, 100).toString(topSalary));
-
+        print("head", topSalary);
     }
 }

@@ -85,6 +85,8 @@ DataFrame df = DataFrame.foldByColumn("a", "b", "c")
 df
 ----
 
+In addition to `Series` and `DataFrames`, Jupyter is also able to display <<echarts,the charts>> produced by DFLib.
+
 === Change Display Parameters
 
 To control truncation behavior, you can use static methods on `DFLibJupyter`:

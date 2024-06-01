@@ -60,4 +60,6 @@ include::_user-guide-includes/_jshell.ad[]
 
 include::_user-guide-includes/_jupyter.ad[]
 
+include::_user-guide-includes/_echarts.ad[]
+
 include::_user-guide-includes/_unit-testing.ad[]
