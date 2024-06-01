@@ -3461,13 +3461,12 @@ each payroll period by passing a list of "aggregating" expressions to the <code>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>first(..)</code> expression is applied to the column used in the grouping, as each value in that column within
-each group will be the same, and we simply want to display it</td>
+<td><code>first(..)</code> expression is applied to the column used in the grouping. As each value within the group is the same,
+we can simply select the first one for our aggregated row</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Here we are producing a sum of per-person payroll amounts within each group. So the result is payroll total
-amount for a given period</td>
+<td>This calculates total payroll amount within each group</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -3485,8 +3484,8 @@ amount for a given period</td>
 </div>
 </div>
 <div class="paragraph">
-<p><code>first(..)</code>, <code>sum(..)</code> and <code>count()</code> are special "aggregating" expressions. Unlike the "normal" ones that produce
-a Series of the same size as the input Series, aggregating ones result in a Series with just a single value. Hence,
+<p><code>first(..)</code>, <code>sum(..)</code> and <code>count()</code> are special "aggregating" expressions. Unlike the "normal" expressions that produce
+a Series of the same size as the input Series, aggregating ones output Series with single values. Hence,
 the number of rows in the aggregated DataFrame is equal to the number of groups in <code>GroupBy</code>.</p>
 </div>
 <div class="paragraph">
@@ -3520,15 +3519,16 @@ the number of rows in the aggregated DataFrame is equal to the number of groups 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-There&#8217;s a similarity between <code>GroupBy.cols(..)</code> API and <code>DataFrame.cols(..)</code> Per later examples, a few more
-methods (<code>select(..)</code> and  <code>map(..)</code>) work the same as in <code>ColumnSet</code>.
+There&#8217;s a similarity between <code>GroupBy.cols(..)</code> method and <code>DataFrame.cols(..)</code>. As we&#8217;ll see in the later
+examples, a few more methods (<code>select(..)</code> and  <code>map(..)</code>) work the same as in <code>ColumnSet</code>. So <code>GroupBy</code> is essentially
+a <code>ColumnSet</code> with operations applied per group.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Another <code>GroupBy</code> operation is per-group ranking. E.g. here we rank employees by their salary amount vs other employees
-in the same period. Note that this operation produces the same number of rows as the original DataFrame:</p>
+<p>Another <code>GroupBy</code> operation is per-group ranking. E.g., here we rank employees by their salary amount vs other employees
+in the same period:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3546,12 +3546,12 @@ in the same period. Note that this operation produces the same number of rows as
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>To produce a proper ranking, we need to order rows within each group</td>
+<td>To produce a proper ranking, we need to order rows within each group first</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Instead of aggregating expressions, we are using "normal" expressions in <code>select(..)</code>, but they are applied to
-each group independently.</td>
+<td>In <code>select(..)</code>, instead of aggregating expressions, we are using "normal" ones , but they are applied to
+each group separately.</td>
 </tr>
 </table>
 </div>

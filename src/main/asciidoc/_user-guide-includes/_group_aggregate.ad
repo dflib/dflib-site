@@ -32,10 +32,9 @@ each payroll period by passing a list of "aggregating" expressions to the `agg(.
 ----
 include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg]
 ----
-<1> `first(..)` expression is applied to the column used in the grouping, as each value in that column within
-each group will be the same, and we simply want to display it
-<2> Here we are producing a sum of per-person payroll amounts within each group. So the result is payroll total
-amount for a given period
+<1> `first(..)` expression is applied to the column used in the grouping. As each value within the group is the same,
+we can simply select the first one for our aggregated row
+<2> This calculates total payroll amount within each group
 <3> `count()` returns the number of rows in each group
 
 ----
@@ -46,8 +45,8 @@ date       sum(amount) count
 2024-03-15     17300.0     2
 ----
 
-`first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" ones that produce
-a Series of the same size as the input Series, aggregating ones result in a Series with just a single value. Hence,
+`first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" expressions that produce
+a Series of the same size as the input Series, aggregating ones output Series with single values. Hence,
 the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`.
 
 Let's make a minor improvement to the example above and provide more descriptive column names:
@@ -65,19 +64,19 @@ date         total employees
 2024-03-15 17300.0         2
 ----
 
-NOTE: There's a similarity between `GroupBy.cols(..)` API and `DataFrame.cols(..)` Per later examples, a few more
-methods (`select(..)` and  `map(..)`) work the same as in `ColumnSet`.
+NOTE: There's a similarity between `GroupBy.cols(..)` method and `DataFrame.cols(..)`. As we'll see in the later
+examples, a few more methods (`select(..)` and  `map(..)`) work the same as in `ColumnSet`. So `GroupBy` is essentially
+a `ColumnSet` with operations applied per group.
 
-Another `GroupBy` operation is per-group ranking. E.g. here we rank employees by their salary amount vs other employees
-in the same period. Note that this operation produces the same number of rows as the original DataFrame:
-
+Another `GroupBy` operation is per-group ranking. E.g., here we rank employees by their salary amount vs other employees
+in the same period:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=rank]
 ----
-<1> To produce a proper ranking, we need to order rows within each group
-<2> Instead of aggregating expressions, we are using "normal" expressions in `select(..)`, but they are applied to
-each group independently.
+<1> To produce a proper ranking, we need to order rows within each group first
+<2> In `select(..)`, instead of aggregating expressions, we are using "normal" ones , but they are applied to
+each group separately.
 
 ----
 date       name             rank
