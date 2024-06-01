@@ -211,7 +211,10 @@ public class RowOpsTest extends BaseTest {
     public void rowsSelectExpand() {
 // tag::rowsSelectExpand[]
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
-                "Cosin", List.of("111-555-5555", "111-666-6666", "111-777-7777"),
+                "Cosin", List.of(
+                        "111-555-5555",
+                        "111-666-6666",
+                        "111-777-7777"),
                 "O'Hara", List.of("222-555-5555"));
 
         DataFrame df1 = df

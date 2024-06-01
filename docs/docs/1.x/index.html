@@ -2401,7 +2401,10 @@ Just like with columns, for most <code>RowSet.select(..)</code> methods there ar
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-666-6666</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-777-7777</span><span class="delimiter">&quot;</span></span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">111-666-6666</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">111-777-7777</span><span class="delimiter">&quot;</span></span>),
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>));
 
 DataFrame df1 = df
