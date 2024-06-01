@@ -69,7 +69,7 @@ NOTE: There's a similarity between `GroupBy.cols(..)` method and `DataFrame.cols
 examples, a few more methods (`select(..)` and  `map(..)`) work the same as in `ColumnSet`. So `GroupBy` is essentially
 a `ColumnSet` with operations applied per group.
 
-Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformation.
+Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformations.
 E.g. we can do row ranking within groups. Here we'll rank employees by their salary amount vs other employees
 in the same period:
 [source,java,indent=0]
@@ -79,6 +79,7 @@ include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=rank]
 <1> To produce a proper ranking, we need to order rows within each group first
 <2> In `select(..)`, instead of aggregating expressions, we are using "normal" ones , but they are applied to
 each group separately.
+<3> Ranking function applied within each group
 
 ----
 date       name             rank

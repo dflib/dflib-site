@@ -73,7 +73,7 @@ public class GroupByTest {
                 .select( // <2>
                         $col("date"),
                         $col("name"),
-                        rowNum()
+                        rowNum() // <3>
                 );
 // end::rank[]
 

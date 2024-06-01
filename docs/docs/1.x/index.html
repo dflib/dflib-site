@@ -3528,7 +3528,7 @@ a <code>ColumnSet</code> with operations applied per group.
 </table>
 </div>
 <div class="paragraph">
-<p>Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformation.
+<p>Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformations.
 E.g. we can do row ranking within groups. Here we&#8217;ll rank employees by their salary amount vs other employees
 in the same period:</p>
 </div>
@@ -3540,7 +3540,7 @@ in the same period:</p>
         .select( <i class="conum" data-value="2"></i><b>(2)</b>
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>),
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>),
-                rowNum()
+                rowNum() <i class="conum" data-value="3"></i><b>(3)</b>
         );</code></pre>
 </div>
 </div>
@@ -3554,6 +3554,10 @@ in the same period:</p>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
 <td>In <code>select(..)</code>, instead of aggregating expressions, we are using "normal" ones , but they are applied to
 each group separately.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Ranking function applied within each group</td>
 </tr>
 </table>
 </div>
