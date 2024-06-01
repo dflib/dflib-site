@@ -95,8 +95,8 @@ date       name             rank
 The resulting DataFrame has the same number of rows as the original one, but the ordering is different, and the columns
 are the ones that we requested.
 
-We can also use `GroupBy.head(..)` and (`tail(..)`) to filter rows with top amounts within each payroll period. Notice,
-that this operation doesn't do any aggregation. Just sorting within groups and picking the top result:
+We can use `GroupBy.head(..)` and (`tail(..)`) to find top-paid employees within each payroll period. Notice,
+that this operation doesn't do any aggregation. Just sorting within groups and picking the top results:
 
 [source,java,indent=0]
 ----
