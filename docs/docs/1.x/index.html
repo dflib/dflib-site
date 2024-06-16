@@ -1051,7 +1051,7 @@ occasionally, but it is still good to know its capabilities. E.g., here is how t
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span><span class="type">[]</span> labels = df.getColumnsIndex().getLabels();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span><span class="type">[]</span> labels = df.getColumnsIndex().toArray();</code></pre>
 </div>
 </div>
 </div>
@@ -1767,7 +1767,7 @@ Function&lt;<span class="predefined-type">String</span>, Exp&lt;<span class="pre
 
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
-        .map( <i class="conum" data-value="3"></i><b>(3)</b>
+        .merge( <i class="conum" data-value="3"></i><b>(3)</b>
                 cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
                 cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
                 concat(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>))
@@ -1786,7 +1786,7 @@ DataFrame df1 = df
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Instead of <code>select(..)</code>, use <code>map(..)</code> to merge to the original DataFrame</td>
+<td>Instead of <code>select(..)</code>, use <code>merge(..)</code> to combine columns with the original DataFrame</td>
 </tr>
 </table>
 </div>
@@ -1834,7 +1834,7 @@ it doesn&#8217;t overlap with anything already in the DataFrame:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .colsAppend(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .map(
+        .merge(
                 cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
                 cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
         );</code></pre>
@@ -2337,7 +2337,7 @@ from what we&#8217;ve seen so far, so we are leaving this as an exercise for the
 <h3 id="_merge_rows">Merge Rows</h3>
 <div class="paragraph">
 <p>If we want to merge the result of a <code>RowSet</code> transformation to the original <code>DataFrame</code>, we&#8217;ll need to use methods
-like <code>map(..)</code> (i.e. those that do not start with <code>select</code>):</p>
+like <code>merge(..)</code> (i.e. those that do not start with <code>select</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2348,7 +2348,7 @@ like <code>map(..)</code> (i.e. those that do not start with <code>select</code>
 
 DataFrame df1 = df
         .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
-        .map(
+        .merge(
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
                 <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
                 <span class="error">$</span>val(<span class="predefined-constant">true</span>));</code></pre>
@@ -3665,7 +3665,7 @@ expressions as parameters, and produces a single expression:</p>
     Udf1&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; formatName = e -&gt;
             e.castAsStr().mapVal(<span class="local-variable">this</span>::formatName); <i class="conum" data-value="1"></i><b>(1)</b>
 
-    DataFrame clean = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).map(
+    DataFrame clean = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).merge(
             formatName.call(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
             formatName.call(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="2"></i><b>(2)</b>
 }
@@ -4421,7 +4421,7 @@ the browser in a webapp.</p>
 EChartHtml chart = ECharts
         .chart()
         .xAxis(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
-        .series(SeriesOpts.bar(), <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
+        .series(SeriesOpts.ofBar(), <span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>)
         .plot(df);</code></pre>
 </div>
 </div>
@@ -4457,7 +4457,7 @@ special to display it.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Apache ECharts provides a very large number of chart types and configuration options. DFLib <code>ECharts</code> class
+Apache ECharts provides a very large number of chart types and configuration options. DFLib <code>EChart</code> class
 supports a growing, but incomplete subset of that API. If we are missing a feature that you need, please open a task
 on GitHub, and we&#8217;ll do our best to integrate it.
 </td>

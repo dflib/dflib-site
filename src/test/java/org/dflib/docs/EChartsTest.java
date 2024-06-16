@@ -23,7 +23,7 @@ public class EChartsTest extends BaseTest {
         EChartHtml chart = ECharts
                 .chart()
                 .xAxis("name")
-                .series(SeriesOpts.bar(), "salary")
+                .series(SeriesOpts.ofBar(), "salary")
                 .plot(df);
         // end::barChart[]
     }

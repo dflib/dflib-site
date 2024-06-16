@@ -133,7 +133,7 @@ from what we've seen so far, so we are leaving this as an exercise for the reade
 === Merge Rows
 
 If we want to merge the result of a `RowSet` transformation to the original `DataFrame`, we'll need to use methods
-like `map(..)` (i.e. those that do not start with `select`):
+like `merge(..)` (i.e. those that do not start with `select`):
 
 [source,java,indent=0]
 ----

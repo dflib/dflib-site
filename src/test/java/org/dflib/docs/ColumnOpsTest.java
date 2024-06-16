@@ -229,7 +229,7 @@ public class ColumnOpsTest extends BaseTest {
 
         DataFrame df1 = df
                 .cols("last", "first", "full") // <2>
-                .map( // <3>
+                .merge( // <3>
                         cleanup.apply("last"),
                         cleanup.apply("first"),
                         concat($str("first"), $val(" "), $str("last"))
@@ -253,7 +253,7 @@ public class ColumnOpsTest extends BaseTest {
 // tag::colsAppendMap[]
         DataFrame df1 = df
                 .colsAppend("last", "first") // <1>
-                .map(
+                .merge(
                         cleanup.apply("last"),
                         cleanup.apply("first")
                 );

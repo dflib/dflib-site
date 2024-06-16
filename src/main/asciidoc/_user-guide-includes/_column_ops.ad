@@ -216,7 +216,7 @@ include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsMap]
 ----
 <1> An expression that capitalizes the first letter of the name
 <2> The columns we are going to generate or transform
-<3> Instead of `select(..)`, use `map(..)` to merge to the original DataFrame
+<3> Instead of `select(..)`, use `merge(..)` to combine columns with the original DataFrame
 
 Now let's check the result. The first two columns in the `ColumnSet` ("last", "first") were  already present in the
 DataFrame, so they got replaced with the cleaned up versions. The last column ("full") was new, so it was appended to

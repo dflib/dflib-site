@@ -14,7 +14,7 @@ public class MainDataStructuresTest extends BaseTest {
                 .of(IntStream.range(0, 10000));
 
 // tag::indexGetLabels[]
-        String[] labels = df.getColumnsIndex().getLabels();
+        String[] labels = df.getColumnsIndex().toArray();
 // end::indexGetLabels[]
     }
 }

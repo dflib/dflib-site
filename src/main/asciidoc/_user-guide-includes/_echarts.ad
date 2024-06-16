@@ -32,7 +32,7 @@ NOTE: Running this code in a <<jupyter,Jupyter Notebook>> will render the chart 
 special to display it.
 
 
-NOTE: Apache ECharts provides a very large number of chart types and configuration options. DFLib `ECharts` class
+NOTE: Apache ECharts provides a very large number of chart types and configuration options. DFLib `EChart` class
 supports a growing, but incomplete subset of that API. If we are missing a feature that you need, please open a task
 on GitHub, and we'll do our best to integrate it.
 

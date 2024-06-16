@@ -23,7 +23,7 @@ public class UdfTest extends BaseTest {
         Udf1<String, String> formatName = e ->
                 e.castAsStr().mapVal(this::formatName); // <1>
 
-        DataFrame clean = df.cols("first", "last").map(
+        DataFrame clean = df.cols("first", "last").merge(
                 formatName.call("first"),
                 formatName.call("last")); // <2>
         // end::udf1[]

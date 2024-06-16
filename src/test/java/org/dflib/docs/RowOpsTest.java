@@ -167,7 +167,7 @@ public class RowOpsTest extends BaseTest {
 
         DataFrame df1 = df
                 .rows($int("age").mapBoolVal(a -> 67 - a < 10))
-                .map(
+                .merge(
                         $col("last"),
                         $col("age"),
                         $val(true));
