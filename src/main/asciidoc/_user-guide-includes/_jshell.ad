@@ -5,40 +5,46 @@ Modern JDK installations come with `jshell`, a Read-Evaluate-Print Loop tool (ak
 JShell environment for interactive data exploration and code prototyping. For the best experience, you may want to
 configure a couple of things. Start `jshell` and execute the following commands:
 
-```
+[source]
+----
 // Set classpath. There's no automatic dependency management in jshell.
 // You will need to include all DFLib jars and their dependencies explicitly
 
-/env --class-path /path/to/dflib-1.0.0-M21.jar:/path/to/dflib-csv-1.0.0-M21.jar
-```
+/env --class-path /path/to/dflib-1.0.0-M22.jar:/path/to/dflib-csv-1.0.0-M22.jar
+----
 
-```
+[source]
+----
 // Disable data truncation. You want your data to be visible.
 
 /set mode mine normal -command
 /set truncation mine 40000
 /set feedback mine
-```
+----
 
-```
+[source]
+----
 // Add needed imports
 
 import org.dflib.*;
 import org.dflib.csv.*;
 
 import static org.dflib.Exp.*;
-```
+----
 
-```
+[source]
+----
 // Set tabular printer
 
 Environment.setPrinter(Printers.tabular());
-```
+----
 
 After this, you can start working with DataFrames and immediately check the output:
-```
+
+[source]
+----
 var df = Csv.load("../data/stuff.csv");
-```
+----
 JShell may print something like this
 ----
 df ==>
