@@ -1,5 +1,13 @@
 # DFLib Documentation Project
 
+## Local Setup
+
+After clone, run this to ensure IPython notebooks are committed without output data:
+
+```
+git config --local include.path ../.gitconfig
+```
+
 ## Published Site Location
 
 https://dflib.org/
