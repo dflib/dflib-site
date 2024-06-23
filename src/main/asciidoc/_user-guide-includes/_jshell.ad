@@ -7,8 +7,10 @@ configure a couple of things. Start `jshell` and execute the following commands:
 
 [source]
 ----
-// Set classpath. There's no automatic dependency management in jshell.
-// You will need to include all DFLib jars and their dependencies explicitly
+// Set classpath.
+// There's no automatic dependency management in jshell.
+// You will need to include all DFLib jars and their
+// dependencies explicitly
 
 /env --class-path /path/to/dflib-1.0.0-M22.jar:/path/to/dflib-csv-1.0.0-M22.jar
 ----
