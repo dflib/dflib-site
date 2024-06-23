@@ -7,3 +7,4 @@ target
 *.iml
 derby.log
 *.dylib
+.ipynb_checkpoints
