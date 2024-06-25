@@ -12,6 +12,29 @@ import static org.dflib.Exp.*;
 public class ExpTest extends BaseTest {
 
     @Test
+    public void columnExps() {
+
+// tag::columnExps[]
+        $col("col"); // <1>
+
+        // <2>
+        $decimal("col");
+        $double("col");
+        $int("col");
+        $long("col");
+
+        // <3>
+        $date("col");
+        $dateTime("col");
+        $time("col");
+
+        // <4>
+        $bool("col");
+        $str("col");
+// end::columnExps[]
+    }
+
+    @Test
     public void columnExp() {
 
 // tag::columnExp[]
@@ -28,6 +51,13 @@ public class ExpTest extends BaseTest {
         Series<String> last = lastExp.eval(df);
         Series<BigDecimal> salary = salaryExp.eval(df);
 // end::columnExpEval[]
+    }
+
+    @Test
+    public void castAs() {
+// tag::castAs[]
+        $str("salary").castAsDecimal();
+// end::castAs[]
     }
 
     @Test

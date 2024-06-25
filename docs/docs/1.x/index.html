@@ -1147,10 +1147,9 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 <h2 id="expressions">Expressions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib includes a built-in expression language (implemented as a Java "DSL"). It allows to perform column-centric
-operations on DataFrames and Series. <code>Exp</code> is the interface representing an expression that takes a DataFrame or a
-Series and produces a Series of the specified type. It also contains static factory methods to create all kinds of
-expressions.</p>
+<p>DFLib has a built-in expression language (implemented as a Java "DSL"). It allows to perform column-centric
+operations on DataFrames and Series, such as data transformation, aggregation and filtering. <code>Exp</code> is the interface
+representing an expression that takes either a DataFrame or a Series and produces a Series of the specified type.</p>
 </div>
 <div class="paragraph">
 <p>To use expressions, you&#8217;d often start by adding a static import of the <code>Exp</code> interface, so that all its factory methods
@@ -1185,9 +1184,9 @@ Series&lt;<span class="predefined-type">BigDecimal</span>&gt; salary = salaryExp
 </div>
 </div>
 <div class="paragraph">
-<p>This doesn&#8217;t look like much (other DFLib APIs would do the same), but this basic abstraction allows to implement a
-wide range of operations (filtering, sorting, aggregation, etc). The following chapters will demonstrate various use
-cases for expressions.</p>
+<p>This doesn&#8217;t look like much (other DFLib APIs would do the same), but this basic abstraction allows to describe a
+wide range of operations (filtering, sorting, aggregation, etc). Expressions are rarely evaluated standalone. More
+commonly they are passed as arguments to various other methods, as described elsewhere in this document.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1196,9 +1195,9 @@ cases for expressions.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-DFLib expression language Expressions work on Series instead of individual values, so they can achieve the best
-possible performance for any given operation. Expressions should be the preferred way to manipulate your data instead of
-more "direct" API.
+DFLib expressions work on Series instead of individual values, so they can achieve the best possible performance
+for any given operation. Expressions should be the preferred way to manipulate your data instead of more "direct" APIs,
+such as custom lamdas.
 </td>
 </tr>
 </table>
@@ -1227,22 +1226,68 @@ name or position.
 </table>
 </div>
 <div class="paragraph">
-<p>Factory methods for column expressions are easy to spot in the <code>Exp</code> interface - they all start with a dollar sign.
-Return type of the column expression is implied from the method name (<code>$str(..)</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal(..)</code> -
-<code>Series&lt;BigDecimal&gt;</code>, <code>$int(..)</code> - <code>Series&lt;Integer&gt;</code>, <code>$date(..)</code> - <code>Series&lt;LocalDate&gt;</code> and so on).</p>
+<p>Factory methods for column expressions are easy to spot in the <code>Exp</code> interface - they all start with a dollar sign:</p>
 </div>
-<div class="admonitionblock note">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+<i class="conum" data-value="2"></i><b>(2)</b>
+<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+<span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+<span class="error">$</span><span class="type">long</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+
+<i class="conum" data-value="3"></i><b>(3)</b>
+<span class="error">$</span>date(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+<span class="error">$</span>dateTime(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+<span class="error">$</span>time(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+
+<i class="conum" data-value="4"></i><b>(4)</b>
+<span class="error">$</span>bool(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
+<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
 <table>
 <tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-DFLib doesn&#8217;t do any type conversion of the original column data (the exception being <code>$bool</code>). So you
-need to select the right type in your code to avoid ClassCastExceptions downstream.
-</td>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Retrieves a column without implying a specific type</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Retrieve columns that are expected to be numeric</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Retrieve columns that are expected to be date/time</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Retrieve columns of boolean or String types</td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Return type is implied from the method name (<code>$str(..)</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal(..)</code> -
+<code>Series&lt;BigDecimal&gt;</code>, <code>$int(..)</code> - <code>Series&lt;Integer&gt;</code>, <code>$date(..)</code> - <code>Series&lt;LocalDate&gt;</code> and so on).</p>
+</div>
+<div class="paragraph">
+<p>To avoid overhead, column expressions do not perform any type conversions of the column data (with a notable exception
+of <code>$bool</code> that does). So you need to pick the right type in your code based on your knowledge of data to avoid
+<code>ClassCastExceptions</code> downstream, or use a generic <code>$col(..)</code> expression. If you do want to convert data from one type
+to another, use one of the <code>castAs</code> methods explicitly:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).castAsDecimal();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>castAs</code> will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible
+and it will throw an exception (e.g. a String like "abcd" can&#8217;t be converted to a number without some contextual knowledge).
+In some other cases, no default conversion exists, but a custom conversion is possible and desired. You can do it via
+<code>Exp.mapVal(..)</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1296,8 +1341,8 @@ Joan O'Hara</pre>
 <div class="sect2">
 <h3 id="_complex_expressions">Complex Expressions</h3>
 <div class="paragraph">
-<p>Expressions can be expanded by calling methods on the <code>Exp</code> object. Also, as we&#8217;ve already
-seen above, they can be composed of other expressions by invoking static methods of <code>Exp</code>. E.g.:</p>
+<p>Expressions can be expanded by calling methods on the <code>Exp</code> object (and its type-specific subclasses). As we&#8217;ve already
+seen above, expressions can be composed of other expressions by invoking static methods of <code>Exp</code>. E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
