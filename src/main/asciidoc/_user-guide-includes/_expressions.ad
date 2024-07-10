@@ -66,7 +66,7 @@ to another, use one of the `castAs` methods explicitly:
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=castAs]
 ----
 
-`castAs` will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible
+`castAs` will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible,
 and it will throw an exception (e.g. a String like "abcd" can't be converted to a number without some contextual knowledge).
 In some other cases, no default conversion exists, but a custom conversion is possible and desired. You can do it via
 `Exp.mapVal(..)`.
@@ -99,6 +99,58 @@ Juliana Walewski
 Joan O'Hara
 ----
 
+=== String Expressions
+
+=== Numeric Expressions
+
+`$int(..)`, `$long(..)`, `double(..)` and `$decimal(..)` columns expressions mentioned above are numeric (i.e. instances
+of `NumExp` expression subclass), and as such, they provide arithmetics, comparison operations, and numeric aggregating
+operations.
+
+We will look at comparisons later in the "Conditions" chapter. Here is an example of arithmetics operation:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=arithmetics]
+----
+<1> Add two columns
+<2> Multiply the result by a constant value
+
+----
+ c3
+---
+1.5
+3.5
+----
+
+NOTE: Associativity... Since expressions are built with Java API, there are no special associativity rules.
+Expressions are executed in the order they were chained together. In the example above, addition happens before
+division.
+
+NOTE: Widening conversions... When we added values of `int` and `long` columns, the result was implicitly widened to `long`,
+and later when it was divided by a `double`, the result became `double`. These conversions happen automatically and transparently
+to the user. They follow regular Java rules for primitive numbers operations (with an addition of widening from
+primitives to `BigDecimal`).
+
+Here is an example of aggregating operations:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=aggregation]
+----
+<1> Inserting an aggregating expression in a chain of arithmetic expressions produces an aggregated result
+
+----
+ c3
+---
+5.0
+----
+
+=== Date Expressions
+
+TODO
+
+
 === Complex Expressions
 
 Expressions can be expanded by calling methods on the `Exp` object (and its type-specific subclasses). As we've already
@@ -113,13 +165,6 @@ include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expChain]
 <3> `startsWith(..)` produces a condition based on another string expression
 <4> `add(..)` produces an addition operation for two numeric expressions, `gt(..)` produces a condition from the result of the addition
 
-=== Numeric Expressions
-
-TODO
-
-=== Date Expressions
-
-TODO
 
 === Conditions
 
