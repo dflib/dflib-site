@@ -611,7 +611,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#group_aggregate">Group and Aggregate</a></li>
-<li><a href="#window">Window functions</a></li>
+<li><a href="#window">Window Operations</a></li>
 <li><a href="#pivot">Pivot</a></li>
 <li><a href="#stack">Stack</a></li>
 <li><a href="#udfs">User-Defined Functions</a></li>
@@ -3766,10 +3766,74 @@ Joan O'Hara   9300 2024-03-15</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="window">Window functions</h2>
+<h2 id="window">Window Operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>Window operations are somewhat close to "group", except they usually preserve the rows of the original
+<code>DataFrame</code> and may add extra columns with values calculated from "windows" of data relative to a given row. We&#8217;ll use
+the following <code>DataFrame</code> to demonstrate how window operations work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             amount date
+---------------- ------ ----------
+Jerry Cosin        8000 2024-01-15
+Juliana Walewski   8500 2024-01-15
+Joan O'Hara        9300 2024-01-15
+Jerry Cosin        8800 2024-02-15
+Juliana Walewski   8500 2024-02-15
+Joan O'Hara        9500 2024-02-15</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A window is created by calling <code>over()</code> on the <code>DataFrame</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Window</span> window = df.over();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is a full operation that adds a "max_salary" column to each employee:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .over()
+        .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">max_salary</span><span class="delimiter">&quot;</span></span>).merge(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).max()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Defines DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Defines a new column and an aggregating expression to produce values.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             amount date       max_salary
+---------------- ------ ---------- ----------
+Jerry Cosin        8000 2024-01-15       8800
+Juliana Walewski   8500 2024-01-15       8500
+Joan O'Hara        9300 2024-01-15       9500
+Jerry Cosin        8800 2024-02-15       8800
+Juliana Walewski   8500 2024-02-15       8500
+Joan O'Hara        9500 2024-02-15       9500</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Partitioning in the example above is similar to "group" in <code>GroupBy</code>. Another way to define windows is via a <code>range(..)</code>
+method that allows to build window with fixed offset relative to each row.</p>
+</div>
+<div class="paragraph">
+<p><em>TODO</em></p>
 </div>
 </div>
 </div>
