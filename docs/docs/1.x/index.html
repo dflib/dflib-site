@@ -4504,8 +4504,12 @@ PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
 # such as &quot;/opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/bin/python&quot;
 echo $PY
 
-# install Java &quot;kernel&quot;
-$PY install.py --sys-prefix</code></pre>
+# install Java kernel for the current user
+$PY install.py --user
+
+# Alternatively, you can do a system-wide installation, but it will be overwritten on every
+# upgrade of Homebrew packages
+# $PY install.py --sys-prefix</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4693,7 +4697,7 @@ on GitHub, and we&#8217;ll do our best to integrate it.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-06-01 15:37:07 -0400
+Last updated 2024-06-01 16:37:07 -0300
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />

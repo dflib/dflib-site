@@ -40,8 +40,12 @@ PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
 # such as "/opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/bin/python"
 echo $PY
 
-# install Java "kernel"
-$PY install.py --sys-prefix
+# install Java kernel for the current user
+$PY install.py --user
+
+# Alternatively, you can do a system-wide installation, but it will be overwritten on every
+# upgrade of Homebrew packages
+# $PY install.py --sys-prefix
 ----
 If all these steps finished successfully, check that the Java kernel is installed:
 
