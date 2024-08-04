@@ -10,13 +10,7 @@ The code developed in a notebook can be later copied and pasted into your applic
 using either Jupyter as a part of their data project workflow, and DFLib design (and its Jupyter integration features
 described here) makes it rather easy.
 
-NOTE: Currently, DFLib only provides integration for Jupyter. You may be able to use other notebooks if they support
-Java (e.g. Apache Zeppelin, etc.) Though you may have to write special code for proper DataFrame display experience.
-
 === Jupyter Installation with Java Kernel
-
-NOTE: While IntelliJ IDE supports Jupyter / Python, as of this writing, it seems that it does not support custom kernels,
-so we suggest to run your notebooks outside the IDE in the web browser.
 
 You will need to install Python, Jupyter and https://github.com/dflib/jjava[JJava Jupyter kernel]. There are
 multiple ways of doing it. If you are on MacOS, using Homebrew is probably the easiest:
@@ -42,10 +36,6 @@ echo $PY
 
 # install Java kernel for the current user
 $PY install.py --user
-
-# Alternatively, you can do a system-wide installation, but it will
-# be overwritten on every upgrade of Homebrew packages
-# $PY install.py --sys-prefix
 ----
 If all these steps finished successfully, check that the Java kernel is installed:
 
@@ -54,8 +44,8 @@ If all these steps finished successfully, check that the Java kernel is installe
 jupyter kernelspec list
 
 Available kernels:
-  python3    /opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/lib/python3.12/site-packages/ipykernel/resources
-  java       /opt/homebrew/Cellar/jupyterlab/4.1.0/libexec/share/jupyter/kernels/java
+  python3    /opt/homebrew/Cellar/jupyterlab/4.2.3/libexec/lib/python3.12/site-packages/ipykernel/resources
+  java       /Users/myself/Library/Jupyter/kernels/java
 ----
 
 === DFLib in Jupyter
