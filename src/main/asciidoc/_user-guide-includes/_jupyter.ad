@@ -43,8 +43,8 @@ echo $PY
 # install Java kernel for the current user
 $PY install.py --user
 
-# Alternatively, you can do a system-wide installation, but it will be overwritten on every
-# upgrade of Homebrew packages
+# Alternatively, you can do a system-wide installation, but it will
+# be overwritten on every upgrade of Homebrew packages
 # $PY install.py --sys-prefix
 ----
 If all these steps finished successfully, check that the Java kernel is installed:
