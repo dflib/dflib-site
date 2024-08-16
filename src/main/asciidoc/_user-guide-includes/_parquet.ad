@@ -1,7 +1,7 @@
 [#parquet]
 == Parquet Files
 
-Parquet is a popular columnar binary data format. Like, `*.avro`, `*.parquet` files are saved with
+Parquet is a popular columnar binary data format. Like, `.avro`, `.parquet` files are saved with
 an embedded schema. So when they are read back, the fields are converted to the correct Java types.
 To work with the Parquet format, include the following dependency:
 

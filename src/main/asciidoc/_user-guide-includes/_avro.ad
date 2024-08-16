@@ -1,7 +1,7 @@
 [#avro]
 == Avro Files
 
-Avro binary format is common in data engineering. Its main advantage is that `*.avro` files are saved with
+Avro binary format is common in data engineering. Its main advantage is that `.avro` files are saved with
 an embedded schema. So when they are read back, the fields are converted to the correct Java types. This is different
 from CSV, as reading a `.csv` by default produces a DataFrame with all String columns. To work with the Avro format,
 include the following dependency:

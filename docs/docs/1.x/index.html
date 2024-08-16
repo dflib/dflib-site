@@ -4329,7 +4329,7 @@ advantage of this functionality:</p>
 <h2 id="avro">Avro Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Avro binary format is common in data engineering. Its main advantage is that <code>*.avro</code> files are saved with
+<p>Avro binary format is common in data engineering. Its main advantage is that <code>.avro</code> files are saved with
 an embedded schema. So when they are read back, the fields are converted to the correct Java types. This is different
 from CSV, as reading a <code>.csv</code> by default produces a DataFrame with all String columns. To work with the Avro format,
 include the following dependency:</p>
@@ -4363,7 +4363,7 @@ DataFrame before it is saved. Alternatively you can create a custom <code>Schema
 <h2 id="parquet">Parquet Files</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Parquet is a popular columnar binary data format. Like, <code><strong>.avro</code>, <code></strong>.parquet</code> files are saved with
+<p>Parquet is a popular columnar binary data format. Like, <code>.avro</code>, <code>.parquet</code> files are saved with
 an embedded schema. So when they are read back, the fields are converted to the correct Java types.
 To work with the Parquet format, include the following dependency:</p>
 </div>
