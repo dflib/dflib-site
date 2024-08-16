@@ -634,6 +634,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_avro_schema">Avro Schema</a></li>
 </ul>
 </li>
+<li><a href="#parquet">Parquet Files</a></li>
 <li><a href="#jshell">Using JShell</a></li>
 <li><a href="#jupyter">Using Jupyter Notebook</a>
 <ul class="sectlevel2">
@@ -4359,6 +4360,31 @@ DataFrame before it is saved. Alternatively you can create a custom <code>Schema
 </div>
 </div>
 <div class="sect1">
+<h2 id="parquet">Parquet Files</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Parquet is a popular columnar binary data format. Like, <code><strong>.avro</code>, <code></strong>.parquet</code> files are saved with
+an embedded schema. So when they are read back, the fields are converted to the correct Java types.
+To work with the Parquet format, include the following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
+    <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
+    <span class="tag">&lt;artifactId&gt;</span>dflib-parquet<span class="tag">&lt;/artifactId&gt;</span>
+<span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you do that, <code>Parquet</code> class is the entry point to all the operations. With it you can save DataFrames to <code>.parquet</code>
+files and load them back.</p>
+</div>
+<div class="paragraph">
+<p>TODO&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="jshell">Using JShell</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -4667,7 +4693,7 @@ on GitHub, and we&#8217;ll do our best to integrate it.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-06-01 16:37:07 -0300
+Last updated 2024-08-16 16:06:18 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../css/style_v2.min.css" />
