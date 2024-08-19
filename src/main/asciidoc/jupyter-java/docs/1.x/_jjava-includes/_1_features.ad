@@ -1,0 +1,26 @@
+== Features
+
+Currently, the kernel supports
+
+* Code execution. image:images/output.png[output]
+* Autocompletion (`TAB` in Jupyter notebook).
+image:images/autocompletion.png[autocompletion]
+* Code inspection (`Shift-TAB` up to 4 times in Jupyter notebook).
+image:images/code-inspection.png[code-inspection]
+* Colored, friendly, error message displays.
+image:images/compilation-error.png[compilation-error]
+image:images/incomplete-src-error.png[incomplete-src-error]
+image:images/runtime-error.png[runtime-error]
+* Add maven dependencies at runtime (See also
+link:#magics[magics]).
+image:images/maven-pom-dep.png[maven-pom-dep]
+* Display rich output (See also link:#display[display] and
+link:#addmavendependencies[maven magic]). Chart library in
+the demo photo is https://github.com/knowm/XChart[XChart] with the
+sample code taken from their README.
+image:images/display-img.png[display-img]
+* `eval` function. (See also link:#kernel[kernel])
+*Note: the signature is `Object eval(String) throws Exception`.* This evaluates the
+expression (a cell) in the user scope and returns the actual evaluation
+result instead of a serialized one. image:images/eval.png[eval]
+* Configurable evaluation timeout image:images/timeout.png[timeout]

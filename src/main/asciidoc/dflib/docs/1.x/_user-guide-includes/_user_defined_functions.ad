@@ -1,0 +1,49 @@
+[#udfs]
+== User-Defined Functions
+
+User-defined functions (aka "UDF") is a way to create highly-reusable expressions. <<expressions,Expressions>> are,
+of course, abstract transformations of columns, so they are already somewhat reusable. However, they encode names
+(or positions) of all columns they operate on. So you won't be able to apply the same expression to two different sets
+of columns in the same DataFrame. UDFs are intended to address this limitation and make expressions fully dynamic.
+
+As the name implies, a UDF is a function (usually implemented as a lambda or a method ref). It takes one or more
+expressions as parameters, and produces a single expression:
+
+[source,java,indent=0]
+----
+include::${src-dir}/UdfTest.java[tags=udf1]
+----
+<1> Define a UDF that takes a single parameter and performs proper name capitalization
+<2> Apply the same UDF separately to the "first" and "last" name columns
+
+----
+first   last
+------- --------
+Jerry   Cosin
+Juliana Walewski
+----
+
+In the example above, we called the UDF multiple times, each time with a different column name. A UDF can also
+be invoked with a numeric position or a full expression instead of a column name.
+
+Above, we used `Udf1` function, that takes only one expression (or column) as an input. Generally, UDFs can take
+any number of expressions (columns). There are `Udf1`, `Udf2`, `Udf3` and `UdfN` interfaces. The latter can take any
+number of arguments and should be used to model UDFs with more than 3 inputs or a variable number of inputs:
+
+[source,java,indent=0]
+----
+include::${src-dir}/UdfTest.java[tags=udfN]
+----
+<1> Build a UDF with dynamic number of input parameters packaged in the `Exp[]`
+<2> Call the UDF to create a row filter. Since the UDF return type is `Exp<Boolean>`,
+we need to explicitly "cast" it to `Condition` expected by the `RowSet`, so we used  `castAsBool()`
+----
+first last
+----- -----
+Jerry Cosin
+----
+
+NOTE: Performance hint: If the logic within a UDF requires converting a column to a specific data type,
+and the column you are applying it to is known to be of that type already, you can speed up evaluation
+by passing an expression of that type to the UDF. E.g. if a UDF calls `castAsInt()` on its argument,
+`udf.call($int("a"))` is much faster than `udf.call("a")`.

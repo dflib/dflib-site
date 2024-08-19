@@ -1,0 +1,20 @@
+== Run
+
+This is where the documentation diverges, each environment has it’s own
+way of selecting a kernel. To test from command line with Jupyter’s
+console application run:
+
+[source,bash]
+----
+jupyter console --kernel=java
+----
+
+Then at the prompt try:
+
+[source,java]
+----
+In [1]: String helloWorld = "Hello world!"
+
+In [2]: helloWorld
+Out[2]: "Hello world!"
+----

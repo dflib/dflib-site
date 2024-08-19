@@ -1,0 +1,21 @@
+[#requirements]
+== Requirements
+
+[arabic]
+. Java JDK >= 11 Ensure that the `java` command is in the PATH and is
+using version 11 or newer. For example:
+
+[source,bash]
+----
+> java -version
+openjdk version "11.0.21" 2023-10-17
+OpenJDK Runtime Environment Temurin-11.0.21+9 (build 11.0.21+9)
+OpenJDK 64-Bit Server VM Temurin-11.0.21+9 (build 11.0.21+9, mixed mode)
+----
+
+[arabic, start=2]
+. A jupyter-like environment to use the kernel in. A non-exhaustive list of options:
+
+* http://jupyter.org/install[Jupyter]
+* http://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html[JupyterLab]
+* https://nteract.io/desktop[nteract]
