@@ -1,0 +1,116 @@
+[#group_aggregate]
+== Group and Aggregate
+
+DataFrame rows can be combined into groups based on common column values. For instance, here is a payroll report
+that contains payments to employees over time:
+
+----
+name             amount date
+---------------- ------ ----------
+Jerry Cosin        8000 2024-01-15
+Juliana Walewski   8500 2024-01-15
+Joan O'Hara        9300 2024-01-15
+Jerry Cosin        4000 2024-02-15
+Juliana Walewski   8500 2024-02-15
+Joan O'Hara        9300 2024-02-15
+Jerry Cosin        8000 2024-03-15
+Joan O'Hara        9300 2024-03-15
+----
+
+We can group it by date like this:
+[source,java,indent=0]
+----
+include::${src-dir}/GroupByTest.java[tags=groupBy]
+----
+<1> Here we are grouping by a single column, but multiple columns can be specified as well
+
+`GroupBy` object has a number of useful operations to transform grouped data. The most common one is aggregation of
+values to produce one row per group (similar to SQL `GROUP BY` clause). E.g., we can calculate some statistics about
+each payroll period by passing a list of "aggregating" expressions to the `agg(..)` method:
+
+[source,java,indent=0]
+----
+include::${src-dir}/GroupByTest.java[tags=agg]
+----
+<1> `first(..)` expression is applied to the column used in the grouping. As each value within the group is the same,
+we can simply select the first one for our aggregated row
+<2> This calculates total payroll amount within each group
+<3> `count()` returns the number of rows in each group
+
+----
+date       sum(amount) count
+---------- ----------- -----
+2024-01-15     25800.0     3
+2024-02-15     21800.0     3
+2024-03-15     17300.0     2
+----
+
+`first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" expressions that produce
+Series of the same size as input Series, aggregating ones output Series with single values. Hence,
+the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`. There are more aggregating
+expressions that can concatenate values within a group, calculate min, max, avg values, etc.
+
+Let's make a minor improvement to the example above and provide more descriptive column names:
+
+[source,java,indent=0]
+----
+include::${src-dir}/GroupByTest.java[tags=agg_cols]
+----
+
+----
+date         total employees
+---------- ------- ---------
+2024-01-15 25800.0         3
+2024-02-15 21800.0         3
+2024-03-15 17300.0         2
+----
+
+NOTE: There's a similarity between `GroupBy.cols(..)` method and `DataFrame.cols(..)`. And, as we'll see in the later
+examples, a few more methods (`select(..)` and  `map(..)`) work the same as in `ColumnSet`. So `GroupBy` is essentially
+a `ColumnSet` with operations applied per group.
+
+Instead of aggregating groups, we can select back the original rows, but apply some group-specific transformations.
+E.g. we can do row ranking within groups. Here we'll rank employees by their salary amount vs other employees
+in the same period:
+[source,java,indent=0]
+----
+include::${src-dir}/GroupByTest.java[tags=rank]
+----
+<1> To produce a proper ranking, we need to order rows within each group first
+<2> In `select(..)`, instead of aggregating expressions, we are using "normal" ones , but they are applied to
+each group separately.
+<3> Ranking function applied within each group
+
+----
+date       name             rank
+---------- ---------------- ----
+2024-01-15 Joan O'Hara         1
+2024-01-15 Juliana Walewski    2
+2024-01-15 Jerry Cosin         3
+2024-02-15 Joan O'Hara         1
+2024-02-15 Juliana Walewski    2
+2024-02-15 Jerry Cosin         3
+2024-03-15 Joan O'Hara         1
+2024-03-15 Jerry Cosin         2
+----
+
+The resulting DataFrame has the same number of rows as the original one, but the ordering is different, and the columns
+are the ones that we requested.
+
+We can use `GroupBy.head(..)` and (`tail(..)`) to find top-paid employees within each payroll period. Notice,
+that this operation doesn't do any aggregation. Just sorting within groups and picking the top results:
+
+[source,java,indent=0]
+----
+include::${src-dir}/GroupByTest.java[tags=topSalary]
+----
+<1> Do the same sorting as before
+<2> Pick the top row in each group
+
+----
+name        amount date
+----------- ------ ----------
+Joan O'Hara   9300 2024-01-15
+Joan O'Hara   9300 2024-02-15
+Joan O'Hara   9300 2024-03-15
+----

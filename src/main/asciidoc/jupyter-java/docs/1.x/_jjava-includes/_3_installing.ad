@@ -1,0 +1,59 @@
+== Installing
+
+After meeting the link:#requirements[requirements], the kernel can be
+installed locally. Any time you wish to remove a kernel you may use
+`jupyter kernelspec remove java`. If you have installed the kernel to
+multiple directories, this command may need to be run multiple times as
+it might only remove 1 installation at a time.
+
+=== Install pre-built binary
+
+Get the latest _release_ of the software with no compilation needed. See
+#Install from source[Install from source] for building the
+latest commit.
+
+*Note:* if you have an old installation or a debug one from running
+`gradlew installKernel` it is suggested that it is first removed via
+`jupyter kernelspec remove java`.
+
+[arabic]
+. Download the release from the
+https://github.com/dflib/jjava/releases[GitHub releases]. A prepackaged
+distribution will be in an artifact named `jjava-$version.zip`.
+. Unzip it into a temporary location. It should have at least the
+`install.py` and `java` folder extracted in there.
+. Run the installer with the same python command used to install
+jupyter. The installer is a python script and has the same options as
+`jupyter kernelspec install` but additionally supports configuring some
+of the kernel properties mentioned further below in the README.
++
+[source,bash]
+----
+# Pass the -h option to see the help page
+python3 install.py -h
+
+# Otherwise a common install command is
+python3 install.py --sys-prefix
+----
+. Check that it installed with `jupyter kernelspec list` which should
+contain `java`.
+
+=== Install from source
+
+Get the latest version of the kernel but possibly run into some issues
+with installing. This is also the route to take if you wish to
+contribute to the kernel.
+
+[arabic]
+. Download the project.
+[source,bash]
+----
+git clone https://github.com/dflib/jjava.git
+cd jjava/
+----
+. Build the kernel.
+[source,bash]
+----
+mvn package
+----
+. Install `target/jjava-$version.zip` custom build as a pre-built binary

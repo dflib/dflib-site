@@ -1,0 +1,233 @@
+[#row_ops]
+== Row Operations
+
+Just like with columns, row operations first define a `RowSet`, execute some transformation, and then are either
+merged back with the original `DataFrame`, or "selected" as a standalone one. `RowSet` and `ColumnSet` have other
+similarities (e.g. the ability to evaluate expressions by column, and create `RowColumnSet`), but `RowSet` is also
+rather different in how its rows are picked and what other operations are available.
+
+=== Pick Rows
+
+Rows are picked either by condition, by positions or as a range. Let's take a look at each style...
+
+==== By Condition
+A `Condition` (a boolean `Exp`) can be used to pick matching rows:
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsByCondition]
+----
+<1> Applies a `Condition` to the DataFrame, to include matching rows in the `RowSet`.
+<2> Returns a new DataFrame matching the `RowSet`
+
+----
+first   last     middle
+------- -------- ------
+Juliana Walewski null
+----
+
+Another form of condition is a "predicate" lambda (a `RowPredicate` object), evaluated row-by-row:
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsByPredicate]
+----
+
+A condition can be precalculated as a `BooleanSeries`. A common scenario is calling `locate()` on another `Series`
+or a `DataFrame` / `RowSet` to build a `BooleanSeries` "selector", and then using it to pick rows from another DataFrame:
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsByConditionPrecalc]
+----
+<1> A Series of salaries with elements positions matching row positions in the persons DataFrame.
+<2> Precalculates a reusable "selector"
+
+----
+first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null
+----
+
+==== By Positions
+
+Here is an example of `RowSet` defined using an array of row positions.
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsByArray]
+----
+
+<1> An `int[]` that defines a `RowSet`
+
+----
+first last   middle
+----- ------ ------
+Joan  O'Hara P
+Jerry Cosin  M
+Joan  O'Hara P
+----
+
+NOTE: An array of positions is also a kind of "condition". The main difference is that it allows
+to reorder rows by specifying positions in a desired sequence and/or duplicate rows by referencing the same position more
+than once. Both features are demonstrated in the example above.
+
+Instead of an array, positions can be defined as an `IntSeries` "index". Just like with conditions, it is often
+calculated from another `Series` or `DataFrame` / `RowSet`:
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsByIndex]
+----
+<1> Precalculates a reusable "selector" with positions. Uses a Series of salaries that is not a part of "our" DataFrame
+----
+first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null
+----
+
+==== As a Range
+
+Finally, rows can be selected as a continuous range of row positions:
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsByRange]
+----
+<1> The range is defined by two ints: its starting index and the index, following its last index.
+----
+first   last     middle
+------- -------- ------
+Jerry   Cosin    M
+Juliana Walewski null
+----
+
+=== Transform Rows
+
+Just like `ColumnSet`, `RowSet` defines a number of column- and row-based transformations. And just like with
+`ColumnSet`, each transformation can be invoked as a "select" or a "merge", returning either the `RowSet` rows or all
+rows from the original `DataFrame`. Here we will demonstrate selecting operations, and will talk about merging next.
+
+Transforming with column expressions:
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsSelectExp]
+----
+<1> Select the rows from each column without changes, except the last one, where we flip the "retires_soon" flag
+to "true".
+----
+last   age retires_soon
+------ --- ------------
+Cosin   61         true
+O'Hara  59         true
+----
+NOTE: We had to specify an expression for every column in the DataFrame, even though only a single column got transformed.
+This code can be improved by creating a `RowColumnSet` <<row_column_ops,described here>>.
+
+Transforming row-by-row with `RowMapper`:
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsSelectRowMapper]
+----
+There's also a way to transforming row-by-row with per-column array of `RowToValueMapper`. It is not very different
+from what we've seen so far, so we are leaving this as an exercise for the reader.
+
+=== Merge Rows
+
+If we want to merge the result of a `RowSet` transformation to the original `DataFrame`, we'll need to use methods
+like `merge(..)` (i.e. those that do not start with `select`):
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsMergeExp]
+----
+
+----
+last     age retires_soon
+-------- --- ------------
+Cosin     61         true
+Walewski  25        false
+O'Hara    59         true
+----
+
+Merging rows is done similar to columns, except rows have no name labels, so it is done by position. General merge rules:
+
+* Merging is done by row position. DataFrame rows with matching positions are replaced with transformed versions, rows that
+are not a part of the `RowSet` are left unchanged, and rows in the `RowSet`, but not in the `DataFrame` (e.g.,
+intentionally duplicated rows or split rows) are appended in the bottom.
+* The order of the existing rows in the `RowSet` has no effect on the order of replaced rows (i.e. they are
+placed in their original positions). The relative order of added rows is respected.
+
+NOTE: Just like with columns, for most `RowSet.select(..)` methods there are "merging" counterparts, such as  `map(..)`,
+`expand(..)`, `unique(..)`, etc.
+
+=== Split Rows
+Splitting rows is somewhat simpler than <<column_ops_split,splitting columns>>. The API takes a single column
+(no expression is allowed), and splits any expandable values into new rows:
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsSelectExpand]
+----
+
+----
+name   phones
+------ ------------
+Cosin  111-555-5555
+Cosin  111-666-6666
+Cosin  111-777-7777
+O'Hara 222-555-5555
+----
+
+NOTE: The expansion column can contain scalars, arrays or iterables.
+
+=== Unique Rows
+
+To deduplicate DataFrames, there's an API to select fully or partially-unique rows. Uniqueness is checked either on
+all columns of each row, or a preselected subset:
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsSelectUniqueAll]
+----
+<1> Keep only fully unique rows
+----
+first last
+----- ------
+Jerry Cosin
+Jerry Jones
+Joan  O'Hara
+----
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsSelectUnique]
+----
+<2> Deduplicate first names. Picking the row of each earliest-encountered unique first name.
+----
+first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+----
+
+=== Drop Rows
+
+To get rid of certain rows in a DataFrame, you can either select the rows you would want to drop, and call `drop()`
+or select the rows you’d want to remain and call `select()`:
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsDrop]
+----
+
+[source,java,indent=0]
+----
+include::${src-dir}/RowOpsTest.java[tags=rowsExceptSelect]
+----
+
+In both cases, the result is the same:
+----
+first last   middle
+----- ------ ------
+Jerry Cosin  M
+Joan  O'Hara P
+----
