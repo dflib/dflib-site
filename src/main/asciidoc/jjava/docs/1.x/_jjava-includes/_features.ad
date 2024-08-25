@@ -18,10 +18,8 @@ image:images/runtime-error.png[runtime-error]
 image:images/maven-pom-dep.png[maven-pom-dep]
 
 * Display rich output (See also link:#display[display] and
-link:#addmavendependencies[maven magic]). Chart library in
-the demo photo is https://github.com/knowm/XChart[XChart] with the
-sample code taken from their README.
-image:images/display-img.png[display-img]
+link:#addmavendependencies[maven magic]). E.g. here is a chart produced by DFLib and ECharts:
+image::https://dflib.org/images/charts/chart-in-jupyter.png[]
 
 * `eval` function. (See also link:#kernel[kernel])
 *Note: the signature is `Object eval(String) throws Exception`.* This evaluates the
