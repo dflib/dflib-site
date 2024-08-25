@@ -19,3 +19,5 @@ include::_jjava-includes/_magics.ad[]
 include::_jjava-includes/_kernel.ad[]
 
 include::_jjava-includes/_display.ad[]
+
+include::_jjava-includes/_version_control.ad[]

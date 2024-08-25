@@ -12,8 +12,8 @@ jupyter kernelspec remove java
 
 === Install Python, Jupyter, JJava
 
-. Install Python and one of the Jupyter environments (http://jupyter.org/install[Jupyter],
-http://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html[JupyterLab], etc.) E.g., if you are on MacOS,
+. Install Python and one of the Jupyter environments (https://jupyter.org/install[Jupyter],
+https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html[JupyterLab], etc.) E.g., if you are on MacOS,
 you can install both with Homebrew:
 +
 [source,bash]
