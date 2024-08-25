@@ -546,7 +546,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_changing_vmcompiler_options">Changing VM/compiler options</a></li>
 </ul>
 </li>
-<li><a href="#_run">Run</a></li>
 <li><a href="#magics">Magics</a>
 <ul class="sectlevel2">
 <li><a href="#_magics_provided_by_jjava">Magics provided by JJava</a></li>
@@ -570,7 +569,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>JJava</strong> is a Java kernel for <a href="https://jupyter.org/">Jupyter</a> maintained by the <a href="https://dflib.org">DFLib.org</a> community.
-The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to
+Internally the kernel executes code via Java JShell. Some of the additional commands are supported via a syntax similar to
 IPython magics.</p>
 </div>
 </div>
@@ -912,32 +911,6 @@ enable assertions and set a limit on the heap size to <code>128m</code>:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">export JJAVA_JVM_OPTS='-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n'</code></pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_run">Run</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This is where the documentation diverges, each environment has it’s own
-way of selecting a kernel. To test from command line with Jupyter’s
-console application run:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">jupyter console --kernel=java</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then at the prompt try:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">In [<span class="integer">1</span>]: <span class="predefined-type">String</span> helloWorld = <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world!</span><span class="delimiter">&quot;</span></span>
-
-In [<span class="integer">2</span>]: helloWorld
-Out[<span class="integer">2</span>]: <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world!</span><span class="delimiter">&quot;</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1403,7 +1376,7 @@ render(<span class="string"><span class="delimiter">&quot;</span><span class="co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-25 14:41:00 -0400
+Last updated 2024-08-25 14:50:40 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

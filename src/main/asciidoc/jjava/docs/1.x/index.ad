@@ -3,21 +3,19 @@
 :icons: font
 
 *JJava* is a Java kernel for https://jupyter.org/[Jupyter] maintained by the https://dflib.org[DFLib.org] community.
-The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to
+Internally the kernel executes code via Java JShell. Some of the additional commands are supported via a syntax similar to
 IPython magics.
 
-include::_jjava-includes/_1_features.ad[]
+include::_jjava-includes/_features.ad[]
 
-include::_jjava-includes/_2_requirements.ad[]
+include::_jjava-includes/_requirements.ad[]
 
-include::_jjava-includes/_3_installing.ad[]
+include::_jjava-includes/_installing.ad[]
 
-include::_jjava-includes/_4_configuring.ad[]
+include::_jjava-includes/_configuring.ad[]
 
-include::_jjava-includes/_5_run.ad[]
+include::_jjava-includes/_magics.ad[]
 
-include::_jjava-includes/_6_magics.ad[]
+include::_jjava-includes/_kernel.ad[]
 
-include::_jjava-includes/_7_kernel.ad[]
-
-include::_jjava-includes/_8_display.ad[]
+include::_jjava-includes/_display.ad[]
