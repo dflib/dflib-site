@@ -1,4 +1,4 @@
-== Run Jupyter
+== Running Jupyter
 
 Depending on which Jupyter environment you installed, there will be a specific command to run the notebook. E.g.:
 
