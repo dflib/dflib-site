@@ -534,12 +534,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel1">
 <li><a href="#_features">Features</a></li>
 <li><a href="#requirements">Requirements</a></li>
-<li><a href="#_installing">Installing</a>
-<ul class="sectlevel2">
-<li><a href="#_install_pre_built_binary">Install pre-built binary</a></li>
-<li><a href="#_install_from_source">Install from source</a></li>
-</ul>
-</li>
+<li><a href="#_installing">Installing</a></li>
 <li><a href="#_configuring">Configuring</a>
 <ul class="sectlevel2">
 <li><a href="#list-of-options">List of options</a></li>
@@ -666,41 +661,33 @@ OpenJDK 64-Bit Server VM Temurin-11.0.21+9 (build 11.0.21+9, mixed mode)</code><
 <div class="sect1">
 <h2 id="_installing">Installing</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>After meeting the <a href="#requirements">requirements</a>, the kernel can be
-installed locally. Any time you wish to remove a kernel you may use
-<code>jupyter kernelspec remove java</code>. If you have installed the kernel to
-multiple directories, this command may need to be run multiple times as
-it might only remove 1 installation at a time.</p>
-</div>
-<div class="sect2">
-<h3 id="_install_pre_built_binary">Install pre-built binary</h3>
-<div class="paragraph">
-<p>Get the latest <em>release</em> of the software with no compilation needed. See
-#Install from source[Install from source] for building the
-latest commit.</p>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> if you have an old installation or a debug one from running
-<code>gradlew installKernel</code> it is suggested that it is first removed via
-<code>jupyter kernelspec remove java</code>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Any time you wish to remove a kernel, use <code>jupyter kernelspec remove java</code>. If you have an old kernel installation,
+you should probably remove it first using the above command before installing the new version.
+</td>
+</tr>
+</table>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Download the release from the
-<a href="https://github.com/dflib/jjava/releases">GitHub releases</a>. A prepackaged
-distribution will be in an artifact named <code>jjava-$version.zip</code>.</p>
+<a href="https://github.com/dflib/jjava/releases">GitHub releases</a>. Look for a version you want to install (or the latest version),
+and under its "Assets", select a file called <code>jjava-$version.zip</code>.</p>
 </li>
 <li>
-<p>Unzip it into a temporary location. It should have at least the
-<code>install.py</code> and <code>java</code> folder extracted in there.</p>
+<p>Unzip the file into a temporary location.</p>
 </li>
 <li>
-<p>Run the installer with the same python command used to install
-jupyter. The installer is a python script and has the same options as
-<code>jupyter kernelspec install</code> but additionally supports configuring some
-of the kernel properties mentioned further below in the README.</p>
+<p>Change to that directory and run the installer with the same version of Python as used by Jupyter (this is important!)
+The installer is a Python script and has the same options as <code>jupyter kernelspec install</code>, but additionally supports
+configuring some of the kernel properties mentioned further below.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash"># Pass the -h option to see the help page
@@ -712,51 +699,9 @@ python3 install.py --sys-prefix</code></pre>
 </div>
 </li>
 <li>
-<p>Check that it installed with <code>jupyter kernelspec list</code> which should
-contain <code>java</code>.</p>
+<p>Check that it installed with <code>jupyter kernelspec list</code> which should contain <code>java</code>.</p>
 </li>
 </ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_install_from_source">Install from source</h3>
-<div class="paragraph">
-<p>Get the latest version of the kernel but possibly run into some issues
-with installing. This is also the route to take if you wish to
-contribute to the kernel.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Download the project.</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>git clone https://github.com/dflib/jjava.git
-cd jjava/</pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Build the kernel.</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>mvn package</pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Install <code>target/jjava-$version.zip</code> custom build as a pre-built binary</p>
-</li>
-</ol>
-</div>
 </div>
 </div>
 </div>
