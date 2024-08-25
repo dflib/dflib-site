@@ -22,7 +22,7 @@ you can install both with Homebrew:
 brew install jupyter
 ----
 
-. Download JJava. Go to https://github.com/dflib/jjava/releases[GitHub releases]. Pick the latest version
+. Download JJava: go to https://github.com/dflib/jjava/releases[GitHub releases], pick the latest version
 (or choose a specific one that you need) and under the "Assets" section download a file called `jjava-$version.zip`.
 . Unzip the file into a temporary location.
 . Run the following commands:
