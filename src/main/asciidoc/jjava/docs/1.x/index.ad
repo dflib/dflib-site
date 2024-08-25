@@ -2,9 +2,9 @@
 :toc: left
 :icons: font
 
-*JJava* is a Java kernel for http://jupyter.org/[Jupyter] maintained by the https://dflib.org[DFLib.org] community.
-The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to the IPython magics.
-New feature requests, bug reports and support questions can be opened https://github.com/dflib/jjava/issues[here].
+*JJava* is a Java kernel for https://jupyter.org/[Jupyter] maintained by the https://dflib.org[DFLib.org] community.
+The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to
+IPython magics.
 
 include::_jjava-includes/_1_features.ad[]
 

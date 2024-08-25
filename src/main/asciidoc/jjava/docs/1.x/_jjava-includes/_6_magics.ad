@@ -9,6 +9,7 @@ Magics in JJava are very similar to those from IPython. There are:
 ----
 %mavenRepo oss-sonatype-snapshots https://oss.sonatype.org/content/repositories/snapshots/
 %maven io.github.spencerpark:jupyter-jvm-basekernel:2.0.0-SNAPSHOT
+
 List<String> addedJars = %jars C:/all/my/*.jar
 ----
 * *Cell magics*: which are entire cell function calls that use the body

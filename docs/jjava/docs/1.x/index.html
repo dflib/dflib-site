@@ -569,9 +569,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>JJava</strong> is a Java kernel for <a href="http://jupyter.org/">Jupyter</a> maintained by the <a href="https://dflib.org">DFLib.org</a> community.
-The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to the IPython magics.
-New feature requests, bug reports and support questions can be opened <a href="https://github.com/dflib/jjava/issues">here</a>.</p>
+<p><strong>JJava</strong> is a Java kernel for <a href="https://jupyter.org/">Jupyter</a> maintained by the <a href="https://dflib.org">DFLib.org</a> community.
+The kernel executes code via the JShell tool. Some of the additional commands are supported via a syntax similar to
+IPython magics.</p>
 </div>
 </div>
 </div>
@@ -579,30 +579,28 @@ New feature requests, bug reports and support questions can be opened <a href="h
 <h2 id="_features">Features</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Currently, the kernel supports</p>
+<p>The kernel supports the following Jupyter features:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Code execution. <span class="image"><img src="images/output.png" alt="output"></span></p>
+<p>Code execution: <span class="image"><img src="images/output.png" alt="output"></span></p>
 </li>
 <li>
-<p>Autocompletion (<code>TAB</code> in Jupyter notebook).
-<span class="image"><img src="images/autocompletion.png" alt="autocompletion"></span></p>
+<p>Autocompletion (<code>TAB</code> in Jupyter notebook): <span class="image"><img src="images/autocompletion.png" alt="autocompletion"></span></p>
 </li>
 <li>
 <p>Code inspection (<code>Shift-TAB</code> up to 4 times in Jupyter notebook).
 <span class="image"><img src="images/code-inspection.png" alt="code-inspection"></span></p>
 </li>
 <li>
-<p>Colored, friendly, error message displays.
+<p>Colored error message displays.
 <span class="image"><img src="images/compilation-error.png" alt="compilation-error"></span>
 <span class="image"><img src="images/incomplete-src-error.png" alt="incomplete-src-error"></span>
 <span class="image"><img src="images/runtime-error.png" alt="runtime-error"></span></p>
 </li>
 <li>
-<p>Add maven dependencies at runtime (See also
-<a href="#magics">magics</a>).
+<p>Add maven dependencies at runtime (See also <a href="#magics">magics</a>).
 <span class="image"><img src="images/maven-pom-dep.png" alt="maven-pom-dep"></span></p>
 </li>
 <li>
@@ -958,6 +956,7 @@ Out[<span class="integer">2</span>]: <span class="string"><span class="delimiter
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="text">%mavenRepo oss-sonatype-snapshots https://oss.sonatype.org/content/repositories/snapshots/
 %maven io.github.spencerpark:jupyter-jvm-basekernel:2.0.0-SNAPSHOT
+
 List&lt;String&gt; addedJars = %jars C:/all/my/*.jar</code></pre>
 </div>
 </div>
@@ -1404,7 +1403,7 @@ render(<span class="string"><span class="delimiter">&quot;</span><span class="co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-21 11:31:25 -0400
+Last updated 2024-08-25 14:41:00 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />
