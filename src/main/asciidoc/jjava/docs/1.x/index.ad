@@ -8,9 +8,7 @@ IPython magics.
 
 include::_jjava-includes/_features.ad[]
 
-include::_jjava-includes/_requirements.ad[]
-
-include::_jjava-includes/_installing.ad[]
+include::_jjava-includes/_installation.ad[]
 
 include::_jjava-includes/_configuring.ad[]
 
