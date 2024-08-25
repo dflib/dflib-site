@@ -10,6 +10,8 @@ include::_jjava-includes/_features.ad[]
 
 include::_jjava-includes/_installation.ad[]
 
+include::_jjava-includes/_run.ad[]
+
 include::_jjava-includes/_configuring.ad[]
 
 include::_jjava-includes/_magics.ad[]

@@ -58,13 +58,3 @@ Available kernels:
 NOTE: `install.py` Python script has a number of options. Some are similar to `jupyter kernelspec install`, but there are
 also additional parameters to configure the kernel, as discussed in the following chapters. Run the script with `-h` to
 see the available options.
-
-Now you can run jupyter and start creating Java notebooks:
-
-[source,bash]
-----
-jupyter notebook
-
-# or other Jupyter engine, e.g.:
-jupyter lab
-----
