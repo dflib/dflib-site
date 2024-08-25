@@ -2,8 +2,8 @@
 
 === Prerequisites
 
-* Java 11 or newer
-* If you already have another version of `jjava` kernel installed, remove it with the following command:
+. Java 11 or newer
+. If you already have another version of `jjava` kernel installed, remove it with the following command:
 
 [source,bash]
 ----
