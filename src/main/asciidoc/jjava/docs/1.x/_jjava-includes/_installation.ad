@@ -41,10 +41,10 @@ echo $PY
 # install Java kernel for the current user
 $PY install.py --user
 ----
-NOTE: These should work on MacOS and Linux. If you are on Windows, you will need to go through the similar steps,
-but the commands will look differently.
+NOTE: These commands should work on MacOS and Linux. If you are on Windows, you will need to go through the similar steps,
+but the commands will look slightly different.
 
-. If all these steps finished successfully, check that the Java kernel is installed:
+. If all the steps finished successfully, check that the Java kernel is installed:
 
 [source,bash]
 ----
@@ -58,3 +58,13 @@ Available kernels:
 NOTE: `install.py` Python script has a number of options. Some are similar to `jupyter kernelspec install`, but there are
 also additional parameters to configure the kernel, as discussed in the following chapters. Run the script with `-h` to
 see the available options.
+
+Now you can run jupyter and start creating Java notebooks:
+
+[source,bash]
+----
+jupyter notebook
+
+# or other Jupyter engine, e.g.:
+jupyter lab
+----
