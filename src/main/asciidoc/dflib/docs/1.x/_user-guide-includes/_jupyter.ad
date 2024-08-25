@@ -3,8 +3,10 @@
 
 While DFLib runs inside regular Java applications or `jshell`, it also works perfectly in Jupyter, which is a very
 common "notebook" environment among data scientists and data engineers. In a notebook, you interact with your code via
-a web browser in a rather "visual" way. It allows to run each step of a data transformation one-by-one and inspect the
+a web browser in a rather visual way. It allows to run steps of a data transformation one-by-one and inspect the
 data between the steps. Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.
+
+NOTE: DFLib development<<echarts,charts>> is literally "visual" in Jupyter, as you can render data in the browser as <<echarts,charts>>.
 
 The code developed in a notebook can be later copied and pasted into your application. Java developers should consider
 using either Jupyter as a part of their data project workflow, and DFLib design (and its Jupyter integration features
