@@ -629,7 +629,7 @@ result instead of a serialized one. <span class="image"><img src="images/eval.pn
 <div class="ulist">
 <ul>
 <li>
-<p>Java JDK &gt;= 11</p>
+<p>Java 11 or newer</p>
 </li>
 <li>
 <p>If you already have another version of <code>jjava</code> kernel installed, remove it with the following command:</p>
@@ -638,7 +638,7 @@ result instead of a serialized one. <span class="image"><img src="images/eval.pn
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">`jupyter kernelspec remove java</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">jupyter kernelspec remove java</code></pre>
 </div>
 </div>
 </div>
@@ -647,20 +647,16 @@ result instead of a serialized one. <span class="image"><img src="images/eval.pn
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install Python and one of the Jupyter environments: <a href="http://jupyter.org/install">Jupyter</a>,
-<a href="http://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html">JupyterLab</a>, etc. E.g., if you are on MacOS,
+<p>Install Python and one of the Jupyter environments (<a href="http://jupyter.org/install">Jupyter</a>,
+<a href="http://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html">JupyterLab</a>, etc.) E.g., if you are on MacOS,
 you can install both with Homebrew:</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash"># Install Jupyter (and, implicitly, Python)
 brew install jupyter</code></pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>Download JJava. Go to <a href="https://github.com/dflib/jjava/releases">GitHub releases</a>. Pick the latest version
 (or choose a specific one that you need) and under the "Assets" section download a file called <code>jjava-$version.zip</code>.</p>
@@ -670,12 +666,9 @@ brew install jupyter</code></pre>
 </li>
 <li>
 <p>Run the following commands:</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre># change the directory to where you unpacked the JJava kernel
+<pre class="CodeRay highlight"><code data-lang="bash"># change the directory to where you unpacked the JJava kernel
 cd jjava-*
 
 # find the version of Python used by Jupyter. Picking the right Python is important
@@ -685,7 +678,7 @@ PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
 echo $PY
 
 # install Java kernel for the current user
-$PY install.py --user</pre>
+$PY install.py --user</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -701,8 +694,7 @@ but the commands will look differently.
 </tr>
 </table>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>If all these steps finished successfully, check that the Java kernel is installed:</p>
 </li>

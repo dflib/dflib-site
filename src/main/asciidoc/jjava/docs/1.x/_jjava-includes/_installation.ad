@@ -2,20 +2,20 @@
 
 === Prerequisites
 
-* Java JDK >= 11
+* Java 11 or newer
 * If you already have another version of `jjava` kernel installed, remove it with the following command:
 
 [source,bash]
 ----
-`jupyter kernelspec remove java
+jupyter kernelspec remove java
 ----
 
 === Install Python, Jupyter, JJava
 
-. Install Python and one of the Jupyter environments: http://jupyter.org/install[Jupyter],
-http://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html[JupyterLab], etc. E.g., if you are on MacOS,
+. Install Python and one of the Jupyter environments (http://jupyter.org/install[Jupyter],
+http://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html[JupyterLab], etc.) E.g., if you are on MacOS,
 you can install both with Homebrew:
-
++
 [source,bash]
 ----
 # Install Jupyter (and, implicitly, Python)
@@ -26,6 +26,7 @@ brew install jupyter
 (or choose a specific one that you need) and under the "Assets" section download a file called `jjava-$version.zip`.
 . Unzip the file into a temporary location.
 . Run the following commands:
++
 [source,bash]
 ----
 # change the directory to where you unpacked the JJava kernel
