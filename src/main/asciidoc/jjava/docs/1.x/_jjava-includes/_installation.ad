@@ -10,42 +10,59 @@
 jupyter kernelspec remove java
 ----
 
-=== Install Python, Jupyter, JJava
+=== Install Python and Jupyter
 
-. Install Python and one of the Jupyter environments (https://jupyter.org/install[Jupyter],
-https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html[JupyterLab], etc.) E.g., if you are on MacOS,
-you can install both with Homebrew:
-+
+There are a few ways to install Python and Jupyter, depending on your OS and preferences. Below we provide a few
+OS-specific recipes to help you to get started (especially if you are a Java developer new to the Python environment).
+More generally, Python is available from https://www.python.org/downloads/[the official site], and Jupyter has its own
+https://jupyter.org/install[installation instructions].
+
+==== MacOS
+If you are on MacOS, you can install both Python and Jupyter ("lab" and "notebook") with a single Homebrew command:
 [source,bash]
 ----
-# Install Jupyter (and, implicitly, Python)
 brew install jupyter
 ----
 
+==== Windows
+
+. Go to https://www.python.org/downloads/windows/ and download the latest Python installer
+. Run the installer
+. Open Command Prompt (`cmd`), and run `pip install jupyterlab` (or `pip install notebook` if you prefer the "classic"
+notebook)
+
+=== Install JJava
+
 . Download JJava: go to https://github.com/dflib/jjava/releases[GitHub releases], pick the latest version
-(or choose a specific one that you need) and under the "Assets" section download a file called `jjava-$version.zip`.
-. Unzip the file into a temporary location.
+(or a specific one that you need) and under the "Assets" section download a file called `jjava-$version.zip`
+. Unzip the file into a temporary location
 . Run the following commands:
 +
 [source,bash]
 ----
-# change the directory to where you unpacked the JJava kernel
+# change to the directory where you unpacked the JJava kernel
 cd jjava-*
 
-# find the version of Python used by Jupyter. Picking the right Python is important
+# install Java kernel for the current user
+python install.py --user
+----
++
+NOTE: It is important to run `install.py` with the same version of Python that runs Jupyter. If you only have a
+single Python installation, the instructions above will work. If you have multiple, you may need to find which one to use.
+E.g., on Mac or Linux, you might try the following recipe:
++
+[source,bash]
+----
+cd jjava-*
 PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
 
 # sanity check - the output should be a valid Python binary
 echo $PY
-
-# install Java kernel for the current user
 $PY install.py --user
 ----
-NOTE: These commands should work on MacOS and Linux. If you are on Windows, you will need to go through the similar steps,
-but the commands will look slightly different.
-
++
 . If all the steps finished successfully, check that the Java kernel is installed:
-
++
 [source,bash]
 ----
 jupyter kernelspec list
@@ -55,6 +72,8 @@ Available kernels:
   java       /path/to/java/kernel
 ----
 
-NOTE: `install.py` Python script has a number of options. Some are similar to `jupyter kernelspec install`, but there are
+NOTE: `install.py` script has a number of options. Some are similar to `jupyter kernelspec install`, but there are
 also additional parameters to configure the kernel, as discussed in the following chapters. Run the script with `-h` to
 see the available options.
+
+

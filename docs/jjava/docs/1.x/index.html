@@ -536,7 +536,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_installation">Installation</a>
 <ul class="sectlevel2">
 <li><a href="#_prerequisites">Prerequisites</a></li>
-<li><a href="#_install_python_jupyter_jjava">Install Python, Jupyter, JJava</a></li>
+<li><a href="#_install_python_and_jupyter">Install Python and Jupyter</a></li>
+<li><a href="#_install_jjava">Install JJava</a></li>
 </ul>
 </li>
 <li><a href="#_running_jupyter">Running Jupyter</a></li>
@@ -651,42 +652,62 @@ result instead of a serialized one. <span class="image"><img src="images/eval.pn
 </div>
 </div>
 <div class="sect2">
-<h3 id="_install_python_jupyter_jjava">Install Python, Jupyter, JJava</h3>
+<h3 id="_install_python_and_jupyter">Install Python and Jupyter</h3>
+<div class="paragraph">
+<p>There are a few ways to install Python and Jupyter, depending on your OS and preferences. Below we provide a few
+OS-specific recipes to help you to get started (especially if you are a Java developer new to the Python environment).
+More generally, Python is available from <a href="https://www.python.org/downloads/">the official site</a>, and Jupyter has its own
+<a href="https://jupyter.org/install">installation instructions</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_macos">MacOS</h4>
+<div class="paragraph">
+<p>If you are on MacOS, you can install both Python and Jupyter ("lab" and "notebook") with a single Homebrew command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">brew install jupyter</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_windows">Windows</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install Python and one of the Jupyter environments (<a href="https://jupyter.org/install">Jupyter</a>,
-<a href="https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html">JupyterLab</a>, etc.) E.g., if you are on MacOS,
-you can install both with Homebrew:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"># Install Jupyter (and, implicitly, Python)
-brew install jupyter</code></pre>
-</div>
-</div>
+<p>Go to <a href="https://www.python.org/downloads/windows/" class="bare">https://www.python.org/downloads/windows/</a> and download the latest Python installer</p>
 </li>
+<li>
+<p>Run the installer</p>
+</li>
+<li>
+<p>Open Command Prompt (<code>cmd</code>), and run <code>pip install jupyterlab</code> (or <code>pip install notebook</code> if you prefer the "classic"
+notebook)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_install_jjava">Install JJava</h3>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Download JJava: go to <a href="https://github.com/dflib/jjava/releases">GitHub releases</a>, pick the latest version
-(or choose a specific one that you need) and under the "Assets" section download a file called <code>jjava-$version.zip</code>.</p>
+(or a specific one that you need) and under the "Assets" section download a file called <code>jjava-$version.zip</code></p>
 </li>
 <li>
-<p>Unzip the file into a temporary location.</p>
+<p>Unzip the file into a temporary location</p>
 </li>
 <li>
 <p>Run the following commands:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"># change the directory to where you unpacked the JJava kernel
+<pre class="CodeRay highlight"><code data-lang="bash"># change to the directory where you unpacked the JJava kernel
 cd jjava-*
 
-# find the version of Python used by Jupyter. Picking the right Python is important
-PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
-
-# sanity check - the output should be a valid Python binary
-echo $PY
-
 # install Java kernel for the current user
-$PY install.py --user</code></pre>
+python install.py --user</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -696,18 +717,26 @@ $PY install.py --user</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-These commands should work on MacOS and Linux. If you are on Windows, you will need to go through the similar steps,
-but the commands will look slightly different.
+It is important to run <code>install.py</code> with the same version of Python that runs Jupyter. If you only have a
+single Python installation, the instructions above will work. If you have multiple, you may need to find which one to use.
+E.g., on Mac or Linux, you might try the following recipe:
 </td>
 </tr>
 </table>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">cd jjava-*
+PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
+
+# sanity check - the output should be a valid Python binary
+echo $PY
+$PY install.py --user</code></pre>
+</div>
+</div>
 </li>
 <li>
 <p>If all the steps finished successfully, check that the Java kernel is installed:</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">jupyter kernelspec list
@@ -717,6 +746,9 @@ Available kernels:
   java       /path/to/java/kernel</code></pre>
 </div>
 </div>
+</li>
+</ol>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -724,7 +756,7 @@ Available kernels:
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>install.py</code> Python script has a number of options. Some are similar to <code>jupyter kernelspec install</code>, but there are
+<code>install.py</code> script has a number of options. Some are similar to <code>jupyter kernelspec install</code>, but there are
 also additional parameters to configure the kernel, as discussed in the following chapters. Run the script with <code>-h</code> to
 see the available options.
 </td>
