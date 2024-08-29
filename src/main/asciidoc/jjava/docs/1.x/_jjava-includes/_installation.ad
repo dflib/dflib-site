@@ -13,8 +13,8 @@ jupyter kernelspec remove java
 === Install Python and Jupyter
 
 There are a few ways to install Python and Jupyter, depending on your OS and preferences. Below we provide a few
-OS-specific recipes to help you to get started (especially if you are a Java developer new to the Python environment).
-More generally, Python is available from https://www.python.org/downloads/[the official site], and Jupyter has its own
+specific recipes to help you to get started (especially if you are a Java developer new to the Python environment).
+But generally, Python is available from https://www.python.org/downloads/[their official site], and Jupyter has its own
 https://jupyter.org/install[installation instructions].
 
 ==== MacOS
@@ -25,6 +25,8 @@ brew install jupyter
 ----
 
 ==== Windows
+
+If you are on Windows, you can install Python using the official installer, and use "pip" for Jupyter:
 
 . Go to https://www.python.org/downloads/windows/ and download the latest Python installer
 . Run the installer
