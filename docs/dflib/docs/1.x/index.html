@@ -4476,19 +4476,15 @@ like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">1.0</span><span class="float">.0</span>-M22 <i class="conum" data-value="1"></i><b>(1)</b>
-
-<span class="keyword">import</span> <span class="include">org.dflib.jupyter</span>.*;
-<span class="keyword">import</span> <span class="include">org.dflib</span>.*;
-
-DFLibJupyter.init(getKernelInstance());</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">1.0</span><span class="float">.0</span>-M23 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>It is enough to include <code>dflib-jupyter</code>. All other DFLib modules will be added through its transitive dependencies.</td>
+<td>Adding <code>dflib-jupyter</code> as a dependency also includes all  other DFLib modules through its transitive dependencies.
+Also, it will load base DFLib imports, and configure Jupyter environment for pretty display of DataFrames and Series.</td>
 </tr>
 </table>
 </div>

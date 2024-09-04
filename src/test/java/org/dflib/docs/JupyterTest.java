@@ -1,8 +1,8 @@
 package org.dflib.docs;
 
+import org.dflib.jjava.jupyter.kernel.BaseKernel;
+import org.dflib.jjava.jupyter.kernel.display.Renderer;
 import org.dflib.jupyter.DFLibJupyter;
-import io.github.spencerpark.jupyter.kernel.BaseKernel;
-import io.github.spencerpark.jupyter.kernel.display.Renderer;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;

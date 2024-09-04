@@ -18,15 +18,11 @@ like this:
 
 [source,java]
 ----
-%maven org.dflib:dflib-jupyter:1.0.0-M22 // <1>
-
-import org.dflib.jupyter.*;
-import org.dflib.*;
-
-DFLibJupyter.init(getKernelInstance());
+%maven org.dflib:dflib-jupyter:1.0.0-M23 // <1>
 ----
 
-<1> It is enough to include `dflib-jupyter`. All other DFLib modules will be added through its transitive dependencies.
+<1> Adding `dflib-jupyter` as a dependency also includes all  other DFLib modules through its transitive dependencies.
+Also, it will load base DFLib imports, and configure Jupyter environment for pretty display of DataFrames and Series.
 
 Click "Shift + Return" to execute the cell. If there are no errors, you can start using DFLib API in the following cells.
 E.g.:
