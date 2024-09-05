@@ -50,6 +50,9 @@ to declare a default utility method to use in the notebook.
 options that would be passed to the `java` command running the kernel.
 *NOTE* this is a runtime only option, and have no corresponding install
 parameter
+
+|`JJAVA_LOAD_EXTENSIONS` |- |`"1"` |Option that controls autoloading Kernel extensions feature.
+If you do not want third-party libraries to load anything implicitly you could turn it off by `export JJAVA_LOAD_EXTENSIONS=0`
 |===
 
 [#simple-glob-syntax]
