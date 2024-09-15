@@ -641,7 +641,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_change_display_parameters">Change Display Parameters</a></li>
 </ul>
 </li>
-<li><a href="#echarts">Charting with ECharts</a></li>
+<li><a href="#echarts">Charting with ECharts</a>
+<ul class="sectlevel2">
+<li><a href="#_line_charts">Line Charts</a></li>
+<li><a href="#_bar_charts">Bar Charts</a></li>
+<li><a href="#_scatter_charts">Scatter Charts</a></li>
+<li><a href="#_pie_charts">Pie Charts</a></li>
+<li><a href="#_candlestick_charts">Candlestick Charts</a></li>
+</ul>
+</li>
 <li><a href="#unit-testing">Unit Testing</a></li>
 </ul>
 </div>
@@ -4505,10 +4513,8 @@ df</code></pre>
 <p>DFLib development is literally "visual" in Jupyter, as in addition to tabular data, you can display graphical
 <a href="#echarts">charts</a> with contents of DataFrames:</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="https://dflib.org/images/charts/chart-in-jupyter.png" alt="chart in jupyter">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/chart-in-jupyter.png" alt="chart in jupyter"></span></p>
 </div>
 <div class="sect2">
 <h3 id="_change_display_parameters">Change Display Parameters</h3>
@@ -4528,12 +4534,33 @@ DFLibJupyter.setMaxDisplayColumnWidth(<span class="integer">50</span>);</code></
 <h2 id="echarts">Charting with ECharts</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib provides a simple Java DSL to generate charts from DataFrames based on the Apache ECharts library. The
-charts are produced as pieces of HTML/JavaScript code and can be rendered either in Jupyter notebooks or served to
+<p>DFLib provides a simple Java API to generate charts from DataFrames based on the <a href="https://echarts.apache.org">Apache ECharts library</a>.
+Charts are produced as pieces of HTML/JavaScript code and can be rendered either in Jupyter notebooks or served to
 the browser in a webapp.</p>
 </div>
 <div class="paragraph">
-<p>To work with the ECharts API, you should include the following dependency (already included if you are in the
+<p>The focus of this chapter is the DFLib API. We don&#8217;t dwell much on the underlying ECharts concepts, so you may need to read
+their documentation to get explanations of things like multiple axes, grid, etc. The main difference of the DFLib
+approach is that you don&#8217;t need to explicitly specify chart <code>dataset</code> or <code>data</code> sections. Instead, you&#8217;d define which
+<code>DataFrame</code> columns should be used for chart series, axes, etc., and DFLib generates the data-related parts
+from the provided <code>DataFrame</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The ECharts JavaScript API contains a very large number of chart types and configuration options. DFLib
+<code>EChart</code> class supports a growing, but incomplete subset of that API. If we are missing a feature that you need,
+please open a task on GitHub, and we&#8217;ll do our best to integrate it.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To work with the ECharts API, you should include the following dependency (already included in the
 <a href="#jupyter">Jupyter environment</a>):</p>
 </div>
 <div class="listingblock">
@@ -4545,7 +4572,7 @@ the browser in a webapp.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s create a simple bar chart showing employee salaries:</p>
+<p>And then you can create a chart. E.g., here is a simple bar chart showing employee salaries:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4565,44 +4592,43 @@ EChartHtml chart = ECharts
 <div class="paragraph">
 <p><code>EChartHtml</code> object contains pieces of HTML and JavaScript needed to render the following chart in the browser:</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="https://dflib.org/images/charts/doc-chart1.svg" alt="doc chart1">
-</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/doc-chart1.svg" alt="doc chart1"></span></p>
 </div>
 <div class="paragraph">
-<p>If you are planning to embed charts in a web application, you&#8217;ll need to inspect <code>EChartHtml.getContainer()</code>,
-<code>EChartHtml.getExternalScript()</code>, <code>EChartHtml.getScript()</code> methods and embed them in your HTML as you see fit.</p>
+<p>Running this code in Jupyter will render the chart above in the browser. So you don&#8217;t need to do anything
+special to display it. When embedding charts in web applications, you&#8217;ll need to inspect <code>EChartHtml.getContainer()</code>,
+<code>EChartHtml.getExternalScript()</code>, <code>EChartHtml.getScript()</code> methods and insert them in your HTML as you see fit.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Running this code in a <a href="#jupyter">Jupyter Notebook</a> will render the chart inline. You won&#8217;t need anything
-special to display it.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Apache ECharts provides a very large number of chart types and configuration options. DFLib <code>EChart</code> class
-supports a growing, but incomplete subset of that API. If we are missing a feature that you need, please open a task
-on GitHub, and we&#8217;ll do our best to integrate it.
-</td>
-</tr>
-</table>
-</div>
+<div class="sect2">
+<h3 id="_line_charts">Line Charts</h3>
 <div class="paragraph">
-<p>TODO: more examples</p>
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bar_charts">Bar Charts</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scatter_charts">Scatter Charts</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pie_charts">Pie Charts</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_candlestick_charts">Candlestick Charts</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
 </div>
 </div>
 </div>
@@ -4617,7 +4643,7 @@ on GitHub, and we&#8217;ll do our best to integrate it.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-22 11:03:48 +0400
+Last updated 2024-08-21 17:31:25 +0200
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

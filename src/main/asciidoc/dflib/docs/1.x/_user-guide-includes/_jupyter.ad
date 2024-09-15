@@ -39,7 +39,7 @@ df
 DFLib development is literally "visual" in Jupyter, as in addition to tabular data, you can display graphical
 <<echarts,charts>> with contents of DataFrames:
 
-image::https://dflib.org/images/charts/chart-in-jupyter.png[]
+image:images/chart-in-jupyter.png[]
 
 === Change Display Parameters
 

@@ -1,11 +1,21 @@
 [#echarts]
 == Charting with ECharts
 
-DFLib provides a simple Java DSL to generate charts from DataFrames based on the Apache ECharts library. The
-charts are produced as pieces of HTML/JavaScript code and can be rendered either in Jupyter notebooks or served to
+DFLib provides a simple Java API to generate charts from DataFrames based on the https://echarts.apache.org[Apache ECharts library].
+Charts are produced as pieces of HTML/JavaScript code and can be rendered either in Jupyter notebooks or served to
 the browser in a webapp.
 
-To work with the ECharts API, you should include the following dependency (already included if you are in the
+The focus of this chapter is the DFLib API. We don't dwell much on the underlying ECharts concepts, so you may need to read
+their documentation to get explanations of things like multiple axes, grid, etc. The main difference of the DFLib
+approach is that you don't need to explicitly specify chart `dataset` or `data` sections. Instead, you'd define which
+`DataFrame` columns should be used for chart series, axes, etc., and DFLib generates the data-related parts
+from the provided `DataFrame`.
+
+NOTE: The ECharts JavaScript API contains a very large number of chart types and configuration options. DFLib
+`EChart` class supports a growing, but incomplete subset of that API. If we are missing a feature that you need,
+please open a task on GitHub, and we'll do our best to integrate it.
+
+To work with the ECharts API, you should include the following dependency (already included in the
 <<jupyter,Jupyter environment>>):
 
 [source,xml]
@@ -16,24 +26,36 @@ To work with the ECharts API, you should include the following dependency (alrea
 </dependency>
 ----
 
-Let's create a simple bar chart showing employee salaries:
+And then you can create a chart. E.g., here is a simple bar chart showing employee salaries:
 [source,java,indent=0]
 ----
 include::${src-dir}/EChartsTest.java[tags=barChart]
 ----
 `EChartHtml` object contains pieces of HTML and JavaScript needed to render the following chart in the browser:
 
-image::https://dflib.org/images/charts/doc-chart1.svg[]
+image:images/doc-chart1.svg[]
 
-If you are planning to embed charts in a web application, you'll need to inspect `EChartHtml.getContainer()`,
-`EChartHtml.getExternalScript()`, `EChartHtml.getScript()` methods and embed them in your HTML as you see fit.
+Running this code in Jupyter will render the chart above in the browser. So you don't need to do anything
+special to display it. When embedding charts in web applications, you'll need to inspect `EChartHtml.getContainer()`,
+`EChartHtml.getExternalScript()`, `EChartHtml.getScript()` methods and insert them in your HTML as you see fit.
 
-NOTE: Running this code in a <<jupyter,Jupyter Notebook>> will render the chart inline. You won't need anything
-special to display it.
+=== Line Charts
 
+TODO
 
-NOTE: Apache ECharts provides a very large number of chart types and configuration options. DFLib `EChart` class
-supports a growing, but incomplete subset of that API. If we are missing a feature that you need, please open a task
-on GitHub, and we'll do our best to integrate it.
+=== Bar Charts
 
-TODO: more examples
+TODO
+
+=== Scatter Charts
+
+TODO
+
+=== Pie Charts
+
+TODO
+
+=== Candlestick Charts
+
+TODO
+
