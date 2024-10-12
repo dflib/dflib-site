@@ -688,7 +688,7 @@ multiple DFLib modules:</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>1.0.0-M22<span class="tag">&lt;/version&gt;</span>
+      <span class="tag">&lt;version&gt;</span>1.0.0-RC1<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
       <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
@@ -4213,7 +4213,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Csv.loader() <i class="conum" data-value="1"></i><b>(1)</b>
         .offset(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
         .header(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="3"></i><b>(3)</b>
-        .intColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
+        .intCol(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
         .load(<span class="string"><span class="delimiter">&quot;</span><span class="content">src/test/resources/f1.csv</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
@@ -4404,7 +4404,7 @@ configure a couple of things. Start <code>jshell</code> and execute the followin
 // You will need to include all DFLib jars and their
 // dependencies explicitly
 
-/env --class-path /path/to/dflib-1.0.0-M22.jar:/path/to/dflib-csv-1.0.0-M22.jar</code></pre>
+/env --class-path /path/to/dflib-1.0.0-RC1.jar:/path/to/dflib-csv-1.0.0-RC1.jar</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -4484,7 +4484,7 @@ like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">1.0</span><span class="float">.0</span>-M23 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">1.0</span><span class="float">.0</span>-RC1 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4643,7 +4643,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-21 17:31:25 +0200
+Last updated 2024-08-21 11:31:25 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />
