@@ -36,31 +36,14 @@ notebook)
 === Install JJava
 
 . Download JJava: go to https://github.com/dflib/jjava/releases[GitHub releases], pick the latest version
-(or a specific one that you need) and under the "Assets" section download a file called `jjava-$version.zip`
+(or a specific one that you need) and under the "Assets" section download a file called `jjava-$version-kernelspec.zip`
 . Unzip the file into a temporary location
 . Run the following commands:
 +
 [source,bash]
 ----
-# change to the directory where you unpacked the JJava kernel
-cd jjava-*
-
-# install Java kernel for the current user
-python install.py --user
-----
-+
-NOTE: It is important to run `install.py` with the same version of Python that runs Jupyter. If you only have a
-single Python installation, the instructions above will work. If you have multiple, you will need to determine which one
-to use. E.g., on Mac or Linux, you might try the following recipe:
-+
-[source,bash]
-----
-cd jjava-*
-PY=$(cat `which jupyter` |head -1 |cut -d'!' -f2)
-
-# sanity check - the output should be a valid Python binary
-echo $PY
-$PY install.py --user
+# use the directory with the downloaded JJava kernel
+jupyter kernelspec install jjava-$version-kernelspec --user --name=java
 ----
 +
 . If all the steps finished successfully, check that the Java kernel is installed:
@@ -73,9 +56,3 @@ Available kernels:
   python3    /path/to/python/kernel
   java       /path/to/java/kernel
 ----
-
-NOTE: `install.py` script has a number of options. Some are similar to `jupyter kernelspec install`, but there are
-also additional parameters to configure the kernel, as discussed in the following chapters. Run the script with `-h` to
-see the available options.
-
-
