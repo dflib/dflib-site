@@ -43,7 +43,7 @@ file, look for the `"env"` section, and set any number of variables. E.g:
 ```
 
 NOTE: If you store your variables in `kernel.json`, be aware that they will be wiped out on subsequent kernel reinstalls.
-So you will have to do it again after every kernel uphgrade.
+So you will have to do it again after every kernel upgrade.
 
 [#recognized-vars]
 === Recognized Variables
