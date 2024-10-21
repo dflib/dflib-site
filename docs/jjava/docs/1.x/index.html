@@ -543,8 +543,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_running_jupyter">Running Jupyter</a></li>
 <li><a href="#_configuring">Configuring</a>
 <ul class="sectlevel2">
-<li><a href="#list-of-options">List of options</a></li>
-<li><a href="#_changing_vmcompiler_options">Changing VM/compiler options</a></li>
+<li><a href="#recognized-vars">Recognized Variables</a></li>
+<li><a href="#simple-glob-syntax">Glob Syntax</a></li>
 </ul>
 </li>
 <li><a href="#magics">Magics</a>
@@ -697,22 +697,34 @@ notebook)</p>
 <ol class="arabic">
 <li>
 <p>Download JJava: go to <a href="https://github.com/dflib/jjava/releases">GitHub releases</a>, pick the latest version
-(or a specific one that you need) and under the "Assets" section download a file called <code>jjava-$version-kernelspec.zip</code></p>
+(or a specific one that you need) and under the "Assets" section download a file called <code>jjava-${version}-kernelspec.zip</code></p>
 </li>
 <li>
 <p>Unzip the file into a temporary location</p>
 </li>
 <li>
-<p>Run the following commands:</p>
+<p>Run the following commands from the parent directory that contains the unzipped kernel folder</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"># use the directory with the downloaded JJava kernel
-jupyter kernelspec install jjava-$version-kernelspec --user --name=java</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">jupyter kernelspec install jjava-${version}-kernelspec --user --name=java</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The above is the most common install recipe. To see all options available, run
+<code>jupyter kernelspec install help</code>.
+</td>
+</tr>
+</table>
 </div>
 </li>
 <li>
-<p>If all the steps finished successfully, check that the Java kernel is installed:</p>
+<p>Check that the Java kernel is installed:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="bash">jupyter kernelspec list
@@ -749,25 +761,79 @@ jupyter console --kernel=java</code></pre>
 <h2 id="_configuring">Configuring</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Configuring the kernel can be done via environment variables. These can
-be set on the system or inside the <code>kernel.json</code>. The configuration can
-be done at install time, which may be repeated as often as desired. The
-parameters are listed with <code>python3 install.py -h</code> as well as below in
-the list of options.</p>
+<p>JJava kernel behavior can be configured via <a href="#recognized-vars">environment variables</a>. Here is
+an example on Windows using <code>cmd</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>set JJAVA_JVM_OPTS=-Xmx8192m
+jupyter lab</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the same example on Linux or MacOS:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">export JJAVA_JVM_OPTS=-Xmx8192m
+jupyter lab
+
+# alternatively, store it in &quot;.bashrc&quot; so that the
+# variable is always set implicitly
+# echo 'export JJAVA_JVM_OPTS=-Xmx8192m' &gt;&gt; ~/.bashrc</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sometimes you don&#8217;t fully control the startup environment. If that&#8217;s the case, you may store the same variables
+in the <code>kernel.json</code> file that is a part of the JJava installation. To locate this file, run <code>jupyter kernelspec list</code>
+command. <code>kernel.json</code> should be located in the directory corresponding to the "java" kernel as listed by this command. In the
+file, look for the <code>"env"</code> section, and set any number of variables. E.g:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">argv</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">java</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">-jar</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">{resource_dir}/jjava-launcher.jar</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">{resource_dir}/jjava.jar</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">{connection_file}</span><span class="delimiter">&quot;</span></span>
+    ],
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">display_name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Java (jjava)</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">language</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">java</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">interrupt_mode</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">env</span><span class="delimiter">&quot;</span></span>: {
+      <span class="key"><span class="delimiter">&quot;</span><span class="content">JJAVA_JVM_OPTS</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">-Xmx8192m</span><span class="delimiter">&quot;</span></span>
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">metadata</span><span class="delimiter">&quot;</span></span>: {
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you store your variables in <code>kernel.json</code>, be aware that they will be wiped out on subsequent kernel reinstalls.
+So you will have to do it again after every kernel uphgrade.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
-<h3 id="list-of-options">List of options</h3>
+<h3 id="recognized-vars">Recognized Variables</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 8%;">
-<col style="width: 5%;">
 <col style="width: 1%;">
-<col style="width: 86%;">
+<col style="width: 91%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Environment variable</th>
-<th class="tableblock halign-left valign-top">Parameter name</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
@@ -775,7 +841,6 @@ the list of options.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_COMPILER_OPTS</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comp-opts</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A space delimited list of
 command line options that would be passed to the <code>javac</code> command when
@@ -784,7 +849,6 @@ parameter names for reflection.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_TIMEOUT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>"-1"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A duration specifying a timeout (in
 milliseconds by default) for a <em>single top level statement</em>. If less
@@ -795,7 +859,6 @@ may be given following the duration number (ex <code>"30 SECONDS"</code>).</p></
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_CLASSPATH</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>classpath</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A file path separator delimited
 list of classpath entries that should be available to the user code.
@@ -805,7 +868,6 @@ the file separator. Also each path may actually be a
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_STARTUP_SCRIPTS_PATH</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startup-scripts-path</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A file path
 seperator delimited list of <code>.jshell</code> scripts to run on startup. This
@@ -814,12 +876,10 @@ includes
 and
 <a href="https://github.com/dflib/jjava/blob/main/src/main/resources/jjava-display-init.jshell">jjava-display-init.jshell</a>.
 <strong>Important:</strong> no matter what OS, this should use forward slash <code>/</code> as
-the file separator. Also each path may actually be a
-<a href="#simple-glob-syntax">simple glob</a>.</p></td>
+the file separator. Also, each path may actually be a <a href="#simple-glob-syntax">simple glob</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_STARTUP_SCRIPT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startup-script</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A block of java code to
 run when the kernel starts up. This may be something like
@@ -829,7 +889,6 @@ to declare a default utility method to use in the notebook.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_JVM_OPTS</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A space delimited list of command line
 options that would be passed to the <code>java</code> command running the kernel.
@@ -838,17 +897,17 @@ parameter</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_LOAD_EXTENSIONS</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>"1"</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Option that controls autoloading Kernel extensions feature.
 If you do not want third-party libraries to load anything implicitly you could turn it off by <code>export JJAVA_LOAD_EXTENSIONS=0</code></p></td>
 </tr>
 </tbody>
 </table>
-<div class="sect3">
-<h4 id="simple-glob-syntax">Simple glob syntax</h4>
+</div>
+<div class="sect2">
+<h3 id="simple-glob-syntax">Glob Syntax</h3>
 <div class="paragraph">
-<p>Options that support this glob syntax may reference a set of files with
+<p>Variables that support this glob syntax may reference a set of files with
 a single path-like string. Basic glob queries are supported including:</p>
 </div>
 <div class="ulist">
@@ -872,37 +931,6 @@ directory that the <code>jupyter notebook</code> command was run.</p>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> users on any OS should use <code>/</code> as a path separator.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_changing_vmcompiler_options">Changing VM/compiler options</h3>
-<div class="paragraph">
-<p>See the <a href="#list-of-options">List of options</a> section for all of the
-configuration options.</p>
-</div>
-<div class="paragraph">
-<p>To change compiler options use the <code>JJAVA_COMPILER_OPTS</code> environment
-variable (or <code>--comp-opts</code> parameter during installation) with a string
-of flags as if running the <code>javac</code> command.</p>
-</div>
-<div class="paragraph">
-<p>To change JVM parameters use the <code>JJAVA_JVM_OPTS</code> environment variable
-with a string of flags as if running the <code>java</code> command. For example to
-enable assertions and set a limit on the heap size to <code>128m</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">export JJAVA_JVM_OPTS='-ea -Xmx128m'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>or enabled kernel debug:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">export JJAVA_JVM_OPTS='-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n'</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -1381,7 +1409,7 @@ off the data before commit.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-09-05 11:41:52 +0400
+Last updated 2024-08-25 16:32:57 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

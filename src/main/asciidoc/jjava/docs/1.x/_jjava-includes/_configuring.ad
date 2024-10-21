@@ -1,64 +1,102 @@
 == Configuring
 
-Configuring the kernel can be done via environment variables. These can
-be set on the system or inside the `kernel.json`. The configuration can
-be done at install time, which may be repeated as often as desired. The
-parameters are listed with `python3 install.py -h` as well as below in
-the list of options.
+JJava kernel behavior can be configured via <<recognized-vars,environment variables>>. Here is
+an example on Windows using `cmd`:
+```
+set JJAVA_JVM_OPTS=-Xmx8192m
+jupyter lab
+```
 
-[#list-of-options]
-=== List of options
+And the same example on Linux or MacOS:
+```bash
+export JJAVA_JVM_OPTS=-Xmx8192m
+jupyter lab
 
-[width="100%",cols="8%,5%,1%,86%",options="header",]
+# alternatively, store it in ".bashrc" so that the
+# variable is always set implicitly
+# echo 'export JJAVA_JVM_OPTS=-Xmx8192m' >> ~/.bashrc
+```
+
+Sometimes you don't fully control the startup environment. If that's the case, you may store the same variables
+in the `kernel.json` file that is a part of the JJava installation. To locate this file, run `jupyter kernelspec list`
+command. `kernel.json` should be located in the directory corresponding to the "java" kernel as listed by this command. In the
+file, look for the `"env"` section, and set any number of variables. E.g:
+
+```json
+{
+    "argv": [
+        "java",
+        "-jar",
+        "{resource_dir}/jjava-launcher.jar",
+        "{resource_dir}/jjava.jar",
+        "{connection_file}"
+    ],
+    "display_name": "Java (jjava)",
+    "language": "java",
+    "interrupt_mode": "message",
+    "env": {
+      "JJAVA_JVM_OPTS" : "-Xmx8192m"
+    },
+    "metadata": {
+    }
+}
+```
+
+NOTE: If you store your variables in `kernel.json`, be aware that they will be wiped out on subsequent kernel reinstalls.
+So you will have to do it again after every kernel uphgrade.
+
+[#recognized-vars]
+=== Recognized Variables
+
+[width="100%",cols="8%,1%,91%",options="header",]
 |===
-|Environment variable |Parameter name |Default |Description
-|`JJAVA_COMPILER_OPTS` |`comp-opts` |`""` |A space delimited list of
+|Environment variable |Default |Description
+|`JJAVA_COMPILER_OPTS` |`""` |A space delimited list of
 command line options that would be passed to the `javac` command when
 compiling a project. For example `-parameters` to enable retaining
 parameter names for reflection.
 
-|`JJAVA_TIMEOUT` |`timeout` |`"-1"` |A duration specifying a timeout (in
+|`JJAVA_TIMEOUT` |`"-1"` |A duration specifying a timeout (in
 milliseconds by default) for a _single top level statement_. If less
 than `1` then there is no timeout. If desired a time may be specified
 with a
 https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html[`TimeUnit`]
 may be given following the duration number (ex `"30 SECONDS"`).
 
-|`JJAVA_CLASSPATH` |`classpath` |`""` |A file path separator delimited
+|`JJAVA_CLASSPATH` |`""` |A file path separator delimited
 list of classpath entries that should be available to the user code.
 *Important:* no matter what OS, this should use forward slash ``/'' as
 the file separator. Also each path may actually be a
 link:#simple-glob-syntax[simple glob].
 
-|`JJAVA_STARTUP_SCRIPTS_PATH` |`startup-scripts-path` |`""` |A file path
+|`JJAVA_STARTUP_SCRIPTS_PATH` |`""` |A file path
 seperator delimited list of `.jshell` scripts to run on startup. This
 includes
 https://github.com/dflib/jjava/blob/main/src/main/resources/jjava-jshell-init.jshell[jjava-jshell-init.jshell]
 and
 https://github.com/dflib/jjava/blob/main/src/main/resources/jjava-display-init.jshell[jjava-display-init.jshell].
 *Important:* no matter what OS, this should use forward slash `/` as
-the file separator. Also each path may actually be a
-link:#simple-glob-syntax[simple glob].
+the file separator. Also, each path may actually be a link:#simple-glob-syntax[simple glob].
 
-|`JJAVA_STARTUP_SCRIPT` |`startup-script` |`""` |A block of java code to
+|`JJAVA_STARTUP_SCRIPT` |`""` |A block of java code to
 run when the kernel starts up. This may be something like
 `import my.utils;` to setup some default imports or even
 `void sleep(long time) { try {Thread.sleep(time); } catch (InterruptedException e) { throw new RuntimeException(e); }}`
 to declare a default utility method to use in the notebook.
 
-|`JJAVA_JVM_OPTS` |- |`""` |A space delimited list of command line
+|`JJAVA_JVM_OPTS` |`""` |A space delimited list of command line
 options that would be passed to the `java` command running the kernel.
 *NOTE* this is a runtime only option, and have no corresponding install
 parameter
 
-|`JJAVA_LOAD_EXTENSIONS` |- |`"1"` |Option that controls autoloading Kernel extensions feature.
+|`JJAVA_LOAD_EXTENSIONS` |`"1"` |Option that controls autoloading Kernel extensions feature.
 If you do not want third-party libraries to load anything implicitly you could turn it off by `export JJAVA_LOAD_EXTENSIONS=0`
 |===
 
 [#simple-glob-syntax]
-==== Simple glob syntax
+=== Glob Syntax
 
-Options that support this glob syntax may reference a set of files with
+Variables that support this glob syntax may reference a set of files with
 a single path-like string. Basic glob queries are supported including:
 
 * `*` to match 0 or more characters up to the next path boundary `/`
@@ -71,28 +109,3 @@ directory. For example the glob `*.jar` will match all jars is the
 directory that the `jupyter notebook` command was run.
 
 *Note:* users on any OS should use `/` as a path separator.
-
-=== Changing VM/compiler options
-
-See the link:#list-of-options[List of options] section for all of the
-configuration options.
-
-To change compiler options use the `JJAVA_COMPILER_OPTS` environment
-variable (or `--comp-opts` parameter during installation) with a string
-of flags as if running the `javac` command.
-
-To change JVM parameters use the `JJAVA_JVM_OPTS` environment variable
-with a string of flags as if running the `java` command. For example to
-enable assertions and set a limit on the heap size to `128m`:
-
-[source,bash]
-----
-export JJAVA_JVM_OPTS='-ea -Xmx128m'
-----
-
-or enabled kernel debug:
-
-[source,bash]
-----
-export JJAVA_JVM_OPTS='-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n'
-----

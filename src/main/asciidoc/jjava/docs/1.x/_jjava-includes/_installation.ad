@@ -36,17 +36,19 @@ notebook)
 === Install JJava
 
 . Download JJava: go to https://github.com/dflib/jjava/releases[GitHub releases], pick the latest version
-(or a specific one that you need) and under the "Assets" section download a file called `jjava-$version-kernelspec.zip`
+(or a specific one that you need) and under the "Assets" section download a file called `jjava-${version}-kernelspec.zip`
 . Unzip the file into a temporary location
-. Run the following commands:
+. Run the following commands from the parent directory that contains the unzipped kernel folder
 +
 [source,bash]
 ----
-# use the directory with the downloaded JJava kernel
-jupyter kernelspec install jjava-$version-kernelspec --user --name=java
+jupyter kernelspec install jjava-${version}-kernelspec --user --name=java
 ----
+NOTE: The above is the most common install recipe. To see all options available, run
+`jupyter kernelspec install help`.
+
 +
-. If all the steps finished successfully, check that the Java kernel is installed:
+. Check that the Java kernel is installed:
 +
 [source,bash]
 ----
@@ -56,3 +58,5 @@ Available kernels:
   python3    /path/to/python/kernel
   java       /path/to/java/kernel
 ----
+
+
