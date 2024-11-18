@@ -94,6 +94,33 @@ public class ExpTest extends BaseTest {
     }
 
     @Test
+    public void mapVal() {
+
+// tag::mapVal[]
+        Exp<byte[]> bytes = $decimal("col")
+                .mapVal(d -> d.toBigInteger().toByteArray()); // <1>
+// end::mapVal[]
+    }
+
+    @Test
+    public void map() {
+
+// tag::map[]
+        Exp<Integer> exp = $int("col")
+                .map(s -> Series.ofVal(s.get(0), s.size())); // <1>
+// end::map[]
+    }
+
+    @Test
+    public void agg() {
+
+// tag::agg[]
+        Exp<Integer> exp = $col("col")
+                .agg(s -> s.unique().size()); // <1>
+// end::agg[]
+    }
+
+    @Test
     public void expChain() {
 
 // tag::expChain[]
