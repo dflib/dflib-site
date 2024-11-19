@@ -497,17 +497,25 @@ h2 { font-family: "Roboto Mono",sans-serif;font-size: 18px;font-weight: 600;}
     <h2>Wins, Losses, OT</h2>
     Each pie chart shows a proportion of a single team's wins vs regulation losses (with an optional additoon of "OT losses"). Teams are ordered by points. The data is for the 2023-24 regular season. 
 </div>
-<div id='dfl_ech_8301' class='dfl_ech' style='width: 1000px;height:400px;'></div>
-<script type='text/javascript'>var chart_dfl_ech_8301 = echarts.init(
-        document.getElementById('dfl_ech_8301'),
+<div id='dfl_ech_3171' class='dfl_ech' style='width: 1000px;height:400px;'></div>
+<script type='text/javascript'>var chart_dfl_ech_3171 = echarts.init(
+        document.getElementById('dfl_ech_3171'),
         null,
         {
             renderer: 'svg'
         }
    );
-    var option_dfl_ech_8301 = {
+    var option_dfl_ech_3171 = {
         tooltip: {
             trigger: 'axis',
+        },
+        toolbox: {
+            feature: {
+                dataZoom: {},
+                saveAsImage: {
+                },
+                restore: {}
+            }
         },
         legend: {
             selected: {
@@ -1226,21 +1234,21 @@ h2 { font-family: "Roboto Mono",sans-serif;font-size: 18px;font-weight: 600;}
             },
         ]
     };
-    option_dfl_ech_8301 && chart_dfl_ech_8301.setOption(option_dfl_ech_8301);</script>
+    option_dfl_ech_3171 && chart_dfl_ech_3171.setOption(option_dfl_ech_3171);</script>
 
 <div class="chart_legend"> 
     <h2>Minutes to First Goal</h2>
     A boxplot chart showing how many minutes on average it takes each team to score a first goal, and how consistent they are in their first goal scoring times. The data is for the 2023-24 regular season.
 </div>
-<div id='dfl_ech_2156' class='dfl_ech' style='width: 1000px;height:400px;'></div>
-<script type='text/javascript'>var chart_dfl_ech_2156 = echarts.init(
-        document.getElementById('dfl_ech_2156'),
+<div id='dfl_ech_5371' class='dfl_ech' style='width: 1000px;height:400px;'></div>
+<script type='text/javascript'>var chart_dfl_ech_5371 = echarts.init(
+        document.getElementById('dfl_ech_5371'),
         null,
         {
             renderer: 'svg'
         }
    );
-    var option_dfl_ech_2156 = {
+    var option_dfl_ech_5371 = {
         tooltip: {
             trigger: 'axis',
         },
@@ -1306,6 +1314,6 @@ h2 { font-family: "Roboto Mono",sans-serif;font-size: 18px;font-weight: 600;}
             },
         ]
     };
-    option_dfl_ech_2156 && chart_dfl_ech_2156.setOption(option_dfl_ech_2156);</script>
+    option_dfl_ech_5371 && chart_dfl_ech_5371.setOption(option_dfl_ech_5371);</script>
 </body>
 </html>
