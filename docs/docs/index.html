@@ -1,17 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>DFLib, a Java DataFrame Library</title>
-    <meta name="description" content="DFLib is a lightweight Java implementation of a common DataFrame data structure">
-    <meta name="keywords" content="DFLib Documentation, DataFrame, Java, ETL, data analysis, Jupyter, notebook">
-</head>
-<body>
-<h1>Documentation</h1>
-<ul>
-    <li><a href="../dflib/docs/1.x/">DFLib Documentation</a></li>
-    <li><a href="../jjava/docs/1.x/">JJava Jupyter Java Kernel Documentation</a></li>
-</ul>
+<html lang="en-US">
+	
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-</body>
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
+
+    <title>DFLib DataFrame Library And JJava Jupyter Kernel Documentation</title>
+    <meta name="description" content="Discover DFLib: a Java DataFrame library for efficient data manipulation similar to SQL. Supports CSV, Excel, RDBMS, and more. Ideal for Java developers.">
+    <meta name="keywords" content="DFLib, DataFrame, Java, ETL, data analysis, Jupyter, notebook">
+
+    <link rel="canonical" href="/docs/">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face{font-family:'Roboto Mono';font-weight:900;font-style:normal;font-display:swap}@font-face{font-family:'Roboto Mono';font-weight:700;font-style:normal;font-display:swap}@font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap}html{font-family:'Roboto Mono',sans-serif;font-size:16px;font-weight:400;line-height:1.5;-webkit-text-size-adjust:100%;background:#141518;color:#fff}body{margin:0;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh}.d_sctn{display:flow-root;box-sizing:border-box;padding:40px 0}.d_cntnr{display:flow-root;box-sizing:content-box;max-width:1120px;margin-left:auto;margin-right:auto;padding-left:15px;padding-right:15px}.d_rw{display:flex;flex-wrap:wrap;column-gap:30px;row-gap:30px;box-sizing:border-box}.d_rw+.d_rw{margin-top:40px}[class^=d_cl]{flex:1 1 100%;box-sizing:border-box}.d_cl_a{flex-grow:0;flex-shrink:0;flex-basis:auto}.d_n_xs{display:none}button{background:0 0;border:none;padding:0}button:hover{cursor:pointer}h1{font-size:1.5rem;line-height:1.333;font-weight:700;margin-top:0;margin-bottom:0}h1 strong{color:#34c759;font-weight:800}a{text-decoration:none;color:#fff;text-transform:uppercase;font-weight:600}a:hover{text-decoration:underline}.d_btn{margin:0;color:#fff;display:inline-block;font-size:1rem;line-height:1.5;font-weight:700;text-align:center;text-decoration:none;padding:10px;background:#1b1c21;transition:background .3s ease-in-out;margin-left:auto;margin-right:auto;border-radius:40px;min-width:246px}.d_btn:hover{background:#383a43}.d_btn:active{background:#fff;color:#333}header{padding:21px 0;background:#1b1c21}header .d_rw{justify-content:space-between}header .d_m_m{display:none}header .d_m_m.d_show{display:flex}.d_logo_box a{display:flex}.d_hbrg{padding:6px 0;display:flex}.d_hbrg i,.d_hbrg i:after,.d_hbrg i:before{transition:all .2s ease-out;background:#fff;border-radius:2px;height:2px;width:21px}.d_hbrg i{position:relative;line-height:1}.d_hbrg i:after,.d_hbrg i:before{content:"";position:absolute;left:0}.d_hbrg i:after{bottom:-5px}.d_hbrg i:before{top:-5px}.d_v_s{display:none}.d_crd{background:#1b1c21;border-radius:19px;padding:34px 40px;display:flex;justify-content:center;}.d_crd:not(:last-child){position:relative}.d_crd:not(:last-child)::before{content:'';width:28px;height:24px;position:absolute;background-image:url("data:image/svg+xml,%3Csvg width='30' height='36' viewBox='0 0 30 36' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 4L22 18L8 32' stroke='%238BA98F' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");background-size:contain;background-repeat:no-repeat;left:50%;transform:translateX(-50%) rotate(90deg);bottom:-32px}.o_modal{display:none}@media (min-width:768px){footer,header,main{display:none}}@media (min-width:768px){.o_preload{z-index:999999999;position:fixed;display:flex;top:0;left:0;height:100%;width:100%;background:#141518;justify-content:space-around;}.o_preload::after{content:'';animation:rotate 2s linear infinite;width:75px;height:75px;position:absolute;left:50%;top:50%;background-size:cover;transform:translate(50%,50%)}}@keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    </style>
+</head>
+	<body>
+		<div class="o_preload"></div>
+<header>
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_cl_a d_cl_1_3@s d_n_xs">
+                <ul>
+                    <li>
+                        <a href="/docs/">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/dflib/dflib/discussions">Forum</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="d_cl d_cl_a d_cl_1_3@s d_logo_box">
+                <a href="/" aria-label="Home page">
+                    <svg width="144" height="26" viewBox="0 0 1200 213.16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <style>
+                                .cls-1 {
+                                    fill: #fff;
+                                }
+                            </style>
+                        </defs>
+                        <rect class="cls-1" y="0" width="184.62" height="42.63"/>
+                        <rect class="cls-1" y="170.53" width="184.62" height="42.63"/>
+                        <rect class="cls-1" x="600" y="170.53" width="184.62" height="42.63"/>
+                        <rect class="cls-1" x="143.74" y="83.5" width="127.9" height="46.15" transform="translate(314.27 -101.11) rotate(90)"/>
+                        <rect class="cls-1" x="323.08" y="0" width="184.62" height="42.63" transform="translate(830.77 42.63) rotate(-180)"/>
+                        <polygon class="cls-1" points="323.08 85.26 323.08 42.63 276.92 42.63 276.92 213.16 323.08 213.16 323.08 127.9 507.69 127.9 507.69 85.26 323.08 85.26"/>
+                        <rect class="cls-1" x="969.23" y="170.53" width="184.62" height="42.63" transform="translate(2123.08 383.69) rotate(-180)"/>
+                        <polygon class="cls-1" points="969.23 64.3 969.23 0 923.08 0 923.08 170.53 969.23 170.53 969.23 106.93 1153.85 106.93 1153.85 170.53 1200 170.53 1200 106.93 1200 64.3 969.23 64.3"/>
+                        <rect class="cls-1" x="491.66" y="62.19" width="170.53" height="46.15" transform="translate(662.19 -491.66) rotate(90)"/>
+                        <rect class="cls-1" x="747.27" y="83.5" width="213.16" height="46.15" transform="translate(960.43 -747.27) rotate(90)"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="d_cl d_cl_a d_cl_1_3@s">
+                <button class="d_hbrg d_n_s" aria-label="Toggle navigation menu">
+                    <i></i>
+                </button>
+                <div class="d_v_s">
+                    <a href="https://github.com/dflib/dflib" class="d_btn d_gh">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_6212_21903)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9642 0.5C5.34833 0.5 0 5.77083 0 12.2916C0 17.5039 3.42686 21.9161 8.18082 23.4777C8.77518 23.5951 8.9929 23.224 8.9929 22.9118C8.9929 22.6385 8.9733 21.7014 8.9733 20.7251C5.64514 21.4281 4.95208 19.3195 4.95208 19.3195C4.41722 17.9529 3.62473 17.6017 3.62473 17.6017C2.53543 16.8794 3.70408 16.8794 3.70408 16.8794C4.91241 16.9575 5.54645 18.0897 5.54645 18.0897C6.61592 19.8856 8.33926 19.3782 9.03257 19.0658C9.13151 18.3044 9.44865 17.7773 9.78539 17.4845C7.13094 17.2112 4.33812 16.1961 4.33812 11.6667C4.33812 10.3783 4.81322 9.32409 5.56604 8.50424C5.44726 8.21147 5.03118 7.00085 5.68506 5.38055C5.68506 5.38055 6.69526 5.06814 8.97306 6.59093C9.94827 6.33281 10.954 6.20151 11.9642 6.20041C12.9744 6.20041 14.0042 6.33721 14.9552 6.59093C17.2332 5.06814 18.2434 5.38055 18.2434 5.38055C18.8973 7.00085 18.481 8.21147 18.3622 8.50424C19.1349 9.32409 19.5904 10.3783 19.5904 11.6667C19.5904 16.1961 16.7975 17.1915 14.1233 17.4845C14.5592 17.8554 14.9353 18.5581 14.9353 19.671C14.9353 21.2522 14.9158 22.5213 14.9158 22.9116C14.9158 23.224 15.1337 23.5951 15.7278 23.478C20.4818 21.9159 23.9087 17.5039 23.9087 12.2916C23.9282 5.77083 18.5603 0.5 11.9642 0.5Z" fill="white"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_6212_21903">
+                                    <rect width="24" height="23" fill="white" transform="translate(0 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <span>
+                                GitHub
+                            </span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class="d_m_m d_nav">
+            <div>
+                <ul>
+                    <li>
+                        <a href="/docs/">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/dflib/dflib/discussions">Forum</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <a href="https://github.com/dflib/dflib" class="d_btn d_gh">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6212_21902)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9642 0.5C5.34833 0.5 0 5.77083 0 12.2916C0 17.5039 3.42686 21.9161 8.18082 23.4777C8.77518 23.5951 8.9929 23.224 8.9929 22.9118C8.9929 22.6385 8.9733 21.7014 8.9733 20.7251C5.64514 21.4281 4.95208 19.3195 4.95208 19.3195C4.41722 17.9529 3.62473 17.6017 3.62473 17.6017C2.53543 16.8794 3.70408 16.8794 3.70408 16.8794C4.91241 16.9575 5.54645 18.0897 5.54645 18.0897C6.61592 19.8856 8.33926 19.3782 9.03257 19.0658C9.13151 18.3044 9.44865 17.7773 9.78539 17.4845C7.13094 17.2112 4.33812 16.1961 4.33812 11.6667C4.33812 10.3783 4.81322 9.32409 5.56604 8.50424C5.44726 8.21147 5.03118 7.00085 5.68506 5.38055C5.68506 5.38055 6.69526 5.06814 8.97306 6.59093C9.94827 6.33281 10.954 6.20151 11.9642 6.20041C12.9744 6.20041 14.0042 6.33721 14.9552 6.59093C17.2332 5.06814 18.2434 5.38055 18.2434 5.38055C18.8973 7.00085 18.481 8.21147 18.3622 8.50424C19.1349 9.32409 19.5904 10.3783 19.5904 11.6667C19.5904 16.1961 16.7975 17.1915 14.1233 17.4845C14.5592 17.8554 14.9353 18.5581 14.9353 19.671C14.9353 21.2522 14.9158 22.5213 14.9158 22.9116C14.9158 23.224 15.1337 23.5951 15.7278 23.478C20.4818 21.9159 23.9087 17.5039 23.9087 12.2916C23.9282 5.77083 18.5603 0.5 11.9642 0.5Z" fill="white"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_6212_21902">
+                                <rect width="24" height="23" fill="white" transform="translate(0 0.5)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span>
+                        GitHub
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+		<main>
+		<section>
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_cl_2_3@s d_content"><section class="d_sctn">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_intro">
+                <h1>
+                    Documentation
+                </h1>
+            </div>
+        </div>
+
+        <div class="d_rw d_desc_box">
+            <div class="d_cl">
+                <ul>
+                    <li><a href="../dflib/docs/1.x/">DFLib Documentation</a></li>
+                    <li><a href="../jjava/docs/1.x/">JJava Jupyter Java Kernel Documentation</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section></div>
+        </div>
+    </div>
+</section>
+		</main>
+		<footer>
+    <span>© 2024 ObjectStyle LLC and individual authors</span>
+    <link rel="preload" href="/css/style.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/css/style.min.css"></noscript>
+</footer>
+<script src="/js/main.ddc1eaba14d7a35dbc3512f49d9490b62c4f83e36078165867f93659cad17a9da3e7b5a3f306eb8c2c74e3e17dd943ed69056c8d53f93c8ef12f265579b394a3.js" integrity="sha512-3cHquhTXo128NRL0nZSQtixPg&#43;NgeBZYZ/k2WcrRep2j57Wj8wbrjCx04&#43;F92UPtaQVsjVP5PI7xLyZVebOUow=="></script>
+
+	</body>
 </html>

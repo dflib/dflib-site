@@ -174,7 +174,8 @@
                     <version>${asciidoctor.plugin.version}</version>
                     <configuration>
                         <backend>html5</backend>
-                        <outputDirectory>docs/</outputDirectory>
+                        <!-- must be in sync with the value in the Hugo config -->
+                        <outputDirectory>${project.build.directory}/hugo/docs</outputDirectory>
                         <preserveDirectories>true</preserveDirectories>
                         <relativeBaseDir>true</relativeBaseDir>
                         <attributes>
@@ -183,6 +184,11 @@
                             <src-dir>../../../../../../../../test/java/org/dflib/docs</src-dir>
                         </attributes>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.5.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -198,6 +204,23 @@
                         <goals>
                             <goal>process-asciidoc</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-hugo</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>hugo</executable>
+                            <workingDirectory>${project.basedir}/src/main/hugo</workingDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
