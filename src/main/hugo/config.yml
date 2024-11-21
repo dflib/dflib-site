@@ -1,0 +1,42 @@
+baseURL: 'https://dflib.org/'
+
+# Override default directory structure of Hugo to blend with a maven build
+publishDir: ../../../docs
+# Hugo generated resources (like processed images), even if there are non, this directory would be created
+resourceDir: ../../../target/hugo/resources
+assetDir: src
+module:
+  mounts:
+    - source: static
+      target: static
+    - source: ../../../target/hugo/docs
+      target: static # TODO: once docs are using proper templating, this should be changed to content
+
+title: DFLib Java DataFrame Library | Official Site
+
+defaultContentLanguage: en
+languageName: English
+languageCode: en-US
+
+params:
+  description: "Discover DFLib: a Java DataFrame library for efficient data manipulation similar to SQL. Supports CSV, Excel, RDBMS, and more. Ideal for Java developers."
+  keywords: "DFLib, DataFrame, Java, ETL, data analysis, Jupyter, notebook"
+
+disableKinds:
+  - RSS
+  - taxonomy
+  - term
+
+enableRobotsTXT: true
+
+outputs:
+  - HTML
+
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    guessSyntax: false

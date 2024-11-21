@@ -1,0 +1,55 @@
+<svg width="380" height="250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 380 250">
+<rect width="380" height="250" x="0" y="0" fill="none"></rect>
+<polyline points="102.2 142.2 88.1 137 73.1 137" fill="transparent" stroke="#5470c6" class="zr0-cls-0"></polyline>
+<polyline points="176.7 82.2 174.5 67.4 159.5 67.4" fill="transparent" stroke="#91cc75" class="zr0-cls-0"></polyline>
+<polyline points="272.3 130.1 285.4 122.9 300.4 122.9" fill="transparent" stroke="#fac858" class="zr0-cls-0"></polyline>
+<path d="M252.5 150A62.5 62.5 0 0 1 248.9927 170.6424L231.2949 164.4497A43.75 43.75 0 0 0 233.75 150Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M248.9927 170.6424A62.5 62.5 0 0 1 190 212.5L190 193.75A43.75 43.75 0 0 0 231.2949 164.4497Z" fill="#91cc75" class="zr0-cls-2"></path>
+<path d="M190 212.5A62.5 62.5 0 0 1 127.5 150L146.25 150A43.75 43.75 0 0 0 190 193.75Z" fill="rgb(250,200,88)" class="zr0-cls-3"></path>
+<path d="M96.25 175A93.75 93.75 0 0 1 119.1485 113.6068L128.5953 121.7926A81.25 81.25 0 0 0 108.75 175Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M119.1485 113.6068A93.75 93.75 0 0 1 240.6851 96.1325L233.9271 106.6482A81.25 81.25 0 0 0 128.5953 121.7926Z" fill="rgb(145,204,117)" class="zr0-cls-2"></path>
+<path d="M240.6851 96.1325A93.75 93.75 0 0 1 283.75 175L271.25 175A81.25 81.25 0 0 0 233.9271 106.6482Z" fill="#fac858" class="zr0-cls-3"></path>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" transform="translate(245.332 159.4013)" fill="#eee" stroke="#5470c6" stroke-width="2" paint-order="stroke" stroke-miterlimit="2">A</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" transform="translate(222.4779 195.7734)" fill="#333">B</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" transform="translate(150.3136 189.6864)" fill="#333">C</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(68.1067 136.9958)" fill="#333" stroke="rgb(255,255,255)" stroke-width="2" paint-order="stroke" stroke-miterlimit="2">A</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(154.5233 67.3569)" fill="#333" stroke="rgb(255,255,255)" stroke-width="2" paint-order="stroke" stroke-miterlimit="2">B</text>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" transform="translate(305.4476 122.8817)" fill="#333" stroke="rgb(255,255,255)" stroke-width="2" paint-order="stroke" stroke-miterlimit="2">C</text>
+<path d="M-5 -5l144.6667 0l0 24l-144.6667 0Z" transform="translate(122.6667 5)" fill="rgb(0,0,0)" fill-opacity="0" stroke="#ccc" stroke-width="0" class="zr0-cls-4"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(122.6667 5)" fill="#5470c6" class="zr0-cls-4"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(122.6667 5)" fill="#333">A</text>
+<path d="M0 0l38 0l0 14l-38 0Z" transform="translate(122.6667 5)" fill="transparent" class="zr0-cls-5"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(170.6667 5)" fill="#91cc75" class="zr0-cls-4"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(170.6667 5)" fill="#333">B</text>
+<path d="M0 0l38 0l0 14l-38 0Z" transform="translate(170.6667 5)" fill="transparent" class="zr0-cls-5"></path>
+<path d="M3.5 0L21.5 0A3.5 3.5 0 0 1 25 3.5L25 10.5A3.5 3.5 0 0 1 21.5 14L3.5 14A3.5 3.5 0 0 1 0 10.5L0 3.5A3.5 3.5 0 0 1 3.5 0" transform="translate(218.6667 5)" fill="#fac858" class="zr0-cls-4"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:12px;font-family:sans-serif;" x="30" y="7" transform="translate(218.6667 5)" fill="#333">C</text>
+<path d="M0 0l38.6667 0l0 14l-38.6667 0Z" transform="translate(218.6667 5)" fill="transparent" class="zr0-cls-5"></path>
+<style ><![CDATA[
+.zr0-cls-0:hover {
+cursor:pointer;
+}
+.zr0-cls-1:hover {
+cursor:pointer;
+fill:rgba(92,123,217,1);
+}
+.zr0-cls-2:hover {
+cursor:pointer;
+fill:rgba(159,224,128,1);
+}
+.zr0-cls-3:hover {
+cursor:pointer;
+fill:rgba(255,220,96,1);
+}
+.zr0-cls-4:hover {
+pointer-events:none;
+}
+.zr0-cls-5:hover {
+cursor:pointer;
+fill:rgba(0,0,0,0);
+}
+
+]]>
+
+</style>
+</svg>

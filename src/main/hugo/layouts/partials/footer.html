@@ -1,0 +1,8 @@
+<footer>
+    <span>© {{ now.Year }} ObjectStyle LLC and individual authors</span>
+    <link rel="preload" href="/css/style.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/css/style.min.css"></noscript>
+</footer>
+{{- $opts := dict "target" "es2015" "minify" true -}}
+{{- $js := resources.Get "js/main.js" | js.Build $opts | fingerprint "sha512" }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

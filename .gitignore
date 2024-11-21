@@ -8,3 +8,4 @@ target
 derby.log
 *.dylib
 .ipynb_checkpoints
+.hugo_build.lock

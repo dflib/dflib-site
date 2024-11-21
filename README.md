@@ -8,6 +8,9 @@ After clone, run this to ensure IPython notebooks are committed without output d
 git config --local include.path ../.gitconfig
 ```
 
+To build site content you need to install [Hugo](https://gohugo.io/installation/) manually. As of this writing Hugo version is
+ [v0.139.0](https://github.com/gohugoio/hugo/releases/tag/v0.139.0).
+
 ## Published Site Location
 
 https://dflib.org/
