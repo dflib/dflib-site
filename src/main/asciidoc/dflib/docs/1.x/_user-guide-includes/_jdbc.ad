@@ -100,8 +100,8 @@ include::${src-dir}/JdbcTest.java[tags=tableSaver_Merge]
 
 === SqlLoader / SqlSaver
 
-When you want to fetch data that spans more than one table, requires complex filtering conditions, or otherwise customize
-the query, `TableLoader` can not be used. The alternative is to write your own SQL query and use `SqlLoader`:
+If your data has complex filtering conditions, spans more than one table or otherwise requires a customized
+query, `TableLoader` can not be used. The alternative is to write your own SQL and execute it via `SqlLoader`:
 
 [source,java,indent=0]
 ----
