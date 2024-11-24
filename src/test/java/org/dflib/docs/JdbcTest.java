@@ -19,7 +19,7 @@ public class JdbcTest extends BaseTest {
     @BQTestTool
     static final DbTester db = DerbyTester.db()
             .initDB("classpath:org/dflib/docs/init_schema.sql")
-            .deleteBeforeEachTest("person");
+            .deleteBeforeEachTest("address", "person");
 
     private static JdbcConnector connector;
 
@@ -143,4 +143,76 @@ public class JdbcTest extends BaseTest {
         // end::tableSaver_Merge[]
     }
 
+    @Test
+    public void sqlLoader() {
+
+        db.getTable("person").insertColumns("id", "name", "salary")
+                .values(1, "Jerry Cosin", 70_000)
+                .values(2, "Juliana Walewski", 85_000)
+                .values(3, "Joan O'Hara", 101_000)
+                .exec();
+        db.getTable("address").insertColumns("id", "person_id", "city")
+                .values(1, 1, "New York")
+                .values(2, 2, "London")
+                .values(3, 3, "Minsk")
+                .values(4, 3, "Warsaw")
+                .exec();
+
+        // tag::sqlLoader[]
+        DataFrame df = connector.sqlLoader("""
+                select "name", "city"
+                  from "person" p
+                  left join "address" a on (p."id" = a."person_id")
+                  where "salary" > 80000
+                  order by "name", "city"
+                  """).load();
+        // end::sqlLoader[]
+
+        print("tableLoader", df);
+    }
+
+    @Test
+    public void sqlLoader_Params() {
+
+        db.getTable("person").insertColumns("id", "name", "salary")
+                .values(1, "Jerry Cosin", 70_000)
+                .values(2, "Juliana Walewski", 85_000)
+                .values(3, "Joan O'Hara", 101_000)
+                .exec();
+        db.getTable("address").insertColumns("id", "person_id", "city")
+                .values(1, 1, "New York")
+                .values(2, 2, "London")
+                .values(3, 3, "Minsk")
+                .values(4, 3, "Warsaw")
+                .exec();
+
+        // tag::sqlLoader_params[]
+        DataFrame df = connector.sqlLoader("""
+                select "name", "city"
+                  from "person" p
+                  left join "address" a on (p."id" = a."person_id")
+                  where "salary" > ?
+                  order by "name", "city"
+                  """).load(80000);
+        // end::sqlLoader_params[]
+
+        print("tableLoader", df);
+    }
+
+    @Test
+    public void sqlSaver() {
+
+        // tag::sqlSaver[]
+        DataFrame df = DataFrame.byArrayRow("id", "name", "salary")
+                .appender()
+                .append(1, "Jerry Cosin", 70_000)
+                .append(2, "Juliana Walewski", 85_000)
+                .append(3, "Joan O'Hara", 101_000)
+                .toDataFrame();
+
+        connector.sqlSaver("""
+                insert into "person" values (?, ?, ?)
+                """).save(df);
+        // end::sqlSaver[]
+    }
 }
