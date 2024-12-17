@@ -11,6 +11,6 @@ Though still somewhat limited, DFLib provides both JSON load and save operations
 </dependency>
 ----
 
-After that, `JSON` class is the entry point to all operations.
+After that, `Json` class is the entry point to all operations.
 
 TODO...
