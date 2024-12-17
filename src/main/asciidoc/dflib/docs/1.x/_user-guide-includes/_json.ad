@@ -1,0 +1,16 @@
+[#json]
+== JSON
+
+Though still somewhat limited, DFLib provides both JSON load and save operations. To start, add the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.dflib</groupId>
+    <artifactId>dflib-json</artifactId>
+</dependency>
+----
+
+After that, `JSON` class is the entry point to all operations.
+
+TODO...
