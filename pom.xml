@@ -16,7 +16,7 @@
         <maven.compiler.release>21</maven.compiler.release>
 
         <bootique.version>3.0-M6</bootique.version>
-        <junit5.version>5.9.1</junit5.version>
+        <junit5.version>5.11.3</junit5.version>
         <jjava.version>1.0-a4</jjava.version>
 
         <!-- Plugin versions -->
