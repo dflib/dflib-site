@@ -45,9 +45,9 @@ json.dump(json_in, sys.stdout, sort_keys=True, indent=1, separators=(",",": "))
 *.ipynb  filter=clean_ipynb
 ----
 
-All the files above should be version-controlled. Every time a user clones the repo, they will need to execute a manual
-command to enable the above configuration:
-
+. All the files above should be version-controlled. Every time a user clones the repo, they will need to execute the
+following command manually to enable the above configuration:
++
 ----
 git config --local include.path ../.gitconfig
 ----
