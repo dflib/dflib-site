@@ -1395,9 +1395,56 @@ render(<span class="string"><span class="delimiter">&quot;</span><span class="co
 <h2 id="jupyter-aware-java-libs">Jupyter-Aware Java Libs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you are writing a Java library that is intended to work in Jupyter, you can add a special extension class to you
-library <code>.jar</code> that will be called by the kernel on dependency load and will be able to preconfigure the environment
-for user convenience (e.g. by adding library-specific imports).</p>
+<p>If you are writing a Java library that is specifically intended to work inside Jupyter, JJava provides a way for such
+a library to execute custom code when the kernel loads it. E.g., for user convenience it might add some library-specific
+<code>import</code> statements to the environment.</p>
+</div>
+<div class="paragraph">
+<p>There are two pieces that need to be present in the library <code>.jar</code> for the above to work. The first is a Java class
+implementing <code>org.dflib.jjava.jupyter.Extension</code> interface:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">my.lib</span>;
+
+<span class="keyword">import</span> <span class="include">org.dflib.jjava.jupyter.Extension</span>;
+<span class="keyword">import</span> <span class="include">org.dflib.jjava.jupyter.kernel.BaseKernel</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyLibExtension</span> <span class="directive">implements</span> Extension {
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> install(BaseKernel kernel) {
+        <span class="keyword">try</span> {
+            kernel.eval(<span class="string"><span class="delimiter">&quot;</span><span class="content">import my.lib.*</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">RuntimeException</span>(e);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Adds common imports related to the library.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The second piece is a file declaring this extension to the kernel. The file must have this exact location and
+name - <code>META-INF/services/org.dflib.jjava.jupyter.Extension</code> - placed on the classpath (e.g. under <code>src/main/resources</code>
+of a Maven project). It must contain a single line of text corresponding to the fully-qualified name of the Java class
+above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>my.lib.MyLibExtension</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As long as those two files are in the library jar, adding the <code>.jar</code> as a notebook dependency (e.g. as
+<code>%maven my.lib:my-lib:1.0.0</code>) will cause an execution of the <code>install(..)</code> method.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1406,17 +1453,33 @@ for user convenience (e.g. by adding library-specific imports).</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-This is arguably a more convenient alternative to <code>JJAVA_STARTUP_SCRIPT</code> variable.
+JJava core itself provides an extension that implicitly loads common imports like <code>java.io.<strong></code>, <code>java.time.</strong></code>, etc.
+in every notebook.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A complimentary mechanism to extensions is a custom JShell script added via <code>JJAVA_STARTUP_SCRIPT</code> environment
+variable. The advantage of extensions is that they load library-specific code when that library is in use in a notebook.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><em>TODO: examples&#8230;&#8203; In short, implement <code>org.dflib.jjava.jupyter.Extension</code> and <code>META-INF/services/org.dflib.jjava.jupyter.Extension</code>
-file with the name of your class</em></p>
+<p>To disable all custom extensions and the JJava core extension for a given Jupyter process, you can set
+<code>JJAVA_LOAD_EXTENSIONS</code> variable to <code>0</code>:</p>
 </div>
-<div class="paragraph">
-<p><em>TODO: <code>JJAVA_LOAD_EXTENSIONS</code> docs</em></p>
+<div class="listingblock">
+<div class="content">
+<pre>export JJAVA_LOAD_EXTENSIONS=0</pre>
+</div>
 </div>
 </div>
 </div>
