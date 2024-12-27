@@ -1,4 +1,4 @@
-== Java Extensions
+== Jupyter-Aware Java Libs
 
 If you are writing a Java library that is intended to work in Jupyter, you can add a special extension class to you
 library `.jar` that will be called by the kernel on dependency load and will be able to preconfigure the environment

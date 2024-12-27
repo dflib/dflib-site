@@ -543,7 +543,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_running_jupyter">Running Jupyter</a></li>
 <li><a href="#_configuring">Configuring</a>
 <ul class="sectlevel2">
-<li><a href="#recognized-vars">Recognized Variables</a></li>
+<li><a href="#environment-vars">Environment Variables</a></li>
 <li><a href="#simple-glob-syntax">Glob Syntax</a></li>
 </ul>
 </li>
@@ -562,7 +562,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_notebook_functions_2">Notebook functions</a></li>
 </ul>
 </li>
-<li><a href="#_java_extensions">Java Extensions</a></li>
+<li><a href="#_jupyter_aware_java_libs">Jupyter-Aware Java Libs</a></li>
 <li><a href="#_notebooks_and_version_control">Notebooks and Version Control</a></li>
 </ul>
 </div>
@@ -762,7 +762,7 @@ jupyter console --kernel=java</code></pre>
 <h2 id="_configuring">Configuring</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>JJava kernel behavior can be configured via <a href="#recognized-vars">environment variables</a>. Here is
+<p>JJava kernel behavior can be configured via <a href="#environment-vars">environment variables</a>. Here is
 an example on Windows using <code>cmd</code>:</p>
 </div>
 <div class="listingblock">
@@ -825,7 +825,7 @@ So you will have to do it again after every kernel upgrade.
 </table>
 </div>
 <div class="sect2">
-<h3 id="recognized-vars">Recognized Variables</h3>
+<h3 id="environment-vars">Environment Variables</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 8%;">
@@ -1392,7 +1392,7 @@ render(<span class="string"><span class="delimiter">&quot;</span><span class="co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_extensions">Java Extensions</h2>
+<h2 id="_jupyter_aware_java_libs">Jupyter-Aware Java Libs</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If you are writing a Java library that is intended to work in Jupyter, you can add a special extension class to you

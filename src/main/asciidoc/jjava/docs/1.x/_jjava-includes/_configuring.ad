@@ -1,6 +1,6 @@
 == Configuring
 
-JJava kernel behavior can be configured via <<recognized-vars,environment variables>>. Here is
+JJava kernel behavior can be configured via <<environment-vars,environment variables>>. Here is
 an example on Windows using `cmd`:
 ```
 set JJAVA_JVM_OPTS=-Xmx8192m
@@ -45,8 +45,8 @@ file, look for the `"env"` section, and set any number of variables. E.g:
 NOTE: If you store your variables in `kernel.json`, be aware that they will be wiped out on subsequent kernel reinstalls.
 So you will have to do it again after every kernel upgrade.
 
-[#recognized-vars]
-=== Recognized Variables
+[#environment-vars]
+=== Environment Variables
 
 [width="100%",cols="8%,1%,91%",options="header",]
 |===
