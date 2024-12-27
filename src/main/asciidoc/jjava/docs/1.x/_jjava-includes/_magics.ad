@@ -6,7 +6,7 @@ for invoking special kernel functions.
 
 === Line magics
 
-Line magics are single-line function calls, with magic name prefixed with a `%` sign, and arguments separated by spaces:
+Line magics are single-line function calls, with magic name prefixed with `%`, and arguments separated by spaces:
 
 [source,text]
 ----
@@ -18,7 +18,7 @@ List<String> addedJars = %jars C:/all/my/*.jar
 ----
 
 === Cell magics
-Cell magics are function calls, with magic name prefixed with a `%%` and using the body of the entire cell as the last
+Cell magics are function calls, with magic name prefixed with `%%` and using the body of the entire cell as the last
 argument:
 
 [source,xml]
