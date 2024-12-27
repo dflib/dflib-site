@@ -1,8 +1,8 @@
 [#magics]
 == Magics
 
-Magics in JJava are very similar to those from IPython. There are "line" and "cell" magics that are demonstrated below.
-Both are simply syntactic sugar for calls to `lineMagic(..)` and `cellMagic(..)` functions in the notebook namespace.
+Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being a syntactic sugar
+for calls to `lineMagic(..)` and `cellMagic(..)` kernel functions present in the notebook namespace.
 
 === Line magics
 
@@ -10,7 +10,7 @@ Line magics are inline function calls via a magic function. Line magic arguments
 
 [source,text]
 ----
-%mavenRepo oss-sonatype-snapshots https://oss.sonatype.org/content/repositories/snapshots/
+%mavenRepo snapshots https://s01.oss.sonatype.org/content/repositories/snapshots/
 
 %maven org.dflib:dflib-jupyter:1.1.0
 
@@ -24,7 +24,7 @@ Cell magics are function calls that use the body of the entire cell as a special
 ----
 %%loadFromPOM
 <repository>
-  <id>s01-sonatype-snapshots</id>
+  <id>snapshots</id>
   <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 </repository>
 
@@ -86,7 +86,7 @@ care of putting it together into a POM:
 ----
 %%loadFromPOM
 <repository>
-  <id>s01-sonatype-snapshots</id>
+  <id>snapshots</id>
   <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 </repository>
 

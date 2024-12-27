@@ -941,8 +941,8 @@ directory that the <code>jupyter notebook</code> command was run.</p>
 <h2 id="magics">Magics</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Magics in JJava are very similar to those from IPython. There are "line" and "cell" magics that are demonstrated below.
-Both are simply syntactic sugar for calls to <code>lineMagic(..)</code> and <code>cellMagic(..)</code> functions in the notebook namespace.</p>
+<p>Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being a syntactic sugar
+for calls to <code>lineMagic(..)</code> and <code>cellMagic(..)</code> kernel functions present in the notebook namespace.</p>
 </div>
 <div class="sect2">
 <h3 id="_line_magics">Line magics</h3>
@@ -951,7 +951,7 @@ Both are simply syntactic sugar for calls to <code>lineMagic(..)</code> and <cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="text">%mavenRepo oss-sonatype-snapshots https://oss.sonatype.org/content/repositories/snapshots/
+<pre class="CodeRay highlight"><code data-lang="text">%mavenRepo snapshots https://s01.oss.sonatype.org/content/repositories/snapshots/
 
 %maven org.dflib:dflib-jupyter:1.1.0
 
@@ -968,7 +968,7 @@ List&lt;String&gt; addedJars = %jars C:/all/my/*.jar</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml">%%loadFromPOM
 <span class="tag">&lt;repository&gt;</span>
-  <span class="tag">&lt;id&gt;</span>s01-sonatype-snapshots<span class="tag">&lt;/id&gt;</span>
+  <span class="tag">&lt;id&gt;</span>snapshots<span class="tag">&lt;/id&gt;</span>
   <span class="tag">&lt;url&gt;</span>https://s01.oss.sonatype.org/content/repositories/snapshots/<span class="tag">&lt;/url&gt;</span>
 <span class="tag">&lt;/repository&gt;</span>
 
@@ -1057,7 +1057,7 @@ care of putting it together into a POM:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml">%%loadFromPOM
 <span class="tag">&lt;repository&gt;</span>
-  <span class="tag">&lt;id&gt;</span>s01-sonatype-snapshots<span class="tag">&lt;/id&gt;</span>
+  <span class="tag">&lt;id&gt;</span>snapshots<span class="tag">&lt;/id&gt;</span>
   <span class="tag">&lt;url&gt;</span>https://s01.oss.sonatype.org/content/repositories/snapshots/<span class="tag">&lt;/url&gt;</span>
 <span class="tag">&lt;/repository&gt;</span>
 
