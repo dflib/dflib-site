@@ -551,7 +551,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_line_magics">Line magics</a></li>
 <li><a href="#_cell_magics">Cell magics</a></li>
-<li><a href="#_magics_provided_by_jjava">Magics provided by JJava</a></li>
+<li><a href="#_jjava_magics">JJava Magics</a></li>
 </ul>
 </li>
 <li><a href="#kernel">Kernel</a>
@@ -941,7 +941,7 @@ directory that the <code>jupyter notebook</code> command was run.</p>
 <h2 id="magics">Magics</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
+<p>"Magics" is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
 for invoking special kernel functions.</p>
 </div>
 <div class="sect2">
@@ -982,7 +982,11 @@ argument:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_magics_provided_by_jjava">Magics provided by JJava</h3>
+<h3 id="_jjava_magics">JJava Magics</h3>
+<div class="paragraph">
+<p>JJava provides a number of magics that help with notebook dependency management. Some allow to add local jars, others
+allow to reference dependencies from local and remote Maven repositories:</p>
+</div>
 <div class="sect3">
 <h4 id="_jars_line"><code>jars</code> (line)</h4>
 <div class="paragraph">

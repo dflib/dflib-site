@@ -1,7 +1,7 @@
 [#magics]
 == Magics
 
-Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
+"Magics" is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
 for invoking special kernel functions.
 
 === Line magics
@@ -36,7 +36,10 @@ argument:
 </dependency>
 ----
 
-=== Magics provided by JJava
+=== JJava Magics
+
+JJava provides a number of magics that help with notebook dependency management. Some allow to add local jars, others
+allow to reference dependencies from local and remote Maven repositories:
 
 ==== `jars` (line)
 
