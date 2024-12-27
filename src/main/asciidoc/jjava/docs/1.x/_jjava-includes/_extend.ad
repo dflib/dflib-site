@@ -1,0 +1,12 @@
+== Java Extensions
+
+If you are writing a Java library that is intended to work in Jupyter, you can add a special extension class to you
+library `.jar` that will be called by the kernel on dependency load and will be able to preconfigure the environment
+for user convenience (e.g. by adding library-specific imports).
+
+NOTE: This is arguably a more convenient alternative to `JJAVA_STARTUP_SCRIPT` variable.
+
+_TODO: examples... In short, implement `org.dflib.jjava.jupyter.Extension` and `META-INF/services/org.dflib.jjava.jupyter.Extension`
+file with the name of your class_
+
+_TODO: `JJAVA_LOAD_EXTENSIONS` docs_

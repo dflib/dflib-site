@@ -20,4 +20,6 @@ include::_jjava-includes/_kernel.ad[]
 
 include::_jjava-includes/_display.ad[]
 
+include::_jjava-includes/_extend.ad[]
+
 include::_jjava-includes/_version_control.ad[]

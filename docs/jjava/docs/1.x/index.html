@@ -562,6 +562,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_notebook_functions_2">Notebook functions</a></li>
 </ul>
 </li>
+<li><a href="#_java_extensions">Java Extensions</a></li>
 <li><a href="#_notebooks_and_version_control">Notebooks and Version Control</a></li>
 </ul>
 </div>
@@ -1391,6 +1392,35 @@ render(<span class="string"><span class="delimiter">&quot;</span><span class="co
 </div>
 </div>
 <div class="sect1">
+<h2 id="_java_extensions">Java Extensions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you are writing a Java library that is intended to work in Jupyter, you can add a special extension class to you
+library <code>.jar</code> that will be called by the kernel on dependency load and will be able to preconfigure the environment
+for user convenience (e.g. by adding library-specific imports).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This is arguably a more convenient alternative to <code>JJAVA_STARTUP_SCRIPT</code> variable.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><em>TODO: examples&#8230;&#8203; In short, implement <code>org.dflib.jjava.jupyter.Extension</code> and <code>META-INF/services/org.dflib.jjava.jupyter.Extension</code>
+file with the name of your class</em></p>
+</div>
+<div class="paragraph">
+<p><em>TODO: <code>JJAVA_LOAD_EXTENSIONS</code> docs</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_notebooks_and_version_control">Notebooks and Version Control</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
@@ -1472,7 +1502,7 @@ following command manually to enable this configuration:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-25 16:32:57 -0400
+Last updated 2024-12-27 09:13:10 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />
