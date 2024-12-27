@@ -1,12 +1,12 @@
 [#magics]
 == Magics
 
-Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being a syntactic sugar
-for calls to `lineMagic(..)` and `cellMagic(..)` kernel functions present in the notebook namespace.
+Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
+hiding calls to `lineMagic(..)` and `cellMagic(..)` kernel functions from the notebook namespace.
 
 === Line magics
 
-Line magics are inline function calls via a magic function. Line magic arguments are separated by spaces.
+Line magics are single-line function calls, with magic name prefixed with a `%` sign, and arguments separated by spaces:
 
 [source,text]
 ----
@@ -18,7 +18,8 @@ List<String> addedJars = %jars C:/all/my/*.jar
 ----
 
 === Cell magics
-Cell magics are function calls that use the body of the entire cell as a special argument:
+Cell magics are function calls, with magic name prefixed with a `%%` and using the body of the entire cell as the last
+argument:
 
 [source,xml]
 ----
