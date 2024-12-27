@@ -46,7 +46,7 @@ json.dump(json_in, sys.stdout, sort_keys=True, indent=1, separators=(",",": "))
 ----
 
 . All the files above should be version-controlled. Every time a user clones the repo, they will need to execute the
-following command manually to enable the above configuration:
+following command manually to enable this configuration:
 +
 ----
 git config --local include.path ../.gitconfig
