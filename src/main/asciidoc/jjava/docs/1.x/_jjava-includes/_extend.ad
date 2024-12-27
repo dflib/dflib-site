@@ -45,8 +45,8 @@ As long as those two files are in the library jar, adding the `.jar` as a notebo
 NOTE: JJava core itself provides an extension that implicitly loads common imports like `java.io`, `java.time`, etc.
 in every notebook.
 
-NOTE: A complimentary mechanism to extensions is a custom JShell script added via `JJAVA_STARTUP_SCRIPT` environment
-variable. The advantage of extensions is that they load library-specific code when that library is in use in a notebook.
+NOTE: Another, more ad-hoc, mechanism to load custom code (per Jupyter instance instead of per-library / per-notebook)
+is setting `JJAVA_STARTUP_SCRIPT` environment variable to point to a custom JShell script.
 
 To disable all custom extensions and the JJava core extension for a given Jupyter process, you can set
 `JJAVA_LOAD_EXTENSIONS` variable to `0`:
