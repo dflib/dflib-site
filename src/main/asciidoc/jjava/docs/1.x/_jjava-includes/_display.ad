@@ -1,12 +1,9 @@
 [#display]
 == Display
 
-One of the many great things about the Jupyter front ends is the support
-for
+One of the many great things about the Jupyter front ends is the support for
 http://jupyter-client.readthedocs.io/en/stable/messaging.html#display-data[`+display_data+`].
-JJava interfaces with the
-https://github.com/SpencerPark/jupyter-jvm-basekernel[base kernel]’s
-high level rendering API.
+JJava interfaces with the base kernel’s high-level rendering API.
 
 === Notebook functions
 
@@ -18,7 +15,7 @@ previously displayed object. All are defined in the runtime
 link:https://github.com/dflib/jjava/blob/main/src/main/java/org/dflib/jjava/runtime/Display.java[Display] class.
 
 All display/render functions include a `+text/plain+` representation in
-their output. By default this is the `+String.valueOf(Object)+` value
+their output. By default, this is the `+String.valueOf(Object)+` value
 but it can be overridden.
 
 ==== `+String display(Object o)+`
