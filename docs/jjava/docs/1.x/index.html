@@ -1466,14 +1466,14 @@ in every notebook.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Another, more ad-hoc, mechanism to load custom code (per Jupyter instance instead of per-library / per-notebook)
+Another, more ad-hoc mechanism to load custom code per Jupyter instance (instead of per-notebook and per-library)
 is setting <code>JJAVA_STARTUP_SCRIPT</code> environment variable to point to a custom JShell script.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>To disable all custom extensions and the JJava core extension for a given Jupyter process, you can set
+<p>To disable all custom extensions for a given Jupyter process, including the JJava core extension you can set
 <code>JJAVA_LOAD_EXTENSIONS</code> variable to <code>0</code>:</p>
 </div>
 <div class="listingblock">
@@ -1493,7 +1493,7 @@ is setting <code>JJAVA_STARTUP_SCRIPT</code> environment variable to point to a 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-This is a general version control hint for Jupyter notebooks, not specific to Java.
+This is a common version control hint for Jupyter notebooks, not specific to Java.
 </td>
 </tr>
 </table>

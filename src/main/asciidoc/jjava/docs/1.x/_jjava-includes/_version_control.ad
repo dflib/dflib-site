@@ -1,6 +1,6 @@
 == Notebooks and Version Control
 
-NOTE: This is a general version control hint for Jupyter notebooks, not specific to Java.
+NOTE: This is a common version control hint for Jupyter notebooks, not specific to Java.
 
 Jupyter places data generated
 by the notebook in the notebook itself. Sometimes this is the desired behavior (e.g. when you want to share the notebook
