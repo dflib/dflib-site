@@ -2,7 +2,7 @@
 == Magics
 
 Magics is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
-hiding calls to `lineMagic(..)` and `cellMagic(..)` kernel functions from the notebook namespace.
+for invoking special kernel functions.
 
 === Line magics
 
