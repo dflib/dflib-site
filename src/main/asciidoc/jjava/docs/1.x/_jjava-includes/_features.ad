@@ -17,8 +17,7 @@ image:images/runtime-error.png[runtime-error]
 * Add maven dependencies at runtime (See also link:#magics[magics]).
 image:images/maven-pom-dep.png[maven-pom-dep]
 
-* Display rich output (See also link:#display[display] and
-link:#addmavendependencies[maven magic]). E.g. here is a chart produced by DFLib and ECharts:
+* Display rich output. E.g. here is a chart produced by DFLib and ECharts:
 
 image::https://dflib.org/images/charts/chart-in-jupyter.png[]
 
