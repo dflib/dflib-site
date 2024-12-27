@@ -36,7 +36,7 @@ json.dump(json_in, sys.stdout, sort_keys=True, indent=1, separators=(",",": "))
 ----
 [filter "clean_ipynb"]
 	smudge = cat
-	clean = bin/bin/clean_ipynb.py
+	clean = bin/clean_ipynb.py
 ----
 
 . Create `.gitattributes` file in the root of your repo, referencing the filter from `.gitconfig`:
