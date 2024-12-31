@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.dflib</groupId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <artifactId>dflib-site</artifactId>
     <name>dflib-site: website and docs</name>
     <packaging>jar</packaging>
