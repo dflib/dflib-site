@@ -60,6 +60,8 @@ include::_user-guide-includes/_parquet.ad[]
 
 include::_user-guide-includes/_json.ad[]
 
+include::_user-guide-includes/_byte_source.ad[]
+
 include::_user-guide-includes/_jshell.ad[]
 
 include::_user-guide-includes/_jupyter.ad[]

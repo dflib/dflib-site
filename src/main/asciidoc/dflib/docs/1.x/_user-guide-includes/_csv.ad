@@ -58,8 +58,14 @@ x y
 
 
 NOTE: In theory, you don't have to do most of these tweaks via CSV loader. You can load the raw data, and then use
-standard DataFrame transformations to shape the result. However doing it via the loader allows to optimize
+standard DataFrame transformations to shape the result. However, doing it via the loader allows to optimize
 both load speed and memory use, so it is usually preferable.
+
+=== CSV Data Sources
+
+The examples above showed reading a CSV from a file. Also, they can be read from a local file defined as a
+`java.nio.file.Path` or `java.io.File`, and more generally from any `ByteSource` or `ByteSources` (see
+<<bin_data_sources,"Binary Data Sources" chapter>>).
 
 === Writing to CSV
 
