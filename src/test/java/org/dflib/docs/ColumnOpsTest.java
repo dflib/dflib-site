@@ -376,5 +376,48 @@ public class ColumnOpsTest extends BaseTest {
         print("compact", df1);
     }
 
+    @Test
+    public void understandings0() {
+// tag::understandings0[]
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
 
+        DataFrame df1 = df
+                .cols("last", "first")
+                .select();
+// end::understandings0[]
+
+        print("understandings0", df1);
+    }
+
+    @Test
+    public void understandings1() {
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
+
+// tag::understandings1[]
+        DataFrame df1 = df
+                .cols("last", "first", "middle")
+                .select();
+// end::understandings1[]
+
+        print("understandings1", df1);
+    }
+
+    @Test
+    public void understandings2() {
+        DataFrame df = DataFrame.foldByRow("first", "last").of(
+                "Jerry", "Cosin",
+                "Joan", "O'Hara");
+
+// tag::understandings2[]
+        DataFrame df1 = df
+                .cols("last", "first", "middle")
+                .selectAs("L", "F", "M");
+// end::understandings2[]
+
+        print("understandings2", df1);
+    }
 }

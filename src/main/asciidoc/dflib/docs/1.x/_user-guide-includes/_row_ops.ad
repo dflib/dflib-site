@@ -6,6 +6,9 @@ merged back with the original `DataFrame`, or "selected" as a standalone one. `R
 similarities (e.g. the ability to evaluate expressions by column, and create `RowColumnSet`), but `RowSet` is also
 rather different in how its rows are picked and what other operations are available.
 
+NOTE: The important similarity with `ColumnSet` is that `RowSet` rows, while often referencing source rows, always
+define the *result* rows. See <<understanding_columnset,"Understanding ColumnSet">> for a more detailed discussion.
+
 === Pick Rows
 
 Rows are picked either by condition, by positions or as a range. Let's take a look at each style...

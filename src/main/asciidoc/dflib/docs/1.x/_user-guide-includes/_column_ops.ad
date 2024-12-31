@@ -260,6 +260,51 @@ Joan  O'Hara null   O'Hara Joan
 NOTE: Since we've already discussed various flavors of column renaming and transformation in the context of `select(..)`,
 we leave it as an exercise for the user to explore their "merging" counterparts - `as(..)`, `map(..)`, `expand(..)`, etc.
 
+[#understanding_columnset]
+=== Understanding ColumnSet
+
+Now that we've seen various ways how you can pick, rename and transform columns, let's look at `ColumnSet` as a whole.
+It is important to understand that no matter how a `ColumnSet` was created, its columns are always the *result columns*
+of the operation, not the source DataFrame columns. They often reference names and positions of the source
+columns and, in some cases, their values are copied directly from the source, but logically they always specify the result.
+
+To illustrate the point, let's first look a direct source-to-result copy example:
+
+[source,java,indent=0]
+----
+include::${src-dir}/ColumnOpsTest.java[tags=understandings0]
+----
+
+We can change it a little, by adding a column to the `ColumnSet` that is not in the original
+`DataFrame`, and it will still work (with the new column being filled with nulls):
+
+[source,java,indent=0]
+----
+include::${src-dir}/ColumnOpsTest.java[tags=understandings1]
+----
+
+----
+last   first middle
+------ ----- ------
+Cosin  Jerry null
+O'Hara Joan  null
+----
+
+Even when renaming, we are technically renaming `ColumnSet` columns (that may or may not come from the source), not the
+source columns:
+
+[source,java,indent=0]
+----
+include::${src-dir}/ColumnOpsTest.java[tags=understandings2]
+----
+
+----
+L      F     M
+------ ----- ----
+Cosin  Jerry null
+O'Hara Joan  null
+----
+
 === Compact Columns
 
 This transformation converts columns to primitives. The values in the columns to be converted can be Numbers, Booleans
