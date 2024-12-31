@@ -2,8 +2,8 @@
 == Binary Data Sources
 
 There are two interfaces that allow format-specific DFLib loaders to access streams of bytes and produce `DataFrame`
-instances. Those are `ByteSource`, a single resource accessible as a stream of bytes and `ByteSources`, a collection
-of such resources. Most loaders accept `ByteSource` (and sometimes, `ByteSources`) as an argument to their `load(..)`
+instances. Those are `ByteSource`, a single binary resource and `ByteSources`, a collection of such resources. Most
+loaders accept `ByteSource` (and sometimes, `ByteSources`) as an argument to their `load(..)`
 method. E.g. loaders for CSV, Avro, Parquet, JSON support both `ByteSource` and `ByteSources`, Excel loader supports
 `ByteSource`, and JDBC loader supports neither (because JDBC doesn't expose ResultSets as byte streams).
 

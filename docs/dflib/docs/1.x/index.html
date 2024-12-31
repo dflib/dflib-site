@@ -4644,8 +4644,8 @@ files and load them back.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>There are two interfaces that allow format-specific DFLib loaders to access streams of bytes and produce <code>DataFrame</code>
-instances. Those are <code>ByteSource</code>, a single resource accessible as a stream of bytes and <code>ByteSources</code>, a collection
-of such resources. Most loaders accept <code>ByteSource</code> (and sometimes, <code>ByteSources</code>) as an argument to their <code>load(..)</code>
+instances. Those are <code>ByteSource</code>, a single binary resource and <code>ByteSources</code>, a collection of such resources. Most
+loaders accept <code>ByteSource</code> (and sometimes, <code>ByteSources</code>) as an argument to their <code>load(..)</code>
 method. E.g. loaders for CSV, Avro, Parquet, JSON support both <code>ByteSource</code> and <code>ByteSources</code>, Excel loader supports
 <code>ByteSource</code>, and JDBC loader supports neither (because JDBC doesn&#8217;t expose ResultSets as byte streams).</p>
 </div>
