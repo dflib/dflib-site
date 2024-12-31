@@ -565,10 +565,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#column_ops_transform">Transform Columns</a></li>
 <li><a href="#column_ops_split">Split Columns</a></li>
 <li><a href="#_merge_columns">Merge Columns</a></li>
-<li><a href="#understanding_columnset">Understanding ColumnSet</a></li>
 <li><a href="#_compact_columns">Compact Columns</a></li>
 <li><a href="#_fill_nulls">Fill Nulls</a></li>
 <li><a href="#_drop_columns">Drop Columns</a></li>
+<li><a href="#understanding_columnset">Understanding ColumnSet</a></li>
 </ul>
 </li>
 <li><a href="#row_ops">Row Operations</a>
@@ -2093,67 +2093,6 @@ we leave it as an exercise for the user to explore their "merging" counterparts 
 </div>
 </div>
 <div class="sect2">
-<h3 id="understanding_columnset">Understanding ColumnSet</h3>
-<div class="paragraph">
-<p>Now that we&#8217;ve seen various ways how you can pick, rename and transform columns, let&#8217;s look at <code>ColumnSet</code> as a whole.
-It is important to understand that no matter how a <code>ColumnSet</code> was created, its columns are always the <strong>result columns</strong>
-of the operation, not the source DataFrame columns. They often reference names and positions of the source
-columns and, in some cases, their values are copied directly from the source, but logically they always specify the result.</p>
-</div>
-<div class="paragraph">
-<p>To illustrate the point, let&#8217;s first look a direct source-to-result copy example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
-
-DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
-        .select();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>We can change it a little, by adding a column to the <code>ColumnSet</code> that is not in the original
-<code>DataFrame</code>, and it will still work (with the new column being filled with nulls):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
-        .select();</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>last   first middle
------- ----- ------
-Cosin  Jerry null
-O'Hara Joan  null</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Even when renaming, we are technically renaming <code>ColumnSet</code> columns (that may or may not come from the source), not the
-source columns:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
-        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">L</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>L      F     M
------- ----- ----
-Cosin  Jerry null
-O'Hara Joan  null</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_compact_columns">Compact Columns</h3>
 <div class="paragraph">
 <p>This transformation converts columns to primitives. The values in the columns to be converted can be Numbers, Booleans
@@ -2342,6 +2281,67 @@ or select the columns you’d want to remain and call <code>select()</code>:</p>
 ----- ------
 Jerry Cosin
 Joan  O'Hara</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="understanding_columnset">Understanding ColumnSet</h3>
+<div class="paragraph">
+<p>Now that we&#8217;ve seen various ways how you can pick, rename and transform columns, let&#8217;s look at <code>ColumnSet</code> as a whole.
+It is important to understand that no matter how a <code>ColumnSet</code> was created, its columns are always the <strong>result columns</strong>
+of the operation, not the source DataFrame columns. They often reference names and positions of the source
+columns and, in some cases, their values are copied directly from the source, but logically they always specify the result.</p>
+</div>
+<div class="paragraph">
+<p>To illustrate the point, let&#8217;s first look a direct source-to-result copy example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
+
+DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
+        .select();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can change it a little, by adding a column to the <code>ColumnSet</code> that is not in the original
+<code>DataFrame</code>, and it will still work (with the new column being filled with nulls):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .select();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>last   first middle
+------ ----- ------
+Cosin  Jerry null
+O'Hara Joan  null</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Even when renaming, we are technically renaming <code>ColumnSet</code> columns (that may or may not come from the source), not the
+source columns:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>)
+        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">L</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">F</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>L      F     M
+------ ----- ----
+Cosin  Jerry null
+O'Hara Joan  null</pre>
 </div>
 </div>
 </div>
