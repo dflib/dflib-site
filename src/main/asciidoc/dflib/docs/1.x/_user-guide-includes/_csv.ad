@@ -63,9 +63,9 @@ both load speed and memory use, so it is usually preferable.
 
 === CSV Data Sources
 
-The examples above showed reading a CSV from a file. Also, they can be read from a local file defined as a
-`java.nio.file.Path` or `java.io.File`, and more generally from any `ByteSource` or `ByteSources` (see
-<<bin_data_sources,"Binary Data Sources" chapter>>).
+The examples above showed reading a CSV from a local file using a String file name. Instead of a String name, you can
+also pass `java.nio.file.Path` or `java.io.File` objects. More generally, you can read a CSV from a URL or any other
+source represented as `ByteSource` or `ByteSources` (see <<bin_data_sources,"Binary Data Sources" chapter>>).
 
 === Writing to CSV
 
