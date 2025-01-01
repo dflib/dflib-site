@@ -1,5 +1,5 @@
 [#json]
-== JSON
+== JSON Format
 
 Though still somewhat limited, DFLib provides both JSON load and save operations. To start, add the following dependency:
 

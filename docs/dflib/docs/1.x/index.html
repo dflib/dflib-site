@@ -624,21 +624,20 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_sqlloader_sqlsaver">SqlLoader / SqlSaver</a></li>
 </ul>
 </li>
-<li><a href="#csv">CSV Files</a>
+<li><a href="#csv">CSV Format</a>
 <ul class="sectlevel2">
-<li><a href="#_reading_from_csv">Reading from CSV</a></li>
-<li><a href="#_csv_data_sources">CSV Data Sources</a></li>
-<li><a href="#_writing_to_csv">Writing to CSV</a></li>
+<li><a href="#_reading_csv">Reading CSV</a></li>
+<li><a href="#_writing_csv">Writing CSV</a></li>
 </ul>
 </li>
-<li><a href="#excel">Excel Files</a></li>
-<li><a href="#avro">Avro Files</a>
+<li><a href="#excel">Excel Format</a></li>
+<li><a href="#avro">Avro Format</a>
 <ul class="sectlevel2">
 <li><a href="#_avro_schema">Avro Schema</a></li>
 </ul>
 </li>
-<li><a href="#parquet">Parquet Files</a></li>
-<li><a href="#json">JSON</a></li>
+<li><a href="#parquet">Parquet Format</a></li>
+<li><a href="#json">JSON Format</a></li>
 <li><a href="#bin_data_sources">Binary Data Sources</a>
 <ul class="sectlevel2">
 <li><a href="#_byte_array_bytesource">Byte Array ByteSource</a></li>
@@ -4372,7 +4371,7 @@ observe would look as if you ran the SQL n times, where "n" is the height of the
 </div>
 </div>
 <div class="sect1">
-<h2 id="csv">CSV Files</h2>
+<h2 id="csv">CSV Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>CSV (comma-separated values) is a very common and rather simple format for working with raw data. <code>*.csv</code> files can be
@@ -4389,13 +4388,12 @@ advantage of this functionality:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Once you do that, <code>Csv</code> class is the entry point to all the <code>.csv</code> related operations as discussed
-below.</p>
+<p>Once you do that, <code>Csv</code> class is the entry point to all the <code>.csv</code> related operations as discussed below.</p>
 </div>
 <div class="sect2">
-<h3 id="_reading_from_csv">Reading from CSV</h3>
+<h3 id="_reading_csv">Reading CSV</h3>
 <div class="paragraph">
-<p>The simplest API for reading a DataFrame from a CSV is this:</p>
+<p>The simplest way to create a <code>DataFrame</code> from a CSV file is this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4412,7 +4410,7 @@ sources.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>The result is a DataFrame that matches CSV structure:</p>
+<p>The result is a DataFrame that matches the CSV structure:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4423,7 +4421,7 @@ sources.</td>
 </div>
 </div>
 <div class="paragraph">
-<p>DFLib makes a few assumptions about the data in <code>f1.csv</code>, namely that the first row represents
+<p>DFLib made a few assumptions about the data in <code>f1.csv</code>, namely that the first row represents
 column names, that all columns are Strings, and that all of them need to be included. These assumptions are not
 necessarily true with many data sets. So there is a longer form of this API that allows to configure column types,
 skip rows and columns, or even sample the data without loading the entire CSV in memory. Some examples:</p>
@@ -4479,17 +4477,14 @@ both load speed and memory use, so it is usually preferable.
 </tr>
 </table>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_csv_data_sources">CSV Data Sources</h3>
 <div class="paragraph">
-<p>The examples above showed reading a CSV from a local file using a String file name. Instead of a String name, you can
+<p>The examples above showed how to read a CSV from a local file using a String file name. Instead of a String name, you can
 also pass <code>java.nio.file.Path</code> or <code>java.io.File</code> objects. More generally, you can read a CSV from a URL or any other
-source represented as <code>ByteSource</code> or <code>ByteSources</code> (see <a href="#bin_data_sources">"Binary Data Sources" chapter</a>).</p>
+source representable as <code>ByteSource</code> or <code>ByteSources</code> (see <a href="#bin_data_sources">"Binary Data Sources" chapter</a>).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_writing_to_csv">Writing to CSV</h3>
+<h3 id="_writing_csv">Writing CSV</h3>
 <div class="paragraph">
 <p>Writing to a CSV is equally easy:</p>
 </div>
@@ -4538,7 +4533,7 @@ to a variety of destinations.</td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="excel">Excel Files</h2>
+<h2 id="excel">Excel Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
@@ -4559,7 +4554,7 @@ advantage of this functionality:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="avro">Avro Files</h2>
+<h2 id="avro">Avro Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Avro binary format is common in data engineering. Its main advantage is that <code>.avro</code> files are saved with
@@ -4593,7 +4588,7 @@ DataFrame before it is saved. Alternatively you can create a custom <code>Schema
 </div>
 </div>
 <div class="sect1">
-<h2 id="parquet">Parquet Files</h2>
+<h2 id="parquet">Parquet Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Parquet is a popular columnar binary data format. Like, <code>.avro</code>, <code>.parquet</code> files are saved with
@@ -4618,7 +4613,7 @@ files and load them back.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="json">JSON</h2>
+<h2 id="json">JSON Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Though still somewhat limited, DFLib provides both JSON load and save operations. To start, add the following dependency:</p>

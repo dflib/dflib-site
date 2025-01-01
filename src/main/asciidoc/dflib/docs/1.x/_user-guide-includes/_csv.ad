@@ -1,5 +1,5 @@
 [#csv]
-== CSV Files
+== CSV Format
 
 CSV (comma-separated values) is a very common and rather simple format for working with raw data. `*.csv` files can be
 manipulated programmatically or manually (via Excel/LibreOffice), loaded to / from databases, etc. DFLib supports
@@ -14,12 +14,11 @@ advantage of this functionality:
 </dependency>
 ----
 
-Once you do that, `Csv` class is the entry point to all the `.csv` related operations as discussed
-below.
+Once you do that, `Csv` class is the entry point to all the `.csv` related operations as discussed below.
 
-=== Reading from CSV
+=== Reading CSV
 
-The simplest API for reading a DataFrame from a CSV is this:
+The simplest way to create a `DataFrame` from a CSV file is this:
 [source,java,indent=0]
 ----
 include::${src-dir}/CsvTest.java[tags=readCsv]
@@ -28,14 +27,14 @@ include::${src-dir}/CsvTest.java[tags=readCsv]
 <1> The argument to the "load" method can be a filename, a file, or a Reader, so it can be loaded from a variety of
 sources.
 
-The result is a DataFrame that matches CSV structure:
+The result is a DataFrame that matches the CSV structure:
 ----
 A B
 - --
 1 s1
 4 s2
 ----
-DFLib makes a few assumptions about the data in `f1.csv`, namely that the first row represents
+DFLib made a few assumptions about the data in `f1.csv`, namely that the first row represents
 column names, that all columns are Strings, and that all of them need to be included. These assumptions are not
 necessarily true with many data sets. So there is a longer form of this API that allows to configure column types,
 skip rows and columns, or even sample the data without loading the entire CSV in memory. Some examples:
@@ -61,13 +60,11 @@ NOTE: In theory, you don't have to do most of these tweaks via CSV loader. You c
 standard DataFrame transformations to shape the result. However, doing it via the loader allows to optimize
 both load speed and memory use, so it is usually preferable.
 
-=== CSV Data Sources
-
-The examples above showed reading a CSV from a local file using a String file name. Instead of a String name, you can
+The examples above showed how to read a CSV from a local file using a String file name. Instead of a String name, you can
 also pass `java.nio.file.Path` or `java.io.File` objects. More generally, you can read a CSV from a URL or any other
-source represented as `ByteSource` or `ByteSources` (see <<bin_data_sources,"Binary Data Sources" chapter>>).
+source representable as `ByteSource` or `ByteSources` (see <<bin_data_sources,"Binary Data Sources" chapter>>).
 
-=== Writing to CSV
+=== Writing CSV
 
 Writing to a CSV is equally easy:
 [source,java,indent=0]
