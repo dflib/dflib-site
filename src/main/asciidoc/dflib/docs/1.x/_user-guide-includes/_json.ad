@@ -25,8 +25,8 @@ data to `DataFrame` columns. But first let's look how JSON inputs are interprete
 . If JSON root is a _list_, each list element is converted into a row of the result `DataFrame`. For each element:
 +
 
-  * if it is a scalar, its value is placed in a special call called `_val`
-  * if it is an object, each object property is placed in a column matching the property names. The objects in the list
+  * if it is a scalar, its value is placed in a special cell called `_val`
+  * if it is an object, each object property is placed in a column matching this property name. The objects in the list
 do not all have to have the same properties. The resulting `DataFrame` columns will be a "union" of all properties
 encountered in the list.
 +
