@@ -11,6 +11,83 @@ Though still somewhat limited, DFLib provides both JSON load and save operations
 </dependency>
 ----
 
-After that, `Json` class is the entry point to all operations.
+From here, `Json` class is the entry point to all operations.
 
-TODO...
+=== Reading JSON
+
+JSON is used to model nested tree-like data structures, whereas `DataFrame` is a flat table. So to load JSON to a table,
+some kind of "flattenning" conversion is needed. DFLib `JsonLoader` uses
+link:https://www.rfc-editor.org/rfc/rfc9535[JSONPath query language] to "navigate" the JSON tree and map parts of its
+data to `DataFrame` columns. But first let's look how JSON inputs are interpreted without explicit mapping.
+
+==== Default JSON Mapping
+
+. If JSON root is a _list_, each list element is converted into a `DataFrame` row. For each list element, if an element is
+a scalar, its value is placed in a special call called `_val`, and if it is an object, object properties are placed
+in columns matching the property names. The objects in the list do not all have to have the same properties. The
+resulting `DataFrame` columns will be a "union" of all properties encountered in the list:
++
+[source,java,indent=0]
+----
+include::${src-dir}/JsonTest.java[tags=list]
+----
++
+----
+_val    a b    c        d
+---- ---- ---- ---- -----
+   5 null null null  null
+null    1 S1   null  null
+null    2 S2   S3    null
+null    3 null S4   false
+----
++
+NOTE: Unlike `CsvLoader`, a String argument for `JsonLoader.load(..)` method is interpreted as JSON body, not a
+file name. These APIs will likely be better unified in the future versions.
+
+. If JSON root is an _object_, then each of its properties is treated as a row. Otherwise, the values are handled the same
+way as in the previous example - scalars are placed in `_val`, and property names are converted into columns:
++
+[source,java,indent=0]
+----
+include::${src-dir}/JsonTest.java[tags=object]
+----
++
+The same exact `DataFrame` as in the first example is produced:
++
+----
+_val    a b    c        d
+---- ---- ---- ---- -----
+   5 null null null  null
+null    1 S1   null  null
+null    2 S2   S3    null
+null    3 null S4   false
+----
+
+. If the cell values are not scalars, but are themselves JSON lists or objects, they are converted to Java `List`s and `Map`s:
+
+[source,java,indent=0]
+----
+include::${src-dir}/JsonTest.java[tags=nested]
+----
+<1> A function to help us analyze the result values
+<2> Checking the type of values in column `a`
+<3> Checking the type of values in column `a` collections
+
+----
+a          L1   L2
+---------- ---- ------
+[1,2,3]    list scalar
+{b=4, c=5} map  scalar
+{b=[6,7]}  map  list
+----
+
+==== JSON Mapping with JSONPath
+TODO
+
+==== JSON Data Sources
+
+Just like CSV, JSON data can be read from local files (`java.nio.file.Path` or `java.io.File`) as well as from
+a `ByteSource` or `ByteSources`, such as URLs (see <<bin_data_sources,"Binary Data Sources" chapter>>).
+
+=== Writing JSON
+TODO
