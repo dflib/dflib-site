@@ -4619,7 +4619,7 @@ files and load them back.</p>
 <h2 id="json">JSON Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Though still somewhat limited, DFLib provides both JSON load and save operations. To start, add the following dependency:</p>
+<p>DFLib provides JSON load and save operations. To start, add the following dependency:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4630,25 +4630,34 @@ files and load them back.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>From here, <code>Json</code> class is the entry point to all operations.</p>
+<p>From here, <code>Json</code> class is the entry point to both operations.</p>
 </div>
 <div class="sect2">
 <h3 id="_reading_json">Reading JSON</h3>
 <div class="paragraph">
 <p>JSON is used to model nested tree-like data structures, whereas <code>DataFrame</code> is a flat table. So to load JSON to a table,
-some kind of "flattenning" conversion is needed. DFLib <code>JsonLoader</code> uses
+some kind of "flattening" conversion is needed. DFLib <code>JsonLoader</code> uses
 <a href="https://www.rfc-editor.org/rfc/rfc9535">JSONPath query language</a> to "navigate" the JSON tree and map parts of its
-data to <code>DataFrame</code> columns. But first let&#8217;s look how JSON inputs are interpreted without explicit mapping.</p>
+data to <code>DataFrame</code> columns. But first let&#8217;s look how JSON inputs are interpreted without an explicit mapping.</p>
 </div>
 <div class="sect3">
 <h4 id="_default_json_mapping">Default JSON Mapping</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>If JSON root is a <em>list</em>, each list element is converted into a <code>DataFrame</code> row. For each list element, if an element is
-a scalar, its value is placed in a special call called <code>_val</code>, and if it is an object, object properties are placed
-in columns matching the property names. The objects in the list do not all have to have the same properties. The
-resulting <code>DataFrame</code> columns will be a "union" of all properties encountered in the list:</p>
+<p>If JSON root is a <em>list</em>, each list element is converted into a row of the result <code>DataFrame</code>. For each element:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>if it is a scalar, its value is placed in a special call called <code>_val</code></p>
+</li>
+<li>
+<p>if it is an object, each object property is placed in a column matching the property names. The objects in the list
+do not all have to have the same properties. The resulting <code>DataFrame</code> columns will be a "union" of all properties
+encountered in the list.</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> json = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
@@ -4689,8 +4698,9 @@ file name. These APIs will likely be better unified in the future versions.
 </div>
 </li>
 <li>
-<p>If JSON root is an <em>object</em>, then each of its properties is treated as a row. Otherwise, the values are handled the same
-way as in the previous example - scalars are placed in <code>_val</code>, and property names are converted into columns:</p>
+<p>If JSON root is an <em>object</em>, then each of its properties is treated as a row. Property values are handled the same
+way as list elements in the previous example - scalars are placed in <code>_val</code>, and property names are converted into
+columns:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> json = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
@@ -4721,10 +4731,8 @@ null    3 null S4   false</pre>
 </div>
 </li>
 <li>
-<p>If the cell values are not scalars, but are themselves JSON lists or objects, they are converted to Java `List`s and `Map`s:</p>
-</li>
-</ol>
-</div>
+<p>If the cell values are not scalars, but are themselves JSON lists or objects, they are converted to Java <code>List</code> and
+<code>Map</code> instances:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function&lt;<span class="predefined-type">Object</span>, <span class="predefined-type">String</span>&gt; labeler = o -&gt; <span class="keyword">switch</span> (o) { <i class="conum" data-value="1"></i><b>(1)</b>
@@ -4776,11 +4784,179 @@ DataFrame df = Json
 {b=[6,7]}  map  list</pre>
 </div>
 </div>
+</li>
+</ol>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_json_mapping_with_jsonpath">JSON Mapping with JSONPath</h4>
 <div class="paragraph">
-<p>TODO</p>
+<p>JSONPath is a <a href="https://www.rfc-editor.org/rfc/rfc9535">recently standardized</a> query language to navigate through JSON
+and select its elements. It can help greatly in parsing deeply-nested JSON structures and extracting only the relevant data.
+<code>JsonLoader</code> accepts a single optional JSONPath expression.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The default implicit expression is <code>$.*</code> which means <em>"select all children of the root node"</em>. All
+the examples above behaved as if this expression was specified.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Some examples of using JSONPath:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Read the root JSON object as a single row</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> json = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+       { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:1, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S1<span class="string"><span class="delimiter">&quot;</span><span class="content"> }</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+
+DataFrame df = Json
+        .loader()
+        .pathExpression(<span class="string"><span class="delimiter">&quot;</span><span class="content">$</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .load(json);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>JSONPath of <code>$</code> selects the root node</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a b
+- --
+1 S1</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Read only a few specific properties of the root&#8217;s children</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> json = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+        [
+            5,
+            { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:1, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S1<span class="string"><span class="delimiter">&quot;</span><span class="content"> },
+            { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:2, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S2<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>c<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S3<span class="string"><span class="delimiter">&quot;</span><span class="content"> },
+            { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:3, </span><span class="delimiter">&quot;</span></span>c<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S4<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>d<span class="string"><span class="delimiter">&quot;</span><span class="content">:false }
+        ]</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+
+DataFrame df = Json
+        .loader()
+        .pathExpression(<span class="string"><span class="delimiter">&quot;</span><span class="content">$..['a','b']</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .load(json);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Selects properties <code>a</code> and <code>b</code></td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a b
+- --
+1 S1
+2 S2</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Include objects with missing properties. Notice that the first and the last elements from the source JSON list in
+the previous example were excluded from the result. The first was a scalar that doesn&#8217;t have either <code>a</code> or <code>b</code>
+property, and the last - an object with <code>a</code>, but without the <code>b</code> property. This is the intended default behavior of
+this JSONPath query, and it can be partially altered via <code>JsonLoader.nullsForMissingLeafs()</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> json = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+        [
+            5,
+            { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:1, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S1<span class="string"><span class="delimiter">&quot;</span><span class="content"> },
+            { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:2, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S2<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>c<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S3<span class="string"><span class="delimiter">&quot;</span><span class="content"> },
+            { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:3, </span><span class="delimiter">&quot;</span></span>c<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S4<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>d<span class="string"><span class="delimiter">&quot;</span><span class="content">:false }
+        ]</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+
+DataFrame df = Json
+        .loader()
+        .pathExpression(<span class="string"><span class="delimiter">&quot;</span><span class="content">$..['a','b']</span><span class="delimiter">&quot;</span></span>)
+        .nullsForMissingLeafs() <i class="conum" data-value="1"></i><b>(1)</b>
+        .load(json);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The object with no <code>a</code> or <code>b</code> property is included, but the scalar value is still excluded</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a b
+- ----
+1 S1
+2 S2
+3 null</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Read data from a child node</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> json = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+        {
+            </span><span class="delimiter">&quot;</span></span>data<span class="string"><span class="delimiter">&quot;</span><span class="content"> : [
+                { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:1, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S1<span class="string"><span class="delimiter">&quot;</span><span class="content"> },
+                { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:2, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S2<span class="string"><span class="delimiter">&quot;</span><span class="content"> },
+                { </span><span class="delimiter">&quot;</span></span>a<span class="string"><span class="delimiter">&quot;</span><span class="content">:3, </span><span class="delimiter">&quot;</span></span>b<span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span>S4<span class="string"><span class="delimiter">&quot;</span><span class="content"> }
+            ]
+        }</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+
+DataFrame df = Json
+        .loader()
+        .pathExpression(<span class="string"><span class="delimiter">&quot;</span><span class="content">$.data.*</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .nullsForMissingLeafs()
+        .load(json);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This JSONPath query finds the <code>data</code> property of the root node and sets it as the root for the <code>DataFrame</code> data
+extraction</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a b
+- --
+1 S1
+2 S2
+3 S4</pre>
+</div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect3">
@@ -4794,7 +4970,42 @@ a <code>ByteSource</code> or <code>ByteSources</code>, such as URLs (see <a href
 <div class="sect2">
 <h3 id="_writing_json">Writing JSON</h3>
 <div class="paragraph">
-<p>TODO</p>
+<p><code>JsonSaver</code> generates JSON from <code>DataFrames</code> in a "list-of-objects" format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+        .byArrayRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>)
+        .appender()
+        .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)
+        .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">45</span>)
+        .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
+        .toDataFrame();
+
+<span class="predefined-type">String</span> json = Json
+        .saver()
+        .saveToString(df); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This form of "save" produces a JSON String</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[
+    {"name":"Joe","age":18},
+    {"name":"Andrus","age":45},
+    {"name":"Joan","age":32}
+]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly, you can save JSON to a file or to an <code>Appendable</code>.</p>
 </div>
 </div>
 </div>

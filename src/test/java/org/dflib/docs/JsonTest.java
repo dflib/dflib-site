@@ -83,4 +83,105 @@ public class JsonTest extends BaseTest {
 
         print("nested", df);
     }
+
+    @Test
+    void pathRoot() {
+
+// tag::pathRoot[]
+        String json = """
+               { "a":1, "b":"S1" }""";
+
+        DataFrame df = Json
+                .loader()
+                .pathExpression("$") // <1>
+                .load(json);
+// end::pathRoot[]
+
+        print("pathRoot", df);
+    }
+
+    @Test
+    void pathChildrenProperties() {
+
+// tag::pathChildrenProperties[]
+        String json = """
+                [
+                    5,
+                    { "a":1, "b":"S1" },
+                    { "a":2, "b":"S2", "c":"S3" },
+                    { "a":3, "c":"S4", "d":false }
+                ]""";
+
+        DataFrame df = Json
+                .loader()
+                .pathExpression("$..['a','b']") // <1>
+                .load(json);
+// end::pathChildrenProperties[]
+
+        print("pathChildrenProperties", df);
+    }
+
+    @Test
+    void pathChildrenPropertiesIncludeNulls() {
+
+// tag::pathChildrenPropertiesIncludeNulls[]
+        String json = """
+                [
+                    5,
+                    { "a":1, "b":"S1" },
+                    { "a":2, "b":"S2", "c":"S3" },
+                    { "a":3, "c":"S4", "d":false }
+                ]""";
+
+        DataFrame df = Json
+                .loader()
+                .pathExpression("$..['a','b']")
+                .nullsForMissingLeafs() // <1>
+                .load(json);
+// end::pathChildrenPropertiesIncludeNulls[]
+
+        print("pathChildrenProperties", df);
+    }
+
+    @Test
+    void pathNestedRoot() {
+
+// tag::pathNestedRoot[]
+        String json = """
+                {
+                    "data" : [
+                        { "a":1, "b":"S1" },
+                        { "a":2, "b":"S2" },
+                        { "a":3, "b":"S4" }
+                    ]
+                }""";
+
+        DataFrame df = Json
+                .loader()
+                .pathExpression("$.data.*") // <1>
+                .nullsForMissingLeafs()
+                .load(json);
+// end::pathNestedRoot[]
+
+        print("pathNestedRoot", df);
+    }
+
+    @Test
+    void save() {
+// tag::save[]
+        DataFrame df = DataFrame
+                .byArrayRow("name", "age")
+                .appender()
+                .append("Joe", 18)
+                .append("Andrus", 45)
+                .append("Joan", 32)
+                .toDataFrame();
+
+        String json = Json
+                .saver()
+                .saveToString(df); // <1>
+// end::save[]
+
+        System.out.println(json);
+    }
 }
