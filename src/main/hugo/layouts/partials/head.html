@@ -4,12 +4,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Favicon-->
-    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-title" content="DFLib">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="manifest" href="/site.webmanifest">
 
     <title>{{ with .Params.MetaTitle}}{{ . }}{{ else }}{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}{{ end }}</title>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Params.MetaDescription }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
@@ -27,8 +27,8 @@
     {{ end }}
 
     <!-- Preload -->
-    <link rel="preload" href="fonts/RobotoMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="preload" href="fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="/fonts/RobotoMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="">
 
     <!-- Styles -->
     {{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}

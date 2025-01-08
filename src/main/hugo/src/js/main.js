@@ -1,26 +1,26 @@
 "use strict";
 
-window.addEventListener("load", ()=>{
+window.addEventListener("load", () => {
     // Open/Hide navigation menu in mobile
     var menuToggler = document.querySelector(".d_hmbrg");
-    menuToggler.addEventListener("click", ()=>{
+    menuToggler.addEventListener("click", () => {
         menuToggler.classList.toggle('d_active');
         openMenu();
-        if(document.body.classList.contains('o_overflow_hidden')){
+        if (document.body.classList.contains('o_overflow_hidden')) {
             showOverflow();
-        }else{
+        } else {
             hideOverflow();
         }
     });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     //lazy Load img and background images
     var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
 
     if ("IntersectionObserver" in window) {
-        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
+        let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     let lazyImage = entry.target;
                     lazyImage.removeAttribute("srcset");
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             rootMargin: '350px',
         });
 
-        lazyImages.forEach(function(lazyImage) {
+        lazyImages.forEach(function (lazyImage) {
             lazyImageObserver.observe(lazyImage);
         });
     }
@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var lazyBackgrounds = [].slice.call(document.querySelectorAll(".lazy_image_bc"));
 
     if ("IntersectionObserver" in window) {
-        let lazyBackgroundObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
+        let lazyBackgroundObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     entry.target.classList.remove("lazy_image_bc");
                     lazyBackgroundObserver.unobserve(entry.target);
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
             rootMargin: '350px',
         });
 
-        lazyBackgrounds.forEach(function(lazyBackground) {
+        lazyBackgrounds.forEach(function (lazyBackground) {
             lazyBackgroundObserver.observe(lazyBackground);
         });
     }
@@ -62,9 +62,9 @@ document.addEventListener("DOMContentLoaded", function() {
 /**
  * Open navigation menu
  */
-var openMenu = ()=>{
+var openMenu = () => {
     var menu = document.querySelector('.d_m_m');
-    if(!menu){
+    if (!menu) {
         return;
     }
     menu.classList.toggle('d_show');
@@ -73,13 +73,13 @@ var openMenu = ()=>{
 /**
  * add overflow hidden
  */
-var hideOverflow = ()=>{
+var hideOverflow = () => {
     document.body.classList.add('o_overflow_hidden');
 }
 
 /**
  * remove overflow hidden
  */
-var showOverflow = ()=>{
+var showOverflow = () => {
     document.body.classList.remove('o_overflow_hidden');
 }

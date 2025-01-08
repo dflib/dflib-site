@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Roboto Mono';
-    src: url('fonts/RobotoMono-Regular.woff2') format('woff2');
+    src: url('/fonts/RobotoMono-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'Roboto Mono';
-    src: url('fonts/RobotoMono-SemiBold.woff2') format('woff2');
+    src: url('/fonts/RobotoMono-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -41,8 +41,8 @@ html {
     font-weight: 400;
     line-height: $lh;
     -webkit-text-size-adjust: 100%;
-    background: $c_black;
-    color: $c_white;    
+    background: $bc_black;
+    color: $c_white;
 }
 body{
     margin: 0;
@@ -153,7 +153,7 @@ details{
     h2{
         background: linear-gradient(90deg, #08DEFE 20.04%, #00D1B1 54.22%);
     }
-    
+
     h1, h2, summary span{
         max-width: max-content;
         background-clip: text;
@@ -205,13 +205,12 @@ img {
 a{
     text-decoration: none;
     color: #08DEFE;
-    //text-transform: uppercase;
     &:hover{
         text-decoration: underline;
     }
 }
 .d_link{
-    margin: 0;   
+    margin: 0;
     color: #08DEFE;
     display: block;
     font-size: 1.111111rem;
@@ -292,11 +291,14 @@ a{
         }
     }
     .d_nv_bx{
-        display: flex; 
+        display: flex;
         align-items: center;
         a{
             margin-right: auto;
         }
+    }
+    .d_logo{
+        line-height: 1;
     }
 }
 .d_hdr .d_gh{
@@ -317,7 +319,7 @@ a{
     border-radius: 25px;
     font-size: 14.44px;
     margin-left: 36px;
-   
+
     svg{
         max-width: 22px;
     }
@@ -335,52 +337,59 @@ a{
     //     }
     // }
 }
-.d_hmbrg{
+.d_hmbrg {
     margin-left: 32px;
-    position: relative;
     display: inline-block;
-    width: 28px;
-    height: 3px;
-    color: $c_white;
-    background: $c_white;
-    transition: all .2s ease-out;
-    &::before,
-    &::after{
-        content: "";
-        width: 100%;
-        height: 100%;
+    margin-top: -6px;
+    height: 20px;
+    span{
+        width: 28px;
+        position: relative;
+        display: inline-block;
+        height: 3px;
+        color: $c_white;
         background: $c_white;
-        position: absolute;
-        left: 0;
         transition: all .2s ease-out;
-    }
-    &:before {
-        top: -7px;
-    }
-    &:after {
-        bottom: -7px;
-    }
-    &.d_active{
-        background: transparent;
         &::before,
         &::after{
-            left: 13px;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: $c_white;
+            position: absolute;
+            left: 0;
+            transition: all .2s ease-out;
         }
         &:before {
-            top: 0;
-            width: 17px;
-            right: 0;
-            -webkit-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
+            top: -7px;
         }
         &:after {
-            bottom: 0;
-            width: 17px;
-            right: 0;
-            -webkit-transform: rotate(-45deg);
-            -ms-transform: rotate(-45deg);
-            transform: rotate(-45deg);
+            bottom: -7px;
+        }
+    }
+    &.d_active{
+        span{
+            background: transparent;
+            &::before,
+            &::after{
+                left: 13px;
+            }
+            &:before {
+                top: 0;
+                width: 17px;
+                right: 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+            &:after {
+                bottom: 0;
+                width: 17px;
+                right: 0;
+                -webkit-transform: rotate(-45deg);
+                -ms-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+            }
         }
     }
 }
@@ -400,6 +409,7 @@ a{
     a{
         display: block;
         color: $c_white;
+        text-transform: uppercase;
         transition: opacity .5s ease-in-out;
         &:hover,
         &:active{
@@ -413,6 +423,7 @@ a{
             margin-top: 74px;
             margin-left: 0;
             display: inline-flex;
+            text-transform: none;
         }
     }
     &.d_show{
@@ -464,7 +475,7 @@ a{
             font-size: $fz_s;
             line-height: $lh_s;
         }
-       
+
     }
 }
 // 4 text cartd end
@@ -689,7 +700,7 @@ details{
             color: $c_white;
         }
         .d_rw{
-           row-gap: 16px;
+            row-gap: 16px;
         }
     }
 
@@ -761,7 +772,7 @@ details{
         padding-bottom: 111px;
     }
     // hero banner end
-    
+
 
     // 4 text cartd start
     .d_4_t_crd{
@@ -769,7 +780,7 @@ details{
         .d_card_gradient_border{
             padding: 54px 46px 46px 46px;
             p, h3{
-               max-width: 547px;
+                max-width: 547px;
             }
         }
         h2{
@@ -797,7 +808,7 @@ details{
             row-gap: 36px;
         }
         p{
-            &+ul, 
+            &+ul,
             &+p{
                 margin-top: 28px;
             }
@@ -993,8 +1004,8 @@ details{
     }
     // main end
 
-     // header start
-     .d_hdr{
+    // header start
+    .d_hdr{
         padding-top: 24px;
         padding-bottom: 24px;
     }
@@ -1070,7 +1081,7 @@ details{
         .d_text_box{
             margin-top: 10px;
         }
-        p + ul, 
+        p + ul,
         p + p {
             margin-top: 22px;
         }
@@ -1085,7 +1096,7 @@ details{
         }
         .d_cl_expand\$l{
             .d_rw{
-               column-gap: 6.0788vw;
+                column-gap: 6.0788vw;
             }
         }
         h2{
@@ -1241,7 +1252,7 @@ details{
         }
         .d_cl_expand\$l{
             .d_rw{
-               column-gap: 107.5px;
+                column-gap: 107.5px;
             }
         }
     }
