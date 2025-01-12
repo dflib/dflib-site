@@ -32,7 +32,7 @@ public class NumExpTest extends BaseTest {
         // tag::aggregation[]
         NumExp<?> exp = $int("c1")
                 .add($long("c2"))
-                .sum() // <1> aggregating here
+                .sum() // <1>
                 .div(2.);
 
         DataFrame df = DataFrame.foldByRow("c1", "c2").of(

@@ -178,7 +178,7 @@ public class ColumnOpsTest extends BaseTest {
 
         DataFrame df1 = df
                 .cols("primary_phone", "secondary_phone")
-                .selectExpand($col("phones"));
+                .selectExpand($col("phones")); // <1>
 // end::colsSelectExpand[]
 
         print("colsSelectExpand", df1);

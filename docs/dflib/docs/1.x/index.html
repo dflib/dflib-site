@@ -1440,7 +1440,7 @@ primitives to <code>BigDecimal</code>).
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">NumExp&lt;?&gt; exp = <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>)
         .add(<span class="error">$</span><span class="type">long</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>))
-        .sum() <span class="comment">// &lt;1&gt; aggregating here</span>
+        .sum() <i class="conum" data-value="1"></i><b>(1)</b>
         .div(<span class="integer">2</span>.);
 
 DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).of(
@@ -1893,7 +1893,7 @@ an <code>Iterable</code>) :</p>
 
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
-        .selectExpand(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>));</code></pre>
+        .selectExpand(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
