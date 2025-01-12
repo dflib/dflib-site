@@ -4,20 +4,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.dflib</groupId>
-    <version>1.1.0</version>
     <artifactId>dflib-site</artifactId>
+    <version>0.0</version>
     <name>dflib-site: website and docs</name>
-    <packaging>jar</packaging>
-
+    <packaging>pom</packaging>
+   
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Use Java 21 for docs, even though DFLib is compatible with Java 11.-->
         <maven.compiler.release>21</maven.compiler.release>
 
         <bootique.version>3.0-M6</bootique.version>
         <junit5.version>5.11.3</junit5.version>
-        <jjava.version>1.0-a4</jjava.version>
 
         <!-- Plugin versions -->
         <compiler.plugin.version>3.13.0</compiler.plugin.version>
@@ -26,6 +24,11 @@
         <asciidoctor.plugin.version>3.1.1</asciidoctor.plugin.version>
     </properties>
 
+    <modules>
+        <module>dflib1-docs</module>
+        <module>jjava1-docs</module>
+    </modules>
+
     <licenses>
         <license>
             <name>Apache License</name>
@@ -33,16 +36,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <developers>
-        <developer>
-            <id>andrus</id>
-            <name>Andrus Adamchik</name>
-            <email>andrus@objectstyle.com</email>
-            <organization>ObjectStyle</organization>
-            <timezone>America/New_York</timezone>
-        </developer>
-    </developers>
 
     <url>https://github.com/dflib/dflib-site</url>
 
@@ -72,13 +65,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.dflib</groupId>
-                <artifactId>dflib-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>io.bootique.jdbc</groupId>
                 <artifactId>bootique-jdbc-junit5-derby</artifactId>
                 <version>${bootique.version}</version>
@@ -89,66 +75,12 @@
                 <version>${junit5.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dflib.jjava</groupId>
-                <artifactId>jupyter-jvm-basekernel</artifactId>
-                <version>${jjava.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>3.12.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>org.dflib</groupId>
-            <artifactId>dflib</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.dflib</groupId>
-            <artifactId>dflib-csv</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.dflib</groupId>
-            <artifactId>dflib-jdbc</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.dflib</groupId>
-            <artifactId>dflib-jupyter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.dflib</groupId>
-            <artifactId>dflib-junit5</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.dflib.jjava</groupId>
-            <artifactId>jupyter-jvm-basekernel</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.bootique.jdbc</groupId>
-            <artifactId>bootique-jdbc-junit5-derby</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>
@@ -172,35 +104,8 @@
                     <groupId>org.asciidoctor</groupId>
                     <artifactId>asciidoctor-maven-plugin</artifactId>
                     <version>${asciidoctor.plugin.version}</version>
-                    <configuration>
-                        <backend>html5</backend>
-                        <outputDirectory>docs/</outputDirectory>
-                        <preserveDirectories>true</preserveDirectories>
-                        <relativeBaseDir>true</relativeBaseDir>
-                        <attributes>
-                            <source-highlighter>coderay</source-highlighter>
-                            <docinfo>shared-footer</docinfo>
-                            <src-dir>../../../../../../../../test/java/org/dflib/docs</src-dir>
-                        </attributes>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>asciidoctor-html-web</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 </project>

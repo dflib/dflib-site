@@ -50,7 +50,7 @@ include::${src-dir}/SeriesCreateTest.java[tags=createInt]
 
 ==== Creation of Series By Element
 
-If we don't have a data array or collection to start with, and instead somehow produce a sequence of
+If we don't have a data array or collection to start with and instead somehow produce a sequence of
 values of unpredictable length, we can use `Series.byElement()` API. E.g. the following example reads data from
 an InputStream line by line as Strings:
 
