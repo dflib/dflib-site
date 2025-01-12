@@ -15,8 +15,8 @@ https://dflib.org/
 ## Project Structure
 
 * `docs` : assembled docs are placed here to be deployed on GitHub Pages
-* `src/main/asciidoc` : Asciidoc source folders
-* `src/main/java` : Java examples embedded in the documentation
+* `<submodule>/src/docs/asciidoc` : Asciidoc source folders
+* `<submodule>/src/test/java` : Java examples embedded in the documentation
 
 ## Publishing the docs
 
