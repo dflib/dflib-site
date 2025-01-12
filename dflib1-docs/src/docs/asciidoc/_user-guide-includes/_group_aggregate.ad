@@ -20,7 +20,7 @@ Joan O'Hara        9300 2024-03-15
 We can group it by date like this:
 [source,java,indent=0]
 ----
-include::${src-dir}/GroupByTest.java[tags=groupBy]
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=groupBy]
 ----
 <1> Here we are grouping by a single column, but multiple columns can be specified as well
 
@@ -30,7 +30,7 @@ each payroll period by passing a list of "aggregating" expressions to the `agg(.
 
 [source,java,indent=0]
 ----
-include::${src-dir}/GroupByTest.java[tags=agg]
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg]
 ----
 <1> `first(..)` expression is applied to the column used in the grouping. As each value within the group is the same,
 we can simply select the first one for our aggregated row
@@ -54,7 +54,7 @@ Let's make a minor improvement to the example above and provide more descriptive
 
 [source,java,indent=0]
 ----
-include::${src-dir}/GroupByTest.java[tags=agg_cols]
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg_cols]
 ----
 
 ----
@@ -74,7 +74,7 @@ E.g. we can do row ranking within groups. Here we'll rank employees by their sal
 in the same period:
 [source,java,indent=0]
 ----
-include::${src-dir}/GroupByTest.java[tags=rank]
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=rank]
 ----
 <1> To produce a proper ranking, we need to order rows within each group first
 <2> In `select(..)`, instead of aggregating expressions, we are using "normal" ones , but they are applied to
@@ -102,7 +102,7 @@ that this operation doesn't do any aggregation. Just sorting within groups and p
 
 [source,java,indent=0]
 ----
-include::${src-dir}/GroupByTest.java[tags=topSalary]
+include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=topSalary]
 ----
 <1> Do the same sorting as before
 <2> Pick the top row in each group

@@ -9,7 +9,7 @@ operations. Here is how to get the top 2 rows of a DataFrame:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/DataFrameOpsTest.java[tags=headDataFrame]
+include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=headDataFrame]
 ----
 
 <1> Returns a new DataFrame with two top rows of the original DataFrame.
@@ -25,7 +25,7 @@ Juliana Walewski
 
 [source,java,indent=0]
 ----
-include::${src-dir}/DataFrameOpsTest.java[tags=tailDataFrame]
+include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=tailDataFrame]
 ----
 
 ----
@@ -41,7 +41,7 @@ The following code returns a new DataFrame after skipping the two top rows of th
 
 [source,java,indent=0]
 ----
-include::${src-dir}/DataFrameOpsTest.java[tags=negativeHeadDataFrame]
+include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=negativeHeadDataFrame]
 ----
 
 ----

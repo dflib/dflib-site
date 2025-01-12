@@ -9,7 +9,7 @@ multiple tables. DataFrames can be joined together, just like two DB tables. DFL
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=join]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=join]
 ----
 <1> `join(..)` is equivalent to `innerJoin(..)` (just like in SQL). With "inner" semantics, only the matching rows that
 are present in both DataFrames will be included in the result below.
@@ -31,7 +31,7 @@ the left. A quick way to get rid of duplicate columns is to exclude them from th
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=joinNoDupeColumns]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=joinNoDupeColumns]
 ----
 ----
 id name    age
@@ -49,7 +49,7 @@ column names in the result will be prefixed with the corresponding `DataFrame` n
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=joinAs]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=joinAs]
 ----
 <1> Assign the name to the left DataFrame
 <2> Assign the name to the right DataFrame
@@ -72,7 +72,7 @@ together:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=selectExp]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=selectExp]
 ----
 
 ----
@@ -92,7 +92,7 @@ Now let's demonstrate outer joins. Here is a `leftJoin(..)` example using the sa
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=leftJoin]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=leftJoin]
 ----
 ----
 id name     id_  age
@@ -112,7 +112,7 @@ Let's show it on a `fullJoin(..)` example:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=indicatorColumn]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=indicatorColumn]
 ----
 <1> Request an indicator column with a user-specified name.
 ----
@@ -138,7 +138,7 @@ higher salary on the left vs. everyone with lower salary on the right:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/JoinsTest.java[tags=predicatedBy]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=predicatedBy]
 ----
 <1> Custom join condition
 <2> Sorting and renaming the result columns for a user-friendly display

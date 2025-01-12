@@ -17,7 +17,7 @@ Rows are picked either by condition, by positions or as a range. Let's take a lo
 A `Condition` (a boolean `Exp`) can be used to pick matching rows:
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsByCondition]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByCondition]
 ----
 <1> Applies a `Condition` to the DataFrame, to include matching rows in the `RowSet`.
 <2> Returns a new DataFrame matching the `RowSet`
@@ -31,7 +31,7 @@ Juliana Walewski null
 Another form of condition is a "predicate" lambda (a `RowPredicate` object), evaluated row-by-row:
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsByPredicate]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByPredicate]
 ----
 
 A condition can be precalculated as a `BooleanSeries`. A common scenario is calling `locate()` on another `Series`
@@ -39,7 +39,7 @@ or a `DataFrame` / `RowSet` to build a `BooleanSeries` "selector", and then usin
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsByConditionPrecalc]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByConditionPrecalc]
 ----
 <1> A Series of salaries with elements positions matching row positions in the persons DataFrame.
 <2> Precalculates a reusable "selector"
@@ -56,7 +56,7 @@ Juliana Walewski null
 Here is an example of `RowSet` defined using an array of row positions.
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsByArray]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByArray]
 ----
 
 <1> An `int[]` that defines a `RowSet`
@@ -78,7 +78,7 @@ calculated from another `Series` or `DataFrame` / `RowSet`:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsByIndex]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByIndex]
 ----
 <1> Precalculates a reusable "selector" with positions. Uses a Series of salaries that is not a part of "our" DataFrame
 ----
@@ -93,7 +93,7 @@ Juliana Walewski null
 Finally, rows can be selected as a continuous range of row positions:
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsByRange]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsByRange]
 ----
 <1> The range is defined by two ints: its starting index and the index, following its last index.
 ----
@@ -112,7 +112,7 @@ rows from the original `DataFrame`. Here we will demonstrate selecting operation
 Transforming with column expressions:
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsSelectExp]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectExp]
 ----
 <1> Select the rows from each column without changes, except the last one, where we flip the "retires_soon" flag
 to "true".
@@ -128,7 +128,7 @@ This code can be improved by creating a `RowColumnSet` <<row_column_ops,describe
 Transforming row-by-row with `RowMapper`:
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsSelectRowMapper]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectRowMapper]
 ----
 There's also a way to transforming row-by-row with per-column array of `RowToValueMapper`. It is not very different
 from what we've seen so far, so we are leaving this as an exercise for the reader.
@@ -140,7 +140,7 @@ like `merge(..)` (i.e. those that do not start with `select`):
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsMergeExp]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsMergeExp]
 ----
 
 ----
@@ -168,7 +168,7 @@ Splitting rows is somewhat simpler than <<column_ops_split,splitting columns>>. 
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsSelectExpand]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectExpand]
 ----
 
 ----
@@ -189,7 +189,7 @@ all columns of each row, or a preselected subset:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsSelectUniqueAll]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectUniqueAll]
 ----
 <1> Keep only fully unique rows
 ----
@@ -202,7 +202,7 @@ Joan  O'Hara
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsSelectUnique]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectUnique]
 ----
 <2> Deduplicate first names. Picking the row of each earliest-encountered unique first name.
 ----
@@ -219,12 +219,12 @@ or select the rows you’d want to remain and call `select()`:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsDrop]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsDrop]
 ----
 
 [source,java,indent=0]
 ----
-include::${src-dir}/RowOpsTest.java[tags=rowsExceptSelect]
+include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsExceptSelect]
 ----
 
 In both cases, the result is the same:

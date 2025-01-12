@@ -98,7 +98,6 @@
                             <attributes>
                                 <source-highlighter>coderay</source-highlighter>
                                 <docinfo>shared-footer</docinfo>
-                                <src-dir>../../../../../test/java/org/dflib/docs</src-dir>
                             </attributes>
                         </configuration>
                     </execution>

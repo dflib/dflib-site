@@ -19,14 +19,14 @@ Joan O'Hara        9500 2024-02-15
 A window is created by calling `over()` on the `DataFrame`:
 [source,java,indent=0]
 ----
-include::${src-dir}/WindowTest.java[tags=window]
+include::../../../test/java/org/dflib/docs/WindowTest.java[tags=window]
 ----
 
 Here is a full operation that adds a "max_salary" column to each employee:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/WindowTest.java[tags=windowPartition]
+include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartition]
 ----
 <1> Defines DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition
 <2> Defines a new column and an aggregating expression to produce values.

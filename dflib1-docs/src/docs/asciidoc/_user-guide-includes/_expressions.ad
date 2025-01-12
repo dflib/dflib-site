@@ -9,18 +9,18 @@ To use expressions, you'd often start by adding a static import of the `Exp` int
 are available directly in the code:
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=expImport]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expImport]
 ----
 Now let's create two simple expressions that return a named and a positional column of the requested type:
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=columnExp]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExp]
 ----
 
 And now let's evaluate the expressions:
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=columnExpEval]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExpEval]
 ----
 
 This doesn't look like much (other DFLib APIs would do the same), but this basic abstraction allows to describe a
@@ -46,7 +46,7 @@ Factory methods for column expressions are easy to spot in the `Exp` interface -
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=columnExps]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExps]
 ----
 <1> Retrieves a column without implying a specific type
 <2> Retrieve columns that are expected to be numeric
@@ -63,7 +63,7 @@ to another, use one of the `castAs` methods explicitly:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=castAs]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=castAs]
 ----
 
 `castAs` will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible,
@@ -76,7 +76,7 @@ If we want to generate a Series with the same repeating value, we can use the `$
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=constantExp]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=constantExp]
 ----
 
 ----
@@ -88,7 +88,7 @@ A useful case for `$val(..)` is to create a separator for String concatenation:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=constantConcatExp]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=constantConcatExp]
 ----
 <1> This is a static import of `Exp.concat(..)`, an expression that takes a variable number of arguments
 <2> Inserting space between first and last name
@@ -111,7 +111,7 @@ We will look at comparisons later in the "Conditions" chapter. Here is an exampl
 
 [source,java,indent=0]
 ----
-include::${src-dir}/NumExpTest.java[tags=arithmetics]
+include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=arithmetics]
 ----
 <1> Add two columns
 <2> Multiply the result by a constant value
@@ -136,7 +136,7 @@ Here is an example of aggregating operations:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/NumExpTest.java[tags=aggregation]
+include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=aggregation]
 ----
 <1> Inserting an aggregating expression in a chain of arithmetic expressions produces an aggregated result
 
@@ -158,7 +158,7 @@ seen above, expressions can be composed of other expressions by invoking static 
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=expChain]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expChain]
 ----
 <1> "Condition" is an `Exp<Boolean>` described in more detail below
 <2> `and(..)` is a statically-imported `Exp.and(..)`
@@ -180,7 +180,7 @@ that take user-provided lambdas:
 +
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=mapVal]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=mapVal]
 ----
 <1> the argument lambda takes a value and produces a value
 
@@ -190,7 +190,7 @@ entire `Series`, and in some cases, optimize the operation (e.g. by avoiding sca
 +
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=map]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=map]
 ----
 <1> the argument lambda takes the first value from the source `Series`, and produces the result Series of the same size
 filled with that value
@@ -200,7 +200,7 @@ window operations) where we need to produce a single value out of a `Series`:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=agg]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=agg]
 ----
 <1> the argument lambda counts unique values in a series, taking a `Series` and producing an int.
 
@@ -213,7 +213,7 @@ created from any expression by calling its `asc()` or `desc()` methods:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ExpTest.java[tags=sorter]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=sorter]
 ----
 
 NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be

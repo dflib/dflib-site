@@ -13,7 +13,7 @@ A condition is specified as a "predicate" lambda:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsByPredicate]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPredicate]
 ----
 This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative
 order of the original `DataFrame`:
@@ -30,7 +30,7 @@ just those two columns:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=cols]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=cols]
 ----
 
 <1> Define a `ColumnSet` of two columns matching provided names.
@@ -51,7 +51,7 @@ doesn't support reordering:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsExcept]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsExcept]
 ----
 
 ==== By Positions
@@ -59,7 +59,7 @@ You can also pick columns by positions. The first position is "0".
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsByPos]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPos]
 ----
 
 [#column_ops_implicit]
@@ -68,7 +68,7 @@ include::${src-dir}/ColumnOpsTest.java[tags=colsByPos]
 If you specify no columns at all when building a `RowSet`, the returned `DataFrame` will be the same as the source one.
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsAll]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsAll]
 ----
 
 NOTE: In this particular case, implicit column selection is not very useful. But in fact, this style is dynamic
@@ -85,7 +85,7 @@ Rename all column set columns:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectAs]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAs]
 ----
 <1> Passing new names for the `ColumnSet` columns. The order of the names must correspond to the order of columns
 in the `ColumnSet`, regardless of how it was defined.
@@ -101,7 +101,7 @@ Rename a subset of columns. Specifying names of all columns at once may not be p
 Names not present in the map will remain unchanged:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectAsMap]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAsMap]
 ----
 ----
 LAST_NAME first
@@ -114,7 +114,7 @@ Rename with a function, applied to all column names in turn. This is useful e.g.
 upper case:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectAsOp]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAsOp]
 ----
 ----
 LAST   FIRST
@@ -132,7 +132,7 @@ we'll show how to transform column data.
 Generating columns with expressions:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectExp]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExp]
 ----
 <1> When defining the `ColumnSet`, we are allowed to specify columns that are not present in the original DataFrame, as
 we are naming the result columns, not the source columns.
@@ -148,7 +148,7 @@ Joan         O'Hara
 Generating columns row-by-row with `RowMapper`:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectRowMapper]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRowMapper]
 ----
 There's also a way to generating columns row-by-row with per-column array of `RowToValueMapper`. It is not very different
 from what we've seen so far, so we are leaving this as an exercise for the reader.
@@ -162,7 +162,7 @@ an `Iterable`) :
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectExpand]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpand]
 ----
 <1> `selectExpand(..)` takes an expression that returns a column with lists. If each List has more than 2 numbers,
 the rest are ignored, if less - nulls are used for the  missing elements
@@ -179,7 +179,7 @@ As many columns as needed to fit the longest array of phone numbers will be gene
 be assigned dynamically:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectExpandUnlim]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandUnlim]
 ----
 <1> Not specifying any columns will result in split columns generated dynamically.
 ----
@@ -193,7 +193,7 @@ If the phone numbers were provided as a comma-separated `String` instead of a `L
 array of numbers using the `split(..)` expression, and use `selectExpandArray(..)` to generate the columns:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsSelectExpandArrays]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandArrays]
 ----
 
 === Merge Columns
@@ -212,7 +212,7 @@ operations that we just discussed can also be executed as "merges".
 Here is an example of cleaning up a data set and adding a new column:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsMap]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsMap]
 ----
 <1> An expression that capitalizes the first letter of the name
 <2> The columns we are going to generate or transform
@@ -246,7 +246,7 @@ it doesn't overlap with anything already in the DataFrame:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsAppendMap]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsAppendMap]
 ----
 <1> Using `colsAppend(..)` instead of `cols()` ensures that both pre- and post-cleanup columns are preserved.
 
@@ -267,7 +267,7 @@ or Strings (or objects with `toString()` that can be parsed to a primitive type)
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=compact]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=compact]
 ----
 
 <1> The argument to `compact` is the primitive value to use if the value being converted is null
@@ -285,7 +285,7 @@ this task, `ColumnSet` provides a few methods discussed here.
 Filling nulls with a constant value:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=fillNulls]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNulls]
 ----
 
 ----
@@ -299,7 +299,7 @@ b1 b2
 Filling nulls with values adjacent to the cells with nulls:
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=fillNullsForwardBackwards]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsForwardBackwards]
 ----
 <1> `fillNullsForward(..)` takes a non-null value preceding the null cell and uses it to replace nulls.
 <2> `fillNullsBackwards(..)` uses the first non-null value following the null cell.
@@ -315,7 +315,7 @@ b1 b2
 There's also a way to fill nulls from another `Series` object used as a "mask" :
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=fillNullsFromSeries]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsFromSeries]
 ----
 
 ----
@@ -331,7 +331,7 @@ starting at zero.
 
 Finally, we can use an `Exp` to calculate values for nulls:
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=fillNullsWithExp]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsWithExp]
 ----
 <1> `Exp.rowNum()` generates a `Series` with row numbers, so the nulls are replaced by the number denoting their position
 in the `DataFrame`:
@@ -351,11 +351,11 @@ or select the columns you’d want to remain and call `select()`:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsDrop]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsDrop]
 ----
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=colsExceptSelect]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsExceptSelect]
 ----
 In both cases, the result is the same:
 ----
@@ -377,7 +377,7 @@ To illustrate the point, let's first look a direct source-to-result copy example
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=understandings0]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=understandings0]
 ----
 
 We can change it a little, by adding a column to the `ColumnSet` that is not in the original
@@ -385,7 +385,7 @@ We can change it a little, by adding a column to the `ColumnSet` that is not in 
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=understandings1]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=understandings1]
 ----
 
 ----
@@ -400,7 +400,7 @@ source columns:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ColumnOpsTest.java[tags=understandings2]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=understandings2]
 ----
 
 ----

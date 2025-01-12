@@ -19,7 +19,7 @@ The simplest ByteSource is a wrapper around a `byte[]`:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ByteSourceTest.java[tags=byteArray]
+include::../../../test/java/org/dflib/docs/ByteSourceTest.java[tags=byteArray]
 ----
 <1> Create a `ByteSource` from a `byte[]`
 <2> To make a `DataFrame`, use an appropriate loader matching the format of the data stored in the `byte[]`
@@ -30,14 +30,14 @@ must be publicly accessible:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ByteSourceTest.java[tags=url]
+include::../../../test/java/org/dflib/docs/ByteSourceTest.java[tags=url]
 ----
 
 Also, the JVM can expose application resources as URLs, and the same API can be used to create a `ByteSource`:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ByteSourceTest.java[tags=resourceUrl]
+include::../../../test/java/org/dflib/docs/ByteSourceTest.java[tags=resourceUrl]
 ----
 
 === HTTP ByteSource
@@ -47,7 +47,7 @@ access web resources. It allows to send authorization (or any other) headers  an
 
 [source,java,indent=0]
 ----
-include::${src-dir}/ByteSourceTest.java[tags=http]
+include::../../../test/java/org/dflib/docs/ByteSourceTest.java[tags=http]
 ----
 
 NOTE: `Http` connector is immutable. Each builder method above produces an altered _copy_ of the original connector. This

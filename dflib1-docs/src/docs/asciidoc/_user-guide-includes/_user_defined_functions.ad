@@ -11,7 +11,7 @@ expressions as parameters, and produces a single expression:
 
 [source,java,indent=0]
 ----
-include::${src-dir}/UdfTest.java[tags=udf1]
+include::../../../test/java/org/dflib/docs/UdfTest.java[tags=udf1]
 ----
 <1> Define a UDF that takes a single parameter and performs proper name capitalization
 <2> Apply the same UDF separately to the "first" and "last" name columns
@@ -32,7 +32,7 @@ number of arguments and should be used to model UDFs with more than 3 inputs or 
 
 [source,java,indent=0]
 ----
-include::${src-dir}/UdfTest.java[tags=udfN]
+include::../../../test/java/org/dflib/docs/UdfTest.java[tags=udfN]
 ----
 <1> Build a UDF with dynamic number of input parameters packaged in the `Exp[]`
 <2> Call the UDF to create a row filter. Since the UDF return type is `Exp<Boolean>`,

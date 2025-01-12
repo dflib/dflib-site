@@ -29,7 +29,7 @@ To work with the ECharts API, you should include the following dependency (alrea
 And then you can create a chart. E.g., here is a simple bar chart showing employee salaries:
 [source,java,indent=0]
 ----
-include::${src-dir}/EChartsTest.java[tags=barChart]
+include::../../../test/java/org/dflib/docs/EChartsTest.java[tags=barChart]
 ----
 `EChartHtml` object contains pieces of HTML and JavaScript needed to render the following chart in the browser:
 

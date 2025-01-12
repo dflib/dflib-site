@@ -21,7 +21,7 @@ Once you do that, `Csv` class is the entry point to all the `.csv` related opera
 The simplest way to create a `DataFrame` from a CSV file is this:
 [source,java,indent=0]
 ----
-include::${src-dir}/CsvTest.java[tags=readCsv]
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=readCsv]
 ----
 
 <1> The argument to the "load" method can be a filename, a file, or a Reader, so it can be loaded from a variety of
@@ -41,7 +41,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
 
 [source,java,indent=0]
 ----
-include::${src-dir}/CsvTest.java[tags=readCsvLoader]
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=readCsvLoader]
 ----
 <1> Instead of "load" method use "loader".
 <2> Skip the header row.
@@ -69,7 +69,7 @@ source representable as `ByteSource` or `ByteSources` (see <<bin_data_sources,"B
 Writing to a CSV is equally easy:
 [source,java,indent=0]
 ----
-include::${src-dir}/CsvTest.java[tags=writeCsv]
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=writeCsv]
 ----
 
 <1> The argument to the "save" method can be a filename, a file, a Writer (or generally Appendable), so it can be stored
@@ -78,7 +78,7 @@ to a variety of destinations.
 Just like with the loader, CSV saver provides its own set of options, if the defaults are not sufficient:
 [source,java,indent=0]
 ----
-include::${src-dir}/CsvTest.java[tags=writeCsvSaver]
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=writeCsvSaver]
 ----
 
 <1> Instead of "save" method use "saver" to be able to customize the process.
