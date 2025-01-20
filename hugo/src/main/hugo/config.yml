@@ -19,8 +19,8 @@ languageName: English
 languageCode: en-US
 
 params:
-  description: "Discover DFLib: a Java DataFrame library for efficient data manipulation similar to SQL. Supports CSV, Excel, RDBMS, and more. Ideal for Java developers."
-  keywords: "DFLib, DataFrame, Java, ETL, data analysis, Jupyter, notebook"
+  description: "DFLib is a lightweight, pure Java implementation of a DataFrame data structure. It provides data manipulation capabilities similar to SQL: filtering, joins, unions, and more. DFLib supports CSV, Excel, RDBMS, Avro, Parquet, JSON formats"
+  keywords: "DFLib, DataFrame, Java, ETL, data analysis, data transformation, data visualization, Jupyter, Jupyter notebook, Jupyter kernel"
 
 disableKinds:
   - RSS

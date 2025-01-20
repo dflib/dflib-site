@@ -16,8 +16,8 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <title>DFLib Java DataFrame Library | Official Site</title>
-    <meta name="description" content="Discover DFLib: a Java DataFrame library for efficient data manipulation similar to SQL. Supports CSV, Excel, RDBMS, and more. Ideal for Java developers.">
-    <meta name="keywords" content="DFLib, DataFrame, Java, ETL, data analysis, Jupyter, notebook">
+    <meta name="description" content="DFLib is a lightweight, pure Java implementation of a DataFrame data structure. It provides data manipulation capabilities similar to SQL: filtering, joins, unions, and more. DFLib supports CSV, Excel, RDBMS, Avro, Parquet, JSON formats">
+    <meta name="keywords" content="DFLib, DataFrame, Java, ETL, data analysis, data transformation, data visualization, Jupyter, Jupyter notebook, Jupyter kernel">
 
     <link rel="canonical" href="/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -59,6 +59,7 @@
                 
                 <div class="d_menu_box">
                     <a class="d_v_l" href="/docs/">Documentation</a>
+                    <a class="d_v_l" href="/charts/">Charts</a>
                     <a class="d_v_l" href="https://github.com/dflib/dflib/discussions">Forum</a>
                     <a href="https://github.com/dflib/dflib" class="d_gh d_v_s">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,6 +87,7 @@
             <div class="d_cl">
                 <h1>DFLib, a Java <br>DataFrame</h1>
                 <p>Home of open source Java data tools: a DataFrame library, charts and visualization, Jupyter kernel.</p>
+                <p>To get started, <a href="./dflib/docs/1.x/#_get_started_with_dflib">follow DFLib documentation</a></p>
             </div>
         </div>
     </div>
@@ -94,17 +96,94 @@
     <div class="d_cntnr">
         <div class="d_rw">
             <div class="d_cl d_sm_c d_cl_auto$l">
-                <h2>Why Java developers need a DataFrame</h2>
+                <h2>What is a DataFrame?</h2>
             </div>
             <div class="d_cl d_cl_expand$l">
                 <div class="d_text_box">
-                    <p>DFLib's DataFrame is a lightweight, pure Java data structure. It provides data manipulation
-                        capabilities similar to SQL - filtering, joins, unions, window functions, and more - only done
-                        as step-by-step in-memory transformations that are easy to compose and understand. Unlike
-                        "big data" DataFrames, DFLib does not require special infrastructure and can be used in any
-                        Java application. DFLib includes connectors for CSV, Excel, RDBMS, Avro, Parquet, JSON, etc.
-                        It is open source, distributed under the Apache License.</p>
-                    <p>To get started, <a href="./dflib/docs/1.x/#_get_started_with_dflib">follow the documentation</a></p>
+                    <p>DataFrame is a table-like data structure in a programming language. It has
+                        data processing capabilities similar to SQL: column and row manipulation, filtering, joins,
+                        unions, window functions, and so on. DataFrames are very common in the software industry
+                        (Python pandas, Spark, R, etc.), but are still quite a rarity in Java.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_sm_c d_cl_auto$l">
+                <h2>DFLib DataFrame</h2>
+            </div>
+            <div class="d_cl d_cl_expand$l">
+                <div class="d_text_box">
+                    <p>DFLib is a lightweight, pure Java in-memory DataFrame. It provides a unique data manipulation
+                        API that allows to process data incrementally in a highly-composable manner. Unlike "big data"
+                        DataFrames, DFLib does not require special infrastructure and can be used in any
+                        Java application. Out of the box, DFLib supports loading and saving to CSV, Excel,
+                        RDBMS, Avro, Parquet, and JSON formats and works with a variety of data sources (local filesystem,
+                        web services, zip archives, etc.). DFLib is fully open source and is distributed under the Apache
+                        License.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_sm_c d_cl_auto$l">
+                <h2>Who and Why Should Use DFLib?</h2>
+            </div>
+            <div class="d_cl d_cl_expand$l">
+                <div class="d_text_box">
+                    <p>The short answer is "any Java programmer for any data processing task". More specifically, there
+                        are two broad categories of use cases. First is data engineering, i.e. building software (often
+                        called "data pipelines") to extract and transform data from internal or external sources. ETL,
+                        data aggregation, loading Excel files into your database all fall into this category.
+                    </p>
+                    <p>
+                        Second is data analysis. Data analysis has traditionally been a realm of Python. DFLib
+                        opens it up to Java developers. With support for
+                        <a href="./dflib/docs/1.x/#jupyter">Jupyter notebooks</a> (based on our own
+                        <a href="./jjava/docs/1.x/">Jupyter Kernel</a>), and a
+                        <a href="./dflib/docs/1.x/#echarts">charting solution</a>, we provide the entire toolkit
+                        needed for interactive and visual data work.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_sm_c d_cl_auto$l">
+                <h2>DFLib and Jupyter Notebooks</h2>
+            </div>
+            <div class="d_cl d_cl_expand$l">
+                <div class="d_text_box">
+                    <p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_sm_c d_cl_auto$l">
+                <h2>Charts and Dashboards</h2>
+            </div>
+            <div class="d_cl d_cl_expand$l">
+                <div class="d_text_box">
+                    <p>
+                    </p>
                 </div>
             </div>
         </div>
@@ -115,7 +194,7 @@
     <div class="d_cntnr">
         <div class="d_rw">
             <div class="d_cl">
-                <p>© 2025 ObjectStyle LLC and individual authors</p>
+                <p>© 2025 ObjectStyle LLC</p>
             </div>
         </div>
     </div>
