@@ -1,0 +1,38 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Favicon-->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="DFLib">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <title>{{ with .Params.MetaTitle}}{{ . }}{{ else }}{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Params.MetaDescription }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
+    <meta name="keywords" content="{{ with .Keywords }}{{ . }}{{ else }}{{if .IsPage}}{{ .Params.MetaKeywords }}{{ else }}{{ with .Site.Params.keywords }}{{ . }}{{ end }}{{ end }}{{ end }}">
+
+    {{ if .Params.canonicalUrl -}}
+    <link rel="canonical" href="{{ .Params.canonicalUrl }}">
+    {{ else -}}
+    <link rel="canonical" href="{{ .RelPermalink }}">
+    {{- end -}}
+    {{ if .Page.Params.do_not_index }}
+    <meta name="robots" content="noindex">
+    {{ else }}
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    {{ end }}
+
+    <!-- Preload -->
+    <link rel="preload" href="/fonts/RobotoMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="/fonts/RobotoMono-Regular.woff2" as="font" type="font/woff2" crossorigin="">
+
+    <!-- Styles -->
+    {{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}
+    {{ with resources.Get "css/main.scss" | toCSS | minify -}}
+    <style>{{ .Content | safeCSS }}</style>
+    {{ end }}
+</head>
