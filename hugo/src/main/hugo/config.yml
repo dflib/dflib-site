@@ -1,7 +1,7 @@
 baseURL: 'https://dflib.org/'
 
-# Override default directory structure of Hugo to blend with a maven build
-publishDir: ../../../docs
+# Override default directory structure of Hugo to blend with the Maven build
+publishDir: ../../../../docs
 # Hugo generated resources (like processed images), even if there are non, this directory would be created
 resourceDir: ../../../target/hugo/resources
 assetDir: src
