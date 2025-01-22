@@ -87,25 +87,7 @@
             <div class="d_cl">
                 <h1>DFLib, a Java <br>DataFrame</h1>
                 <p>Home of open source Java data tools: a DataFrame library, charts and visualization, Jupyter kernel.</p>
-                <p>To get started, <a href="./dflib/docs/1.x/#_get_started_with_dflib">follow DFLib documentation</a></p>
-            </div>
-        </div>
-    </div>
-</article>
-<article class="d_sctn d_bc_black d_c_white">
-    <div class="d_cntnr">
-        <div class="d_rw">
-            <div class="d_cl d_sm_c d_cl_auto$l">
-                <h2>What is a DataFrame?</h2>
-            </div>
-            <div class="d_cl d_cl_expand$l">
-                <div class="d_text_box">
-                    <p>DataFrame is a table-like data structure in a programming language. It has
-                        data processing capabilities similar to SQL: column and row manipulation, filtering, joins,
-                        unions, window functions, and so on. DataFrames are very common in the software industry
-                        (Python pandas, Spark, R, etc.), but are still quite a rarity in Java.
-                    </p>
-                </div>
+                <p>To get started, follow <a href="./dflib/docs/1.x/#_get_started_with_dflib">DFLib documentation</a></p>
             </div>
         </div>
     </div>
@@ -118,13 +100,31 @@
             </div>
             <div class="d_cl d_cl_expand$l">
                 <div class="d_text_box">
-                    <p>DFLib is a lightweight, pure Java in-memory DataFrame. It provides a unique data manipulation
+                    <p>DFLib is a lightweight, pure Java, in-memory DataFrame. It provides a unique data manipulation
                         API that allows to process data incrementally in a highly-composable manner. Unlike "big data"
                         DataFrames, DFLib does not require special infrastructure and can be used in any
                         Java application. Out of the box, DFLib supports loading and saving to CSV, Excel,
-                        RDBMS, Avro, Parquet, and JSON formats and works with a variety of data sources (local filesystem,
+                        RDBMS, Avro, Parquet, and JSON formats, and works with a variety of data sources (local filesystem,
                         web services, zip archives, etc.). DFLib is fully open source and is distributed under the Apache
                         License.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl d_sm_c d_cl_auto$l">
+                <h2>What is DataFrame?</h2>
+            </div>
+            <div class="d_cl d_cl_expand$l">
+                <div class="d_text_box">
+                    <p>DataFrame is a table-like data structure in a programming language with
+                        data processing capabilities similar to SQL: filtering, joins, unions, window functions,
+                        columns / rows manipulation, and so on. DataFrames are very common in other languages and
+                        ecosystems (Python pandas, Spark, R, etc.), but are still quite a rarity in Java.
+                    </p>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@
                         data aggregation, loading Excel files into your database all fall into this category.
                     </p>
                     <p>
-                        Second is data analysis. Data analysis has traditionally been a realm of Python. DFLib
+                        Second is data analysis that has traditionally been a realm of Python. DFLib
                         opens it up to Java developers. With support for
                         <a href="./dflib/docs/1.x/#jupyter">Jupyter notebooks</a> (based on our own
                         <a href="./jjava/docs/1.x/">Jupyter Kernel</a>), and a
@@ -162,11 +162,16 @@
     <div class="d_cntnr">
         <div class="d_rw">
             <div class="d_cl d_sm_c d_cl_auto$l">
-                <h2>DFLib and Jupyter Notebooks</h2>
+                <h2>DFLib JJava, a Java Jupyter Kernel</h2>
             </div>
             <div class="d_cl d_cl_expand$l">
                 <div class="d_text_box">
-                    <p>
+                    <p>Jupyter notebook is the most popular interactive environment for working with data among scientists,
+                        data engineers and educators. It can run in the browser and is also integrated in common
+                        IDEs, like VSCode and Intellij IDEA. DFLib <a href="https://github.com/dflib/jjava">provides a
+                        kernel</a> (called "JJava") to work in Jupyter using Java language. It perfectly complements the
+                        DFLib DataFrame, but the kernel itself doesn't depend on the DataFrame library and can be used
+                        with any Java code.
                     </p>
                 </div>
             </div>
@@ -182,7 +187,13 @@
             </div>
             <div class="d_cl d_cl_expand$l">
                 <div class="d_text_box">
-                    <p>
+                    <p>An important part of data work is visual analysis and presentation. DFLib integrates with Apache
+                        ECharts to provide a <a href="./dflib/docs/1.x/#echarts">Java charting and dashboards
+                        solution</a>. A chart can be programmed in Java by applying a simple fluent API to a DataFrame.
+                        Charts are generated by DFLib as chunks of JavaScript and can either be displayed directly in
+                        Jupyter notebooks or embedded in HTML pages. Additionally, DFLib allows to create
+                        <a href="http://127.0.0.1:11080/charts/">full HTML pages with multiple charts</a> (i.e.
+                        "dashboards") using built-in or custom page templates.
                     </p>
                 </div>
             </div>
