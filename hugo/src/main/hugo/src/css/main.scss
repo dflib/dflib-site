@@ -132,17 +132,17 @@ button{
             margin-top: 10px;
         }
     }
-    +.d_bc_black{
-        position: relative;
-        &:before{
-            content: "";
-            position: absolute;
-            border-top: 2px solid $c_gray;
-            width: 100%;
-            top: 0;
-            left: 0;
-        }
-    }
+//     +.d_bc_black{
+//         position: relative;
+//         &:before{
+//             content: "";
+//             position: absolute;
+//             border-top: 2px solid $c_gray;
+//             width: 100%;
+//             top: 0;
+//             left: 0;
+//         }
+//     }
 }
 .d_bc_black:not(.d_c_white),
 .d_2_img_crd,
