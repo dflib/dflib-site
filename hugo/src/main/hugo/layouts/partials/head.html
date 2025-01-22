@@ -11,9 +11,8 @@
     <meta name="apple-mobile-web-app-title" content="DFLib">
     <link rel="manifest" href="/site.webmanifest">
 
-    <title>{{ with .Params.MetaTitle}}{{ . }}{{ else }}{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}{{ end }}</title>
-    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Params.MetaDescription }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
-    <meta name="keywords" content="{{ with .Keywords }}{{ . }}{{ else }}{{if .IsPage}}{{ .Params.MetaKeywords }}{{ else }}{{ with .Site.Params.keywords }}{{ . }}{{ end }}{{ end }}{{ end }}">
+    <title>{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}">
 
     {{ if .Params.canonicalUrl -}}
     <link rel="canonical" href="{{ .Params.canonicalUrl }}">
