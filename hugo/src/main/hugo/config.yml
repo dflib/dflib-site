@@ -26,6 +26,8 @@ disableKinds:
   - taxonomy
   - term
 
+disableHugoGeneratorInject: true
+
 enableRobotsTXT: true
 
 outputs:
