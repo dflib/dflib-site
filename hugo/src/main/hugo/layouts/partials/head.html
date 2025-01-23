@@ -32,6 +32,6 @@
     <!-- Styles -->
     {{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}
     {{ with resources.Get "css/main.scss" | toCSS | minify -}}
-    <style>{{ .Content | safeCSS }}</style>
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
     {{ end }}
 </head>
