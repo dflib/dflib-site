@@ -19,7 +19,7 @@ image:images/maven-pom-dep.png[maven-pom-dep]
 
 * Display rich output. E.g. here is a chart produced by DFLib and ECharts:
 
-image::https://dflib.org/images/charts/chart-in-jupyter.png[]
+image:images/chart-in-jupyter.png[]
 
 * `eval` function. (See also link:#kernel[kernel])
 *Note: the signature is `Object eval(String) throws Exception`.* This evaluates the
