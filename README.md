@@ -13,7 +13,7 @@ git config --local include.path ../.gitconfig
 Install [Hugo](https://gohugo.io/installation/), version 0.139.0 or newer. On MacOS this should be as easy as 
 `brew install hugo`.
 
-## Local Web Server
+### Local Web Server
 Since the site template uses absolute paths, it will not work properly if you simply open `index.html` in the browser.
 To test the site, you should run a webserver. We are providing a `docker-compose.yml` file to start a server pointing
 to the docs dir. Run the following command and go to http://127.0.0.1:11080/ 
