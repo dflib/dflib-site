@@ -22,14 +22,6 @@ to the docs dir. Run the following command and go to http://127.0.0.1:11080/
 docker-compose up -d
 ```
 
-## Project Structure
-
-* `charts` : Jupyter notebooks to generate website chart galleries
-* `docs` : the final website assembly. Adding files here results in publishing them on dflib.org.
-* `dflib1-docs` : DFLib Asciidoc documentation
-* `hugo` : manually written webpages and CSS assembly
-* `jjava1-docs` : JJava Asciidoc documentation
-
 ## Publishing the docs
 
 ```
@@ -41,3 +33,12 @@ git push
 
 If the commit is to the `main` branch, the push will activate publishing of the website at
 https://dflib.org/ .
+
+## Project Structure
+
+* `docs` : the final website assembly. Adding files here results in publishing them on dflib.org. Various other content
+  sources below copy their output to this folder during build.
+* `charts` : Jupyter notebooks to generate website chart galleries
+* `dflib1-docs` : DFLib Asciidoc documentation
+* `hugo` : manually written webpages and CSS assembly
+* `jjava1-docs` : JJava Asciidoc documentation
