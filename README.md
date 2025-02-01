@@ -24,9 +24,11 @@ docker-compose up -d
 
 ## Project Structure
 
-* `docs` : assembled docs are placed here to be deployed on GitHub Pages
-* `<submodule>/src/docs/asciidoc` : Asciidoc source folders
-* `<submodule>/src/test/java` : Java examples embedded in the documentation
+* `charts` : Jupyter notebooks to generate website chart galleries
+* `docs` : the final website assembly. Adding files here results in publishing them on dflib.org.
+* `dflib1-docs` : DFLib Asciidoc documentation
+* `hugo` : manually written webpages and CSS assembly
+* `jjava1-docs` : JJava Asciidoc documentation
 
 ## Publishing the docs
 
