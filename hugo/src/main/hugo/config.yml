@@ -5,12 +5,6 @@ publishDir: ../../../../docs
 # Hugo generated resources (like processed images), even if there are non, this directory would be created
 resourceDir: ../../../target/hugo/resources
 assetDir: src
-module:
-  mounts:
-    - source: static
-      target: static
-    - source: ../../../target/hugo/docs
-      target: static # TODO: once docs are using proper templating, this should be changed to content
 
 title: DFLib Java DataFrame Library | Official Site
 
