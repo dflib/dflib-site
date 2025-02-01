@@ -97,7 +97,7 @@
                             <outputDirectory>../docs/dflib/docs/1.x</outputDirectory>
                             <attributes>
                                 <source-highlighter>coderay</source-highlighter>
-                                <docinfo>shared-footer</docinfo>
+                                <docinfo>shared-head,shared-footer</docinfo>
                             </attributes>
                         </configuration>
                     </execution>
