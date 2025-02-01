@@ -1,16 +1,15 @@
 # DFLib Documentation Project
 
-## Local Setup
+## Prerequisites
 
-### Git
-After clone, run this to ensure IPython notebooks are committed without output data:
-
+* After cloning the code locally, run the following command to ensure IPython notebooks are committed without output 
+data:
 ```
 git config --local include.path ../.gitconfig
 ```
 
-To build site content you need to install [Hugo](https://gohugo.io/installation/) manually. As of this writing Hugo version is
- [v0.139.0](https://github.com/gohugoio/hugo/releases/tag/v0.139.0).
+* Install [Hugo](https://gohugo.io/installation/), version 0.139.0 or newer. On MacOS this should be as easy as 
+`brew install hugo`.
 
 ### Local Web Server
 
