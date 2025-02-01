@@ -22,12 +22,12 @@ to the docs dir. Run the following command and go to http://127.0.0.1:11080/
 docker-compose up -d
 ```
 
-## Publishing the docs
+## Publishing Website
 
 ```
 mvn clean package
 git add -A
-git commit -m 'Regenerating docs'
+git commit -m 'Updating site for ...'
 git push
 ```
 
