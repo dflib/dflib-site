@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DFLib - Hockey Team Stats Charts</title>
+    <meta name="description" content="Data visualization with DFLib DataFrame - generated charts and dashboards based on NHL team statistics">
+    <meta name="keywords" content="DFLib Chars, dashboards, visualizations, Apache ECharts, hockey stats">
+
+    <script type='text/javascript' src='{{{echartsUrl}}}'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+body { font-family: "Roboto Mono",sans-serif;font-size: 12px;}
+h1 { font-family: "Roboto Mono",sans-serif;font-size: 30px;font-weight: 700;}
+h2 { font-family: "Roboto Mono",sans-serif;font-size: 18px;font-weight: 600;}
+.chart_legend { margin: 50px auto; width: 1000px; position: relative;} 
+.dfl_ech { margin: 50px auto; padding: 20px;border: 1px solid #ddd;border-radius: 8px; }
+
+</style>
+
+<div class="chart_legend"> 
+    <h1>Hockey Teams Stats</h1>
+    <h2>Point Streaks</h2>
+    Win and OT loss outcomes are combined (but are given a different weight). All but two random teams are turned off by default. Click on individual team labels to show / hide them on the chart. The data is for the 2023-24 regular season. 
+</div>
+{{{chartDiv0}}}
+<script type='text/javascript'>{{{chartScript0}}}</script>
+
+
+<div class="chart_legend"> 
+    <h2>Wins, Losses, OT</h2>
+    Each pie chart shows a proportion of a single team's wins vs regulation losses (with an optional additoon of "OT losses"). Teams are ordered by points. The data is for the 2023-24 regular season. 
+</div>
+{{{chartDiv1}}}
+<script type='text/javascript'>{{{chartScript1}}}</script>
+
+<div class="chart_legend"> 
+    <h2>Minutes to First Goal</h2>
+    A boxplot chart showing how many minutes on average it takes each team to score a first goal, and how consistent they are in their first goal scoring times. The data is for the 2023-24 regular season.
+</div>
+{{{chartDiv2}}}
+<script type='text/javascript'>{{{chartScript2}}}</script>
+</body>
+</html>

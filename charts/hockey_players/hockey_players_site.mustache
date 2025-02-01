@@ -1,0 +1,45 @@
+---
+title: 'DFLib Charts and Dashboards | Hockey Player Stats Charts'
+description: 'Data visualization with DFLib DataFrame - generated charts and dashboards based on NHL player statistics'
+url: charts/hockey_players.html
+sitemap:
+  changefreq: monthly
+  priority: 0.8
+---
+<script type='text/javascript' src='{{{echartsUrl}}}'></script>
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl">
+                
+                <h1>Hockey Player Stats</h1>
+            </div>
+        </div>
+    </div>
+</article>
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl">
+                <h2>Top Skaters Points</h2>
+                <p>The data is for the 2023-24 regular season. Points are (goals+assists). Assists are turned off by default, click on "assists" label to show the values.</p>
+
+                {{{chartDiv0}}}
+                <script type='text/javascript'>{{{chartScript0}}}</script>
+            </div>
+        </div>
+    </div>
+</article>
+<article class="d_sctn d_bc_black d_c_white">
+    <div class="d_cntnr">
+        <div class="d_rw">
+            <div class="d_cl">
+                <h2>Player Weight - Historical Trends</h2>
+                X axis is the year when a player started playing at the NHL, Y - his last recorded weight. Recent data may be skewed, as the age of the active players is lower on average vs retired players.
+                </div>
+                {{{chartDiv1}}}
+                <script type='text/javascript'>{{{chartScript1}}}</script>
+            </div>
+        </div>
+    </div>
+</article>

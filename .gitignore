@@ -9,3 +9,8 @@ derby.log
 *.dylib
 .ipynb_checkpoints
 .hugo_build.lock
+
+# charts Jupyter stuff
+/**/.ipynb_checkpoints
+**/_data
+**/_out
