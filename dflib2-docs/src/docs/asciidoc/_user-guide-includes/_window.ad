@@ -8,12 +8,12 @@ the following `DataFrame` to demonstrate how window operations work:
 ----
 name             amount date
 ---------------- ------ ----------
-Jerry Cosin        8000 2024-01-15
+Jerry Cosin        8800 2024-01-15
 Juliana Walewski   8500 2024-01-15
 Joan O'Hara        9300 2024-01-15
-Jerry Cosin        8800 2024-02-15
-Juliana Walewski   8500 2024-02-15
-Joan O'Hara        9500 2024-02-15
+Jerry Cosin        9500 2024-12-15
+Juliana Walewski   8500 2025-02-15
+Joan O'Hara        8000 2023-01-01
 ----
 
 A window is created by calling `over()` on the `DataFrame`:
@@ -34,13 +34,37 @@ include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartition]
 ----
 name             amount date       max_salary
 ---------------- ------ ---------- ----------
-Jerry Cosin        8000 2024-01-15       8800
+Jerry Cosin        8800 2024-01-15       9500
 Juliana Walewski   8500 2024-01-15       8500
-Joan O'Hara        9300 2024-01-15       9500
-Jerry Cosin        8800 2024-02-15       8800
-Juliana Walewski   8500 2024-02-15       8500
-Joan O'Hara        9500 2024-02-15       9500
+Joan O'Hara        9300 2024-01-15       9300
+Jerry Cosin        9500 2024-12-15       9500
+Juliana Walewski   8500 2025-02-15       8500
+Joan O'Hara        8000 2023-01-01       9300
 ----
+
+The order of rows does not affect the `max()` operation, but other operations, such as ranking or cumulative sum, very
+much depend on the order within a partition. For those cases, `Window` defines a `sort(..)` operation:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartitionSorting]
+----
+<1> Sorts each partition by date before calculating change order
+<2> Applying `rowNum()` to rank sorted rows within each partition.
+
+----
+name             amount date       change_order
+---------------- ------ ---------- ------------
+Jerry Cosin        8800 2024-01-15            1
+Juliana Walewski   8500 2024-01-15            1
+Joan O'Hara        9300 2024-01-15            2
+Jerry Cosin        9500 2024-12-15            2
+Juliana Walewski   8500 2025-02-15            2
+Joan O'Hara        8000 2023-01-01            1
+----
+
+NOTE: Sorting within the Window didn't affect the sort order of the result, but it affected values in the new "change_order"
+column
 
 Partitioning in the example above is similar to "group" in `GroupBy`. Another way to define windows is via a `range(..)`
 method that allows to build window with fixed offset relative to each row.

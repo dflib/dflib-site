@@ -3939,12 +3939,12 @@ the following <code>DataFrame</code> to demonstrate how window operations work:<
 <div class="content">
 <pre>name             amount date
 ---------------- ------ ----------
-Jerry Cosin        8000 2024-01-15
+Jerry Cosin        8800 2024-01-15
 Juliana Walewski   8500 2024-01-15
 Joan O'Hara        9300 2024-01-15
-Jerry Cosin        8800 2024-02-15
-Juliana Walewski   8500 2024-02-15
-Joan O'Hara        9500 2024-02-15</pre>
+Jerry Cosin        9500 2024-12-15
+Juliana Walewski   8500 2025-02-15
+Joan O'Hara        8000 2023-01-01</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3982,13 +3982,63 @@ Joan O'Hara        9500 2024-02-15</pre>
 <div class="content">
 <pre>name             amount date       max_salary
 ---------------- ------ ---------- ----------
-Jerry Cosin        8000 2024-01-15       8800
+Jerry Cosin        8800 2024-01-15       9500
 Juliana Walewski   8500 2024-01-15       8500
-Joan O'Hara        9300 2024-01-15       9500
-Jerry Cosin        8800 2024-02-15       8800
-Juliana Walewski   8500 2024-02-15       8500
-Joan O'Hara        9500 2024-02-15       9500</pre>
+Joan O'Hara        9300 2024-01-15       9300
+Jerry Cosin        9500 2024-12-15       9500
+Juliana Walewski   8500 2025-02-15       8500
+Joan O'Hara        8000 2023-01-01       9300</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The order of rows does not affect the <code>max()</code> operation, but other operations, such as ranking or cumulative sum, very
+much depend on the order within a partition. For those cases, <code>Window</code> defines a <code>sort(..)</code> operation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .over()
+        .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .sorted(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).asc()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">change_order</span><span class="delimiter">&quot;</span></span>).merge(rowNum()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sorts each partition by date before calculating change order</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Applying <code>rowNum()</code> to rank sorted rows within each partition.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             amount date       change_order
+---------------- ------ ---------- ------------
+Jerry Cosin        8800 2024-01-15            1
+Juliana Walewski   8500 2024-01-15            1
+Joan O'Hara        9300 2024-01-15            2
+Jerry Cosin        9500 2024-12-15            2
+Juliana Walewski   8500 2025-02-15            2
+Joan O'Hara        8000 2023-01-01            1</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Sorting within the Window didn&#8217;t affect the sort order of the result, but it affected values in the new "change_order"
+column
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Partitioning in the example above is similar to "group" in <code>GroupBy</code>. Another way to define windows is via a <code>range(..)</code>
@@ -5373,7 +5423,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-02 10:35:47 -0500
+Last updated 2025-02-02 10:47:59 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />
