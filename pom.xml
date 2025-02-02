@@ -26,6 +26,7 @@
 
     <modules>
         <module>dflib1-docs</module>
+        <module>dflib2-docs</module>
         <module>jjava1-docs</module>
         <module>hugo</module>
     </modules>

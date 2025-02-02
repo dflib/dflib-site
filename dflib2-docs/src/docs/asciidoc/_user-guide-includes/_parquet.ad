@@ -1,0 +1,19 @@
+[#parquet]
+== Parquet Format
+
+Parquet is a popular columnar binary data format. Like, `.avro`, `.parquet` files are saved with
+an embedded schema. So when they are read back, the fields are converted to the correct Java types.
+To work with the Parquet format, include the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.dflib</groupId>
+    <artifactId>dflib-parquet</artifactId>
+</dependency>
+----
+
+Once you do that, `Parquet` class is the entry point to all the operations. With it you can save DataFrames to `.parquet`
+files and load them back.
+
+TODO...

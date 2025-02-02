@@ -1,0 +1,221 @@
+[#expressions]
+== Expressions
+
+DFLib has a built-in expression language (implemented as a Java "DSL"). It allows to perform column-centric
+operations on DataFrames and Series, such as data transformation, aggregation and filtering. `Exp` is the interface
+representing an expression that takes either a DataFrame or a Series and produces a Series of the specified type.
+
+To use expressions, you'd often start by adding a static import of the `Exp` interface, so that all its factory methods
+are available directly in the code:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expImport]
+----
+Now let's create two simple expressions that return a named and a positional column of the requested type:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExp]
+----
+
+And now let's evaluate the expressions:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExpEval]
+----
+
+This doesn't look like much (other DFLib APIs would do the same), but this basic abstraction allows to describe a
+wide range of operations (filtering, sorting, aggregation, etc). Expressions are rarely evaluated standalone. More
+commonly they are passed as arguments to various other methods, as described below.
+
+NOTE: DFLib expressions work on Series instead of individual values, so they can achieve the best possible performance
+for any given operation. Expressions should be the preferred way to manipulate your data instead of more "direct" APIs,
+such as custom lamdas.
+
+Now let's look at various types of expressions...
+
+=== Column Expressions
+
+`$str(..)` and `$decimal(..)` expressions in the example above are the column lookup expressions. They return a DataFrame
+column with a given name or at a given (zero-based) position without applying any transformations to the data.
+
+NOTE: So what is returned when you evaluate a column expression with a Series object? Series can be thought of as a
+single (unnamed) column. So a column expression simply returns the Series unchanged, ignoring implied column
+name or position.
+
+Factory methods for column expressions are easy to spot in the `Exp` interface - they all start with a dollar sign:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExps]
+----
+<1> Retrieves a column without implying a specific type
+<2> Retrieve columns that are expected to be numeric
+<3> Retrieve columns that are expected to be date/time
+<4> Retrieve columns of boolean or String types
+
+Return type is implied from the method name (`$str(..)` produces a `Series<String>`, `$decimal(..)` -
+`Series<BigDecimal>`, `$int(..)` - `Series<Integer>`, `$date(..)` - `Series<LocalDate>` and so on).
+
+To avoid overhead, column expressions do not perform any type conversions of the column data (with a notable exception
+of `$bool` that does). So you need to pick the right type in your code based on your knowledge of data to avoid
+`ClassCastExceptions` downstream, or use a generic `$col(..)` expression. If you do want to convert data from one type
+to another, use one of the `castAs` methods explicitly:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=castAs]
+----
+
+`castAs` will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible,
+and it will throw an exception (e.g. a String like "abcd" can't be converted to a number without some contextual knowledge).
+In some other cases, no default conversion exists, but a custom conversion is possible and desired. You can do it via
+`Exp.mapVal(..)`.
+
+=== Constant Expressions
+If we want to generate a Series with the same repeating value, we can use the `$val(..)` expression:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=constantExp]
+----
+
+----
+hi!
+hi!
+hi!
+----
+A useful case for `$val(..)` is to create a separator for String concatenation:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=constantConcatExp]
+----
+<1> This is a static import of `Exp.concat(..)`, an expression that takes a variable number of arguments
+<2> Inserting space between first and last name
+
+----
+Jerry Cosin
+Juliana Walewski
+Joan O'Hara
+----
+
+=== String Expressions
+
+=== Numeric Expressions
+
+`$int(..)`, `$long(..)`, `double(..)` and `$decimal(..)` columns expressions mentioned above are numeric (i.e. instances
+of `NumExp` expression subclass), and as such, they provide arithmetics, comparison operations, and numeric aggregating
+operations.
+
+We will look at comparisons later in the "Conditions" chapter. Here is an example of arithmetics operation:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=arithmetics]
+----
+<1> Add two columns
+<2> Multiply the result by a constant value
+
+----
+ c3
+---
+1.5
+3.5
+----
+
+NOTE: Associativity... Since expressions are built with Java API, there are no special associativity rules.
+Expressions are executed in the order they were chained together. In the example above, addition happens before
+division.
+
+NOTE: Widening conversions... When we added values of `int` and `long` columns, the result was implicitly widened to `long`,
+and later when it was divided by a `double`, the result became `double`. These conversions happen automatically and transparently
+to the user. They follow regular Java rules for primitive numbers operations (with an addition of widening from
+primitives to `BigDecimal`).
+
+Here is an example of aggregating operations:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=aggregation]
+----
+<1> Inserting an aggregating expression in a chain of arithmetic expressions produces an aggregated result
+
+----
+ c3
+---
+5.0
+----
+
+=== Date Expressions
+
+TODO
+
+
+=== Complex Expressions
+
+Expressions can be expanded by calling methods on the `Exp` object (and its type-specific subclasses). As we've already
+seen above, expressions can be composed of other expressions by invoking static methods of `Exp`. E.g.:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expChain]
+----
+<1> "Condition" is an `Exp<Boolean>` described in more detail below
+<2> `and(..)` is a statically-imported `Exp.and(..)`
+<3> `startsWith(..)` produces a condition based on another string expression
+<4> `add(..)` produces an addition operation for two numeric expressions, `gt(..)` produces a condition from the result of the addition
+
+
+=== Conditions
+
+TODO
+
+=== Custom Expressions
+
+Expression classes discussed above (`Exp`, `StrExp`, `NumExp`, etc.) define a large (and growing) number of operations,
+yet there are always cases that require a custom transformation. There are a few flavors of expression factory methods
+that take user-provided lambdas:
+
+. `mapVal(..)` - value-to-value transformation
++
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=mapVal]
+----
+<1> the argument lambda takes a value and produces a value
+
+
+. `map(..)` - Series-to-Series transformation. Unlike `mapVal(..)`, allows a custom lambda to access the
+entire `Series`, and in some cases, optimize the operation (e.g. by avoiding scanning through all values)
++
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=map]
+----
+<1> the argument lambda takes the first value from the source `Series`, and produces the result Series of the same size
+filled with that value
+
+. `agg(..)` - Series-to-value transformation. This expression is used in the "aggregating" context (such as group or
+window operations) where we need to produce a single value out of a `Series`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=agg]
+----
+<1> the argument lambda counts unique values in a series, taking a `Series` and producing an int.
+
+[#sorter]
+=== Sorters
+
+`Sorter` is a special object, that allows to <<sorting,sort DFLib data structures>>. Internally a Sorter is using an
+expression to retrieve values that comprise sorting criteria and index them in the specified order. Sorter can be
+created from any expression by calling its `asc()` or `desc()` methods:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=sorter]
+----
+
+NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
+either a Java primitive or an instance of `Comparable`, or a ClassCastException will be thrown during sorting.
+

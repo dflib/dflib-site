@@ -39,6 +39,6 @@ https://dflib.org/ .
 * `docs` : the final website assembly. Adding files here results in publishing them on dflib.org. Various other content
   sources below copy their output to this folder during build.
 * `charts` : Jupyter notebooks to generate website chart galleries
-* `dflib1-docs` : DFLib Asciidoc documentation
+* `dflib1-docs`, `dflib2-docs` : DFLib Asciidoc documentation by major version
 * `hugo` : manually written webpages and CSS assembly
 * `jjava1-docs` : JJava Asciidoc documentation

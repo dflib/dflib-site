@@ -1,0 +1,16 @@
+[#excel]
+== Excel Format
+
+Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
+them to Excel. You need to add an extra dependency to your project to take
+advantage of this functionality:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.dflib</groupId>
+    <artifactId>dflib-excel</artifactId>
+</dependency>
+----
+
+TODO...

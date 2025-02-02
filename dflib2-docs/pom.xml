@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.dflib</groupId>
+        <artifactId>dflib-site</artifactId>
+        <version>0.0</version>
+    </parent>
+
+    <artifactId>dflib2-docs</artifactId>
+
+    <properties>
+        <dflib2.version>2.0.0-SNAPSHOT</dflib2.version>
+        <jjava1.version>1.0-a4</jjava1.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.dflib</groupId>
+                <artifactId>dflib-bom</artifactId>
+                <version>${dflib2.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.dflib.jjava</groupId>
+                <artifactId>jupyter-jvm-basekernel</artifactId>
+                <version>${jjava1.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- Test dependencies (used for docs) -->
+        <dependency>
+            <groupId>org.dflib</groupId>
+            <artifactId>dflib</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dflib</groupId>
+            <artifactId>dflib-csv</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dflib</groupId>
+            <artifactId>dflib-jdbc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dflib</groupId>
+            <artifactId>dflib-jupyter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dflib</groupId>
+            <artifactId>dflib-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dflib.jjava</groupId>
+            <artifactId>jupyter-jvm-basekernel</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.bootique.jdbc</groupId>
+            <artifactId>bootique-jdbc-junit5-derby</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>asciidoctor-html-web</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html5</backend>
+                            <preserveDirectories>true</preserveDirectories>
+                            <outputDirectory>../docs/dflib/docs/2.x</outputDirectory>
+                            <attributes>
+                                <source-highlighter>coderay</source-highlighter>
+                                <docinfo>shared-head,shared-footer</docinfo>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

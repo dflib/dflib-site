@@ -1,0 +1,52 @@
+[#jupyter]
+== Using Jupyter Notebook
+
+While DFLib runs inside regular Java applications or `jshell`, it also works perfectly in Jupyter, which is a very
+common "notebook" environment among data scientists and data engineers. In a notebook, you interact with your code via
+a web browser in a rather visual way. It allows to run steps of a data transformation one-by-one and inspect the
+data between the steps. Jupyter is often associated with Python / pandas, but it can also be used with Java / DFLib.
+
+The code developed in a notebook can be later copied and pasted into your application. Java developers should consider
+using either Jupyter as a part of their data project workflow, and DFLib design (and its Jupyter integration features
+described here) makes it rather easy.
+
+Java support for Jupyter is provided by `jjava` project that is also maintained by the DFLib community. Once you follow
+the https://dflib.org/jjava/docs/1.x/#_installation[installation instructions] and then
+https://dflib.org/jjava/docs/1.x/#_running_jupyter[run Jupyter], you should end up with a browser window open with
+Jupyter UI. Create a new notebook, and when asked to select a kernel, pick "Java". In the first cell enter something
+like this:
+
+[source,java]
+----
+%maven org.dflib:dflib-jupyter:2.0.0-M1 // <1>
+----
+
+<1> Adding `dflib-jupyter` as a dependency also includes all  other DFLib modules through its transitive dependencies.
+Also, it will load base DFLib imports, and configure Jupyter environment for pretty display of DataFrames and Series.
+
+Click "Shift + Return" to execute the cell. If there are no errors, you can start using DFLib API in the following cells.
+E.g.:
+
+[source,java]
+----
+DataFrame df = DataFrame.foldByColumn("a", "b", "c")
+    .ofInts(-1, 1, 2, 3, 4, 5, 6);
+
+// the result of the last statement in a cell is printed just below it
+df
+----
+
+DFLib development is literally "visual" in Jupyter, as in addition to tabular data, you can display graphical
+<<echarts,charts>> with contents of DataFrames:
+
+image:images/chart-in-jupyter.png[]
+
+=== Change Display Parameters
+
+To control truncation behavior, you can use static methods on `DFLibJupyter`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JupyterTest.java[tags=setDisplayParams]
+----
+

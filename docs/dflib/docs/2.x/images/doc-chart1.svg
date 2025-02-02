@@ -1,0 +1,40 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 600 400">
+<rect width="600" height="400" x="0" y="0" fill="none"></rect>
+<path d="M60 330.5L540 330.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 285.5L540 285.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 240.5L540 240.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 195.5L540 195.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 150.5L540 150.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 105.5L540 105.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 60.5L540 60.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M60 330.5L540 330.5" fill="transparent" stroke="#6E7079" stroke-linecap="round" class="zr0-cls-0"></path>
+<path d="M60.5 330L60.5 335" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M220.5 330L220.5 335" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M380.5 330L380.5 335" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M540.5 330L540.5 335" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 330)" fill="#6E7079">0</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 285)" fill="#6E7079">20,000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 240)" fill="#6E7079">40,000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 195)" fill="#6E7079">60,000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 150)" fill="#6E7079">80,000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 105)" fill="#6E7079">100,000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(52 60)" fill="#6E7079">120,000</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" xml:space="preserve" y="6" transform="translate(140 338)" fill="#6E7079">J. Cosin</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" xml:space="preserve" y="6" transform="translate(300 338)" fill="#6E7079">J. O&#39;Hara</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" xml:space="preserve" y="6" transform="translate(460 338)" fill="#6E7079">J. Walewski</text>
+<path d="M84.8 330l110.4 0l0 -270l-110.4 0Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M244.8 330l110.4 0l0 -213.75l-110.4 0Z" fill="#5470c6" class="zr0-cls-1"></path>
+<path d="M404.8 330l110.4 0l0 -180l-110.4 0Z" fill="#5470c6" class="zr0-cls-1"></path>
+<style ><![CDATA[
+.zr0-cls-0:hover {
+pointer-events:none;
+}
+.zr0-cls-1:hover {
+cursor:pointer;
+fill:rgba(92,123,217,1);
+}
+
+]]>
+
+</style>
+</svg>

@@ -1,0 +1,417 @@
+[#column_ops]
+== Column Operations
+
+To manipulate data in a single `DataFrame`, with a few exceptions you would start by picking a subset of columns or
+rows. Those are represented as `ColumnSet` and `RowSet` objects. Let's look at columns first...
+
+=== Pick Columns
+
+Columns are picked either by condition, by name, by position or implicitly. Let's take a look at each style...
+
+==== By Condition
+A condition is specified as a "predicate" lambda:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPredicate]
+----
+This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative
+order of the original `DataFrame`:
+----
+first   last
+------- --------
+Jerry   Cosin
+Joan    O'Hara
+----
+
+==== By Names
+Here is a simple example of how to pick two columns from a DataFrame by name, and return a new DataFrame with
+just those two columns:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=cols]
+----
+
+<1> Define a `ColumnSet` of two columns matching provided names.
+The order of columns in the `ColumnSet` matches the order of column names passed to this method.
+<2> Return a new DataFrame matching the `ColumnSet`. More on this in the next chapter.
+
+----
+last     first
+-------- -------
+Cosin    Jerry
+O'Hara   Joan
+----
+
+NOTE: Passing names in a specific order to `cols(..)` allowed us to reorder the columns in the result.
+
+Instead of listing included columns, you might specify which columns should be _excluded_ from selection. This flavor
+doesn't support reordering:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsExcept]
+----
+
+==== By Positions
+You can also pick columns by positions. The first position is "0".
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPos]
+----
+
+[#column_ops_implicit]
+==== Implicitly
+
+If you specify no columns at all when building a `RowSet`, the returned `DataFrame` will be the same as the source one.
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsAll]
+----
+
+NOTE: In this particular case, implicit column selection is not very useful. But in fact, this style is dynamic
+and may result in a smaller subset of columns selected based on the semantics of an operation applied to the
+`ColumnSet` (e.g. named expressions making specific columns). Also, it allows to apply a _transformation_ to
+all columns at once. These cases are described later in the <<column_ops_transform,columns transformation>> chapter.
+
+=== Rename Columns
+
+We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
+columns via `selectAs(..)`.
+
+Rename all column set columns:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAs]
+----
+<1> Passing new names for the `ColumnSet` columns. The order of the names must correspond to the order of columns
+in the `ColumnSet`, regardless of how it was defined.
+----
+last_name first_name
+--------- ----------
+Cosin     Jerry
+Walewski  Juliana
+----
+
+Rename a subset of columns. Specifying names of all columns at once may not be practical for
+"wide" column sets. Instead, you can pass a map of old to new names to `selectAs(..)` to rename just some columns.
+Names not present in the map will remain unchanged:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAsMap]
+----
+----
+LAST_NAME first
+--------- -------
+Cosin     Jerry
+O'Hara    Joan
+----
+
+Rename with a function, applied to all column names in turn. This is useful e.g. to convert all names to lower or
+upper case:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAsOp]
+----
+----
+LAST   FIRST
+------ -----
+Cosin  Jerry
+O'Hara Joan
+----
+
+[#column_ops_transform]
+=== Transform Columns
+
+In the above examples we performed `DataFrame` vertical slicing, columns reordering and renaming. In this chapter
+we'll show how to transform column data.
+
+Generating columns with expressions:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExp]
+----
+<1> When defining the `ColumnSet`, we are allowed to specify columns that are not present in the original DataFrame, as
+we are naming the result columns, not the source columns.
+<2> For each column in the `ColumnSet`, there should be an expression that generates the column. The first expression
+here transforms the data, the second simply picks a column from the source without modification.
+----
+first_middle last
+------------ ------
+Jerry M      Cosin
+Joan         O'Hara
+----
+
+Generating columns row-by-row with `RowMapper`:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRowMapper]
+----
+There's also a way to generating columns row-by-row with per-column array of `RowToValueMapper`. It is not very different
+from what we've seen so far, so we are leaving this as an exercise for the reader.
+
+[#column_ops_split]
+=== Split Columns
+
+Values can be split using an expression into iterable or array elements, and new columns can be generated
+from those elements, thus "expanding" each row. Here is an example of handling Lists of values (`List` is, of course,
+an `Iterable`) :
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpand]
+----
+<1> `selectExpand(..)` takes an expression that returns a column with lists. If each List has more than 2 numbers,
+the rest are ignored, if less - nulls are used for the  missing elements
+----
+primary_phone secondary_phone
+------------- ---------------
+111-555-5555  111-666-6666
+222-555-5555  null
+----
+
+If you don't know the exact number of phones, but would like to capture them all in separate columns, do not
+specify any explicit names (as mentioned in the <<column_ops_implicit,implicit column selection>> chapter).
+As many columns as needed to fit the longest array of phone numbers will be generated on the fly, and the names will
+be assigned dynamically:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandUnlim]
+----
+<1> Not specifying any columns will result in split columns generated dynamically.
+----
+0            1            2
+------------ ------------ ------------
+111-555-5555 111-666-6666 111-777-7777
+222-555-5555 null         null
+----
+
+If the phone numbers were provided as a comma-separated `String` instead of a `List`, you can split the String into an
+array of numbers using the `split(..)` expression, and use `selectExpandArray(..)` to generate the columns:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandArrays]
+----
+
+=== Merge Columns
+
+The `ColumnSet` operations demonstrated so far resulted in discarding the source `DataFrame`, and returning only the
+columns defined within the set. But often we would like to recombine transformed `ColumnSet` with the original
+`DataFrame`. Any in-place data cleanup, data set enrichment, etc. fall in this category.
+
+NOTE: Of course, we call them "in-place" only in a logical sense, as `DataFrame` is immutable, and all modifications
+result in creation of a new instance.
+
+For this `ColumnSet` provides a number of "merging" methods. All the `ColumnsSet` methods that do not start with
+`select...` are performing a merge with the source DataFrame. In fact, all the renaming and data transformation
+operations that we just discussed can also be executed as "merges".
+
+Here is an example of cleaning up a data set and adding a new column:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsMap]
+----
+<1> An expression that capitalizes the first letter of the name
+<2> The columns we are going to generate or transform
+<3> Instead of `select(..)`, use `merge(..)` to combine columns with the original DataFrame
+
+Now let's check the result. The first two columns in the `ColumnSet` ("last", "first") were  already present in the
+DataFrame, so they got replaced with the cleaned up versions. The last column ("full") was new, so it was appended to
+the right side of the DataFrame:
+----
+first last   middle full
+----- ------ ------ -----------
+Jerry Cosin  M      jerry cosin
+Joan  O'Hara null   Joan O'Hara
+----
+
+General merge rules:
+
+* Merging is done *by name*. DataFrame's columns with matching names are replaced with new versions, columns that
+are not a part of the `ColumnSet` are left unchanged, and columns in the `ColumnSet`, but not in the DataFrame, are
+appended on the right.
+* The order of the existing columns in the `ColumnSet` has no effect on the order of replaced columns (i.e. they are
+placed in their original positions). The relative order of appended columns is respected.
+* All transformation operations (such as expressions in our example) are applied to the original DataFrame columns
+(and can reference those outside the `ColumnSet`), but do not see the transformed columns. This is why there is a
+lowercase name in the resulting "full" column.
+
+What if we want to ensure that all of the `ColumnSet` columns are appended, and no replacement of the original columns
+occurs? For this you can manually specify `ColumnSet` labels that are not found in the source DataFrame, or you can use
+`DataFrame.colsAppend(..)`, and DFLib itself will ensure that the names are unique, appending `_` to each label until
+it doesn't overlap with anything already in the DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsAppendMap]
+----
+<1> Using `colsAppend(..)` instead of `cols()` ensures that both pre- and post-cleanup columns are preserved.
+
+----
+first last   middle last_  first_
+----- ------ ------ ------ ------
+jerry cosin  M      Cosin  Jerry
+Joan  O'Hara null   O'Hara Joan
+----
+
+NOTE: Since we've already discussed various flavors of column renaming and transformation in the context of `select(..)`,
+we leave it as an exercise for the user to explore their "merging" counterparts - `as(..)`, `map(..)`, `expand(..)`, etc.
+
+=== Compact Columns
+
+This transformation converts columns to primitives. The values in the columns to be converted can be Numbers, Booleans
+or Strings (or objects with `toString()` that can be parsed to a primitive type):
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=compact]
+----
+
+<1> The argument to `compact` is the primitive value to use if the value being converted is null
+
+NOTE: `compactInt(..)`, `compactDouble(..)` and other similar methods are not just syntactic sugar. They convert
+DataFrame columns to primitive Series, that take _significantly_ less memory (hence, the name "compact") and compute
+most operations faster than Object-based Series. So you should consider using them where possible.
+
+=== Fill Nulls
+
+As a part of a dataset cleanup effort, you might want to replace `null` values with something meaningful. For this you
+may have to guess or maybe extrapolate the existing values based on some internal knowledge of the dataset. To help with
+this task, `ColumnSet` provides a few methods discussed here.
+
+Filling nulls with a constant value:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNulls]
+----
+
+----
+c1 c2
+-- --
+a1 a2
+X  X
+b1 b2
+----
+
+Filling nulls with values adjacent to the cells with nulls:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsForwardBackwards]
+----
+<1> `fillNullsForward(..)` takes a non-null value preceding the null cell and uses it to replace nulls.
+<2> `fillNullsBackwards(..)` uses the first non-null value following the null cell.
+
+----
+c1 c2
+-- --
+a1 a2
+b1 a2
+b1 b2
+----
+
+There's also a way to fill nulls from another `Series` object used as a "mask" :
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsFromSeries]
+----
+
+----
+c1 c2
+-- --
+a1 a2
+B  B
+b1 b2
+----
+
+NOTE: The "mask" `Series` can be longer or shorter than the `DataFrame` height. Values are aligned by position
+starting at zero.
+
+Finally, we can use an `Exp` to calculate values for nulls:
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=fillNullsWithExp]
+----
+<1> `Exp.rowNum()` generates a `Series` with row numbers, so the nulls are replaced by the number denoting their position
+in the `DataFrame`:
+----
+c1 c2
+-- --
+a1 a2
+2  2
+b1 b2
+----
+
+
+=== Drop Columns
+
+To get rid of certain columns in a DataFrame, you can either select the columns you would want to drop and call `drop()`
+or select the columns you’d want to remain and call `select()`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsDrop]
+----
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsExceptSelect]
+----
+In both cases, the result is the same:
+----
+first last
+----- ------
+Jerry Cosin
+Joan  O'Hara
+----
+
+[#understanding_columnset]
+=== Understanding ColumnSet
+
+Now that we've seen various ways how you can pick, rename and transform columns, let's look at `ColumnSet` as a whole.
+It is important to understand that no matter how a `ColumnSet` was created, its columns are always the *result columns*
+of the operation, not the source DataFrame columns. They often reference names and positions of the source
+columns and, in some cases, their values are copied directly from the source, but logically they always specify the result.
+
+To illustrate the point, let's first look a direct source-to-result copy example:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=understandings0]
+----
+
+We can change it a little, by adding a column to the `ColumnSet` that is not in the original
+`DataFrame`, and it will still work (with the new column being filled with nulls):
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=understandings1]
+----
+
+----
+last   first middle
+------ ----- ------
+Cosin  Jerry null
+O'Hara Joan  null
+----
+
+Even when renaming, we are technically renaming `ColumnSet` columns (that may or may not come from the source), not the
+source columns:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=understandings2]
+----
+
+----
+L      F     M
+------ ----- ----
+Cosin  Jerry null
+O'Hara Joan  null
+----
+
+
+
+
+
+

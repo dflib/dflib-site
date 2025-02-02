@@ -1,0 +1,71 @@
+= DFLib DataFrame Documentation - v2
+Andrus Adamchik and other contributors
+:toc: left
+:icons: font
+
+"DFLib" (short for "DataFrame Library") is a lightweight, pure Java implementation of `DataFrame`. `DataFrame` is a
+very common structure in data science and Big Data worlds. It provides operations like search,
+filtering, joins, aggregations, statistical functions, etc., that are reminiscent of SQL (also of Excel), except you run
+them in your app over dynamic in-memory data sets.
+
+There are `DataFrame` implementations in Python (https://pandas.pydata.org/[pandas]), R,
+https://spark.apache.org/docs/latest/sql-programming-guide.html#datasets-and-dataframes[Apache Spark], etc.
+DFLib project's goal is to provide the same functionality for regular Java applications. It is a simple library, that
+requires no special infrastructure. DFLib core is dependency-free.
+
+The code in this documentation can be run in any Java IDE, as well as (and this is pretty cool!) in a <<jupyter,
+Jupyter notebook>>. You will need Java 11 or newer.
+
+include::_user-guide-includes/_get-started.ad[]
+
+include::_user-guide-includes/_main-data-structures.ad[]
+
+include::_user-guide-includes/_printers.ad[]
+
+include::_user-guide-includes/_expressions.ad[]
+
+include::_user-guide-includes/_column_ops.ad[]
+
+include::_user-guide-includes/_row_ops.ad[]
+
+include::_user-guide-includes/_row_column_ops.ad[]
+
+include::_user-guide-includes/_head_tail.ad[]
+
+include::_user-guide-includes/_sorting.ad[]
+
+include::_user-guide-includes/_concatenation.ad[]
+
+include::_user-guide-includes/_joins.ad[]
+
+include::_user-guide-includes/_group_aggregate.ad[]
+
+include::_user-guide-includes/_window.ad[]
+
+include::_user-guide-includes/_pivot.ad[]
+
+include::_user-guide-includes/_stack.ad[]
+
+include::_user-guide-includes/_user_defined_functions.ad[]
+
+include::_user-guide-includes/_jdbc.ad[]
+
+include::_user-guide-includes/_csv.ad[]
+
+include::_user-guide-includes/_excel.ad[]
+
+include::_user-guide-includes/_avro.ad[]
+
+include::_user-guide-includes/_parquet.ad[]
+
+include::_user-guide-includes/_json.ad[]
+
+include::_user-guide-includes/_byte_source.ad[]
+
+include::_user-guide-includes/_jshell.ad[]
+
+include::_user-guide-includes/_jupyter.ad[]
+
+include::_user-guide-includes/_echarts.ad[]
+
+include::_user-guide-includes/_unit-testing.ad[]

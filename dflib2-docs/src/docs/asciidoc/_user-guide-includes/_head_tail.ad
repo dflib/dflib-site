@@ -1,0 +1,61 @@
+[#head_tail]
+== Head and Tail
+
+As we've seen previously, most operations within a single DataFrame are performed on row and column sets. Still, some
+are applied to the DataFrame directly. `head` and `tail` are such examples.
+
+When you only need the "first N" or "last M" rows of a DataFrame (or values of a Series) you can use `head` and `tail`
+operations. Here is how to get the top 2 rows of a DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=headDataFrame]
+----
+
+<1> Returns a new DataFrame with two top rows of the original DataFrame.
+
+----
+first   last
+------- ---------
+Jerry   Cosin
+Juliana Walewski
+----
+
+`tail` works similarly, but returns the _last_ N rows:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=tailDataFrame]
+----
+
+----
+first last
+----- ------
+Joan  O'Hara
+1 row x 2 columns
+----
+
+The argument to either `head(..)` or `tail(..)` can be negative.
+In which case the operation skips the specified number of elements either from the top or from the bottom, and returns the remaining elements.
+The following code returns a new DataFrame after skipping the two top rows of the original DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/DataFrameOpsTest.java[tags=negativeHeadDataFrame]
+----
+
+----
+first  last
+------ ---------
+Joan  O'Hara
+1 row x 2 columns
+----
+
+NOTE: Unlike index operations on arrays and lists in Java, `head(..)` and `tail(..)` are safe in regards to bounds checking.
+They DO NOT throw exceptions when the length parameter is bigger than DataFrame height (or Series size), returning an empty DataFame (or Series) instead.
+
+
+NOTE: `Series` also define `head(..)` and `tail(..)` that do what you'd expect, returning first or last N values.
+
+
+

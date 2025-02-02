@@ -1,0 +1,199 @@
+[#json]
+== JSON Format
+
+DFLib provides JSON load and save operations. To start, add the following dependency:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.dflib</groupId>
+    <artifactId>dflib-json</artifactId>
+</dependency>
+----
+
+From here, `Json` class is the entry point to both operations.
+
+=== Reading JSON
+
+JSON is used to model nested tree-like data structures, whereas `DataFrame` is a flat table. So to load JSON to a table,
+some kind of "flattening" conversion is needed. DFLib `JsonLoader` uses
+link:https://www.rfc-editor.org/rfc/rfc9535[JSONPath query language] to "navigate" the JSON tree and map parts of its
+data to `DataFrame` columns. But first let's look how JSON inputs are interpreted without an explicit mapping.
+
+==== Default JSON Mapping
+
+. If JSON root is a _list_, each list element is converted into a row of the result `DataFrame`. For each element:
++
+
+  * if it is a scalar, its value is placed in a special cell called `_val`
+  * if it is an object, each object property is placed in a column matching this property name. The objects in the list
+do not all have to have the same properties. The resulting `DataFrame` columns will be a "union" of all properties
+encountered in the list.
++
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=list]
+----
++
+
+----
+_val    a b    c        d
+---- ---- ---- ---- -----
+   5 null null null  null
+null    1 S1   null  null
+null    2 S2   S3    null
+null    3 null S4   false
+----
++
+
+NOTE: Unlike `CsvLoader`, a String argument for `JsonLoader.load(..)` method is interpreted as JSON body, not a
+file name. These APIs will likely be better unified in the future versions.
+
+. If JSON root is an _object_, then each of its properties is treated as a row. Property values are handled the same
+way as list elements in the previous example - scalars are placed in `_val`, and property names are converted into
+columns:
++
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=object]
+----
++
+
+The same exact `DataFrame` as in the first example is produced:
++
+
+----
+_val    a b    c        d
+---- ---- ---- ---- -----
+   5 null null null  null
+null    1 S1   null  null
+null    2 S2   S3    null
+null    3 null S4   false
+----
+
+. If the cell values are not scalars, but are themselves JSON lists or objects, they are converted to Java `List` and
+`Map` instances:
++
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=nested]
+----
+<1> A function to help us analyze the result values
+<2> Checking the type of values in column `a`
+<3> Checking the type of values in column `a` collections
++
+
+----
+a          L1   L2
+---------- ---- ------
+[1,2,3]    list scalar
+{b=4, c=5} map  scalar
+{b=[6,7]}  map  list
+----
+
+==== JSON Mapping with JSONPath
+JSONPath is a link:https://www.rfc-editor.org/rfc/rfc9535[recently standardized] query language to navigate through JSON
+and select its elements. It can help greatly in parsing deeply-nested JSON structures and extracting only the relevant data.
+`JsonLoader` accepts a single optional JSONPath expression.
+
+NOTE: The default implicit expression is `$.*` which means _"select all children of the root node"_. All
+the examples above behaved as if this expression was specified.
+
+Some examples of using JSONPath:
+
+. Read the root JSON object as a single row
++
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=pathRoot]
+----
+<1> JSONPath of `$` selects the root node
++
+
+----
+a b
+- --
+1 S1
+----
+
+. Read only a few specific properties of the root's children
++
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=pathChildrenProperties]
+----
+<1> Selects properties `a` and `b`
++
+
+----
+a b
+- --
+1 S1
+2 S2
+----
++
+
+. Include objects with missing properties. Notice that the first and the last elements from the source JSON list in
+the previous example were excluded from the result. The first was a scalar that doesn't have either `a` or `b`
+property, and the last - an object with `a`, but without the `b` property. This is the intended default behavior of
+this JSONPath query, and it can be partially altered via `JsonLoader.nullsForMissingLeafs()`:
++
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=pathChildrenPropertiesIncludeNulls]
+----
+<1> The object with no `a` or `b` property is included, but the scalar value is still excluded
++
+
+----
+a b
+- ----
+1 S1
+2 S2
+3 null
+----
+
+. Read data from a child node
++
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=pathNestedRoot]
+----
+<1> This JSONPath query finds the `data` property of the root node and sets it as the root for the `DataFrame` data
+extraction
++
+
+----
+a b
+- --
+1 S1
+2 S2
+3 S4
+----
+
+==== JSON Data Sources
+
+Just like CSV, JSON data can be read from local files (`java.nio.file.Path` or `java.io.File`) as well as from
+a `ByteSource` or `ByteSources`, such as URLs (see <<bin_data_sources,"Binary Data Sources" chapter>>).
+
+=== Writing JSON
+
+`JsonSaver` generates JSON from `DataFrames` in a "list-of-objects" format:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JsonTest.java[tags=save]
+----
+<1> This form of "save" produces a JSON String
+----
+[
+    {"name":"Joe","age":18},
+    {"name":"Andrus","age":45},
+    {"name":"Joan","age":32}
+]
+----
+
+Similarly, you can save JSON to a file or to an `Appendable`. 

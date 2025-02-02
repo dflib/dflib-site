@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
 <meta name="author" content="Andrus Adamchik and other contributors">
-<title>DFLib DataFrame Documentation - v1</title>
+<title>DFLib DataFrame Documentation - v2</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -524,12 +524,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 .CodeRay .change .change{color:#66f}
 .CodeRay .head .head{color:#f4f}
 </style>
-<meta name="description" content="Documentation for DFLib Java DataFrame library version 1. Provides a guide on how to create DataFrames from different data sources and how to use DataFrames for a variety of data transformation operations.">
-<link rel="canonical" href="/dflib/docs/1.x/">
+<meta name="description" content="Documentation for DFLib Java DataFrame library version 2. Provides a guide on how to create DataFrames from different data sources and how to use DataFrames for a variety of data transformation operations.">
+<link rel="canonical" href="/dflib/docs/2.x/">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>DFLib DataFrame Documentation - v1</h1>
+<h1>DFLib DataFrame Documentation - v2</h1>
 <div class="details">
 <span id="author" class="author">Andrus Adamchik and other contributors</span><br>
 </div>
@@ -703,7 +703,8 @@ multiple DFLib modules:</p>
     <span class="tag">&lt;dependency&gt;</span>
       <span class="tag">&lt;groupId&gt;</span>org.dflib<span class="tag">&lt;/groupId&gt;</span>
       <span class="tag">&lt;artifactId&gt;</span>dflib-bom<span class="tag">&lt;/artifactId&gt;</span>
-      <span class="tag">&lt;version&gt;</span>1.1.0<span class="tag">&lt;/version&gt;</span>
+      <span class="comment">&lt;!-- &quot;2.0.0-M1&quot; version will be released soon. Stay put --&gt;</span>
+      <span class="tag">&lt;version&gt;</span>2.0.0-M1<span class="tag">&lt;/version&gt;</span>
       <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
       <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
@@ -5133,7 +5134,7 @@ configure a couple of things. Start <code>jshell</code> and execute the followin
 // You will need to include all DFLib jars and their
 // dependencies explicitly
 
-/env --class-path /path/to/dflib-1.1.0.jar:/path/to/dflib-csv-1.1.0.jar</code></pre>
+/env --class-path /path/to/dflib-2.0.0-M1.jar:/path/to/dflib-csv-2.0.0-M1.jar</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -5213,7 +5214,7 @@ like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">1.1</span><span class="float">.0</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">%maven org.dflib:dflib-jupyter:<span class="float">2.0</span><span class="float">.0</span>-M1 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -5372,7 +5373,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-01 12:54:59 -0500
+Last updated 2025-02-02 10:25:02 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

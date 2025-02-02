@@ -1,0 +1,86 @@
+[#csv]
+== CSV Format
+
+CSV (comma-separated values) is a very common and rather simple format for working with raw data. `*.csv` files can be
+manipulated programmatically or manually (via Excel/LibreOffice), loaded to / from databases, etc. DFLib supports
+reading DataFrames from CSV and storing them to CSV. You need to add an extra dependency to your project to take
+advantage of this functionality:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.dflib</groupId>
+    <artifactId>dflib-csv</artifactId>
+</dependency>
+----
+
+Once you do that, `Csv` class is the entry point to all the `.csv` related operations as discussed below.
+
+=== Reading CSV
+
+The simplest way to create a `DataFrame` from a CSV file is this:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=readCsv]
+----
+
+<1> The argument to the "load" method can be a filename, a file, or a Reader, so it can be loaded from a variety of
+sources.
+
+The result is a DataFrame that matches the CSV structure:
+----
+A B
+- --
+1 s1
+4 s2
+----
+DFLib made a few assumptions about the data in `f1.csv`, namely that the first row represents
+column names, that all columns are Strings, and that all of them need to be included. These assumptions are not
+necessarily true with many data sets. So there is a longer form of this API that allows to configure column types,
+skip rows and columns, or even sample the data without loading the entire CSV in memory. Some examples:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=readCsvLoader]
+----
+<1> Instead of "load" method use "loader".
+<2> Skip the header row.
+<3> Provide our own header.
+<4> Convert the first column to int.
+
+----
+x y
+- --
+1 s1
+4 s2
+----
+
+
+NOTE: In theory, you don't have to do most of these tweaks via CSV loader. You can load the raw data, and then use
+standard DataFrame transformations to shape the result. However, doing it via the loader allows to optimize
+both load speed and memory use, so it is usually preferable.
+
+The examples above showed how to read a CSV from a local file using a String file name. Instead of a String name, you can
+also pass `java.nio.file.Path` or `java.io.File` objects. More generally, you can read a CSV from a URL or any other
+source representable as `ByteSource` or `ByteSources` (see <<bin_data_sources,"Binary Data Sources" chapter>>).
+
+=== Writing CSV
+
+Writing to a CSV is equally easy:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=writeCsv]
+----
+
+<1> The argument to the "save" method can be a filename, a file, a Writer (or generally Appendable), so it can be stored
+to a variety of destinations.
+
+Just like with the loader, CSV saver provides its own set of options, if the defaults are not sufficient:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/CsvTest.java[tags=writeCsvSaver]
+----
+
+<1> Instead of "save" method use "saver" to be able to customize the process.
+<2> If intermediate directories for the output file are missing, create them.
+<3> Provide an alternative format (either from a collection of known formats, or user-specific).
