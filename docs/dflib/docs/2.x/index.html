@@ -613,7 +613,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#group_aggregate">Group and Aggregate</a></li>
-<li><a href="#window">Window Operations</a></li>
+<li><a href="#window">Window Operations</a>
+<ul class="sectlevel2">
+<li><a href="#_row_ranking">Row Ranking</a></li>
+</ul>
+</li>
 <li><a href="#pivot">Pivot</a></li>
 <li><a href="#stack">Stack</a></li>
 <li><a href="#udfs">User-Defined Functions</a></li>
@@ -3933,18 +3937,19 @@ Joan O'Hara   9300 2024-03-15</pre>
 <div class="paragraph">
 <p>Window operations are somewhat close to "group", except they usually preserve the rows of the original
 <code>DataFrame</code> and may add extra columns with values calculated from "windows" of data relative to a given row. We&#8217;ll use
-the following <code>DataFrame</code> to demonstrate how window operations work:</p>
+the following <code>DataFrame</code> with company salary history to demonstrate how window operations work:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>name             amount date
+<pre>name             salary date
 ---------------- ------ ----------
-Jerry Cosin        8800 2024-01-15
-Juliana Walewski   8500 2024-01-15
-Joan O'Hara        9300 2024-01-15
-Jerry Cosin        9500 2024-12-15
-Juliana Walewski   8500 2025-02-15
-Joan O'Hara        8000 2023-01-01</pre>
+Jerry Cosin       88000 2024-01-15
+Juliana Walewski  85000 2024-01-15
+Joan O'Hara       93000 2024-01-15
+Jerry Cosin       95000 2024-12-15
+Juliana Walewski  85000 2025-02-15
+Joan O'Hara       80000 2023-01-01
+Joan O'Hara       78000 2022-01-01</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3963,36 +3968,40 @@ Joan O'Hara        8000 2023-01-01</pre>
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .over()
         .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">max_salary</span><span class="delimiter">&quot;</span></span>).merge(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).max()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">max_salary</span><span class="delimiter">&quot;</span></span>).merge(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).max()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Defines DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition</td>
+<td>Defines optional DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition.
+If no partition is defined, the entire DataFrame is treated as a single partition.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Defines a new column and an aggregating expression to produce values.</td>
+<td>Defines a new column and an expression to produce values.</td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>name             amount date       max_salary
+<pre>name             salary date       max_salary
 ---------------- ------ ---------- ----------
-Jerry Cosin        8800 2024-01-15       9500
-Juliana Walewski   8500 2024-01-15       8500
-Joan O'Hara        9300 2024-01-15       9300
-Jerry Cosin        9500 2024-12-15       9500
-Juliana Walewski   8500 2025-02-15       8500
-Joan O'Hara        8000 2023-01-01       9300</pre>
+Jerry Cosin       88000 2024-01-15      95000
+Juliana Walewski  85000 2024-01-15      85000
+Joan O'Hara       93000 2024-01-15      93000
+Jerry Cosin       95000 2024-12-15      95000
+Juliana Walewski  85000 2025-02-15      85000
+Joan O'Hara       80000 2023-01-01      93000
+Joan O'Hara       78000 2022-01-01      93000</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The order of rows does not affect the <code>max()</code> operation, but other operations, such as ranking or cumulative sum, very
-much depend on the order within a partition. For those cases, <code>Window</code> defines a <code>sort(..)</code> operation:</p>
+<p>The <code>max()</code> expression used above is "aggregating", so it resulted in the same max salary value in each position for a
+given person. But Window expressions don&#8217;t have to be aggregating. They can assign numbers to rows in a partition,
+calculate a cumulative sum, etc. For that second type of expressions, the order of rows within a partition is important,
+so <code>Window</code> object defines a <code>sort(..)</code> operation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4000,32 +4009,43 @@ much depend on the order within a partition. For those cases, <code>Window</code
         .over()
         .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
         .sorted(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).asc()) <i class="conum" data-value="1"></i><b>(1)</b>
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">change_order</span><span class="delimiter">&quot;</span></span>).merge(rowNum()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">raises_to_date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">raise_amount</span><span class="delimiter">&quot;</span></span>).merge(
+                rowNum().sub(<span class="integer">1</span>), <i class="conum" data-value="2"></i><b>(2)</b>
+                <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).sub(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).shift(<span class="integer">1</span>)) <i class="conum" data-value="3"></i><b>(3)</b>
+        );</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Sorts each partition by date before calculating change order</td>
+<td>Sorts each partition by date before applying operations</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Applying <code>rowNum()</code> to rank sorted rows within each partition.</td>
+<td>Applying <code>rowNum()</code> to calculate how many salary changes a person had already as of a given raise</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Calculate a raise amount by subtracting the new salary from the previous salary</td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>name             amount date       change_order
----------------- ------ ---------- ------------
-Jerry Cosin        8800 2024-01-15            1
-Juliana Walewski   8500 2024-01-15            1
-Joan O'Hara        9300 2024-01-15            2
-Jerry Cosin        9500 2024-12-15            2
-Juliana Walewski   8500 2025-02-15            2
-Joan O'Hara        8000 2023-01-01            1</pre>
+<pre>name             salary date       raises_to_date raise_amount
+---------------- ------ ---------- -------------- ------------
+Jerry Cosin       88000 2024-01-15              0         null
+Juliana Walewski  85000 2024-01-15              0         null
+Joan O'Hara       93000 2024-01-15              2        13000
+Jerry Cosin       95000 2024-12-15              1         7000
+Juliana Walewski  85000 2025-02-15              1            0
+Joan O'Hara       80000 2023-01-01              1         2000
+Joan O'Hara       78000 2022-01-01              0         null</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Obviously, the ordering of preceding rows was required to calculate both <code>raises_to_date</code> and <code>raise_amount</code> columns.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4034,18 +4054,172 @@ Joan O'Hara        8000 2023-01-01            1</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Sorting within the Window didn&#8217;t affect the sort order of the result, but it affected values in the new "change_order"
-column
+Sorting within the Window does not affect the sort order of the result, it is only calculated internally for the
+sake of the column operations.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Partitioning in the example above is similar to "group" in <code>GroupBy</code>. Another way to define windows is via a <code>range(..)</code>
-method that allows to build window with fixed offset relative to each row.</p>
+<p>Partitioning in the example above is similar to "group" in <code>GroupBy</code>. Another way to define a window span is via the
+<code>range(..)</code> method that allows to build window with fixed offset relative to each row:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .over()
+        .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .sorted(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).asc())
+        .range(WindowRange.allPreceding)  <i class="conum" data-value="1"></i><b>(1)</b>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">history_to_date</span><span class="delimiter">&quot;</span></span>).merge(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).vConcat(<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Specifies a dynamic partition range as all rows from 0 to the current row</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Lists all salaries to date a given record</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             salary date       history_to_date
+---------------- ------ ---------- -------------------
+Jerry Cosin       88000 2024-01-15 88000
+Juliana Walewski  85000 2024-01-15 85000
+Joan O'Hara       93000 2024-01-15 78000, 80000, 93000
+Jerry Cosin       95000 2024-12-15 88000, 95000
+Juliana Walewski  85000 2025-02-15 85000, 85000
+Joan O'Hara       80000 2023-01-01 78000, 80000
+Joan O'Hara       78000 2022-01-01 78000</pre>
+</div>
 </div>
 <div class="paragraph">
-<p><em>TODO</em></p>
+<p>As you can see, specifying a range is usually combined with sorting. In addition to standard ranges (
+<code>WindowRange.allPreceding</code>, <code>WindowRange.allFollowing</code>, <code>WindowRange.all</code>), you can specify a range as a pair of
+offsets in both directions to create a sliding window. E.g., <code>WindowRange.of(2, 2)</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_row_ranking">Row Ranking</h3>
+<div class="paragraph">
+<p>"Ranking" means assigning a numeric value to a row in a <code>DataFrame</code> based on some sorting criteria. E.g., countries can
+be ranked by their average life expectancy, sports teams can be ranked by how many points they have, etc.</p>
+</div>
+<div class="paragraph">
+<p>One form of ranking is assigning sequential numbers to each row in a sorted <code>Window</code>. We&#8217;ve seen the examples
+of it above (<code>rowNum()</code> expression). With this approach, each row will have a unique number. It is somewhat simplistic,
+as it doesn&#8217;t take <em>ties</em> into account (i.e. two or more rows being equivalent from the point of view of the sorting
+criterion). To do ranking with ties, <code>Windows</code> offers two operations - <code>rank()</code> and <code>denseRank()</code>.</p>
+</div>
+<div class="paragraph">
+<p>For this chapter, let&#8217;s use the following <code>DataFrame</code> with only the current salaries:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             salary
+---------------- ------
+Jerry Cosin       88000
+Paul Austin       93000
+Juliana Walewski  85000
+Joan O'Hara       93000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And let&#8217;s calculate their rank:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries ranks = df
+        .over()
+        .sorted(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .rank(); <i class="conum" data-value="2"></i><b>(2)</b>
+
+DataFrame df1 = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">rank</span><span class="delimiter">&quot;</span></span>).merge(ranks); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sorting is essential for ranking, unless the <code>DataFrame</code> is already sorted in the desired order</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Calculate ranking as an <code>IntSeries</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Add ranking back to the <code>DataFrame</code></td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             salary rank
+---------------- ------ ----
+Jerry Cosin       88000    3
+Paul Austin       93000    1
+Juliana Walewski  85000    4
+Joan O'Hara       93000    1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>People with the same salary now have the same rank. Also, the ranking is "sparse" - notice that the rank of "2" is
+missing. The logic behind it is that there are two rows tied for the rank of "1".
+So the row following them takes the third spot, and should be ranked as "3". To avoid tie-related gaps, there is a similar
+operation called <code>denseRank()</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">IntSeries ranks = df
+        .over()
+        .sorted(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).desc())
+        .denseRank(); <i class="conum" data-value="1"></i><b>(1)</b>
+
+DataFrame df1 = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">dense_rank</span><span class="delimiter">&quot;</span></span>).merge(ranks);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Instead of <code>rank()</code>, calculate a <code>denseRank()</code></td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             salary dense_rank
+---------------- ------ ----------
+Jerry Cosin       88000          2
+Paul Austin       93000          1
+Juliana Walewski  85000          3
+Joan O'Hara       93000          1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here the ranking is the same, except there are no gaps.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unlike <code>rowNum()</code> expression, there are currently no expressions for either <code>rank()</code> or <code>denseRank()</code>.
+So you need to calculate a rank an <code>IntSeries</code> first and then add it back to the <code>DataFrame</code>. This is due to the semantics
+of the ranking operations that requires the knowledge of <code>Window</code> sorting. This is a minor inconvenience, and we&#8217;ll
+try to eliminate it in the future.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>

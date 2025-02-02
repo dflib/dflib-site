@@ -3,17 +3,18 @@
 
 Window operations are somewhat close to "group", except they usually preserve the rows of the original
 `DataFrame` and may add extra columns with values calculated from "windows" of data relative to a given row. We'll use
-the following `DataFrame` to demonstrate how window operations work:
+the following `DataFrame` with company salary history to demonstrate how window operations work:
 
 ----
-name             amount date
+name             salary date
 ---------------- ------ ----------
-Jerry Cosin        8800 2024-01-15
-Juliana Walewski   8500 2024-01-15
-Joan O'Hara        9300 2024-01-15
-Jerry Cosin        9500 2024-12-15
-Juliana Walewski   8500 2025-02-15
-Joan O'Hara        8000 2023-01-01
+Jerry Cosin       88000 2024-01-15
+Juliana Walewski  85000 2024-01-15
+Joan O'Hara       93000 2024-01-15
+Jerry Cosin       95000 2024-12-15
+Juliana Walewski  85000 2025-02-15
+Joan O'Hara       80000 2023-01-01
+Joan O'Hara       78000 2022-01-01
 ----
 
 A window is created by calling `over()` on the `DataFrame`:
@@ -28,46 +29,141 @@ Here is a full operation that adds a "max_salary" column to each employee:
 ----
 include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartition]
 ----
-<1> Defines DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition
-<2> Defines a new column and an aggregating expression to produce values.
+<1> Defines optional DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition.
+If no partition is defined, the entire DataFrame is treated as a single partition.
+<2> Defines a new column and an expression to produce values.
 
 ----
-name             amount date       max_salary
+name             salary date       max_salary
 ---------------- ------ ---------- ----------
-Jerry Cosin        8800 2024-01-15       9500
-Juliana Walewski   8500 2024-01-15       8500
-Joan O'Hara        9300 2024-01-15       9300
-Jerry Cosin        9500 2024-12-15       9500
-Juliana Walewski   8500 2025-02-15       8500
-Joan O'Hara        8000 2023-01-01       9300
+Jerry Cosin       88000 2024-01-15      95000
+Juliana Walewski  85000 2024-01-15      85000
+Joan O'Hara       93000 2024-01-15      93000
+Jerry Cosin       95000 2024-12-15      95000
+Juliana Walewski  85000 2025-02-15      85000
+Joan O'Hara       80000 2023-01-01      93000
+Joan O'Hara       78000 2022-01-01      93000
 ----
 
-The order of rows does not affect the `max()` operation, but other operations, such as ranking or cumulative sum, very
-much depend on the order within a partition. For those cases, `Window` defines a `sort(..)` operation:
+The `max()` expression used above is "aggregating", so it resulted in the same max salary value in each position for a
+given person. But Window expressions don't have to be aggregating. They can assign numbers to rows in a partition,
+calculate a cumulative sum, etc. For that second type of expressions, the order of rows within a partition is important,
+so `Window` object defines a `sort(..)` operation:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartitionSorting]
 ----
-<1> Sorts each partition by date before calculating change order
-<2> Applying `rowNum()` to rank sorted rows within each partition.
+<1> Sorts each partition by date before applying operations
+<2> Applying `rowNum()` to calculate how many salary changes a person had already as of a given raise
+<3> Calculate a raise amount by subtracting the new salary from the previous salary
 
 ----
-name             amount date       change_order
----------------- ------ ---------- ------------
-Jerry Cosin        8800 2024-01-15            1
-Juliana Walewski   8500 2024-01-15            1
-Joan O'Hara        9300 2024-01-15            2
-Jerry Cosin        9500 2024-12-15            2
-Juliana Walewski   8500 2025-02-15            2
-Joan O'Hara        8000 2023-01-01            1
+name             salary date       raises_to_date raise_amount
+---------------- ------ ---------- -------------- ------------
+Jerry Cosin       88000 2024-01-15              0         null
+Juliana Walewski  85000 2024-01-15              0         null
+Joan O'Hara       93000 2024-01-15              2        13000
+Jerry Cosin       95000 2024-12-15              1         7000
+Juliana Walewski  85000 2025-02-15              1            0
+Joan O'Hara       80000 2023-01-01              1         2000
+Joan O'Hara       78000 2022-01-01              0         null
 ----
 
-NOTE: Sorting within the Window didn't affect the sort order of the result, but it affected values in the new "change_order"
-column
+Obviously, the ordering of preceding rows was required to calculate both `raises_to_date` and `raise_amount` columns.
 
-Partitioning in the example above is similar to "group" in `GroupBy`. Another way to define windows is via a `range(..)`
-method that allows to build window with fixed offset relative to each row.
+NOTE: Sorting within the Window does not affect the sort order of the result, it is only calculated internally for the
+sake of the column operations.
 
+Partitioning in the example above is similar to "group" in `GroupBy`. Another way to define a window span is via the
+`range(..)` method that allows to build window with fixed offset relative to each row:
 
-_TODO_
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartitionRange]
+----
+<1> Specifies a dynamic partition range as all rows from 0 to the current row
+<2> Lists all salaries to date a given record
+
+----
+name             salary date       history_to_date
+---------------- ------ ---------- -------------------
+Jerry Cosin       88000 2024-01-15 88000
+Juliana Walewski  85000 2024-01-15 85000
+Joan O'Hara       93000 2024-01-15 78000, 80000, 93000
+Jerry Cosin       95000 2024-12-15 88000, 95000
+Juliana Walewski  85000 2025-02-15 85000, 85000
+Joan O'Hara       80000 2023-01-01 78000, 80000
+Joan O'Hara       78000 2022-01-01 78000
+----
+
+As you can see, specifying a range is usually combined with sorting. In addition to standard ranges (
+`WindowRange.allPreceding`, `WindowRange.allFollowing`, `WindowRange.all`), you can specify a range as a pair of
+offsets in both directions to create a sliding window. E.g., `WindowRange.of(2, 2)`.
+
+=== Row Ranking
+
+"Ranking" means assigning a numeric value to a row in a `DataFrame` based on some sorting criteria. E.g., countries can
+be ranked by their average life expectancy, sports teams can be ranked by how many points they have, etc.
+
+One form of ranking is assigning sequential numbers to each row in a sorted `Window`. We've seen the examples
+of it above (`rowNum()` expression). With this approach, each row will have a unique number. It is somewhat simplistic,
+as it doesn't take _ties_ into account (i.e. two or more rows being equivalent from the point of view of the sorting
+criterion). To do ranking with ties, `Windows` offers two operations - `rank()` and `denseRank()`.
+
+For this chapter, let's use the following `DataFrame` with only the current salaries:
+
+----
+name             salary
+---------------- ------
+Jerry Cosin       88000
+Paul Austin       93000
+Juliana Walewski  85000
+Joan O'Hara       93000
+----
+
+And let's calculate their rank:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/WindowRankTest.java[tags=windowRank]
+----
+<1> Sorting is essential for ranking, unless the `DataFrame` is already sorted in the desired order
+<2> Calculate ranking as an `IntSeries`
+<3> Add ranking back to the `DataFrame`
+
+----
+name             salary rank
+---------------- ------ ----
+Jerry Cosin       88000    3
+Paul Austin       93000    1
+Juliana Walewski  85000    4
+Joan O'Hara       93000    1
+----
+
+People with the same salary now have the same rank. Also, the ranking is "sparse" - notice that the rank of "2" is
+missing. The logic behind it is that there are two rows tied for the rank of "1".
+So the row following them takes the third spot, and should be ranked as "3". To avoid tie-related gaps, there is a similar
+operation called `denseRank()`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/WindowRankTest.java[tags=windowDenseRank]
+----
+<1> Instead of `rank()`, calculate a `denseRank()`
+
+----
+name             salary dense_rank
+---------------- ------ ----------
+Jerry Cosin       88000          2
+Paul Austin       93000          1
+Juliana Walewski  85000          3
+Joan O'Hara       93000          1
+----
+
+Here the ranking is the same, except there are no gaps.
+
+NOTE: Unlike `rowNum()` expression, there are currently no expressions for either `rank()` or `denseRank()`.
+So you need to calculate a rank an `IntSeries` first and then add it back to the `DataFrame`. This is due to the semantics
+of the ranking operations that requires the knowledge of `Window` sorting. This is a minor inconvenience, and we'll
+try to eliminate it in the future.
