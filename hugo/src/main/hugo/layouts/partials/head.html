@@ -31,7 +31,7 @@
 
     <!-- Styles -->
     {{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") -}}
-    {{ with resources.Get "css/main.scss" | toCSS | minify -}}
+    {{ with resources.Get "css/main.scss" | toCSS | minify | fingerprint "sha512" -}}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
     {{ end }}
 </head>
