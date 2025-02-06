@@ -14,7 +14,7 @@
 }
 
 $c_white: #fff;
-$bc_black: #141519;
+$bc_black: #000;
 $c_black: #0f1013;
 $c_gray: #6d6f77;
 $bc_text_primary: linear-gradient(90deg, #08DEFE 38%, #00D1B1 69%);
@@ -91,6 +91,9 @@ body{
     padding-right: $padding_s;
     &.d_cntnr_s{
         max-width: 978px;
+    }
+    &.d_cntnr_sm{
+        max-width: 1000px;
     }
     &.d_cntnr_m{
         max-width: 1243px;
@@ -192,12 +195,15 @@ img {
 }
 
 a{
-    text-decoration: none;
+    // text-decoration: none;
     color: #08DEFE;
     &:hover{
-        text-decoration: underline;
+        font-weight: 600;
+        text-decoration-thickness: 2px;
+        // text-decoration: underline;
     }
 }
+
 .d_link{
     margin: 0;
     color: #08DEFE;
@@ -270,13 +276,21 @@ a{
         font-size: $fz_s;
         line-height: $lh_s;
         transition: opacity .5s ease-in-out;
+        text-decoration: none;
         &:hover,
         &:active{
             text-decoration: none;
             opacity: 0.45;
+            font-weight: initial;
         }
         &:not(.d_gh){
             text-transform: uppercase;
+        }
+        &.d_gh{
+            &:hover,
+            &:active{
+                font-weight: 700;
+            }
         }
     }
     .d_nv_bx{
@@ -429,6 +443,10 @@ a{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    min-height: calc(100vh - 76px);
+    background-position: 59% -18vh;
+    display: flex;
+    align-items: center;
 }
 // hero banner end
 
@@ -664,7 +682,7 @@ details{
 .d_ftr{
     background: $bc_black;
     color: $c_white;
-    padding-bottom: 33px;
+    padding: 33px 0;
     p{
         font-size: $fz_s;
         line-height: $lh_s;
@@ -763,6 +781,9 @@ details{
     .d_hero_banner{
         padding-top: 172px;
         padding-bottom: 111px;
+        min-height: initial;
+        background-position: 50%;
+        display: flow-root;
     }
     // hero banner end
 
@@ -944,6 +965,9 @@ details{
 
     .d_sctn {
         padding: 107px 0;
+        &:first-child:not(.d_hero_banner){
+            padding: 84px 0;
+        }
         &+.d_sctn{
             padding-bottom: 118px;
             &.d_c_white{
@@ -1031,9 +1055,9 @@ details{
                 margin-top: 14px;
             }
         }
-        .d_text_box{
-            max-width: 701px;
-        }
+        // .d_text_box{
+        //     max-width: 701px;
+        // }
 
     }
     //
