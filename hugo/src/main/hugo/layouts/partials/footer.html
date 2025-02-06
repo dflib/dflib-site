@@ -27,5 +27,5 @@
     </a>
 </div>
 {{- $opts := dict "target" "es2015" "minify" true -}}
-{{- $js := resources.Get "js/main.js" | js.Build $opts | fingerprint "sha512" }}
+{{- $js := resources.Get "js/main.js" | js.Build $opts | fingerprint "md5" }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
