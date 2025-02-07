@@ -12,7 +12,7 @@ Line magics are single-line function calls, with magic name prefixed with `%`, a
 ----
 %mavenRepo snapshots https://s01.oss.sonatype.org/content/repositories/snapshots/
 
-%maven org.dflib:dflib-jupyter:1.1.0
+%maven org.dflib:dflib-jupyter:1.2.0
 
 List<String> addedJars = %jars C:/all/my/*.jar
 ----

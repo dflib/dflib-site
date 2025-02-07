@@ -12,7 +12,7 @@ configure a couple of things. Start `jshell` and execute the following commands:
 // You will need to include all DFLib jars and their
 // dependencies explicitly
 
-/env --class-path /path/to/dflib-1.1.0.jar:/path/to/dflib-csv-1.1.0.jar
+/env --class-path /path/to/dflib-1.2.0.jar:/path/to/dflib-csv-1.2.0.jar
 ----
 
 [source]
