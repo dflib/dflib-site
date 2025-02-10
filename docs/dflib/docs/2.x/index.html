@@ -3768,7 +3768,7 @@ each payroll period by passing a list of "aggregating" expressions to the <code>
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame agg = df
         .group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
         .agg(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).first(), <i class="conum" data-value="1"></i><b>(1)</b>
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="1"></i><b>(1)</b>
                 <span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).sum(), <i class="conum" data-value="2"></i><b>(2)</b>
                 count() <i class="conum" data-value="3"></i><b>(3)</b>
         );</code></pre>
@@ -3778,12 +3778,11 @@ each payroll period by passing a list of "aggregating" expressions to the <code>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>first(..)</code> expression is applied to the column used in the grouping. As each value within the group is the same,
-we can simply select the first one for our aggregated row</td>
+<td>Returns the value in the grouping column</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>This calculates total payroll amount within each group</td>
+<td>Calculates total payroll amount within each group</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -3801,10 +3800,10 @@ we can simply select the first one for our aggregated row</td>
 </div>
 </div>
 <div class="paragraph">
-<p><code>first(..)</code>, <code>sum(..)</code> and <code>count()</code> are special "aggregating" expressions. Unlike the "normal" expressions that produce
-Series of the same size as input Series, aggregating ones output Series with single values. Hence,
-the number of rows in the aggregated DataFrame is equal to the number of groups in <code>GroupBy</code>. There are more aggregating
-expressions that can concatenate values within a group, calculate min, max, avg values, etc.</p>
+<p>Here the expressions are applied in the "aggregating" context (i.e. the library calls <code>Exp.reduce(..)</code> to produce a
+single value instead of <code>Exp.eval(..)</code> that produces a <code>Series</code>). <code>sum(..)</code> and <code>count()</code> are "naturally" aggregating.
+Whereas a <code>col(..)</code> expression in the aggregating context simply returns the first value from the Series, hence it is
+most often used with the columns that are a part of the grouping criteria.</p>
 </div>
 <div class="paragraph">
 <p>Let&#8217;s make a minor improvement to the example above and provide more descriptive column names:</p>
@@ -3815,7 +3814,7 @@ expressions that can concatenate values within a group, calculate min, max, avg 
         .group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">total</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">employees</span><span class="delimiter">&quot;</span></span>)
         .agg(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).first(),
+                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>),
                 <span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).sum(),
                 count()
         );</code></pre>

@@ -32,9 +32,8 @@ each payroll period by passing a list of "aggregating" expressions to the `agg(.
 ----
 include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg]
 ----
-<1> `first(..)` expression is applied to the column used in the grouping. As each value within the group is the same,
-we can simply select the first one for our aggregated row
-<2> This calculates total payroll amount within each group
+<1> Returns the value in the grouping column
+<2> Calculates total payroll amount within each group
 <3> `count()` returns the number of rows in each group
 
 ----
@@ -45,10 +44,10 @@ date       sum(amount) count
 2024-03-15     17300.0     2
 ----
 
-`first(..)`, `sum(..)` and `count()` are special "aggregating" expressions. Unlike the "normal" expressions that produce
-Series of the same size as input Series, aggregating ones output Series with single values. Hence,
-the number of rows in the aggregated DataFrame is equal to the number of groups in `GroupBy`. There are more aggregating
-expressions that can concatenate values within a group, calculate min, max, avg values, etc.
+Here the expressions are applied in the "aggregating" context (i.e. the library calls `Exp.reduce(..)` to produce a
+single value instead of `Exp.eval(..)` that produces a `Series`). `sum(..)` and `count()` are "naturally" aggregating.
+Whereas a `col(..)` expression in the aggregating context simply returns the first value from the Series, hence it is
+most often used with the columns that are a part of the grouping criteria.
 
 Let's make a minor improvement to the example above and provide more descriptive column names:
 

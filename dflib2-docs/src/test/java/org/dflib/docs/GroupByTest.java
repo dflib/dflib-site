@@ -38,7 +38,7 @@ public class GroupByTest extends BaseTest {
         DataFrame agg = df
                 .group("date")
                 .agg(
-                        $col("date").first(), // <1>
+                        $col("date"), // <1>
                         $double("amount").sum(), // <2>
                         count() // <3>
                 );
@@ -54,7 +54,7 @@ public class GroupByTest extends BaseTest {
                 .group("date")
                 .cols("date", "total", "employees")
                 .agg(
-                        $col("date").first(),
+                        $col("date"),
                         $double("amount").sum(),
                         count()
                 );
