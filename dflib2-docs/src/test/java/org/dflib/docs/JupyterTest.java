@@ -1,5 +1,7 @@
 package org.dflib.docs;
 
+import org.dflib.DataFrame;
+import org.dflib.Printers;
 import org.dflib.jjava.jupyter.kernel.BaseKernel;
 import org.dflib.jjava.jupyter.kernel.display.Renderer;
 import org.dflib.jupyter.DFLibJupyter;
@@ -22,5 +24,20 @@ public class JupyterTest extends BaseTest {
         DFLibJupyter.setMaxDisplayRows(10);
         DFLibJupyter.setMaxDisplayColumnWidth(50);
         // end::setDisplayParams[]
+    }
+
+    @Test
+    public void customPrinter() {
+
+        BaseKernel kernel = mock(BaseKernel.class);
+        when(kernel.getRenderer()).thenReturn(new Renderer());
+
+        DFLibJupyter.init(kernel);
+
+        DataFrame df = DataFrame.foldByRow("a", "b").of();
+
+        // tag::customPrinter[]
+        Printers.tabular(4, 500).print(df);
+        // end::customPrinter[]
     }
 }

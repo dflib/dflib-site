@@ -5454,8 +5454,13 @@ E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>)
-    .ofInts(-<span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>);
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame
+                .byArrayRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+                .appender() <i class="conum" data-value="2"></i><b>(2)</b>
+                .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joe</span><span class="delimiter">&quot;</span></span>, <span class="integer">18</span>)   <i class="conum" data-value="3"></i><b>(3)</b>
+                .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Andrus</span><span class="delimiter">&quot;</span></span>, <span class="integer">49</span>)
+                .append(<span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="integer">32</span>)
+                .toDataFrame();
 
 <span class="comment">// the result of the last statement in a cell is printed just below it</span>
 df</code></pre>
@@ -5471,12 +5476,23 @@ df</code></pre>
 <div class="sect2">
 <h3 id="_change_display_parameters">Change Display Parameters</h3>
 <div class="paragraph">
-<p>To control truncation behavior, you can use static methods on <code>DFLibJupyter</code>:</p>
+<p>Long <code>DataFrame</code> or <code>Series</code> will be truncated when printed in Jupyter. The default behavior is to display
+up to 10 rows and up to 50 chars per column. To change it, you can use static methods on <code>DFLibJupyter</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DFLibJupyter.setMaxDisplayRows(<span class="integer">10</span>);
 DFLibJupyter.setMaxDisplayColumnWidth(<span class="integer">50</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This resets <code>DataFrame</code> and <code>Series</code> display parameters for the entire notebook. If you only want to change the defaults
+for a single object, you should use the <code>Printer</code> API. E.g., here we are creating a tabular printer to convert a
+single <code>DataFrame</code> to String, displaying up to 4 rows, but allowing up to 500 characters in each column:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Printers.tabular(<span class="integer">4</span>, <span class="integer">500</span>).print(df);</code></pre>
 </div>
 </div>
 </div>

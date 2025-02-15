@@ -9,12 +9,12 @@ public abstract class BaseTest {
     protected void print(String label, DataFrame df) {
         System.out.println();
         System.out.println("[" + label + "]");
-        System.out.println(Printers.tabular.toString(df));
+        System.out.println(Printers.tabular.print(df));
     }
 
     protected void print(String label, Series<?> series) {
         System.out.println();
         System.out.println("[" + label + "]");
-        System.out.println(Printers.tabular.toString(series));
+        System.out.println(Printers.tabular.print(series));
     }
 }

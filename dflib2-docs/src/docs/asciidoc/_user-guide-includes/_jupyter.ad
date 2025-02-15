@@ -29,8 +29,13 @@ E.g.:
 
 [source,java]
 ----
-DataFrame df = DataFrame.foldByColumn("a", "b", "c")
-    .ofInts(-1, 1, 2, 3, 4, 5, 6);
+DataFrame df = DataFrame
+                .byArrayRow("name", "age") // <1>
+                .appender() // <2>
+                .append("Joe", 18)   // <3>
+                .append("Andrus", 49)
+                .append("Joan", 32)
+                .toDataFrame();
 
 // the result of the last statement in a cell is printed just below it
 df
@@ -43,10 +48,20 @@ image:images/chart-in-jupyter.png[]
 
 === Change Display Parameters
 
-To control truncation behavior, you can use static methods on `DFLibJupyter`:
+Long `DataFrame` or `Series` will be truncated when printed in Jupyter. The default behavior is to display
+up to 10 rows and up to 50 chars per column. To change it, you can use static methods on `DFLibJupyter`:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/JupyterTest.java[tags=setDisplayParams]
+----
+
+This resets `DataFrame` and `Series` display parameters for the entire notebook. If you only want to change the defaults
+for a single object, you should use the `Printer` API. E.g., here we are creating a tabular printer to convert a
+single `DataFrame` to String, displaying up to 4 rows, but allowing up to 500 characters in each column:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/JupyterTest.java[tags=customPrinter]
 ----
 
