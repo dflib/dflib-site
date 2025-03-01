@@ -2,8 +2,10 @@ package org.dflib.docs;
 
 import org.dflib.DataFrame;
 import org.dflib.IntSeries;
-import org.dflib.print.TabularPrinter;
+import org.dflib.Printers;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.dflib.Exp.$int;
 
@@ -16,12 +18,9 @@ public class WindowRankTest extends BaseTest {
             "Juliana Walewski", 85000,
             "Joan O'Hara", 93000);
 
-    static {
-        System.out.println(new TabularPrinter(8, 100).toString(df));
-    }
 
     @Test
-    public void windowRank() {
+    public void windowRank() throws IOException {
 // tag::windowRank[]
         IntSeries ranks = df
                 .over()
@@ -33,11 +32,11 @@ public class WindowRankTest extends BaseTest {
 
         System.out.println();
         System.out.println("[windowRank]");
-        System.out.println(new TabularPrinter(8, 100).toString(df1));
+        Printers.tabular(8, 100, 100).printTo(System.out, df1);
     }
 
     @Test
-    public void windowDenseRank() {
+    public void windowDenseRank() throws IOException {
 // tag::windowDenseRank[]
         IntSeries ranks = df
                 .over()
@@ -49,6 +48,6 @@ public class WindowRankTest extends BaseTest {
 
         System.out.println();
         System.out.println("[windowDenseRank]");
-        System.out.println(new TabularPrinter(8, 100).toString(df1));
+        Printers.tabular(8, 100, 100).printTo(System.out, df1);
     }
 }

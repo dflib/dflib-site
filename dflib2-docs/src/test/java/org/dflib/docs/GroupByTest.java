@@ -2,9 +2,10 @@ package org.dflib.docs;
 
 import org.dflib.DataFrame;
 import org.dflib.GroupBy;
-import org.dflib.print.TabularPrinter;
+import org.dflib.Printers;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.dflib.Exp.*;
@@ -20,10 +21,6 @@ public class GroupByTest extends BaseTest {
             "Joan O'Hara", 9300, LocalDate.of(2024, 2, 15),
             "Jerry Cosin", 8000, LocalDate.of(2024, 3, 15),
             "Joan O'Hara", 9300, LocalDate.of(2024, 3, 15));
-
-    static {
-        System.out.println(new TabularPrinter(8, 100).toString(df));
-    }
 
     @Test
     public void groupBy() {
@@ -64,7 +61,7 @@ public class GroupByTest extends BaseTest {
     }
 
     @Test
-    public void rank() {
+    public void rank() throws IOException {
 // tag::rank[]
         DataFrame ranked = df.group("date")
                 .sort($double("amount").desc()) // <1>
@@ -76,8 +73,7 @@ public class GroupByTest extends BaseTest {
                 );
 // end::rank[]
 
-        System.out.println(new TabularPrinter(8, 100).toString(ranked));
-
+        Printers.tabular(8, 100, 100).printTo(System.out, ranked);
     }
 
     @Test

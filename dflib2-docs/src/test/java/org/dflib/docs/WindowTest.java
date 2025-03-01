@@ -1,11 +1,12 @@
 package org.dflib.docs;
 
 import org.dflib.DataFrame;
-import org.dflib.print.TabularPrinter;
+import org.dflib.Printers;
 import org.dflib.window.Window;
 import org.dflib.window.WindowRange;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.dflib.Exp.*;
@@ -22,10 +23,6 @@ public class WindowTest extends BaseTest {
             "Joan O'Hara", 80000, LocalDate.of(2023, 1, 1),
             "Joan O'Hara", 78000, LocalDate.of(2022, 1, 1));
 
-    static {
-        System.out.println(new TabularPrinter(8, 100).toString(df));
-    }
-
     @Test
     public void window() {
 // tag::window[]
@@ -34,7 +31,7 @@ public class WindowTest extends BaseTest {
     }
 
     @Test
-    public void windowPartition() {
+    public void windowPartition() throws IOException {
 // tag::windowPartition[]
         DataFrame df1 = df
                 .over()
@@ -44,11 +41,11 @@ public class WindowTest extends BaseTest {
 
         System.out.println();
         System.out.println("[windowPartition]");
-        System.out.println(new TabularPrinter(8, 100).toString(df1));
+        Printers.tabular(8, 100, 100).printTo(System.out, df1);
     }
 
     @Test
-    public void windowPartitionSorting() {
+    public void windowPartitionSorting() throws IOException {
 // tag::windowPartitionSorting[]
         DataFrame df1 = df
                 .over()
@@ -62,12 +59,12 @@ public class WindowTest extends BaseTest {
 
         System.out.println();
         System.out.println("[windowPartitionSorting]");
-        System.out.println(new TabularPrinter(8, 100).toString(df1));
+        Printers.tabular(8, 100, 100).printTo(System.out, df1);
     }
 
 
     @Test
-    public void windowPartitionRange() {
+    public void windowPartitionRange() throws IOException {
 // tag::windowPartitionRange[]
 
         DataFrame df1 = df
@@ -80,6 +77,6 @@ public class WindowTest extends BaseTest {
 
         System.out.println();
         System.out.println("[windowPartitionRange]");
-        System.out.println(new TabularPrinter(8, 100).toString(df1));
+        Printers.tabular(8, 100, 100).printTo(System.out, df1);
     }
 }

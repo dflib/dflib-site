@@ -22,7 +22,8 @@ public class JupyterTest extends BaseTest {
 
         // tag::setDisplayParams[]
         DFLibJupyter.setMaxDisplayRows(10);
-        DFLibJupyter.setMaxDisplayColumnWidth(50);
+        DFLibJupyter.setMaxDisplayCols(10);
+        DFLibJupyter.setMaxDisplayValueWidth(50);
         // end::setDisplayParams[]
     }
 
@@ -37,7 +38,7 @@ public class JupyterTest extends BaseTest {
         DataFrame df = DataFrame.foldByRow("a", "b").of();
 
         // tag::customPrinter[]
-        Printers.tabular(4, 500).print(df);
+        Printers.tabular(4, 100, 500).print(df);
         // end::customPrinter[]
     }
 }

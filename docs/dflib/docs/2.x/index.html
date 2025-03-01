@@ -1103,7 +1103,7 @@ printer:</p>
         .foldByColumn(<span class="string"><span class="delimiter">&quot;</span><span class="content">col1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">col3</span><span class="delimiter">&quot;</span></span>)
         .ofStream(IntStream.range(<span class="integer">0</span>, <span class="integer">10000</span>));
 
-<span class="predefined-type">String</span> table = Printers.tabular.toString(df);
+<span class="predefined-type">String</span> table = Printers.tabular.print(df);
 <span class="predefined-type">System</span>.out.println(table);</code></pre>
 </div>
 </div>
@@ -1130,8 +1130,8 @@ longer than 30 chars are also truncated (since they are pretty short in our exam
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Printer printer = <span class="keyword">new</span> TabularPrinter(<span class="integer">3</span>, <span class="integer">3</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="predefined-type">String</span> table = printer.toString(df);
+<pre class="CodeRay highlight"><code data-lang="java">Printer printer = <span class="keyword">new</span> TabularPrinter(<span class="integer">3</span>, <span class="integer">3</span>, <span class="integer">3</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="predefined-type">String</span> table = printer.print(df);
 <span class="predefined-type">System</span>.out.println(table);</code></pre>
 </div>
 </div>
@@ -5482,7 +5482,8 @@ up to 10 rows and up to 50 chars per column. To change it, you can use static me
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DFLibJupyter.setMaxDisplayRows(<span class="integer">10</span>);
-DFLibJupyter.setMaxDisplayColumnWidth(<span class="integer">50</span>);</code></pre>
+DFLibJupyter.setMaxDisplayCols(<span class="integer">10</span>);
+DFLibJupyter.setMaxDisplayValueWidth(<span class="integer">50</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -5492,7 +5493,7 @@ single <code>DataFrame</code> to String, displaying up to 4 rows, but allowing u
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Printers.tabular(<span class="integer">4</span>, <span class="integer">500</span>).print(df);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Printers.tabular(<span class="integer">4</span>, <span class="integer">100</span>, <span class="integer">500</span>).print(df);</code></pre>
 </div>
 </div>
 </div>
