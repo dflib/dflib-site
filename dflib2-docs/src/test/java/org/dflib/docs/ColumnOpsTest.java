@@ -137,7 +137,7 @@ public class ColumnOpsTest extends BaseTest {
 // tag::colsSelectExp[]
         Exp fmExp = concat(
                 $str("first"),
-                ifNull($str("middle").mapVal(s -> " " + s), ""));
+                ifNullVal($str("middle").mapVal(s -> " " + s), ""));
 
         DataFrame df1 = df
                 .cols("first_middle", "last") // <1>
@@ -363,8 +363,8 @@ public class ColumnOpsTest extends BaseTest {
                 "2023", "4355098.75");
 
         DataFrame df1 = df
-                .cols("year").compactInt(0) // <1>
-                .cols("sales").compactDouble(0.);
+                .cols("year").compactInt(0).merge() // <1>
+                .cols("sales").compactDouble(0.).merge();
 // end::compact[]
 
         new DataFrameAsserts(df1, "year", "sales")

@@ -1,17 +1,14 @@
 [#bin_data_sources]
 == Binary Data Sources
 
-There are two interfaces that allow format-specific DFLib loaders to access streams of bytes and produce `DataFrame`
+There are two interfaces that allow format-specific loaders to access streams of bytes and produce `DataFrame`
 instances. Those are `ByteSource`, a single binary resource and `ByteSources`, a collection of such resources. Most
 loaders accept `ByteSource` (and sometimes, `ByteSources`) as an argument to their `load(..)`
-method. E.g. loaders for CSV, Avro, Parquet, JSON support both `ByteSource` and `ByteSources`, Excel loader supports
+method. E.g., loaders for CSV, Avro, Parquet, JSON support both `ByteSource` and `ByteSources`, Excel loader supports
 `ByteSource`, and JDBC loader supports neither (because JDBC doesn't expose ResultSets as byte streams).
 
 DFLib provides a growing number of out-of-the-box `ByteSource` implementations as described below. And you can
 implement your own if needed.
-
-NOTE: `ByteSources` doesn't have any interesting implementations as of DFlib `1.x`, but in the future releases there will
-be sources for ZIP archives, cloud folders, and such.
 
 === Byte Array ByteSource
 
@@ -43,12 +40,25 @@ include::../../../test/java/org/dflib/docs/ByteSourceTest.java[tags=resourceUrl]
 === HTTP ByteSource
 
 While the `ByteSource.ofUrl(..)` example above works well for simple public URLs, DFLib provides a more advanced HTTP connector to
-access web resources. It allows to send authorization (or any other) headers  and also build URLs from parts incrementally:
+access web resources. It allows sending authorization (or any other) headers and building URLs from parts incrementally:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ByteSourceTest.java[tags=http]
 ----
 
-NOTE: `Http` connector is immutable. Each builder method above produces an altered _copy_ of the original connector. This
+NOTE: The `Http` connector is immutable. Each builder method above produces an altered _copy_ of the original connector. This
 means you can reuse a partially built connector to produce multiple resource-specific connectors.
+
+=== Zip Archives
+
+Zip archives can potentially contain multiple CSVs and other sources of data. They can be accessed and
+explored as `ByteSources`.
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ByteSourcesTest.java[tags=zip]
+----
+
+<1> Obtain a `ByteSources` instance for the ZIP archive
+<2> Look for CSV files, and load them as `DataFrames`
