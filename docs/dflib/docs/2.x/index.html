@@ -634,7 +634,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_writing_csv">Writing CSV</a></li>
 </ul>
 </li>
-<li><a href="#excel">Excel Format</a></li>
+<li><a href="#excel">Excel Format</a>
+<ul class="sectlevel2">
+<li><a href="#_reading_excel">Reading Excel</a></li>
+<li><a href="#_writing_excel">Writing Excel</a></li>
+</ul>
+</li>
 <li><a href="#avro">Avro Format</a>
 <ul class="sectlevel2">
 <li><a href="#_avro_schema">Avro Schema</a></li>
@@ -4617,7 +4622,7 @@ advantage of this functionality:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Once you do that, <code>Csv</code> class is the entry point to all the <code>.csv</code> related operations as discussed below.</p>
+<p><code>Csv</code> class is the entry point to all the <code>.csv</code> related operations as discussed below.</p>
 </div>
 <div class="sect2">
 <h3 id="_reading_csv">Reading CSV</h3>
@@ -4626,7 +4631,7 @@ advantage of this functionality:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Csv.load(<span class="string"><span class="delimiter">&quot;</span><span class="content">src/test/resources/f1.csv</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Csv.load(fileName); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4643,10 +4648,10 @@ sources.</td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>A B
-- --
-1 s1
-4 s2</pre>
+<pre>C1 C2
+-- --
+1  s1
+4  s2</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4661,7 +4666,7 @@ skip rows and columns, or even sample the data without loading the entire CSV in
         .offset(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
         .header(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="3"></i><b>(3)</b>
         .intCol(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
-        .load(<span class="string"><span class="delimiter">&quot;</span><span class="content">src/test/resources/f1.csv</span><span class="delimiter">&quot;</span></span>);</code></pre>
+        .load(fileName);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4719,7 +4724,7 @@ source representable as <code>ByteSource</code> or <code>ByteSources</code> (see
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Csv.save(df, <span class="string"><span class="delimiter">&quot;</span><span class="content">target/df.csv</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Csv.save(df, fileName); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4732,21 +4737,21 @@ to a variety of destinations.</td>
 </table>
 </div>
 <div class="paragraph">
-<p>Just like with the loader, CSV saver provides its own set of options, if the defaults are not sufficient:</p>
+<p>Just like with the loader, CSV saver provides its own set of options if the defaults are not enough:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Csv.saver() <i class="conum" data-value="1"></i><b>(1)</b>
         .createMissingDirs() <i class="conum" data-value="2"></i><b>(2)</b>
         .format(CSVFormat.EXCEL) <i class="conum" data-value="3"></i><b>(3)</b>
-        .save(df, <span class="string"><span class="delimiter">&quot;</span><span class="content">target/csv/df.csv</span><span class="delimiter">&quot;</span></span>);</code></pre>
+        .save(df, fileName);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Instead of "save" method use "saver" to be able to customize the process.</td>
+<td>Instead of <code>save(..)</code>, use <code>saver()</code> to be able to customize the process.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -4765,9 +4770,13 @@ to a variety of destinations.</td>
 <h2 id="excel">Excel Format</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
-them to Excel. You need to add an extra dependency to your project to take
-advantage of this functionality:</p>
+<p>Excel format is very common in the business and finance worlds. DFLib supports reading DataFrames from and storing
+them to Excel. Logically, each <code>DataFrame</code> corresponds to a single sheet in an Excel file. DFLib uses Apache POI
+library under the hood to read and write Excel, but this fact is mostly invisible to the user. DFLib API is much simpler
+than POI, allowing to ignore the noise and get straight to the data.</p>
+</div>
+<div class="paragraph">
+<p>To start, you need to add the following dependency to your project:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4778,7 +4787,133 @@ advantage of this functionality:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>TODO&#8230;&#8203;</p>
+<p><code>Excel</code> class is the entry point to all the read and write operations as discussed below.</p>
+</div>
+<div class="sect2">
+<h3 id="_reading_excel">Reading Excel</h3>
+<div class="paragraph">
+<p>You can either load one specific sheet from an Excel file as a DataFrame:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Excel.loadSheet(fileName, <span class="string"><span class="delimiter">&quot;</span><span class="content">Sheet1</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  A B
+--- --
+1.0 s1
+2.0 s2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or read all sheets at once to a Map of DataFrames by sheet name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, DataFrame&gt; dfs = Excel.load(fileName);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unlike the CSV format, Excel has a basic built-in type system that is being recognized by DFLib, so you will
+get proper numbers, dates/times, booleans and Strings without the need for explicit conversion.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Just like with CSVs, customizing the loading process is done via a special loader obtained via a call to <code>Excel.loader()</code>.
+E.g., here is common customization. By default, DataFrame column names are the same as Excel columns (i.e., "A", "B",
+"C", etc.), but we can configure the loader to use the first row of data as column names:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df = Excel.loader() <i class="conum" data-value="1"></i><b>(1)</b>
+        .firstRowAsHeader() <i class="conum" data-value="2"></i><b>(2)</b>
+        .loadSheet(fileName, <span class="string"><span class="delimiter">&quot;</span><span class="content">Sheet1</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create a loader</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configure the source of column names</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Other customizations include <code>offset(..)</code>, <code>limit(..)</code> and <code>sheetLoader(..)</code>. The last one is intended to set a
+per-sheet load configuration when loading multiple sheets at once via <code>.load(..)</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_excel">Writing Excel</h3>
+<div class="paragraph">
+<p>Writing DataFrames to Excel can also be done for just one sheet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Excel.saveSheet(df, fileName, <span class="string"><span class="delimiter">&quot;</span><span class="content">Sheet1</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A new single-sheet file will be created if it doesn&#8217;t exist, or a sheet with new data added to (or replaced in) an
+existing file.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Or we can create or replace the entire file using the map of DataFrames by sheet name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, DataFrame&gt; dfs = <span class="predefined-type">Map</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sheet1</span><span class="delimiter">&quot;</span></span>, df1, <span class="string"><span class="delimiter">&quot;</span><span class="content">Sheet2</span><span class="delimiter">&quot;</span></span>, df2);
+Excel.save(dfs, fileName);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similar to the loader, the save process is customized via <code>ExcelSaver</code>. Let&#8217;s use managing sheet columns as an example.
+By default, <code>DataFrame</code> column names will be output as the first row in a sheet, styled
+with bold font. But there is an option to ignore the <code>DataFrame</code> columns completely:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Excel.saver().noHeader().saveSheet(df, fileName, <span class="string"><span class="delimiter">&quot;</span><span class="content">Sheet1</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other useful customizations are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>createMissingDirs()</code> - to create any missing subdirectories in the output file</p>
+</li>
+<li>
+<p><code>autoSizeColumns()</code> - to adjust column width, producing readable columns (we advise that you always use this option)</p>
+</li>
+<li>
+<p><code>columnWidths(..)</code>  - to manually size the columns</p>
+</li>
+<li>
+<p><code>columnStyles(..)</code> - to change column display styles (fonts, etc.) via Apache POI API.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>

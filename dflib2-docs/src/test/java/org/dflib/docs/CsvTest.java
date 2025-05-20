@@ -12,8 +12,9 @@ public class CsvTest extends BaseTest {
 
     @Test
     public void readCsv() {
+        String fileName = "src/test/resources/f1.csv";
         // tag::readCsv[]
-        DataFrame df = Csv.load("src/test/resources/f1.csv"); // <1>
+        DataFrame df = Csv.load(fileName); // <1>
         // end::readCsv[]
 
         print("readCsv", df);
@@ -21,12 +22,14 @@ public class CsvTest extends BaseTest {
 
     @Test
     public void readCsvLoader() {
+        String fileName = "src/test/resources/f1.csv";
+
         // tag::readCsvLoader[]
         DataFrame df = Csv.loader() // <1>
                 .offset(1) // <2>
                 .header("x", "y") // <3>
                 .intCol("x") // <4>
-                .load("src/test/resources/f1.csv");
+                .load(fileName);
         // end::readCsvLoader[]
 
         assertTrue(df.getColumn("x").unsafeCastAs(Integer.class) instanceof IntSeries);
@@ -44,8 +47,10 @@ public class CsvTest extends BaseTest {
                 .append("Joan", 32)
                 .toDataFrame();
 
+        String fileName = "target/df.csv";
+
         // tag::writeCsv[]
-        Csv.save(df, "target/df.csv"); // <1>
+        Csv.save(df, fileName); // <1>
         // end::writeCsv[]
     }
 
@@ -59,11 +64,13 @@ public class CsvTest extends BaseTest {
                 .append("Joan", 32)
                 .toDataFrame();
 
+        String fileName = "target/csv/df.csv";
+
         // tag::writeCsvSaver[]
         Csv.saver() // <1>
                 .createMissingDirs() // <2>
                 .format(CSVFormat.EXCEL) // <3>
-                .save(df, "target/csv/df.csv");
+                .save(df, fileName);
         // end::writeCsvSaver[]
     }
 }

@@ -14,7 +14,7 @@ advantage of this functionality:
 </dependency>
 ----
 
-Once you do that, `Csv` class is the entry point to all the `.csv` related operations as discussed below.
+`Csv` class is the entry point to all the `.csv` related operations as discussed below.
 
 === Reading CSV
 
@@ -29,10 +29,10 @@ sources.
 
 The result is a DataFrame that matches the CSV structure:
 ----
-A B
-- --
-1 s1
-4 s2
+C1 C2
+-- --
+1  s1
+4  s2
 ----
 DFLib made a few assumptions about the data in `f1.csv`, namely that the first row represents
 column names, that all columns are Strings, and that all of them need to be included. These assumptions are not
@@ -75,12 +75,12 @@ include::../../../test/java/org/dflib/docs/CsvTest.java[tags=writeCsv]
 <1> The argument to the "save" method can be a filename, a file, a Writer (or generally Appendable), so it can be stored
 to a variety of destinations.
 
-Just like with the loader, CSV saver provides its own set of options, if the defaults are not sufficient:
+Just like with the loader, CSV saver provides its own set of options if the defaults are not enough:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/CsvTest.java[tags=writeCsvSaver]
 ----
 
-<1> Instead of "save" method use "saver" to be able to customize the process.
+<1> Instead of `save(..)`, use `saver()` to be able to customize the process.
 <2> If intermediate directories for the output file are missing, create them.
 <3> Provide an alternative format (either from a collection of known formats, or user-specific).

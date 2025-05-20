@@ -1,9 +1,12 @@
 [#excel]
 == Excel Format
 
-Excel format is very common in the business and finance world. DFLib supports reading DataFrames from and storing
-them to Excel. You need to add an extra dependency to your project to take
-advantage of this functionality:
+Excel format is very common in the business and finance worlds. DFLib supports reading DataFrames from and storing
+them to Excel. Logically, each `DataFrame` corresponds to a single sheet in an Excel file. DFLib uses Apache POI
+library under the hood to read and write Excel, but this fact is mostly invisible to the user. DFLib API is much simpler
+than POI, allowing to ignore the noise and get straight to the data.
+
+To start, you need to add the following dependency to your project:
 
 [source,xml]
 ----
@@ -13,4 +16,78 @@ advantage of this functionality:
 </dependency>
 ----
 
-TODO...
+`Excel` class is the entry point to all the read and write operations as discussed below.
+
+=== Reading Excel
+
+You can either load one specific sheet from an Excel file as a DataFrame:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExcelTest.java[tags=loadSheet]
+----
+
+----
+  A B
+--- --
+1.0 s1
+2.0 s2
+----
+
+or read all sheets at once to a Map of DataFrames by sheet name:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExcelTest.java[tags=loadSheets]
+----
+
+NOTE: Unlike the CSV format, Excel has a basic built-in type system that is being recognized by DFLib, so you will
+get proper numbers, dates/times, booleans and Strings without the need for explicit conversion.
+
+Just like with CSVs, customizing the loading process is done via a special loader obtained via a call to `Excel.loader()`.
+E.g., here is common customization. By default, DataFrame column names are the same as Excel columns (i.e., "A", "B",
+"C", etc.), but we can configure the loader to use the first row of data as column names:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExcelTest.java[tags=loader]
+----
+<1> Create a loader
+<2> Configure the source of column names
+
+Other customizations include `offset(..)`, `limit(..)` and `sheetLoader(..)`. The last one is intended to set a
+per-sheet load configuration when loading multiple sheets at once via `.load(..)`.
+
+=== Writing Excel
+
+Writing DataFrames to Excel can also be done for just one sheet:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExcelTest.java[tags=saveSheet]
+----
+<1> A new single-sheet file will be created if it doesn't exist, or a sheet with new data added to (or replaced in) an
+existing file.
+
+Or we can create or replace the entire file using the map of DataFrames by sheet name:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExcelTest.java[tags=saveFile]
+----
+
+Similar to the loader, the save process is customized via `ExcelSaver`. Let's use managing sheet columns as an example.
+By default, `DataFrame` column names will be output as the first row in a sheet, styled
+with bold font. But there is an option to ignore the `DataFrame` columns completely:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExcelTest.java[tags=noHeader]
+----
+
+Other useful customizations are:
+
+* `createMissingDirs()` - to create any missing subdirectories in the output file
+* `autoSizeColumns()` - to adjust column width, producing readable columns (we advise that you always use this option)
+* `columnWidths(..)`  - to manually size the columns
+* `columnStyles(..)` - to change column display styles (fonts, etc.) via Apache POI API.
