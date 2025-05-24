@@ -7,9 +7,9 @@ Pivot operation restructures a `DataFrame` it is applied to. It picks three colu
 * `cols`: a column whose unique values are turned into the header of the resulting `DataFrame`. The "pivot" operation
 name comes from the fact this column is rotated (i.e.,"pivoted")
 * `rows`: a column whose unique values become "row keys" and are placed in the left-most column of the result
-* `vals`: a column whose values are used to fill all the remaining cells in the result. For each `rows` / `col`
-combination, a matching row in the source `DataFrame` is located, and a value from this column and this row position is
-used in the result
+* `vals`: a column whose values are used to fill all the remaining cells in the result. For each row / col
+combination, a matching row in the source `DataFrame` is located, and a value from this column at this row position is
+picked for the result
 
 For instance, we might have the following `DataFrame` representing company payroll history:
 

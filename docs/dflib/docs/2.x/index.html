@@ -4244,9 +4244,9 @@ name comes from the fact this column is rotated (i.e.,"pivoted")</p>
 <p><code>rows</code>: a column whose unique values become "row keys" and are placed in the left-most column of the result</p>
 </li>
 <li>
-<p><code>vals</code>: a column whose values are used to fill all the remaining cells in the result. For each <code>rows</code> / <code>col</code>
-combination, a matching row in the source <code>DataFrame</code> is located, and a value from this column and this row position is
-used in the result</p>
+<p><code>vals</code>: a column whose values are used to fill all the remaining cells in the result. For each row / col
+combination, a matching row in the source <code>DataFrame</code> is located, and a value from this column at this row position is
+picked for the result</p>
 </li>
 </ul>
 </div>
