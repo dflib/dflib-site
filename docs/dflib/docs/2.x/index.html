@@ -4231,7 +4231,112 @@ try to eliminate it in the future.
 <h2 id="pivot">Pivot</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>Pivot operation restructures a <code>DataFrame</code> it is applied to. It picks three columns with a specific meaning from the source
+<code>DataFrame</code> and transforms them into the result. The three columns are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cols</code>: a column whose unique values are turned into the header of the resulting <code>DataFrame</code>. The "pivot" operation
+name comes from the fact this column is rotated (i.e.,"pivoted")</p>
+</li>
+<li>
+<p><code>rows</code>: a column whose unique values become "row keys" and are placed in the left-most column of the result</p>
+</li>
+<li>
+<p><code>vals</code>: a column whose values are used to fill all the remaining cells in the result. For each <code>rows</code> / <code>col</code>
+combination, a matching row in the source <code>DataFrame</code> is located, and a value from this column and this row position is
+used in the result</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For instance, we might have the following <code>DataFrame</code> representing company payroll history:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             salary month
+---------------- ------ -------
+Jerry Cosin      120000 2025-01
+Jerry Cosin      122000 2025-02
+Juliana Walewski  80000 2025-01
+Joan O'Hara       95000 2025-01
+Joan O'Hara       95000 2025-02</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And we&#8217;d like to turn into a report with payroll months in columns and a single employee per-row:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.pivot()
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">month</span><span class="delimiter">&quot;</span></span>)
+        .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .vals(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>.vals(..)</code> is a terminal method that produces the resulting <code>DataFrame</code>.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             2025-01 2025-02
+---------------- ------- -------
+Jerry Cosin       120000  122000
+Juliana Walewski   80000    null
+Joan O'Hara        95000   95000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There may be more than one value for a given combination of row and column in the source <code>DataFrame</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             salary month
+---------------- ------ -------
+Jerry Cosin      120000 2025-01
+Jerry Cosin      122000 2025-02
+Juliana Walewski  80000 2025-01
+Juliana Walewski   1000 2025-01
+Joan O'Hara       95000 2025-01
+Joan O'Hara       95000 2025-02</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In such a case, the pivot operation would throw an exception. The way to resolve this situation is to pass an
+aggregating expression to the <code>vals(..)</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.pivot()
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">month</span><span class="delimiter">&quot;</span></span>)
+        .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .vals(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>, <span class="error">$</span>decimal(<span class="integer">0</span>).sum()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The column index (<code>0</code>) in the aggregating expression can be anything and doesn&#8217;t have a relationship
+to the source <code>DataFrame</code> columns. The expression is always evaluated against the column specified as the first argument
+to the <code>.vals(..)</code> method, not the <code>DataFrame</code></td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             2025-01 2025-02
+---------------- ------- -------
+Jerry Cosin       120000  122000
+Juliana Walewski   81000    null
+Joan O'Hara        95000   95000</pre>
+</div>
 </div>
 </div>
 </div>

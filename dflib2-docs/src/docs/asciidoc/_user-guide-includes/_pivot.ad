@@ -1,4 +1,69 @@
 [#pivot]
 == Pivot
 
-TODO
+Pivot operation restructures a `DataFrame` it is applied to. It picks three columns with a specific meaning from the source
+`DataFrame` and transforms them into the result. The three columns are:
+
+* `cols`: a column whose unique values are turned into the header of the resulting `DataFrame`. The "pivot" operation
+name comes from the fact this column is rotated (i.e.,"pivoted")
+* `rows`: a column whose unique values become "row keys" and are placed in the left-most column of the result
+* `vals`: a column whose values are used to fill all the remaining cells in the result. For each `rows` / `col`
+combination, a matching row in the source `DataFrame` is located, and a value from this column and this row position is
+used in the result
+
+For instance, we might have the following `DataFrame` representing company payroll history:
+
+----
+name             salary month
+---------------- ------ -------
+Jerry Cosin      120000 2025-01
+Jerry Cosin      122000 2025-02
+Juliana Walewski  80000 2025-01
+Joan O'Hara       95000 2025-01
+Joan O'Hara       95000 2025-02
+----
+
+And we'd like to turn into a report with payroll months in columns and a single employee per-row:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/PivotTest.java[tags=pivot]
+----
+<1>  `.vals(..)` is a terminal method that produces the resulting `DataFrame`.
+----
+name             2025-01 2025-02
+---------------- ------- -------
+Jerry Cosin       120000  122000
+Juliana Walewski   80000    null
+Joan O'Hara        95000   95000
+----
+
+There may be more than one value for a given combination of row and column in the source `DataFrame`:
+----
+name             salary month
+---------------- ------ -------
+Jerry Cosin      120000 2025-01
+Jerry Cosin      122000 2025-02
+Juliana Walewski  80000 2025-01
+Juliana Walewski   1000 2025-01
+Joan O'Hara       95000 2025-01
+Joan O'Hara       95000 2025-02
+----
+In such a case, the pivot operation would throw an exception. The way to resolve this situation is to pass an
+aggregating expression to the `vals(..)` method:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/PivotTest.java[tags=pivot_Agg]
+----
+<1> The column index (`0`) in the aggregating expression can be anything and doesn't have a relationship
+to the source `DataFrame` columns. The expression is always evaluated against the column specified as the first argument
+to the `.vals(..)` method, not the `DataFrame`
+
+----
+name             2025-01 2025-02
+---------------- ------- -------
+Jerry Cosin       120000  122000
+Juliana Walewski   81000    null
+Joan O'Hara        95000   95000
+----
