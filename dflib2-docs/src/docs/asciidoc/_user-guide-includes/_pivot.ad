@@ -38,7 +38,8 @@ Juliana Walewski   80000    null
 Joan O'Hara        95000   95000
 ----
 
-There may be more than one value for a given combination of row and column in the source `DataFrame`:
+There may be more than one value for a given combination of row and column in the source `DataFrame`. In the following
+example `Juliana Walewski` has two payroll entries in January 2025:
 ----
 name             salary month
 ---------------- ------ -------
