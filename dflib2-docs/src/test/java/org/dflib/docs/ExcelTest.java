@@ -1,5 +1,6 @@
 package org.dflib.docs;
 
+import io.bootique.resource.ResourceFactory;
 import org.dflib.DataFrame;
 import org.dflib.excel.Excel;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ public class ExcelTest extends BaseTest {
 
     @Test
     public void loadSheet() {
-        String fileName = "src/test/resources/test.xlsx";
+        String fileName = new ResourceFactory("classpath:test.xlsx").getUrl().getFile();
         // tag::loadSheet[]
         DataFrame df = Excel.loadSheet(fileName, "Sheet1");
         // end::loadSheet[]
@@ -20,7 +21,7 @@ public class ExcelTest extends BaseTest {
 
     @Test
     public void loadSheets() {
-        String fileName = "src/test/resources/test.xlsx";
+        String fileName = new ResourceFactory("classpath:test.xlsx").getUrl().getFile();
         // tag::loadSheets[]
         Map<String, DataFrame> dfs = Excel.load(fileName);
         // end::loadSheets[]
@@ -30,7 +31,7 @@ public class ExcelTest extends BaseTest {
 
     @Test
     public void loader() {
-        String fileName = "src/test/resources/test.xlsx";
+        String fileName = new ResourceFactory("classpath:test.xlsx").getUrl().getFile();
         // tag::loader[]
         DataFrame df = Excel.loader() // <1>
                 .firstRowAsHeader() // <2>
