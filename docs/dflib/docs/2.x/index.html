@@ -4310,25 +4310,15 @@ Joan O'Hara       95000 2025-02</pre>
 </div>
 <div class="paragraph">
 <p>In such a case, the pivot operation would throw an exception. The way to resolve this situation is to pass an
-aggregating expression to the <code>vals(..)</code> method:</p>
+aggregating user defined function to the <code>vals(..)</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.pivot()
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">month</span><span class="delimiter">&quot;</span></span>)
         .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
-        .vals(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>, <span class="error">$</span>decimal(<span class="integer">0</span>).sum()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .vals(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>, e -&gt; e.castAsDecimal().sum());</code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The column index (<code>0</code>) in the aggregating expression can be anything and doesn&#8217;t have a relationship
-to the source <code>DataFrame</code> columns. The expression is always evaluated against the column specified as the first argument
-to the <code>.vals(..)</code> method, not the <code>DataFrame</code></td>
-</tr>
-</table>
 </div>
 <div class="listingblock">
 <div class="content">

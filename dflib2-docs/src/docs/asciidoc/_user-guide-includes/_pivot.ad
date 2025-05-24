@@ -51,15 +51,12 @@ Joan O'Hara       95000 2025-01
 Joan O'Hara       95000 2025-02
 ----
 In such a case, the pivot operation would throw an exception. The way to resolve this situation is to pass an
-aggregating expression to the `vals(..)` method:
+aggregating user defined function to the `vals(..)` method:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/PivotTest.java[tags=pivot_Agg]
 ----
-<1> The column index (`0`) in the aggregating expression can be anything and doesn't have a relationship
-to the source `DataFrame` columns. The expression is always evaluated against the column specified as the first argument
-to the `.vals(..)` method, not the `DataFrame`
 
 ----
 name             2025-01 2025-02

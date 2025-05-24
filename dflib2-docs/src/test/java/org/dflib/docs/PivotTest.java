@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.dflib.Exp.$decimal;
-
 public class PivotTest extends BaseTest {
 
     @Test
@@ -48,7 +46,7 @@ public class PivotTest extends BaseTest {
         DataFrame p = df.pivot()
                 .cols("month")
                 .rows("name")
-                .vals("salary", $decimal(0).sum()); // <1>
+                .vals("salary", e -> e.castAsDecimal().sum());
 // end::pivot_Agg[]
 
         print("pivot_Agg", p);
