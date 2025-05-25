@@ -1594,9 +1594,9 @@ window operations) where we need to produce a single value out of a <code>Series
 <div class="sect2">
 <h3 id="sorter">Sorters</h3>
 <div class="paragraph">
-<p><code>Sorter</code> is a special object, that allows to <a href="#sorting">sort DFLib data structures</a>. Internally a Sorter is using an
-expression to retrieve values that comprise sorting criteria and index them in the specified order. Sorter can be
-created from any expression by calling its <code>asc()</code> or <code>desc()</code> methods:</p>
+<p><code>Sorter</code> is a special object, that allows <a href="#sorting">sorting DataFrames or Series</a>. Internally, a Sorter uses an
+expression to retrieve or calculate values that comprise sorting criteria and index them in the specified order. A
+Sorter can be created from any expression by calling its <code>asc()</code> or <code>desc()</code> methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1612,7 +1612,7 @@ Sorter s = <span class="error">$</span>str(<span class="string"><span class="del
 </td>
 <td class="content">
 DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
-either a Java primitive or an instance of <code>Comparable</code>, or a ClassCastException will be thrown during sorting.
+either a Java primitive or an instance of <code>Comparable</code>, or a <code>ClassCastException</code> will be thrown during sorting.
 </td>
 </tr>
 </table>
