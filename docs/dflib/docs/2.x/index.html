@@ -4335,7 +4335,68 @@ Joan O'Hara        95000   95000</pre>
 <h2 id="stack">Stack</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>"Stack" is an operation that is a logical opposite of <a href="#pivot">Pivot</a> (though some details are different). Taking a
+<code>DataFrame</code> of any shape, it produces a "long" 3-column <code>DataFrame</code> with "row", "column" and "value" columns, that stores
+each original value in a separate row. Such data representation is useful in certain data analysis scenarios.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example. Given a salary report from the previous chapter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             2025-01 2025-02
+---------------- ------- -------
+Jerry Cosin       120000  122000
+Juliana Walewski   80000    null
+Joan O'Hara        95000   95000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can "stack" it, producing the long result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stack();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>row column  value
+--- ------- ----------------
+  0 name    Jerry Cosin
+  1 name    Juliana Walewski
+  2 name    Joan O'Hara
+  0 2025-01 120000
+  1 2025-01 80000
+  2 2025-01 95000
+  0 2025-02 122000
+  2 2025-02 95000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here "row" contains value positions in the original row, "column" - original column labels, and "value" -
+the values themselves for a given row and column. Note that null values are excluded from the result. To include them,
+use a different flavor of "stack":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stackIncludeNulls();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>row column  value
+--- ------- ----------------
+  0 name    Jerry Cosin
+  1 name    Juliana Walewski
+  2 name    Joan O'Hara
+  0 2025-01 120000
+  1 2025-01 80000
+  2 2025-01 95000
+  0 2025-02 122000
+  1 2025-02 null
+  2 2025-02 95000</pre>
+</div>
 </div>
 </div>
 </div>

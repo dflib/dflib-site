@@ -12,7 +12,6 @@ combination, a matching row in the source `DataFrame` is located, and a value fr
 picked for the result
 
 For instance, we might have the following `DataFrame` representing company payroll history:
-
 ----
 name             salary month
 ---------------- ------ -------
