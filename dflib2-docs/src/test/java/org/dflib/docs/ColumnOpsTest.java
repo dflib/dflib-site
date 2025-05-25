@@ -15,13 +15,13 @@ import static org.dflib.Exp.*;
 
 public class ColumnOpsTest extends BaseTest {
 
+    static  DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
+            "Jerry", "Cosin", "M",
+            "Joan", "O'Hara", null);
+
     @Test
     public void cols() {
 // tag::cols[]
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
-
         DataFrame df1 = df
                 .cols("last", "first") // <1>
                 .select(); // <2>
@@ -33,9 +33,6 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsByPos() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 
 // tag::colsByPos[]
         DataFrame df1 = df.cols(1, 0).select();
@@ -46,9 +43,7 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsByPredicate() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
+        print("colsByPredicate-src", df);
 
 // tag::colsByPredicate[]
         DataFrame df1 = df.cols(c -> !"middle".equals(c)).select();
@@ -59,9 +54,6 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsExcept() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 
 // tag::colsExcept[]
         DataFrame df1 = df.colsExcept("middle").select();
@@ -73,9 +65,6 @@ public class ColumnOpsTest extends BaseTest {
     @Test
     public void colsAll() {
 
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 // tag::colsAll[]
         DataFrame df1 = df.cols().select();
 // end::colsAll[]
@@ -85,9 +74,7 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsSelectAs() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
+
 
 // tag::colsSelectAs[]
         DataFrame df1 = df
@@ -100,9 +87,6 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsSelectAsMap() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 
 // tag::colsSelectAsMap[]
         DataFrame df1 = df
@@ -115,9 +99,6 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsSelectAsOp() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 
 // tag::colsSelectAsOp[]
         DataFrame df1 = df
@@ -130,9 +111,6 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsSelectExp() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 
 // tag::colsSelectExp[]
         Exp fmExp = concat(
@@ -149,9 +127,6 @@ public class ColumnOpsTest extends BaseTest {
 
     @Test
     public void colsSelectRowMapper() {
-        DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
-                "Jerry", "Cosin", "M",
-                "Joan", "O'Hara", null);
 
 // tag::colsSelectRowMapper[]
         RowMapper mapper = (from, to) -> {

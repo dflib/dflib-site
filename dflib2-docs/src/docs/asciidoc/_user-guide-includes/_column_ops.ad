@@ -9,14 +9,19 @@ rows. Those are represented as `ColumnSet` and `RowSet` objects. Let's look at c
 Columns are picked either by condition, by name, by position or implicitly. Let's take a look at each style...
 
 ==== By Condition
-A condition is specified as a "predicate" lambda:
 
+Given a source `DataFrame`
+----
+first last   middle
+----- ------ ------
+Jerry Cosin  M
+Joan  O'Hara null
+----
+We can specify a condition as a "predicate" lambda:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsByPredicate]
 ----
-This form of `cols(..)` does not allow to reorder the columns. The resulting columns will always follow the relative
-order of the original `DataFrame`:
 ----
 first   last
 ------- --------
@@ -24,9 +29,11 @@ Jerry   Cosin
 Joan    O'Hara
 ----
 
+This form of `cols(..)` does not allow reordering columns. The resulting columns will always follow the relative
+order of the original `DataFrame`.
+
 ==== By Names
-Here is a simple example of how to pick two columns from a DataFrame by name, and return a new DataFrame with
-just those two columns:
+Instead of a condition, we can specify explicit column names:
 
 [source,java,indent=0]
 ----
@@ -202,7 +209,7 @@ The `ColumnSet` operations demonstrated so far resulted in discarding the source
 columns defined within the set. But often we would like to recombine transformed `ColumnSet` with the original
 `DataFrame`. Any in-place data cleanup, data set enrichment, etc. fall in this category.
 
-NOTE: Of course, we call them "in-place" only in a logical sense, as `DataFrame` is immutable, and all modifications
+NOTE: Of course, we call it "in-place" only in a logical sense, as `DataFrame` is immutable, and all modifications
 result in creation of a new instance.
 
 For this `ColumnSet` provides a number of "merging" methods. All the `ColumnsSet` methods that do not start with
