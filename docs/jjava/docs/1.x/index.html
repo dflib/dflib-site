@@ -876,11 +876,8 @@ the file separator. Also, each path may actually be a <a href="#simple-glob-synt
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_STARTUP_SCRIPT</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A block of java code to
-run when the kernel starts up. This may be something like
-<code>import my.utils;</code> to setup some default imports or even
-<code>void sleep(long time) { try {Thread.sleep(time); } catch (InterruptedException e) { throw new RuntimeException(e); }}</code>
-to declare a default utility method to use in the notebook.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A block of Java code to run when the kernel starts up. This may be something like
+<code>import my.utils.*;</code> to set up some default imports, or any other relevant code.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_JVM_OPTS</code></p></td>

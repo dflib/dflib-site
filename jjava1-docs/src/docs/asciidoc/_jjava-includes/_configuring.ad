@@ -73,11 +73,8 @@ link:#simple-glob-syntax[simple glob].
 *Important:* no matter what OS, this should use forward slash `/` as
 the file separator. Also, each path may actually be a link:#simple-glob-syntax[simple glob].
 
-|`JJAVA_STARTUP_SCRIPT` |`""` |A block of java code to
-run when the kernel starts up. This may be something like
-`import my.utils;` to setup some default imports or even
-`void sleep(long time) { try {Thread.sleep(time); } catch (InterruptedException e) { throw new RuntimeException(e); }}`
-to declare a default utility method to use in the notebook.
+|`JJAVA_STARTUP_SCRIPT` |`""` |A block of Java code to run when the kernel starts up. This may be something like
+`import my.utils.*;` to set up some default imports, or any other relevant code.
 
 |`JJAVA_JVM_OPTS` |`""` |A space delimited list of command line
 options that would be passed to the `java` command running the kernel.
