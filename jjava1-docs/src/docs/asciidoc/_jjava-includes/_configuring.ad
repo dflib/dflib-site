@@ -63,23 +63,19 @@ with a
 https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html[`TimeUnit`]
 may be given following the duration number (ex `"30 SECONDS"`).
 
-|`JJAVA_CLASSPATH` |`""` |A file path separator delimited
-list of classpath entries that should be available to the user code.
-*Important:* no matter what OS, this should use forward slash ``/'' as
-the file separator. Also each path may actually be a
-link:#simple-glob-syntax[simple glob].
+|`JJAVA_CLASSPATH` |`""` |A file path separator delimited list of classpath entries that should be available to the
+user code. No matter what OS you are on, this should use forward slash `/` as the file separator. Also, each path may
+actually be a link:#simple-glob-syntax[simple glob].
 
 |`JJAVA_STARTUP_SCRIPTS_PATH` |`""` |A file path separator delimited list of `.jshell` scripts to run on startup.
-*Important:* no matter what OS, this should use forward slash `/` as
-the file separator. Also, each path may actually be a link:#simple-glob-syntax[simple glob].
+No matter what OS you are on, this should use forward slash `/` as the file separator. Also, each path may actually be
+a link:#simple-glob-syntax[simple glob].
 
 |`JJAVA_STARTUP_SCRIPT` |`""` |A block of Java code to run when the kernel starts up. This may be something like
-`import my.utils.*;` to set up some default imports, or any other relevant code.
+`'import my.utils.*;'` to set up some default imports, or any other relevant code.
 
-|`JJAVA_JVM_OPTS` |`""` |A space delimited list of command line
-options that would be passed to the `java` command running the kernel.
-*NOTE* this is a runtime only option, and have no corresponding install
-parameter
+|`JJAVA_JVM_OPTS` |`""` |A space-delimited list of command line options that would be passed to the `java` command
+running the kernel.
 
 |`JJAVA_LOAD_EXTENSIONS` |`"1"` |Option that controls link:#jupyter-aware-java-libs[autoloading Kernel extensions feature].
 If you do not want third-party libraries to load anything implicitly you could turn it off by `export JJAVA_LOAD_EXTENSIONS=0`
@@ -100,4 +96,4 @@ Any relative paths are resolved from the notebook server’s working
 directory. For example the glob `*.jar` will match all jars is the
 directory that the `jupyter notebook` command was run.
 
-*Note:* users on any OS should use `/` as a path separator.
+NOTE: users on any OS should use `/` as a path separator.

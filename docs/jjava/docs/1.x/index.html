@@ -860,32 +860,28 @@ may be given following the duration number (ex <code>"30 SECONDS"</code>).</p></
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_CLASSPATH</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A file path separator delimited
-list of classpath entries that should be available to the user code.
-<strong>Important:</strong> no matter what OS, this should use forward slash ``/'' as
-the file separator. Also each path may actually be a
-<a href="#simple-glob-syntax">simple glob</a>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A file path separator delimited list of classpath entries that should be available to the
+user code. No matter what OS you are on, this should use forward slash <code>/</code> as the file separator. Also, each path may
+actually be a <a href="#simple-glob-syntax">simple glob</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_STARTUP_SCRIPTS_PATH</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A file path separator delimited list of <code>.jshell</code> scripts to run on startup.
-<strong>Important:</strong> no matter what OS, this should use forward slash <code>/</code> as
-the file separator. Also, each path may actually be a <a href="#simple-glob-syntax">simple glob</a>.</p></td>
+No matter what OS you are on, this should use forward slash <code>/</code> as the file separator. Also, each path may actually be
+a <a href="#simple-glob-syntax">simple glob</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_STARTUP_SCRIPT</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A block of Java code to run when the kernel starts up. This may be something like
-<code>import my.utils.*;</code> to set up some default imports, or any other relevant code.</p></td>
+<code>'import my.utils.*;'</code> to set up some default imports, or any other relevant code.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_JVM_OPTS</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A space delimited list of command line
-options that would be passed to the <code>java</code> command running the kernel.
-<strong>NOTE</strong> this is a runtime only option, and have no corresponding install
-parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A space-delimited list of command line options that would be passed to the <code>java</code> command
+running the kernel.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_LOAD_EXTENSIONS</code></p></td>
@@ -921,8 +917,17 @@ resolved directory</p>
 directory. For example the glob <code>*.jar</code> will match all jars is the
 directory that the <code>jupyter notebook</code> command was run.</p>
 </div>
-<div class="paragraph">
-<p><strong>Note:</strong> users on any OS should use <code>/</code> as a path separator.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+users on any OS should use <code>/</code> as a path separator.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
