@@ -842,10 +842,8 @@ So you will have to do it again after every kernel upgrade.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_COMPILER_OPTS</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>""</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A space delimited list of
-command line options that would be passed to the <code>javac</code> command when
-compiling a project. For example <code>-parameters</code> to enable retaining
-parameter names for reflection.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A space delimited list of command line options that would be passed to the <code>javac</code>
+command when compiling a project. For example <code>-parameters</code> to enable retaining parameter names for reflection.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_TIMEOUT</code></p></td>
@@ -853,9 +851,7 @@ parameter names for reflection.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A duration specifying a timeout (in
 milliseconds by default) for a <em>single top level statement</em>. If less
 than <code>1</code> then there is no timeout. If desired a time may be specified
-with a
-<a href="https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html"><code>TimeUnit</code></a>
-may be given following the duration number (ex <code>"30 SECONDS"</code>).</p></td>
+with a <code>java.util.concurrent.TimeUnit</code> may be given following the duration number (e.g., <code>"30 SECONDS"</code>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JJAVA_CLASSPATH</code></p></td>
@@ -907,8 +903,7 @@ a single path-like string. Basic glob queries are supported including:</p>
 <p><code>?</code> to match a single character</p>
 </li>
 <li>
-<p>A path ending in <code>/</code> implicitly adds a <code>*</code> to match all files in the
-resolved directory</p>
+<p>A path ending in <code>/</code> implicitly adds a <code>*</code> to match all files in the resolved directory</p>
 </li>
 </ul>
 </div>
@@ -924,7 +919,7 @@ directory that the <code>jupyter notebook</code> command was run.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-users on any OS should use <code>/</code> as a path separator.
+Users on any OS should use <code>/</code> as a path separator.
 </td>
 </tr>
 </table>

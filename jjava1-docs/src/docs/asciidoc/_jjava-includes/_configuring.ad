@@ -51,17 +51,13 @@ So you will have to do it again after every kernel upgrade.
 [width="100%",cols="8%,1%,91%",options="header",]
 |===
 |Environment variable |Default |Description
-|`JJAVA_COMPILER_OPTS` |`""` |A space delimited list of
-command line options that would be passed to the `javac` command when
-compiling a project. For example `-parameters` to enable retaining
-parameter names for reflection.
+|`JJAVA_COMPILER_OPTS` |`""` |A space delimited list of command line options that would be passed to the `javac`
+command when compiling a project. For example `-parameters` to enable retaining parameter names for reflection.
 
 |`JJAVA_TIMEOUT` |`"-1"` |A duration specifying a timeout (in
 milliseconds by default) for a _single top level statement_. If less
 than `1` then there is no timeout. If desired a time may be specified
-with a
-https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/TimeUnit.html[`TimeUnit`]
-may be given following the duration number (ex `"30 SECONDS"`).
+with a `java.util.concurrent.TimeUnit` may be given following the duration number (e.g., `"30 SECONDS"`).
 
 |`JJAVA_CLASSPATH` |`""` |A file path separator delimited list of classpath entries that should be available to the
 user code. No matter what OS you are on, this should use forward slash `/` as the file separator. Also, each path may
@@ -89,11 +85,10 @@ a single path-like string. Basic glob queries are supported including:
 
 * `*` to match 0 or more characters up to the next path boundary `/`
 * `?` to match a single character
-* A path ending in `/` implicitly adds a `*` to match all files in the
-resolved directory
+* A path ending in `/` implicitly adds a `*` to match all files in the resolved directory
 
 Any relative paths are resolved from the notebook server’s working
 directory. For example the glob `*.jar` will match all jars is the
 directory that the `jupyter notebook` command was run.
 
-NOTE: users on any OS should use `/` as a path separator.
+NOTE: Users on any OS should use `/` as a path separator.
