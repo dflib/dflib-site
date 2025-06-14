@@ -69,12 +69,7 @@ list of classpath entries that should be available to the user code.
 the file separator. Also each path may actually be a
 link:#simple-glob-syntax[simple glob].
 
-|`JJAVA_STARTUP_SCRIPTS_PATH` |`""` |A file path
-seperator delimited list of `.jshell` scripts to run on startup. This
-includes
-https://github.com/dflib/jjava/blob/main/src/main/resources/jjava-jshell-init.jshell[jjava-jshell-init.jshell]
-and
-https://github.com/dflib/jjava/blob/main/src/main/resources/jjava-display-init.jshell[jjava-display-init.jshell].
+|`JJAVA_STARTUP_SCRIPTS_PATH` |`""` |A file path separator delimited list of `.jshell` scripts to run on startup.
 *Important:* no matter what OS, this should use forward slash `/` as
 the file separator. Also, each path may actually be a link:#simple-glob-syntax[simple glob].
 
