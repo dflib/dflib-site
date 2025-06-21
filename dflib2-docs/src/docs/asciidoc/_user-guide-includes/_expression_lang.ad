@@ -10,8 +10,7 @@ of the parser.
 include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=parseExp]
 ----
 
-The language syntax is made of column references, various literals, operators, and functions.
-Let's take a look at the individual parts of the syntax...
+The syntax consists of column references, literals, operators, and functions. Let's take a look at the individual parts of the syntax...
 
 === Columns
 
