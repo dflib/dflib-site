@@ -24,6 +24,8 @@ include::_user-guide-includes/_printers.ad[]
 
 include::_user-guide-includes/_expressions.ad[]
 
+include::_user-guide-includes/_expression_lang.ad[]
+
 include::_user-guide-includes/_column_ops.ad[]
 
 include::_user-guide-includes/_row_ops.ad[]

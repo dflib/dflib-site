@@ -1,44 +1,60 @@
 [#expressions]
-== Expressions
+== Expression API
 
-DFLib has a built-in expression language (implemented as a Java "DSL"). It allows to perform column-centric
-operations on DataFrames and Series, such as data transformation, aggregation and filtering. `Exp` is the interface
-representing an expression that takes either a DataFrame or a Series and produces a Series of the specified type.
-
-To use expressions, you'd often start by adding a static import of the `Exp` interface, so that all its factory methods
-are available directly in the code:
+DFLib provides an expression API for column-centric operations on DataFrames and Series, such as data
+transformation, aggregation, filtering, and sorting. `Exp` is the interface representing a given expression object. It has
+methods for evaluating that expression, as well as many "factory" methods to create new and chain multiple
+expressions together. As expressions are needed almost everywhere in DFLib, we recommend using a static import of
+`Exp.*` to get access to all the static factory methods:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=expImport]
 ----
-Now let's create two simple expressions that return a named and a positional column of the requested type:
+Now we can create two simple expressions each defining an operation to retrieve a column of a requested type without
+any data transformation:
+
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExp]
 ----
+<1> `$str(..)` is a shorthand for `Exp.$str(..)` that will evaluate to a named `DataFrame` column which is assumed to
+contain `String` values
+<2> `$decimal(..)` is a shorthand for `Exp.$decimal(..)` that will evaluate to a `DataFrame` column at the specified
+position which is assumed to contain `BigDecimal` values
 
-And now let's evaluate the expressions:
+Expressions of any complexity can be created from parts using the Java API shown here and later in this chapter. Alternatively,
+DFLib provides an expression language (see <<expression_lang,the next chapter>>). Both are equivalent and can
+be used interchangeably (in fact expression strings are parsed into `Exp` instances by DFLib).
+
+NOTE: From the usability perspective, Java API makes *writing* expressions easier due to IDE auto-completion
+and compiler always ensuring semantical correctness. While the expression language makes code more *readable* as there's
+much less Java-related boilerplate surrounding each clause. You should decide which is more important in your case.
+
+`Exp.eval(..)` method evaluates the expression against a `DataFrame` (or a `Series`), in both cases producing
+a `Series` of the same size as the input:
+
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=columnExpEval]
 ----
 
-This doesn't look like much (other DFLib APIs would do the same), but this basic abstraction allows to describe a
-wide range of operations (filtering, sorting, aggregation, etc). Expressions are rarely evaluated standalone. More
-commonly they are passed as arguments to various other methods, as described below.
+`Exp` also defines the `reduce(..)` method that, unlike `eval(..)`, is used in "aggregating" contexts, such as
+`DataFrame.group(col).agg(..)`.
 
-NOTE: DFLib expressions work on Series instead of individual values, so they can achieve the best possible performance
-for any given operation. Expressions should be the preferred way to manipulate your data instead of more "direct" APIs,
-such as custom lamdas.
+NOTE: Expressions are rarely evaluated standalone. So you'd almost never call `eval(..)` or `reduce(..)` directly. More
+commonly, they are passed as arguments to various `DataFrame`, `Series`, `RowSet` and `ColumnSet` methods. Those are
+discussed in the following chapters. So you may even decide to initially skip this chapter, and come back to it when you
+review the actual usage examples.
 
-Now let's look at various types of expressions...
+
+Now let’s look at various types of expressions...
 
 === Column Expressions
 
 `$str(..)` and `$decimal(..)` expressions in the example above are the column lookup expressions. They return a DataFrame
 column with a given name or at a given (zero-based) position without applying any transformations to the data.
 
-NOTE: So what is returned when you evaluate a column expression with a Series object? Series can be thought of as a
+NOTE: So what is returned when you evaluate a column expression with a Series object? `Series` can be thought of as a
 single (unnamed) column. So a column expression simply returns the Series unchanged, ignoring implied column
 name or position.
 
@@ -59,15 +75,15 @@ Return type is implied from the method name (`$str(..)` produces a `Series<Strin
 To avoid overhead, column expressions do not perform any type conversions of the column data (with a notable exception
 of `$bool` that does). So you need to pick the right type in your code based on your knowledge of data to avoid
 `ClassCastExceptions` downstream, or use a generic `$col(..)` expression. If you do want to convert data from one type
-to another, use one of the `castAs` methods explicitly:
+to another, use one of the `castAsXyz` methods explicitly:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=castAs]
 ----
 
-`castAs` will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible,
-and it will throw an exception (e.g. a String like "abcd" can't be converted to a number without some contextual knowledge).
+`castAsXyz` will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible,
+and it will throw an exception (e.g., a String like "abcd" can't be converted to a number without some contextual knowledge).
 In some other cases, no default conversion exists, but a custom conversion is possible and desired. You can do it via
 `Exp.mapVal(..)`.
 
@@ -84,26 +100,27 @@ hi!
 hi!
 hi!
 ----
-A useful case for `$val(..)` is to create a separator for String concatenation:
+
+`$val(..)` and (its type-aware flavors like `$strVal(..)`, `$decimalVal(..)`, etc.) are often used in comparisons and
+conditional expressions.
 
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/ExpTest.java[tags=constantConcatExp]
+include::../../../test/java/org/dflib/docs/ExpTest.java[tags=valInCondition]
 ----
-<1> This is a static import of `Exp.concat(..)`, an expression that takes a variable number of arguments
-<2> Inserting space between first and last name
-
+<1> If the condition is true, return "high"
+<2> If the condition is false, return "low"
 ----
-Jerry Cosin
-Juliana Walewski
-Joan O'Hara
+high
+low
+low
 ----
 
 === String Expressions
 
 === Numeric Expressions
 
-`$int(..)`, `$long(..)`, `double(..)` and `$decimal(..)` columns expressions mentioned above are numeric (i.e. instances
+`$int(..)`, `$long(..)`, `double(..)` and `$decimal(..)` columns expressions mentioned above are numeric (i.e., instances
 of `NumExp` expression subclass), and as such, they provide arithmetics, comparison operations, and numeric aggregating
 operations.
 
@@ -123,9 +140,9 @@ include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=arithmetics]
 3.5
 ----
 
-NOTE: Associativity... Since expressions are built with Java API, there are no special associativity rules.
-Expressions are executed in the order they were chained together. In the example above, addition happens before
-division.
+NOTE: Associativity... Unlike <<expression_lang,expression language>>, expressions built with Java API do not have any
+special associativity or precedence rules. They are executed in the order they were chained together. So in the example
+above, addition happens before division.
 
 NOTE: Widening conversions... When we added values of `int` and `long` columns, the result was implicitly widened to `long`,
 and later when it was divided by a `double`, the result became `double`. These conversions happen automatically and transparently
@@ -186,7 +203,7 @@ include::../../../test/java/org/dflib/docs/ExpTest.java[tags=mapVal]
 
 
 . `map(..)` - Series-to-Series transformation. Unlike `mapVal(..)`, allows a custom lambda to access the
-entire `Series`, and in some cases, optimize the operation (e.g. by avoiding scanning through all values)
+entire `Series`, and in some cases, optimize the operation (e.g., by avoiding scanning through all values)
 +
 [source,java,indent=0]
 ----

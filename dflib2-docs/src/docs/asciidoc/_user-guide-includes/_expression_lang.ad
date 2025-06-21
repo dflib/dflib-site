@@ -1,0 +1,149 @@
+[#expression_lang]
+== Expression Language
+
+DFLib expression language is a special syntax that the library can parse to an `Exp` object. Parsing is done
+with the `Exp.$(String)` method. The name is intentionally short, so that we can focus on the expression String instead
+of the parser.
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=parseExp]
+----
+
+The language syntax is made of column references, various literals, operators, and functions.
+Let's take a look at the individual parts of the syntax...
+
+=== Columns
+
+NOTE: A commented out String underneath each expression example below is an equivalent expression created via the Java API.
+
+Expressions can reference `DataFrame` column names either by name or by position. If a column name is compatible with
+the rules for Java identifiers (and doesn't conflict with syntax keywords like `true`, `false`, `null`), the column can
+be specified as an unquoted string:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=column]
+----
+
+If it has other characters (e.g. spaces, special chars, or it starts with a number), it should be enclosed in backtick
+quotes:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=columnBackticks]
+----
+
+If the name itself contains backticks, each one of them should be escaped with another backtick:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=columnBackticksEscape]
+----
+
+Columns can also be referred by their position in the `DataFrame` using the `col(..)` function:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=columnByIndex]
+----
+
+=== String Literals
+
+Unlike columns, constant String values are always quoted using single quotes:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=strVal]
+----
+
+If a String contains single quotes, each one should be escaped with another single quote:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=strValEscape]
+----
+
+=== Numeric Literals
+Numeric values are just unquoted numbers (mostly) following the Java syntax for decimals (and hexadecimals):
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=intVal]
+----
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=intValNegative]
+----
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=floatVal]
+----
+
+The expression parser tries to guess the type of the number automatically, but the user can control the type explicitly
+by providing a 1-letter suffix following the numeric constant part:
+
+* `i` - parses the number as an `int`
+* `l` - parses the number as a `long`
+* `h` - parses the number as a `BigInteger`
+* `f` - parses the number as a `float`
+* `d` - parses the number as a `double`
+* `m` - parses the number as a `BigDecimal`
+
+These codes are case-insensitive (both upper and lower cases are valid). Most have the same meaning as in Java
+(`l`, `f`, `d`), but some are unique to DFLib, namely `i`, `h`, `m`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=decimalVal]
+----
+
+=== Boolean Literals
+
+Lowercase unquoted `true` and `false` strings are recognized as the corresponding boolean constants.
+
+=== Null literal
+
+Lowercase unquoted `null` string is recognized as a null constant.
+
+=== Operators
+
+The following operators are supported, in the order of declining precedence:
+
+* `(  )` - parenthesis has the highest precedence during evaluation
+* `not`
+* `*`, `/`, `%`
+* `+`, `-`
+* `<`, `>`, `\<=`, `>=`
+* `=`, `!=`
+* `and`
+* `or`
+
+This order follows the rules of the Java language and should be intuitive to Java programmers. If multiple
+operators have the same precedence, they will be evaluated left to right.
+
+=== Functions
+All operations that are not on the operator list above are implemented as functions in the form of `fname(arg1,arg2,...)`.
+Arguments to functions can be other expressions (including column references and literals). Out-of-the-box, the following
+functions are supported:
+
+==== Column Functions
+...
+
+==== Casts
+...
+
+==== String Functions
+...
+
+==== Numeric Functions
+...
+
+==== Date and Time Functions
+...
+
+==== Inline Conditions
+...
+
+==== Other Functions
+
+* `rowNum()`
+* `shift(..)`
+
+==== Aggregating Functions
+...
