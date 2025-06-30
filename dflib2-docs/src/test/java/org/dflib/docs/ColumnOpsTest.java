@@ -126,6 +126,20 @@ public class ColumnOpsTest extends BaseTest {
     }
 
     @Test
+    public void colsSelectExpStr() {
+
+// tag::colsSelectExpStr[]
+        DataFrame df1 = df
+                .cols("first_middle", "last")
+                .select(
+                        "concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))",
+                        "`last`");
+// end::colsSelectExpStr[]
+
+        print("colsSelectExpStr", df1);
+    }
+
+    @Test
     public void colsSelectRowMapper() {
 
 // tag::colsSelectRowMapper[]

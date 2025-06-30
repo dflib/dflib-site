@@ -152,12 +152,20 @@ Jerry M      Cosin
 Joan         O'Hara
 ----
 
+Expressions can be passed as `Exp` objects, or simply as Strings. In the latter case, they will be parsed to `Exp`
+instances internally by DFLib:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpStr]
+----
+
 Generating columns row-by-row with `RowMapper`:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRowMapper]
 ----
-There's also a way to generating columns row-by-row with per-column array of `RowToValueMapper`. It is not very different
+There's also a way to generating columns row-by-row with a per-column array of `RowToValueMapper`. It is not very different
 from what we've seen so far, so we are leaving this as an exercise for the reader.
 
 [#column_ops_split]

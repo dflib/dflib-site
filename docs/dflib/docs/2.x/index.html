@@ -2333,6 +2333,19 @@ Joan         O'Hara</pre>
 </div>
 </div>
 <div class="paragraph">
+<p>Expressions can be passed as <code>Exp</code> objects, or simply as Strings. In the latter case, they will be parsed to <code>Exp</code>
+instances internally by DFLib:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
+        .select(
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))</span><span class="delimiter">&quot;</span></span>,
+                <span class="string"><span class="delimiter">&quot;</span><span class="content">`last`</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Generating columns row-by-row with <code>RowMapper</code>:</p>
 </div>
 <div class="listingblock">
@@ -2350,7 +2363,7 @@ DataFrame df1 = df
 </div>
 </div>
 <div class="paragraph">
-<p>There&#8217;s also a way to generating columns row-by-row with per-column array of <code>RowToValueMapper</code>. It is not very different
+<p>There&#8217;s also a way to generating columns row-by-row with a per-column array of <code>RowToValueMapper</code>. It is not very different
 from what we&#8217;ve seen so far, so we are leaving this as an exercise for the reader.</p>
 </div>
 </div>
