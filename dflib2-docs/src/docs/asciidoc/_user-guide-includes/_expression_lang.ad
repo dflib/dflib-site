@@ -129,8 +129,8 @@ required by the expression grammar to figure out how to perform certain operatio
 include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=typeSetToLong]
 ----
 
-Here, the `long(..)` function takes a column, but it can take any other expression as well. These functions don't do
-data transformation, so if during evaluation the values passed to the function are not `Long` or `long` (or null),
+Here, the `long(..)` function takes a column, but it can take any other expression as well. The function doesn't do
+data transformation, so if during evaluation the values in column "a" are not `Long` or `long` (or null),
 an exception will be thrown. The available functions are:
 
 * `bigint(..)`
