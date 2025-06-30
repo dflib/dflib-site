@@ -1923,6 +1923,9 @@ an exception will be thrown. The available functions are:</p>
 <li>
 <p><code>offsetDateTime(..)</code></p>
 </li>
+<li>
+<p><code>str(..)</code></p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -1985,6 +1988,9 @@ to the requested type:</p>
 </li>
 <li>
 <p><code>castAsOffsetDateTime(..)</code></p>
+</li>
+<li>
+<p><code>castAsStr(..)</code></p>
 </li>
 </ul>
 </div>
@@ -2338,11 +2344,11 @@ instances internally by DFLib:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> fmExp =
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))</span><span class="delimiter">&quot;</span></span>;
+DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
-        .select(
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))</span><span class="delimiter">&quot;</span></span>,
-                <span class="string"><span class="delimiter">&quot;</span><span class="content">`last`</span><span class="delimiter">&quot;</span></span>);</code></pre>
+        .select(fmExp, <span class="string"><span class="delimiter">&quot;</span><span class="content">`last`</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2377,7 +2383,7 @@ an <code>Iterable</code>) :</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">111-666-6666</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">111-777-7777</span><span class="delimiter">&quot;</span></span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">111-555-5555</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-666-6666</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">111-777-7777</span><span class="delimiter">&quot;</span></span>),
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>));
 
 DataFrame df1 = df

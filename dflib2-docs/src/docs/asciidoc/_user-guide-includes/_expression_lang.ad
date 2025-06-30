@@ -143,6 +143,7 @@ an exception will be thrown. The available functions are:
 * `int(..)`
 * `long(..)`
 * `offsetDateTime(..)`
+* `str(..)`
 
 NOTE: Our goal is to greatly reduce the need for explicit type-setting functions, guessing the correct type from the
 expression itself. This area will be improving in the future releases.
@@ -167,6 +168,7 @@ They closely mirror the type-setting functions:
 * `castAsInt(..)`
 * `castAsLong(..)`
 * `castAsOffsetDateTime(..)`
+* `castAsStr(..)`
 
 NOTE: Some "cast" transformations may be inefficient, performed via an intermediate conversion to Strings. Others
 may be outright invalid (e.g. `castAsInt('abc')`). In those cases, you will need to provide your own explicit

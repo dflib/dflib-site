@@ -15,7 +15,7 @@ import static org.dflib.Exp.*;
 
 public class ColumnOpsTest extends BaseTest {
 
-    static  DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
+    static DataFrame df = DataFrame.foldByRow("first", "last", "middle").of(
             "Jerry", "Cosin", "M",
             "Joan", "O'Hara", null);
 
@@ -129,11 +129,11 @@ public class ColumnOpsTest extends BaseTest {
     public void colsSelectExpStr() {
 
 // tag::colsSelectExpStr[]
+        String fmExp =
+                "concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))";
         DataFrame df1 = df
                 .cols("first_middle", "last")
-                .select(
-                        "concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))",
-                        "`last`");
+                .select(fmExp, "`last`");
 // end::colsSelectExpStr[]
 
         print("colsSelectExpStr", df1);
@@ -162,7 +162,7 @@ public class ColumnOpsTest extends BaseTest {
     public void colsSelectExpand() {
 // tag::colsSelectExpand[]
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
-                "Cosin", List.of("111-555-5555","111-666-6666","111-777-7777"),
+                "Cosin", List.of("111-555-5555", "111-666-6666", "111-777-7777"),
                 "O'Hara", List.of("222-555-5555"));
 
         DataFrame df1 = df
@@ -177,7 +177,7 @@ public class ColumnOpsTest extends BaseTest {
     public void colsSelectExpandUnlim() {
 
         DataFrame df = DataFrame.foldByRow("name", "phones").of(
-                "Cosin", List.of("111-555-5555","111-666-6666","111-777-7777"),
+                "Cosin", List.of("111-555-5555", "111-666-6666", "111-777-7777"),
                 "O'Hara", List.of("222-555-5555"));
 
 // tag::colsSelectExpandUnlim[]
