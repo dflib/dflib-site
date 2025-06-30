@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ExpLangTest extends BaseTest {
 
     @Test
-    public void parseExp() {
+    public void doParseExp() {
 
 // tag::parseExp[]
-        Exp<?> exp = $("a = 3");
+        Exp<?> exp = parseExp("a = 3");
         // same as $col("a").eq(3)
 // end::parseExp[]
         assertEquals($col("a").eq(3), exp);
@@ -24,7 +24,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void column() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::column[]
                 "_iAmAColumn"
                 // $col("_iAmAColumn")
@@ -36,7 +36,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void columnBackticks() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::columnBackticks[]
                 "`I am a column!`"
                 // $col("I am a column!")
@@ -48,7 +48,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void columnBackticksEscape() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::columnBackticksEscape[]
                 "```I am a column!```"
                 // $col("`I am a column!`")
@@ -60,7 +60,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void columnByIndex() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::columnByIndex[]
                 "col(5)"
                 // $col(5)
@@ -72,7 +72,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void strVal() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::strVal[]
                 "'I am a String!'"
                 // $strVal("I am a String!")
@@ -84,7 +84,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void strValEscape() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::strValEscape[]
                 "'I''m a String!'"
                 // $strVal("I'm a String!")
@@ -96,7 +96,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void intVal() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::intVal[]
                 "5000"
                 // $intVal(5000)
@@ -108,7 +108,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void intValNegative() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::intValNegative[]
                 "-5_000_000"
                 // $intVal(-5000000)
@@ -120,7 +120,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void floatVal() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::floatVal[]
                 "5_000.01"
                 // $floatVal(5000.01)
@@ -132,12 +132,36 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void decimalVal() {
 
-        Exp<?> exp = $(
+        Exp<?> exp = parseExp(
                 // tag::decimalVal[]
                 "5_000.01m"
                 // $decimalVal(new BigDecimal("5000.01"))
                 // end::decimalVal[]
         );
         assertEquals($decimalVal(new BigDecimal("5000.01")), exp);
+    }
+
+    @Test
+    public void typeSetToLong() {
+
+        Exp<?> exp = parseExp(
+                // tag::typeSetToLong[]
+                "long(a) > 3"
+                // $long("a").gt(3)
+                // end::typeSetToLong[]
+        );
+        assertEquals($long("a").gt(3), exp);
+    }
+
+    @Test
+    public void typeCastToLong() {
+
+        Exp<?> exp = parseExp(
+                // tag::typeCastToLong[]
+                "castAsLong(a) > 3"
+                // $col("a").castAsLong().gt(3)
+                // end::typeCastToLong[]
+        );
+        assertEquals($col("a").castAsLong().gt(3), exp);
     }
 }

@@ -1671,12 +1671,11 @@ either a Java primitive or an instance of <code>Comparable</code>, or a <code>Cl
 <div class="sectionbody">
 <div class="paragraph">
 <p>DFLib expression language is a special syntax that the library can parse to an <code>Exp</code> object. Parsing is done
-with the <code>Exp.$(String)</code> method. The name is intentionally short, so that you can focus on the expression String instead
-of the parser.</p>
+with the <code>Exp.parseExp(String)</code> method, though most of the APIs take expression Strings directly, parsing them internally.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = <span class="error">$</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = 3</span><span class="delimiter">&quot;</span></span>);
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = 3</span><span class="delimiter">&quot;</span></span>);
 <span class="comment">// same as $col(&quot;a&quot;).eq(3)</span></code></pre>
 </div>
 </div>
@@ -1692,7 +1691,7 @@ of the parser.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-A commented out String underneath each expression example below is an equivalent expression created via the Java API.
+A commented out String below each expression in the following examples is an equivalent created via the Java API.
 </td>
 </tr>
 </table>
@@ -1876,21 +1875,159 @@ Arguments to functions can be other expressions (including column references and
 functions are supported:</p>
 </div>
 <div class="sect3">
-<h4 id="_column_functions">Column Functions</h4>
+<h4 id="_type_setting_functions">Type-Setting Functions</h4>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p>These functions specify the type of another expression if it is not clear from the context. E.g.,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="string"><span class="delimiter">&quot;</span><span class="content">long(a) &gt; 3</span><span class="delimiter">&quot;</span></span>
+<span class="comment">// $long(&quot;a&quot;).gt(3)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the <code>long(..)</code> function takes a column, but it can take any other expression as well. The functions doesn&#8217;t do
+data transformation, so if during evaluation it turns out the values passed to the function are not <code>Long</code> or <code>long</code>,
+an exception will be thrown. The available functions are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>bigint(..)</code></p>
+</li>
+<li>
+<p><code>bool(..)</code></p>
+</li>
+<li>
+<p><code>date(..)</code></p>
+</li>
+<li>
+<p><code>dateTime(..)</code></p>
+</li>
+<li>
+<p><code>decimal(..)</code></p>
+</li>
+<li>
+<p><code>double(..)</code></p>
+</li>
+<li>
+<p><code>float(..)</code></p>
+</li>
+<li>
+<p><code>int(..)</code></p>
+</li>
+<li>
+<p><code>long(..)</code></p>
+</li>
+<li>
+<p><code>offsetDateTime(..)</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Our goal is to greatly reduce the need for explicit type-setting functions, guessing the right type from the
+expression context. This area will be improving in the future releases.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_casts">Casts</h4>
+<h4 id="_type_casting_functions">Type-Casting Functions</h4>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p>Type-casting functions are similar to type-setting, but they would actually attempt to transform unknown column data
+to the requested type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="string"><span class="delimiter">&quot;</span><span class="content">castAsLong(a) &gt; 3</span><span class="delimiter">&quot;</span></span>
+<span class="comment">// $col(&quot;a&quot;).castAsLong().gt(3)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>They closely mirror the type-setting functions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>castAsBigint(..)</code></p>
+</li>
+<li>
+<p><code>castAsBool(..)</code></p>
+</li>
+<li>
+<p><code>castAsDate(..)</code></p>
+</li>
+<li>
+<p><code>castAsDateTime(..)</code></p>
+</li>
+<li>
+<p><code>castAsDecimal(..)</code></p>
+</li>
+<li>
+<p><code>castAsDouble(..)</code></p>
+</li>
+<li>
+<p><code>castAsFloat(..)</code></p>
+</li>
+<li>
+<p><code>castAsInt(..)</code></p>
+</li>
+<li>
+<p><code>castAsLong(..)</code></p>
+</li>
+<li>
+<p><code>castAsOffsetDateTime(..)</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Some "cast" transformations may be inefficient, performed via an intermediate conversion to Strings. Others
+may be outright invalid (e.g. <code>castAsInt('abc')</code>). In those cases, you will need to provide your own explicit
+columnset transforming operation.
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_string_functions">String Functions</h4>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>concat(..)</code></p>
+</li>
+<li>
+<p><code>endsWith(..)</code></p>
+</li>
+<li>
+<p><code>matches(..)</code></p>
+</li>
+<li>
+<p><code>split(..)</code></p>
+</li>
+<li>
+<p><code>startsWith(..)</code></p>
+</li>
+<li>
+<p><code>substr(..)</code></p>
+</li>
+<li>
+<p><code>trim(..)</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -1907,8 +2044,15 @@ functions are supported:</p>
 </div>
 <div class="sect3">
 <h4 id="_inline_conditions">Inline Conditions</h4>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ifExp(..)</code></p>
+</li>
+<li>
+<p><code>ifNull(..)</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -6239,7 +6383,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-21 13:47:22 +0200
+Last updated 2025-06-21 07:47:22 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

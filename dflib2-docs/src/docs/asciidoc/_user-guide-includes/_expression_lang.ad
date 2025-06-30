@@ -2,8 +2,7 @@
 == Expression Language
 
 DFLib expression language is a special syntax that the library can parse to an `Exp` object. Parsing is done
-with the `Exp.$(String)` method. The name is intentionally short, so that you can focus on the expression String instead
-of the parser.
+with the `Exp.parseExp(String)` method, though most of the APIs take expression Strings directly, parsing them internally.
 
 [source,java,indent=0]
 ----
@@ -14,7 +13,7 @@ The syntax consists of column references, literals, operators, and functions. Le
 
 === Columns
 
-NOTE: A commented out String underneath each expression example below is an equivalent expression created via the Java API.
+NOTE: A commented out String below each expression in the following examples is an equivalent created via the Java API.
 
 Expressions can reference `DataFrame` column names either by name or by position. If a column name is compatible with
 the rules for Java identifiers (and doesn't conflict with syntax keywords like `true`, `false`, `null`), the column can
@@ -121,14 +120,65 @@ All operations that are not on the operator list above are implemented as functi
 Arguments to functions can be other expressions (including column references and literals). Out-of-the-box, the following
 functions are supported:
 
-==== Column Functions
-...
+==== Type-Setting Functions
+These functions specify the type of another expression if it is not clear from the context. E.g.,
 
-==== Casts
-...
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=typeSetToLong]
+----
+
+Here, the `long(..)` function takes a column, but it can take any other expression as well. The functions doesn't do
+data transformation, so if during evaluation it turns out the values passed to the function are not `Long` or `long`,
+an exception will be thrown. The available functions are:
+
+* `bigint(..)`
+* `bool(..)`
+* `date(..)`
+* `dateTime(..)`
+* `decimal(..)`
+* `double(..)`
+* `float(..)`
+* `int(..)`
+* `long(..)`
+* `offsetDateTime(..)`
+
+NOTE: Our goal is to greatly reduce the need for explicit type-setting functions, guessing the right type from the
+expression context. This area will be improving in the future releases.
+
+==== Type-Casting Functions
+Type-casting functions are similar to type-setting, but they would actually attempt to transform unknown column data
+to the requested type:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=typeCastToLong]
+----
+They closely mirror the type-setting functions:
+
+* `castAsBigint(..)`
+* `castAsBool(..)`
+* `castAsDate(..)`
+* `castAsDateTime(..)`
+* `castAsDecimal(..)`
+* `castAsDouble(..)`
+* `castAsFloat(..)`
+* `castAsInt(..)`
+* `castAsLong(..)`
+* `castAsOffsetDateTime(..)`
+
+NOTE: Some "cast" transformations may be inefficient, performed via an intermediate conversion to Strings. Others
+may be outright invalid (e.g. `castAsInt('abc')`). In those cases, you will need to provide your own explicit
+columnset transforming operation.
 
 ==== String Functions
-...
+* `concat(..)`
+* `endsWith(..)`
+* `matches(..)`
+* `split(..)`
+* `startsWith(..)`
+* `substr(..)`
+* `trim(..)`
 
 ==== Numeric Functions
 ...
@@ -137,10 +187,10 @@ functions are supported:
 ...
 
 ==== Inline Conditions
-...
+* `ifExp(..)`
+* `ifNull(..)`
 
 ==== Other Functions
-
 * `rowNum()`
 * `shift(..)`
 
