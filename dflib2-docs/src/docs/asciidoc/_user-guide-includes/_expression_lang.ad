@@ -121,15 +121,16 @@ Arguments to functions can be other expressions (including column references and
 functions are supported:
 
 ==== Type-Setting Functions
-These functions specify the type of another expression if it is not clear from the context. E.g.,
+These functions specify the type of another expression if it is not clear from the context. A specific type may be
+required by the expression grammar to figure out how to perform certain operations. E.g.,
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=typeSetToLong]
 ----
 
-Here, the `long(..)` function takes a column, but it can take any other expression as well. The functions doesn't do
-data transformation, so if during evaluation it turns out the values passed to the function are not `Long` or `long`,
+Here, the `long(..)` function takes a column, but it can take any other expression as well. These functions don't do
+data transformation, so if during evaluation the values passed to the function are not `Long` or `long` (or null),
 an exception will be thrown. The available functions are:
 
 * `bigint(..)`
@@ -143,8 +144,8 @@ an exception will be thrown. The available functions are:
 * `long(..)`
 * `offsetDateTime(..)`
 
-NOTE: Our goal is to greatly reduce the need for explicit type-setting functions, guessing the right type from the
-expression context. This area will be improving in the future releases.
+NOTE: Our goal is to greatly reduce the need for explicit type-setting functions, guessing the correct type from the
+expression itself. This area will be improving in the future releases.
 
 ==== Type-Casting Functions
 Type-casting functions are similar to type-setting, but they would actually attempt to transform unknown column data
