@@ -39,7 +39,7 @@ You can change the truncation parameters by creating your own printer:
 include::../../../test/java/org/dflib/docs/PrintersTest.java[tags=printDataFrame_Tabular_Custom]
 ----
 
-<1> Create a printer that displays at most 3 rows and up to 3 characters in each cell.
+<1> Create a printer that displays at most 3 rows, 3 columns and up to 3 characters in each cell.
 
 ----
 c.. c.. c..
