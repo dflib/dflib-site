@@ -190,7 +190,7 @@ columnset transforming operation.
 ...
 
 ==== Inline Conditions
-* `ifExp(..)`
+* `if(..)`
 * `ifNull(..)`
 
 ==== Other Functions
