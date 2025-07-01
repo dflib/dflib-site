@@ -3,7 +3,6 @@ package org.dflib.docs;
 import org.dflib.DataFrame;
 import org.dflib.Printers;
 import org.dflib.print.Printer;
-import org.dflib.print.TabularPrinter;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
@@ -30,7 +29,7 @@ public class PrintersTest extends BaseTest {
                 .ofStream(IntStream.range(0, 10000));
 
 // tag::printDataFrame_Tabular_Custom[]
-        Printer printer = new TabularPrinter(3, 3, 3); // <1>
+        Printer printer = Printers.tabular(3, 3, 3); // <1>
         String table = printer.print(df);
         System.out.println(table);
 // end::printDataFrame_Tabular_Custom[]

@@ -1111,8 +1111,7 @@ as a single line, truncating large data sets in the process, which is good for d
 server.</p>
 </div>
 <div class="paragraph">
-<p>A more human-friendly form of output is produced by a <em>tabular</em> printer. Here is how to use the default tabular
-printer:</p>
+<p>A <em>tabular</em> printer produces a more human-friendly form of output. Here is how to use the default tabular printer:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1125,17 +1124,22 @@ printer:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>It prints the data as follows, displaying at most 6 rows and truncating the rest. Same goes for cell values. Values
-longer than 30 chars are also truncated (since they are pretty short in our example, value truncation is not obvious here).</p>
+<p>It prints displaying at most 10 rows, truncating the rest. The same goes for columns and cell values. At most 100 columns
+are displayed, and values longer than 50 chars are truncated. (In the example below, we only have 3 columns and pretty
+short values, so only row truncation is visible).</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>col1 col2 col3
 ---- ---- ----
-   0 3334 6668
-   1 3335 6669
-   2 3336 6670
+0 3334 6668
+1 3335 6669
+2 3336 6670
+3 3337 6671
+4 3338 6672
 ...
+3329 6663 9997
+3330 6664 9998
 3331 6665 9999
 3332 6666    0
 3333 6667    0
@@ -1147,7 +1151,7 @@ longer than 30 chars are also truncated (since they are pretty short in our exam
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Printer printer = <span class="keyword">new</span> TabularPrinter(<span class="integer">3</span>, <span class="integer">3</span>, <span class="integer">3</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">Printer printer = Printers.tabular(<span class="integer">3</span>, <span class="integer">3</span>, <span class="integer">3</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="predefined-type">String</span> table = printer.print(df);
 <span class="predefined-type">System</span>.out.println(table);</code></pre>
 </div>
