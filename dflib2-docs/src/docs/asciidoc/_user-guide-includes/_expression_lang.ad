@@ -2,12 +2,15 @@
 == Expression Language
 
 DFLib expression language is a special syntax that the library can parse to an `Exp` object. Parsing is done
-with the `Exp.parseExp(String)` method, though most of the APIs take expression Strings directly, parsing them internally.
+with the `Exp.parseExp(String)` method:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=parseExp]
 ----
+
+NOTE: Most of the APIs take expression Strings directly and parse them internally, so calling `Exp.parseExp(..)`
+is rarely needed.
 
 The syntax consists of column references, literals, operators, and functions. Let's take a look at the individual parts of the syntax...
 

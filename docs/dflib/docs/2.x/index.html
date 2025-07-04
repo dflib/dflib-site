@@ -1675,13 +1675,26 @@ either a Java primitive or an instance of <code>Comparable</code>, or a <code>Cl
 <div class="sectionbody">
 <div class="paragraph">
 <p>DFLib expression language is a special syntax that the library can parse to an <code>Exp</code> object. Parsing is done
-with the <code>Exp.parseExp(String)</code> method, though most of the APIs take expression Strings directly, parsing them internally.</p>
+with the <code>Exp.parseExp(String)</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = 3</span><span class="delimiter">&quot;</span></span>);
 <span class="comment">// same as $col(&quot;a&quot;).eq(3)</span></code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Most of the APIs take expression Strings directly and parse them internally, so calling <code>Exp.parseExp(..)</code>
+is rarely needed.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The syntax consists of column references, literals, operators, and functions. Let&#8217;s take a look at the individual parts of the syntax&#8230;&#8203;</p>
