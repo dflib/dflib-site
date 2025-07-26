@@ -30,6 +30,24 @@ public class ByteSourcesTest extends BaseTest {
     }
 
     @Test
+    public void fsFolderFiltered() {
+
+        String folderName = "src/test/resources/csvs";
+
+// tag::fsFolderFiltered[]
+        ByteSources byteSources = FSFolder
+                .of(Path.of(folderName))
+                .includeSubfolders()
+                .includeExtension(".csv")
+                .sources();
+
+        Map<String, DataFrame> dfs = Csv.loadAll(byteSources);
+// end::fsFolderFiltered[]
+
+        print("fsFolder", dfs);
+    }
+
+    @Test
     public void zip() {
         String zipFile = "src/test/resources/test.zip";
 // tag::zip[]

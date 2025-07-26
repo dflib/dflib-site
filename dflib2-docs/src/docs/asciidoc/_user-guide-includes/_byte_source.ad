@@ -68,13 +68,21 @@ out of the box:
 include::../../../test/java/org/dflib/docs/ByteSourcesTest.java[tags=fsFolder]
 ----
 
-`ByteSource` can then be used to read all folder `.csv` files at once:
+`ByteSource` can then be passed to a loader to read all folder files at once:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ByteSourcesTest.java[tags=fsFolderProcess]
 ----
 
-Additionally, `FSFolder` provides methods to explore folder contents, filter files, navigate subfolders, etc.
+`FSFolder` can help to locate specific files in a folder. E.g., if we'd like to include subfolder contents in the
+`ByteSources` as well as ensure that only files with `.csv` extension are loaded, we might do the following:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ByteSourcesTest.java[tags=fsFolderFiltered]
+----
+
+Additionally, `FSFolder` provides methods to explore folder contents, navigate subfolders, etc.
 
 === Zip Archives
 

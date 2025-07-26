@@ -6160,7 +6160,7 @@ ByteSources byteSources = folder.sources();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>ByteSource</code> can then be used to read all folder <code>.csv</code> files at once:</p>
+<p><code>ByteSource</code> can then be passed to a loader to read all folder files at once:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6168,7 +6168,22 @@ ByteSources byteSources = folder.sources();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Additionally, <code>FSFolder</code> provides methods to explore folder contents, filter files, navigate subfolders, etc.</p>
+<p><code>FSFolder</code> can help to locate specific files in a folder. E.g., if we&#8217;d like to include subfolder contents in the
+<code>ByteSources</code> as well as ensure that only files with <code>.csv</code> extension are loaded, we might do the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">ByteSources byteSources = FSFolder
+        .of(Path.of(folderName))
+        .includeSubfolders()
+        .includeExtension(<span class="string"><span class="delimiter">&quot;</span><span class="content">.csv</span><span class="delimiter">&quot;</span></span>)
+        .sources();
+
+<span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, DataFrame&gt; dfs = Csv.loadAll(byteSources);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally, <code>FSFolder</code> provides methods to explore folder contents, navigate subfolders, etc.</p>
 </div>
 </div>
 <div class="sect2">
