@@ -6156,21 +6156,16 @@ out of the box:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">FSFolder folder = FSFolder.of(Path.of(folderName));
-<span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, DataFrame&gt; dfs = folder.sources() <i class="conum" data-value="1"></i><b>(1)</b>
-        .process((n, s) -&gt; n.endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">.csv</span><span class="delimiter">&quot;</span></span>) ? Csv.load(s) : <span class="predefined-constant">null</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+ByteSources byteSources = folder.sources();</code></pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Obtain <code>ByteSources</code> representation of the folder</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Look for CSV files, and load them as <code>DataFrames</code></td>
-</tr>
-</table>
+<div class="paragraph">
+<p><code>ByteSource</code> can then be used to read all folder <code>.csv</code> files at once:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, DataFrame&gt; dfs = Csv.loadAll(byteSources);</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Additionally, <code>FSFolder</code> provides methods to explore folder contents, filter files, navigate subfolders, etc.</p>

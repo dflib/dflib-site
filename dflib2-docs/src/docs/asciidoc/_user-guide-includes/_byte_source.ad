@@ -68,8 +68,11 @@ out of the box:
 include::../../../test/java/org/dflib/docs/ByteSourcesTest.java[tags=fsFolder]
 ----
 
-<1> Obtain `ByteSources` representation of the folder
-<2> Look for CSV files, and load them as `DataFrames`
+`ByteSource` can then be used to read all folder `.csv` files at once:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ByteSourcesTest.java[tags=fsFolderProcess]
+----
 
 Additionally, `FSFolder` provides methods to explore folder contents, filter files, navigate subfolders, etc.
 

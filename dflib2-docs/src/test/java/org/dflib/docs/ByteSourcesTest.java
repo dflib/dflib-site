@@ -20,10 +20,12 @@ public class ByteSourcesTest extends BaseTest {
 
 // tag::fsFolder[]
         FSFolder folder = FSFolder.of(Path.of(folderName));
-        Map<String, DataFrame> dfs = folder.sources() // <1>
-                .process((n, s) -> n.endsWith(".csv") ? Csv.load(s) : null); // <2>
+        ByteSources byteSources = folder.sources();
 // end::fsFolder[]
 
+// tag::fsFolderProcess[]
+        Map<String, DataFrame> dfs = Csv.loadAll(byteSources);
+// end::fsFolderProcess[]
         print("fsFolder", dfs);
     }
 
