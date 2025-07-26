@@ -129,11 +129,11 @@ public class ColumnOpsTest extends BaseTest {
     public void colsSelectExpStr() {
 
 // tag::colsSelectExpStr[]
-        String fmExp =
-                "concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))";
+        String exp =
+                "concat(str(first), castAsStr(ifNull(concat(' ', str(middle)), ''))), last";
         DataFrame df1 = df
                 .cols("first_middle", "last")
-                .select(fmExp, "`last`");
+                .select(exp);
 // end::colsSelectExpStr[]
 
         print("colsSelectExpStr", df1);

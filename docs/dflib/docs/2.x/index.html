@@ -2361,11 +2361,11 @@ instances internally by DFLib:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> fmExp =
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">concat(str(`first`), castAsStr(ifNull(concat(' ', str(middle)), '')))</span><span class="delimiter">&quot;</span></span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> exp =
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">concat(str(first), castAsStr(ifNull(concat(' ', str(middle)), ''))), last</span><span class="delimiter">&quot;</span></span>;
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
-        .select(fmExp, <span class="string"><span class="delimiter">&quot;</span><span class="content">`last`</span><span class="delimiter">&quot;</span></span>);</code></pre>
+        .select(exp);</code></pre>
 </div>
 </div>
 <div class="paragraph">
