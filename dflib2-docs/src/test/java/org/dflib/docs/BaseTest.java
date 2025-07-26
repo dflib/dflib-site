@@ -12,7 +12,7 @@ public abstract class BaseTest {
         System.out.println();
         System.out.println("[" + label + "]");
 
-        dfs.forEach((k, v) -> System.out.println(k + Printers.tabular.print(v)));
+        dfs.forEach((k, v) -> System.out.println(k + ": " + Printers.tabular.print(v)));
     }
 
     protected void print(String label, DataFrame df) {
