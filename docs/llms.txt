@@ -1,0 +1,25 @@
+# DFLib Java DataFrame Library
+DFLib is a lightweight, pure Java, in-memory DataFrame. It provides a unique data manipulation API that allows to process data incrementally in a highly-composable manner. Unlike "big data" DataFrames, DFLib does not require special infrastructure and can be used in any Java application. Out of the box, DFLib supports loading and saving to CSV, Excel, RDBMS, Avro, Parquet, and JSON formats, and works with a variety of data sources (local filesystem, web services, zip archives, etc.). DFLib is fully open source and is distributed under the Apache License.
+
+## Documentation
+
+- [Documentation](https://dflib.org/docs/): Links to documentation for DFLib DataFrame and DFLib JJava, a Java Kernel for Jupyter.
+- [DFLib DataFrame Documentation - v1](https://dflib.org/dflib/docs/1.x/): Version 1 of the DFLib DataFrame documentation, outlining the core features and usage examples.
+- [DFLib DataFrame Documentation - v2 (alpha)](https://dflib.org/dflib/docs/2.x/): Alpha version of the DFLib DataFrame documentation, showcasing new features and improvements.
+
+## Charts
+
+- [Charts](https://dflib.org/charts/): Some examples of visualizations (dashboards with charts) that can be done with DFLib
+- [Hockey Teams Stats - DFLib](https://dflib.org/charts/hockey_teams.html): Specific examples of using DFLib for visualizing hockey team statistics through charts.
+- [Hockey Player Stats Charts - DFLib](https://dflib.org/charts/hockey_players.html): Specific examples of using DFLib for visualizing hockey player statistics through charts.
+- [charting solution](https://dflib.org/dflib/docs/1.x/#echarts): Description of the charting solution provided by DFLib, detailing how to create and customize charts.
+
+## Community and Support
+
+- [Forum](https://github.com/dflib/dflib/discussions): Community forum for users to discuss issues, share solutions, and collaborate on DFLib projects.
+- [GitHub](https://github.com/dflib/dflib): The official GitHub repository for DFLib, where users can access the source code, report issues, and contribute to the project.
+
+## Jupyter Integration
+
+- [Jupyter notebooks](https://dflib.org/dflib/docs/1.x/#jupyter): Information on using DFLib within Jupyter notebooks for interactive data analysis.
+- [dflib/jjava: A Jupyter kernel for Java notebooks](https://github.com/dflib/jjava): Explanation of how DFLib provides a kernel for seamless integration with Jupyter.
