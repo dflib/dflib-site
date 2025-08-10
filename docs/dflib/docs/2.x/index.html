@@ -4840,12 +4840,9 @@ Joan O'Hara        95000   95000</pre>
 <h2 id="stack">Stack</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>"Stack" is a logical opposite of <a href="#pivot">pivot</a> (though some details are different). It reshapes a
-<code>DataFrame</code> from a "wide" format to a 3-column "longer" format with "row", "column" and "value" columns, that stores
-each original value in a separate row. Such data representation is useful in certain data analysis scenarios.</p>
-</div>
-<div class="paragraph">
-<p>Here is an example. Given a salary report from the previous chapter:</p>
+<p>"Stack" is a logical opposite of <a href="#pivot">pivot</a> (though some details are different). It reshapes a <code>DataFrame</code> from a
+"wide" format to a 3-column "longer" format with <code>row</code>, <code>column</code> and <code>value</code> columns. It stores each original value
+in a separate row. E.g., given a salary report from the previous chapter:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4857,11 +4854,11 @@ Joan O'Hara        95000   95000</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>We can "stack" it, producing the long result:</p>
+<p>we can "stack" it, producing the long result:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stack();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stack().select();</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -4879,28 +4876,49 @@ Joan O'Hara        95000   95000</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Here "row" contains value positions in the original row, "column" - original column labels, and "value" -
-the values themselves for a given row and column. Note that <code>null</code> values are excluded. To include them,
-use a different flavor of "stack":</p>
+<p>Here "row" holds value positions in the original row, "column" - original column labels, and "value" -
+the values themselves for a given row and column. This data representation is helpful in certain data analysis scenarios,
+but in a more typical case, the result would be much more useful if the "rows" column would contain people&#8217;s names.
+The stack operation can be configured accordingly:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stackIncludeNulls();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stack().rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>).select();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now the result looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name             column   value
+---------------- ------- ------
+Jerry Cosin      2025-01 120000
+Juliana Walewski 2025-01  80000
+Joan O'Hara      2025-01  95000
+Jerry Cosin      2025-02 122000
+Joan O'Hara      2025-02  95000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that that <code>null</code> values were excluded in both of the above examples. To change that behavior, use <code>includeNulls()</code>
+builder method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame p = df.stack().rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>).includeNulls().select();</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>row column  value
---- ------- ----------------
-  0 name    Jerry Cosin
-  1 name    Juliana Walewski
-  2 name    Joan O'Hara
-  0 2025-01 120000
-  1 2025-01 80000
-  2 2025-01 95000
-  0 2025-02 122000
-  1 2025-02 null
-  2 2025-02 95000</pre>
+<pre>name             column   value
+---------------- ------- ------
+Jerry Cosin      2025-01 120000
+Juliana Walewski 2025-01  80000
+Joan O'Hara      2025-01  95000
+Jerry Cosin      2025-02 122000
+Juliana Walewski 2025-02   null
+Joan O'Hara      2025-02  95000</pre>
 </div>
 </div>
 </div>

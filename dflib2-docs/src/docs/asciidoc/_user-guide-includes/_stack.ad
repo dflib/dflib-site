@@ -1,11 +1,9 @@
 [#stack]
 == Stack
 
-"Stack" is a logical opposite of <<pivot,pivot>> (though some details are different). It reshapes a
-`DataFrame` from a "wide" format to a 3-column "longer" format with "row", "column" and "value" columns, that stores
-each original value in a separate row. Such data representation is useful in certain data analysis scenarios.
-
-Here is an example. Given a salary report from the previous chapter:
+"Stack" is a logical opposite of <<pivot,pivot>> (though some details are different). It reshapes a `DataFrame` from a
+"wide" format to a 3-column "longer" format with `row`, `column` and `value` columns. It stores each original value
+in a separate row. E.g., given a salary report from the previous chapter:
 ----
 name             2025-01 2025-02
 ---------------- ------- -------
@@ -13,7 +11,8 @@ Jerry Cosin       120000  122000
 Juliana Walewski   80000    null
 Joan O'Hara        95000   95000
 ----
-We can "stack" it, producing the long result:
+
+we can "stack" it, producing the long result:
 
 [source,java,indent=0]
 ----
@@ -33,25 +32,43 @@ row column  value
   2 2025-02 95000
 ----
 
-Here "row" contains value positions in the original row, "column" - original column labels, and "value" -
-the values themselves for a given row and column. Note that `null` values are excluded. To include them,
-use a different flavor of "stack":
+Here "row" holds value positions in the original row, "column" - original column labels, and "value" -
+the values themselves for a given row and column. This data representation is helpful in certain data analysis scenarios,
+but in a more typical case, the result would be much more useful if the "rows" column would contain people's names.
+The stack operation can be configured accordingly:
 
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/StackTest.java[tags=stack-rows]
+----
+
+Now the result looks like this:
+
+----
+name             column   value
+---------------- ------- ------
+Jerry Cosin      2025-01 120000
+Juliana Walewski 2025-01  80000
+Joan O'Hara      2025-01  95000
+Jerry Cosin      2025-02 122000
+Joan O'Hara      2025-02  95000
+----
+
+
+Notice that that `null` values were excluded in both of the above examples. To change that behavior, use `includeNulls()`
+builder method:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/StackTest.java[tags=stack-nulls]
 ----
 
 ----
-row column  value
---- ------- ----------------
-  0 name    Jerry Cosin
-  1 name    Juliana Walewski
-  2 name    Joan O'Hara
-  0 2025-01 120000
-  1 2025-01 80000
-  2 2025-01 95000
-  0 2025-02 122000
-  1 2025-02 null
-  2 2025-02 95000
+name             column   value
+---------------- ------- ------
+Jerry Cosin      2025-01 120000
+Juliana Walewski 2025-01  80000
+Joan O'Hara      2025-01  95000
+Jerry Cosin      2025-02 122000
+Juliana Walewski 2025-02   null
+Joan O'Hara      2025-02  95000
 ----
