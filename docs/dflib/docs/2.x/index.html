@@ -4840,8 +4840,8 @@ Joan O'Hara        95000   95000</pre>
 <h2 id="stack">Stack</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>"Stack" is an operation that is a logical opposite of <a href="#pivot">Pivot</a> (though some details are different). Taking a
-<code>DataFrame</code> of any shape, it produces a "long" 3-column <code>DataFrame</code> with "row", "column" and "value" columns, that stores
+<p>"Stack" is a logical opposite of <a href="#pivot">pivot</a> (though some details are different). It reshapes a
+<code>DataFrame</code> from a "wide" format to a 3-column "longer" format with "row", "column" and "value" columns, that stores
 each original value in a separate row. Such data representation is useful in certain data analysis scenarios.</p>
 </div>
 <div class="paragraph">
@@ -4880,7 +4880,7 @@ Joan O'Hara        95000   95000</pre>
 </div>
 <div class="paragraph">
 <p>Here "row" contains value positions in the original row, "column" - original column labels, and "value" -
-the values themselves for a given row and column. Note that null values are excluded from the result. To include them,
+the values themselves for a given row and column. Note that <code>null</code> values are excluded. To include them,
 use a different flavor of "stack":</p>
 </div>
 <div class="listingblock">

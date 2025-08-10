@@ -1,8 +1,8 @@
 [#stack]
 == Stack
 
-"Stack" is an operation that is a logical opposite of <<pivot>> (though some details are different). Taking a
-`DataFrame` of any shape, it produces a "long" 3-column `DataFrame` with "row", "column" and "value" columns, that stores
+"Stack" is a logical opposite of <<pivot,pivot>> (though some details are different). It reshapes a
+`DataFrame` from a "wide" format to a 3-column "longer" format with "row", "column" and "value" columns, that stores
 each original value in a separate row. Such data representation is useful in certain data analysis scenarios.
 
 Here is an example. Given a salary report from the previous chapter:
@@ -34,7 +34,7 @@ row column  value
 ----
 
 Here "row" contains value positions in the original row, "column" - original column labels, and "value" -
-the values themselves for a given row and column. Note that null values are excluded from the result. To include them,
+the values themselves for a given row and column. Note that `null` values are excluded. To include them,
 use a different flavor of "stack":
 
 [source,java,indent=0]
