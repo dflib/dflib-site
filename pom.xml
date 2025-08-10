@@ -14,8 +14,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
 
-        <bootique.version>3.0-M6</bootique.version>
-        <junit5.version>5.11.3</junit5.version>
+        <bootique.version>3.0-RC1</bootique.version>
+        <junit5.version>5.12.1</junit5.version>
 
         <!-- Plugin versions -->
         <compiler.plugin.version>3.13.0</compiler.plugin.version>
