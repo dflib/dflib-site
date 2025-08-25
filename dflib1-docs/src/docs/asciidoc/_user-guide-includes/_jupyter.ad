@@ -18,7 +18,7 @@ like this:
 
 [source,java]
 ----
-%maven org.dflib:dflib-jupyter:1.2.0 // <1>
+%maven org.dflib:dflib-jupyter:1.3.0 // <1>
 ----
 
 <1> Adding `dflib-jupyter` as a dependency also includes all  other DFLib modules through its transitive dependencies.
