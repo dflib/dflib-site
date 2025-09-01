@@ -1,6 +1,7 @@
 package org.dflib.docs;
 
 import org.dflib.Exp;
+import org.dflib.Sorter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -11,40 +12,39 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class ExpLangTest extends BaseTest {
+public class QLTest extends BaseTest {
 
     @Test
     public void doParseExp() {
 
 // tag::parseExp[]
-        Exp<?> exp = parseExp("a = 3");
-        // same as $col("a").eq(3)
+        Exp<?> exp = Exp.parseExp("a = 3"); // <1>
+        // same as
+        //    $col("a").eq(3)
+
+        Exp<?>[] exps = Exp.parseExpArray("name, salary"); // <2>
+        // same as
+        //    new Exp[] { $col("name"), $col("salary")}
 // end::parseExp[]
-        assertEquals($col("a").eq(3), exp);
+        assertEquals(Exp.$col("a").eq(3), exp);
+        assertArrayEquals(new Exp[] {Exp.$col("name"), Exp.$col("salary")}, exps);
     }
 
     @Test
-    public void doParseExpArray() {
+    public void doParseSorter() {
 
-// tag::parseExpArray[]
-        Exp<?>[] exp = parseExpArray("concat(first_name, ' ', last_name) as name, salary"); // <1>
-        // same as
-        // new Exp[] {
-        //      concat($col("first_name"), " ", $col("last_name")).as("name"),
-        //      $col("salary")}
-// end::parseExpArray[]
-        assertArrayEquals(new Exp[] {
-                concat($col("first_name"), " ", $col("last_name")).as("name"),
-                $col("salary")
-        }, exp);
+// tag::parseSorter[]
+        Sorter s1 = Sorter.parseSorter("a");
+        Sorter[] ss = Sorter.parseSorterArray("a, b desc");
+// end::parseSorter[]
     }
 
     @Test
     public void literalParam() {
 
 // tag::literalParam[]
-        Exp<?> exp1 = parseExp("str(a) = ?", "S1");
-        Exp<?> exp2 = parseExp("str(a) in ('S1', ?, ?)", "S2", "S3");
+        Exp<?> exp1 = Exp.parseExp("str(a) = ?", "S1");
+        Exp<?> exp2 = Exp.parseExp("str(a) in ('S1', ?, ?)", "S2", "S3");
 // end::literalParam[]
 
         assertEquals($str("a").eq($strVal("S1")), exp1);
@@ -55,7 +55,7 @@ public class ExpLangTest extends BaseTest {
     public void listParam() {
 
 // tag::listParam[]
-        Exp<?> exp = parseExp("str(a) in ?", List.of("S1", "S2", "S3"));
+        Exp<?> exp = Exp.parseExp("str(a) in ?", List.of("S1", "S2", "S3"));
 // end::listParam[]
 
         assertEquals($str("a").in($strVal("S1"), $strVal("S2"), $strVal("S3")), exp);
@@ -64,7 +64,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void column() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::column[]
                 "_iAmAColumn"
                 // $col("_iAmAColumn")
@@ -76,7 +76,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void columnBackticks() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::columnBackticks[]
                 "`I am a column!`"
                 // $col("I am a column!")
@@ -88,7 +88,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void columnBackticksEscape() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::columnBackticksEscape[]
                 "```I am a column!```"
                 // $col("`I am a column!`")
@@ -100,7 +100,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void columnByIndex() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::columnByIndex[]
                 "col(5)"
                 // $col(5)
@@ -112,7 +112,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void strVal() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::strVal[]
                 "'I am a String!'"
                 // $strVal("I am a String!")
@@ -124,7 +124,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void strValEscape() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::strValEscape[]
                 "'I''m a String!'"
                 // $strVal("I'm a String!")
@@ -136,7 +136,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void intVal() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::intVal[]
                 "5000"
                 // $intVal(5000)
@@ -148,7 +148,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void intValNegative() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::intValNegative[]
                 "-5_000_000"
                 // $intVal(-5000000)
@@ -160,7 +160,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void floatVal() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::floatVal[]
                 "5_000.01"
                 // $floatVal(5000.01)
@@ -172,7 +172,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void decimalVal() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::decimalVal[]
                 "5_000.01m"
                 // $decimalVal(new BigDecimal("5000.01"))
@@ -184,7 +184,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void typeSetToLong() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::typeSetToLong[]
                 "long(a) > 3"
                 // $long("a").gt(3)
@@ -196,7 +196,7 @@ public class ExpLangTest extends BaseTest {
     @Test
     public void typeCastToLong() {
 
-        Exp<?> exp = parseExp(
+        Exp<?> exp = Exp.parseExp(
                 // tag::typeCastToLong[]
                 "castAsLong(a) > 3"
                 // $col("a").castAsLong().gt(3)
