@@ -1,5 +1,5 @@
-[#expression_lang]
-== Expression Language
+[#query_lang]
+== Query Language
 
 DFLib expression language is a special syntax that the library can parse to an `Exp` object. Parsing a single expression
 is done with the `Exp.parseExp(String)` method:
@@ -9,7 +9,7 @@ is done with the `Exp.parseExp(String)` method:
 include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=parseExp]
 ----
 
-NOTE: Most of the DFLib APIs can take expression Strings and parse them internally, so calling `Exp.parseExp(..)` and
+NOTE: Most DFLib APIs can take expression Strings and parse them internally, so calling `Exp.parseExp(..)` and
 other parsing methods directly is rarely needed. Those APIs are discussed in the following chapters dedicated to
 column / row sets and sorters.
 

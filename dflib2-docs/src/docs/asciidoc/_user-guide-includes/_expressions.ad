@@ -23,7 +23,7 @@ contain `String` values
 position which is assumed to contain `BigDecimal` values
 
 Expressions of any complexity can be created from parts using the Java API shown here and later in this chapter. Alternatively,
-DFLib provides an expression language (see <<expression_lang,the next chapter>>). Both are equivalent and can
+DFLib provides a query language (see <<query_lang,the next chapter>>). Both are equivalent and can
 be used interchangeably (in fact expression strings are parsed into `Exp` instances by DFLib).
 
 NOTE: From the usability perspective, Java API makes *writing* expressions easier due to IDE auto-completion
@@ -140,7 +140,7 @@ include::../../../test/java/org/dflib/docs/NumExpTest.java[tags=arithmetics]
 3.5
 ----
 
-NOTE: Associativity... Unlike <<expression_lang,expression language>>, expressions built with Java API do not have any
+NOTE: Associativity... Unlike the <<query_lang,query language>>, expressions built with Java API do not have any
 special associativity or precedence rules. They are executed in the order they were chained together. So in the example
 above, addition happens before division.
 
