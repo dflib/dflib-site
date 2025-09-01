@@ -1,18 +1,20 @@
 [#expression_lang]
 == Expression Language
 
-DFLib expression language is a special syntax that the library can parse to an `Exp` object. Parsing is done
-with the `Exp.parseExp(String)` method:
+DFLib expression language is a special syntax that the library can parse to an `Exp` object. Parsing a single expression
+is done with the `Exp.parseExp(String)` method:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=parseExp]
 ----
 
-NOTE: Most of the APIs take expression Strings directly and parse them internally, so calling `Exp.parseExp(..)`
-is rarely needed.
+NOTE: Most of the DFLib APIs can take expression Strings and parse them internally, so calling `Exp.parseExp(..)` and
+other parsing methods directly is rarely needed. Those APIs are discussed in the following chapters dedicated to
+column / row sets and sorters.
 
-The syntax consists of column references, literals, operators, and functions. Let's take a look at the individual parts of the syntax...
+The syntax consists of column references, literals, operators, and functions. Let's take a look at the individual parts
+of the syntax...
 
 === Columns
 
@@ -202,3 +204,36 @@ columnset transforming operation.
 
 ==== Aggregating Functions
 ...
+
+=== Naming Columns
+
+=== Passing Parameters
+
+To avoid string concatenation or represent values that are not easy to encode as strings to begin with, the
+expression syntax supports unnamed positional parameters. The `?` symbol is interpreted as a parameter, and can be
+placed in any location within an expression where otherwise a literal is expected:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=literalParam]
+----
+
+A special case is passing an entire collection of values to the `in` clause:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=listParam]
+----
+
+=== Sort Syntax
+
+=== Multi-Expression Syntax
+
+Comma-separated lists of expressions can also be parsed by DFLib, allowing for a rather compact syntax for multiple
+expressions. This approach is used behind the scenes by column and row sets:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ExpLangTest.java[tags=parseExpArray]
+----
+<1> Two expressions are present within the String, separated by comma

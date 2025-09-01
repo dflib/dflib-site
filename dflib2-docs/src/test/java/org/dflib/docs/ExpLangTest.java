@@ -4,8 +4,10 @@ import org.dflib.Exp;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.dflib.Exp.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -19,6 +21,44 @@ public class ExpLangTest extends BaseTest {
         // same as $col("a").eq(3)
 // end::parseExp[]
         assertEquals($col("a").eq(3), exp);
+    }
+
+    @Test
+    public void doParseExpArray() {
+
+// tag::parseExpArray[]
+        Exp<?>[] exp = parseExpArray("concat(first_name, ' ', last_name) as name, salary"); // <1>
+        // same as
+        // new Exp[] {
+        //      concat($col("first_name"), " ", $col("last_name")).as("name"),
+        //      $col("salary")}
+// end::parseExpArray[]
+        assertArrayEquals(new Exp[] {
+                concat($col("first_name"), " ", $col("last_name")).as("name"),
+                $col("salary")
+        }, exp);
+    }
+
+    @Test
+    public void literalParam() {
+
+// tag::literalParam[]
+        Exp<?> exp1 = parseExp("str(a) = ?", "S1");
+        Exp<?> exp2 = parseExp("str(a) in ('S1', ?, ?)", "S2", "S3");
+// end::literalParam[]
+
+        assertEquals($str("a").eq($strVal("S1")), exp1);
+        assertEquals($str("a").in($strVal("S1"), $strVal("S2"), $strVal("S3")), exp2);
+    }
+
+    @Test
+    public void listParam() {
+
+// tag::listParam[]
+        Exp<?> exp = parseExp("str(a) in ?", List.of("S1", "S2", "S3"));
+// end::listParam[]
+
+        assertEquals($str("a").in($strVal("S1"), $strVal("S2"), $strVal("S3")), exp);
     }
 
     @Test
