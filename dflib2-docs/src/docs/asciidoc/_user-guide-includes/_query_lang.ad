@@ -109,7 +109,7 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=decimalVal]
 
 Lowercase unquoted `true` and `false` strings are recognized as the corresponding boolean constants.
 
-==== Null literal
+==== Null Literal
 
 Lowercase unquoted `null` string is recognized as a null constant.
 
