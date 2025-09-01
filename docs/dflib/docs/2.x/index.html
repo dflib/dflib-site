@@ -1686,7 +1686,7 @@ Java objects - an <code>Exp</code>, an <code>Exp[]</code>, a <code>Sorter</code>
 <span class="comment">// same as</span>
 <span class="comment">//    $col(&quot;a&quot;).eq(3)</span>
 
-Exp&lt;?&gt;<span class="type">[]</span> exps = Exp.parseExpArray(<span class="string"><span class="delimiter">&quot;</span><span class="content">name, salary</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
+Exp&lt;?&gt;<span class="type">[]</span> exps = Exp.parseExps(<span class="string"><span class="delimiter">&quot;</span><span class="content">name, salary</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
 <span class="comment">// same as</span>
 <span class="comment">//    new Exp[] { $col(&quot;name&quot;), $col(&quot;salary&quot;)}</span></code></pre>
 </div>
@@ -1709,7 +1709,7 @@ Exp&lt;?&gt;<span class="type">[]</span> exps = Exp.parseExpArray(<span class="s
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Sorter s1 = Sorter.parseSorter(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
-Sorter<span class="type">[]</span> ss = Sorter.parseSorterArray(<span class="string"><span class="delimiter">&quot;</span><span class="content">a, b desc</span><span class="delimiter">&quot;</span></span>);</code></pre>
+Sorter<span class="type">[]</span> ss = Sorter.parseSorters(<span class="string"><span class="delimiter">&quot;</span><span class="content">a, b desc</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">

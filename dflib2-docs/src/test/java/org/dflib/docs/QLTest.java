@@ -22,7 +22,7 @@ public class QLTest extends BaseTest {
         // same as
         //    $col("a").eq(3)
 
-        Exp<?>[] exps = Exp.parseExpArray("name, salary"); // <2>
+        Exp<?>[] exps = Exp.parseExps("name, salary"); // <2>
         // same as
         //    new Exp[] { $col("name"), $col("salary")}
 // end::parseExp[]
@@ -35,7 +35,7 @@ public class QLTest extends BaseTest {
 
 // tag::parseSorter[]
         Sorter s1 = Sorter.parseSorter("a");
-        Sorter[] ss = Sorter.parseSorterArray("a, b desc");
+        Sorter[] ss = Sorter.parseSorters("a, b desc");
 // end::parseSorter[]
     }
 
