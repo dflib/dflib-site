@@ -1887,16 +1887,17 @@ represent as strings. Parameters are positional and are substituted with an arra
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp1 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">str(a) = ?</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S1</span><span class="delimiter">&quot;</span></span>);
-Exp&lt;?&gt; exp2 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">str(a) in ('S1', ?, ?)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp1 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = ?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> MyType());
+Exp&lt;?&gt; exp2 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ('S1', ?, ?)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A special case is when a single collection parameter can replace multiple literals (notably, within the <code>in</code> expression):</p>
+<p>A special case is where a single collection parameter replaces a sequence of literals (notably, the entire right-hand
+side of an <code>in</code> expression):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">str(a) in ?</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Set</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">S1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>));</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ?</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Set</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">S1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 </div>
@@ -1921,10 +1922,10 @@ Exp&lt;?&gt; exp2 = Exp.parseExp(<span class="string"><span class="delimiter">&q
 <p><code>+</code>, <code>-</code></p>
 </li>
 <li>
-<p><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></p>
+<p><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>in</code>, <code>between .. and</code></p>
 </li>
 <li>
-<p><code>=</code>, <code>!=</code>, <code>in</code></p>
+<p><code>=</code>, <code>!=</code></p>
 </li>
 <li>
 <p><code>and</code></p>
@@ -6561,7 +6562,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-01 12:11:25 -0400
+Last updated 2025-09-01 16:46:21 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

@@ -27,7 +27,7 @@ public class QLTest extends BaseTest {
         //    new Exp[] { $col("name"), $col("salary")}
 // end::parseExp[]
         assertEquals(Exp.$col("a").eq(3), exp);
-        assertArrayEquals(new Exp[] {Exp.$col("name"), Exp.$col("salary")}, exps);
+        assertArrayEquals(new Exp[]{Exp.$col("name"), Exp.$col("salary")}, exps);
     }
 
     @Test
@@ -39,26 +39,33 @@ public class QLTest extends BaseTest {
 // end::parseSorter[]
     }
 
+    static class MyType {
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof MyType;
+        }
+    }
+
     @Test
     public void literalParam() {
 
 // tag::literalParam[]
-        Exp<?> exp1 = Exp.parseExp("str(a) = ?", "S1");
-        Exp<?> exp2 = Exp.parseExp("str(a) in ('S1', ?, ?)", "S2", "S3");
+        Exp<?> exp1 = Exp.parseExp("a = ?", new MyType());
+        Exp<?> exp2 = Exp.parseExp("a in ('S1', ?, ?)", "S2", "S3");
 // end::literalParam[]
 
-        assertEquals($str("a").eq($strVal("S1")), exp1);
-        assertEquals($str("a").in($strVal("S1"), $strVal("S2"), $strVal("S3")), exp2);
+        assertEquals($col("a").eq($val(new MyType())), exp1);
+        assertEquals($col("a").in($val("S1"), $val("S2"), $val("S3")), exp2);
     }
 
     @Test
     public void listParam() {
 
 // tag::listParam[]
-        Exp<?> exp = Exp.parseExp("str(a) in ?", Set.of("S1", "S2", "S3"));
+        Exp<?> exp = Exp.parseExp("a in ?", Set.of("S1", "S2", "S3"));
 // end::listParam[]
 
-        assertEquals($str("a").in($strVal("S1"), $strVal("S2"), $strVal("S3")), exp);
+        assertEquals($col("a").in($val("S1"), $val("S2"), $val("S3")), exp);
     }
 
     @Test
@@ -106,7 +113,7 @@ public class QLTest extends BaseTest {
                 // $col(5)
                 // end::columnByIndex[]
         );
-        assertEquals( $col(5), exp);
+        assertEquals($col(5), exp);
     }
 
     @Test

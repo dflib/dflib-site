@@ -124,7 +124,8 @@ represent as strings. Parameters are positional and are substituted with an arra
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=literalParam]
 ----
 
-A special case is when a single collection parameter can replace multiple literals (notably, within the `in` expression):
+A special case is where a single collection parameter replaces a sequence of literals (notably, the entire right-hand
+side of an `in` expression):
 
 [source,java,indent=0]
 ----
@@ -139,8 +140,8 @@ The following operators are supported, in the order of declining precedence:
 * `not`
 * `*`, `/`, `%`
 * `+`, `-`
-* `<`, `>`, `\<=`, `>=`
-* `=`, `!=`, `in`
+* `<`, `>`, `\<=`, `>=`, `in`, `between .. and`
+* `=`, `!=`
 * `and`
 * `or`
 * `as`
