@@ -231,11 +231,13 @@ columnset transforming operation.
 ==== String Functions
 * `concat(..)`
 * `endsWith(..)`
+* `lower(..)`
 * `matches(..)`
 * `split(..)`
 * `startsWith(..)`
 * `substr(..)`
 * `trim(..)`
+* `upper(..)`
 
 ==== Numeric Functions
 ...
