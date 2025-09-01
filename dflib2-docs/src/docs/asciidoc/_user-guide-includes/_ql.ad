@@ -1,9 +1,10 @@
 [#query_lang]
 == Query Language
 
-DFLib Query Language (QL for short) is a special syntax parsable by the library into expressions or sorters. It can be
-thought as a (rather small) subset of SQL that simplifies querying DataFrames. QL strings can be parsed into one of four
-Java objects - an `Exp`, an `Exp[]`, a `Sorter` or a `Sorter[]`. Expression parsing examples:
+DFLib Query Language ("QL" for short) is a special syntax parsable by the library into expressions or sorters. It can be
+thought as a (rather small) subset of SQL that simplifies querying and transforming DataFrames. QL strings are parsed
+into one of four objects - an `Exp`, an `Exp[]`, a `Sorter` or a `Sorter[]`, and, as mentioned previously, can be used
+in most APIs interchangeably with those objects. Expression parsing examples:
 
 [source,java,indent=0]
 ----

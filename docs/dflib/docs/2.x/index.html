@@ -1232,9 +1232,9 @@ position which is assumed to contain <code>BigDecimal</code> values</td>
 </table>
 </div>
 <div class="paragraph">
-<p>Expressions of any complexity can be created from parts using the Java API shown here and later in this chapter. Alternatively,
-DFLib provides a query language (see <a href="#query_lang">the next chapter</a>). Both are equivalent and can
-be used interchangeably. In fact, QL strings are parsed into <code>Exp</code> (or <code>Sorter</code>) instances.</p>
+<p>Expressions of any complexity can be created using the Java API shown in this chapter or, alternatively, specified
+via <a href="#query_lang">DFLib query language</a>. As QL strings are parsed into <code>Exp</code> (or <code>Sorter</code>) instances, both approaches
+are mostly equivalent and interchangeable.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1243,9 +1243,9 @@ be used interchangeably. In fact, QL strings are parsed into <code>Exp</code> (o
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-From the usability perspective, Java API makes <strong>writing</strong> expressions easier due to IDE auto-completion
-and compiler always ensuring semantical correctness. At the same time, QL makes code more <strong>readable</strong> as there&#8217;s much less
-Java boilerplate surrounding each clause. Decide for yourself which style is more appropriate in your situation.
+Java API makes <strong>writing</strong> expressions easier due to IDE auto-completion and compiler ensuring semantical
+correctness. But QL makes code more compact and <strong>readable</strong> as there&#8217;s much less Java boilerplate surrounding each clause.
+Decide for yourself which style fits your project better.
 </td>
 </tr>
 </table>
@@ -1676,9 +1676,10 @@ either a Java primitive or an instance of <code>Comparable</code>, or a <code>Cl
 <h2 id="query_lang">Query Language</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib Query Language (QL for short) is a special syntax parsable by the library into expressions or sorters. It can be
-thought as a (rather small) subset of SQL that simplifies querying DataFrames. QL strings can be parsed into one of four
-Java objects - an <code>Exp</code>, an <code>Exp[]</code>, a <code>Sorter</code> or a <code>Sorter[]</code>. Expression parsing examples:</p>
+<p>DFLib Query Language ("QL" for short) is a special syntax parsable by the library into expressions or sorters. It can be
+thought as a (rather small) subset of SQL that simplifies querying and transforming DataFrames. QL strings are parsed
+into one of four objects - an <code>Exp</code>, an <code>Exp[]</code>, a <code>Sorter</code> or a <code>Sorter[]</code>, and, as mentioned previously, can be used
+in most APIs interchangeably with those objects. Expression parsing examples:</p>
 </div>
 <div class="listingblock">
 <div class="content">
