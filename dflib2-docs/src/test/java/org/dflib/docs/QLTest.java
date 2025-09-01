@@ -5,7 +5,7 @@ import org.dflib.Sorter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 import static org.dflib.Exp.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -55,7 +55,7 @@ public class QLTest extends BaseTest {
     public void listParam() {
 
 // tag::listParam[]
-        Exp<?> exp = Exp.parseExp("str(a) in ?", List.of("S1", "S2", "S3"));
+        Exp<?> exp = Exp.parseExp("str(a) in ?", Set.of("S1", "S2", "S3"));
 // end::listParam[]
 
         assertEquals($str("a").in($strVal("S1"), $strVal("S2"), $strVal("S3")), exp);

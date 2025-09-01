@@ -24,11 +24,11 @@ position which is assumed to contain `BigDecimal` values
 
 Expressions of any complexity can be created from parts using the Java API shown here and later in this chapter. Alternatively,
 DFLib provides a query language (see <<query_lang,the next chapter>>). Both are equivalent and can
-be used interchangeably (in fact expression strings are parsed into `Exp` instances by DFLib).
+be used interchangeably. In fact, QL strings are parsed into `Exp` (or `Sorter`) instances.
 
 NOTE: From the usability perspective, Java API makes *writing* expressions easier due to IDE auto-completion
-and compiler always ensuring semantical correctness. While the expression language makes code more *readable* as there's
-much less Java-related boilerplate surrounding each clause. You should decide which is more important in your case.
+and compiler always ensuring semantical correctness. At the same time, QL makes code more *readable* as there's much less
+Java boilerplate surrounding each clause. Decide for yourself which style is more appropriate in your situation.
 
 `Exp.eval(..)` method evaluates the expression against a `DataFrame` (or a `Series`), in both cases producing
 a `Series` of the same size as the input:

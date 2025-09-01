@@ -3,9 +3,8 @@
 
 DFLib Query Language (QL for short) is a special syntax parsable by the library into expressions or sorters. It can be
 thought as a (rather small) subset of SQL that simplifies querying DataFrames. QL strings can be parsed into one of four
-Java objects - expressions, sorters, arrays of expressions and arrays of sorters
+Java objects - an `Exp`, an `Exp[]`, a `Sorter` or a `Sorter[]`. Expression parsing examples:
 
-Expressions example:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseExp]
@@ -13,21 +12,21 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseExp]
 <1> A single expression
 <2> Two expressions separated by comma
 
-Sorters example:
+Sorter parsing examples:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseSorter]
 ----
 
 NOTE: As shown in the following chapters, most DFLib APIs take QL strings directly calling `Exp.parse*` and
-`Sorter.parse*` internally. You'd rarely need to explicitly parse expressions in your code.
+`Sorter.parse*` internally. You'd rarely need to explicitly parse them in your code.
 
-QL syntax consists of column references, literals, operators, functions and parameters. Let's take a look at the individual parts
-of the syntax...
+We'll discuss QL syntax next. It consists of column references, literals (including parameters - a special kind of
+literals), operators and functions. Let's look at them individually...
+
+NOTE: A commented-out String below each expression in the following examples is an equivalent created via the Java API.
 
 === Columns
-
-NOTE: A commented out String below each expression in the following examples is an equivalent created via the Java API.
 
 Expressions can reference `DataFrame` column names either by name or by position. If a column name is compatible with
 the rules for Java identifiers (and doesn't conflict with syntax keywords like `true`, `false`, `null`), the column can
@@ -56,7 +55,8 @@ Columns can also be referred by their position in the `DataFrame` using the `col
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=columnByIndex]
 ----
 
-=== String Literals
+=== Literals
+==== String Literals
 
 Unlike columns, constant String values are always quoted using single quotes:
 [source,java,indent=0]
@@ -70,7 +70,7 @@ If a String contains single quotes, each one should be escaped with another sing
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=strValEscape]
 ----
 
-=== Numeric Literals
+==== Numeric Literals
 Numeric values are just unquoted numbers (mostly) following the Java syntax for decimals (and hexadecimals):
 [source,java,indent=0]
 ----
@@ -105,13 +105,31 @@ These codes are case-insensitive (both upper and lower cases are valid). Most ha
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=decimalVal]
 ----
 
-=== Boolean Literals
+==== Boolean Literals
 
 Lowercase unquoted `true` and `false` strings are recognized as the corresponding boolean constants.
 
-=== Null literal
+==== Null literal
 
 Lowercase unquoted `null` string is recognized as a null constant.
+
+==== Parameters
+
+A QL parameter (denoted by the `?` symbol) is a placeholder for a literal that is substituted with a real value during
+QL parsing. Parameters are used for convenience to avoid string concatenation or to represent values that are not easy to
+represent as strings to begin with. Parameters are positional and are substituted using an array of values:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=literalParam]
+----
+
+A special case is when a single collection parameter can replace multiple literals (notably the `in` expression):
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=listParam]
+----
 
 === Operators
 
@@ -122,7 +140,7 @@ The following operators are supported, in the order of declining precedence:
 * `*`, `/`, `%`
 * `+`, `-`
 * `<`, `>`, `\<=`, `>=`
-* `=`, `!=`
+* `=`, `!=`, `in`
 * `and`
 * `or`
 * `as`
@@ -224,21 +242,3 @@ columnset transforming operation.
 
 ==== Aggregating Functions
 ...
-
-==== Parameters
-
-To avoid string concatenation or represent values that are not easy to encode as strings to begin with, the
-expression syntax supports unnamed positional parameters. The `?` symbol is interpreted as a parameter, and can be
-placed in any location within an expression where otherwise a literal is expected:
-
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/QLTest.java[tags=literalParam]
-----
-
-A special case is passing an entire collection of values to the `in` clause:
-
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/QLTest.java[tags=listParam]
-----
