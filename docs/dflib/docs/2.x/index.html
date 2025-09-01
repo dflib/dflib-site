@@ -1676,10 +1676,21 @@ either a Java primitive or an instance of <code>Comparable</code>, or a <code>Cl
 <h2 id="query_lang">Query Language</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib Query Language ("QL" for short) is a special syntax parsable by the library into expressions or sorters. It can be
-thought as a (rather small) subset of SQL that simplifies querying and transforming DataFrames. QL strings are parsed
-into one of four objects - an <code>Exp</code>, an <code>Exp[]</code>, a <code>Sorter</code> or a <code>Sorter[]</code>, and, as mentioned previously, can be used
-in most APIs interchangeably with those objects. Expression parsing examples:</p>
+<p>DFLib Query Language ("QL" for short) is a special syntax parsable by the library. It can be thought as a (rather small)
+subset of SQL that simplifies querying, transforming and sorting DataFrames. At the high level, it takes one of these
+forms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;exp&gt;                                     // parsed to a single Exp
+&lt;exp&gt; [, &lt;exp&gt;]*                          // parsed to an Exp[]
+&lt;exp&gt; [asc|desc]?                         // parsed to a single Sorter
+&lt;exp&gt; [asc|desc]? [, &lt;exp&gt; [asc|desc]?]*  // parsed to a Sorter[]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So QL can produce these four objects - a single <code>Exp</code>, an <code>Exp[]</code>, a single <code>Sorter</code> or a <code>Sorter[]</code> and, as
+mentioned previously, can be used interchangeably with those objects throughout DFLib. Expression parsing examples:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1720,15 +1731,16 @@ Sorter<span class="type">[]</span> ss = Sorter.parseSorters(<span class="string"
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-As shown in the following chapters, most DFLib APIs take QL strings directly calling <code>Exp.parse*</code> and
-<code>Sorter.parse*</code> internally. You&#8217;d rarely need to explicitly parse them in your code.
+Most DFLib APIs take QL strings and call <code>Exp.parse*</code> and <code>Sorter.parse*</code> internally behind the scenes.
+You may not need to parse QL in your code at all. One possible exception is for performance - parsing a piece of QL once
+and reusing <code>Exp</code> (or <code>Sorter</code>) objects may save CPU cycles in certain cases.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>We&#8217;ll discuss QL syntax next. It consists of column references, literals (including parameters - a special kind of
-literals), operators and functions. Let&#8217;s look at them individually&#8230;&#8203;</p>
+<p>Now let&#8217;s discuss the QL syntax (i.e., what that <code>&lt;exp&gt;</code> above means). It consists of column references, literals,
+parameters (that are a special kind of literals), operators and functions. We&#8217;ll look at them individually&#8230;&#8203;</p>
 </div>
 <div class="admonitionblock note">
 <table>

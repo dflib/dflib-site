@@ -1,10 +1,19 @@
 [#query_lang]
 == Query Language
 
-DFLib Query Language ("QL" for short) is a special syntax parsable by the library into expressions or sorters. It can be
-thought as a (rather small) subset of SQL that simplifies querying and transforming DataFrames. QL strings are parsed
-into one of four objects - an `Exp`, an `Exp[]`, a `Sorter` or a `Sorter[]`, and, as mentioned previously, can be used
-in most APIs interchangeably with those objects. Expression parsing examples:
+DFLib Query Language ("QL" for short) is a special syntax parsable by the library. It can be thought as a (rather small)
+subset of SQL that simplifies querying, transforming and sorting DataFrames. At the high level, it takes one of these
+forms:
+
+```
+<exp>                                     // parsed to a single Exp
+<exp> [, <exp>]*                          // parsed to an Exp[]
+<exp> [asc|desc]?                         // parsed to a single Sorter
+<exp> [asc|desc]? [, <exp> [asc|desc]?]*  // parsed to a Sorter[]
+```
+
+So QL can produce these four objects - a single `Exp`, an `Exp[]`, a single `Sorter` or a `Sorter[]` and, as
+mentioned previously, can be used interchangeably with those objects throughout DFLib. Expression parsing examples:
 
 [source,java,indent=0]
 ----
@@ -19,11 +28,12 @@ Sorter parsing examples:
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseSorter]
 ----
 
-NOTE: As shown in the following chapters, most DFLib APIs take QL strings directly calling `Exp.parse*` and
-`Sorter.parse*` internally. You'd rarely need to explicitly parse them in your code.
+NOTE: Most DFLib APIs take QL strings and call `Exp.parse*` and `Sorter.parse*` internally behind the scenes.
+You may not need to parse QL in your code at all. One possible exception is for performance - parsing a piece of QL once
+and reusing `Exp` (or `Sorter`) objects may save CPU cycles in certain cases.
 
-We'll discuss QL syntax next. It consists of column references, literals (including parameters - a special kind of
-literals), operators and functions. Let's look at them individually...
+Now let's discuss the QL syntax (i.e., what that `<exp>` above means). It consists of column references, literals,
+parameters (that are a special kind of literals), operators and functions. We'll look at them individually...
 
 NOTE: A commented-out String below each expression in the following examples is an equivalent created via the Java API.
 
@@ -156,7 +166,6 @@ If multiple operators have the same precedence, they will be evaluated left to r
 ...
 
 ==== Sort Direction Operators
-
 When building a sorter, an expression can be followed by either `asc` or `desc` keyword to indicate ascending or
 descending sort direction. If omitted, `asc` is implied.
 
