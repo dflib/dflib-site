@@ -124,7 +124,7 @@ represent as strings. Parameters are positional and are substituted with an arra
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=literalParam]
 ----
 
-A special case is when a single collection parameter can replace multiple literals (notably the `in` expression):
+A special case is when a single collection parameter can replace multiple literals (notably, within the `in` expression):
 
 [source,java,indent=0]
 ----
