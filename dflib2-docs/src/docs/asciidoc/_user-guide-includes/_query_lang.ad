@@ -116,8 +116,8 @@ Lowercase unquoted `null` string is recognized as a null constant.
 ==== Parameters
 
 A QL parameter (denoted by the `?` symbol) is a placeholder for a literal that is substituted with a real value during
-QL parsing. Parameters are used for convenience to avoid string concatenation or to represent values that are not easy to
-represent as strings to begin with. Parameters are positional and are substituted using an array of values:
+QL parsing. Parameters are used for convenience to avoid string concatenation or for values that are not easy to
+represent as strings. Parameters are positional and are substituted with an array of values:
 
 [source,java,indent=0]
 ----
