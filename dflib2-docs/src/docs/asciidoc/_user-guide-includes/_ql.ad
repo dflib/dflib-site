@@ -231,6 +231,7 @@ columnset transforming operation.
 ==== String Functions
 * `concat(..)`
 * `endsWith(..)`
+* `len(..)`
 * `lower(..)`
 * `matches(..)`
 * `split(..)`
