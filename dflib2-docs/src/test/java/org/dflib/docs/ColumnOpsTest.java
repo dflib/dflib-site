@@ -1,7 +1,6 @@
 package org.dflib.docs;
 
 import org.dflib.DataFrame;
-import org.dflib.Exp;
 import org.dflib.Printers;
 import org.dflib.RowMapper;
 import org.dflib.Series;
@@ -10,9 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
-import static org.dflib.Exp.*;
+import static org.dflib.Exp.rowNum;
 
 public class ColumnOpsTest extends BaseTest {
 
@@ -116,8 +114,7 @@ public class ColumnOpsTest extends BaseTest {
 // tag::colsSelectExp[]
         DataFrame df1 = df
                 .cols("first_middle", "last") // <1>
-                .select("concat(first, ifNull(concat(' ', middle), '')), last")
-                ; // <2>
+                .select("concat(first, ifNull(concat(' ', middle), '')), last"); // <2>
 // end::colsSelectExp[]
 
         print("colsSelectAsOp", df1);
@@ -206,17 +203,12 @@ public class ColumnOpsTest extends BaseTest {
                 "jerry", "cosin", "M",
                 "Joan", "O'Hara", null);
 
-        Function<String, Exp<String>> cleanup = col -> $str(col).mapVal(
-                s -> s != null && !s.isEmpty()
-                        ? Character.toUpperCase(s.charAt(0)) + s.substring(1)
-                        : null); // <1>
-
         DataFrame df1 = df
                 .cols("last", "first", "full") // <2>
-                .merge( // <3>
-                        cleanup.apply("last"),
-                        cleanup.apply("first"),
-                        concat($str("first"), $val(" "), $str("last"))
+                .merge("""
+                        concat(upper(substr(last,0,1)), substr(last,1)),
+                        concat(upper(substr(first,0,1)), substr(first,1)),
+                        concat(first, ' ', last)""" // <3>
                 );
 // end::colsMap[]
 
@@ -229,17 +221,12 @@ public class ColumnOpsTest extends BaseTest {
                 "jerry", "cosin", "M",
                 "Joan", "O'Hara", null);
 
-        Function<String, Exp<String>> cleanup = col -> $str(col).mapVal(
-                s -> !s.isEmpty()
-                        ? Character.toUpperCase(s.charAt(0)) + s.substring(1)
-                        : null);
-
 // tag::colsAppendMap[]
         DataFrame df1 = df
                 .colsAppend("last", "first") // <1>
-                .merge(
-                        cleanup.apply("last"),
-                        cleanup.apply("first")
+                .merge("""
+                        concat(upper(substr(last,0,1)), substr(last,1)),
+                        concat(upper(substr(first,0,1)), substr(first,1))""" // <3>
                 );
 // end::colsAppendMap[]
 

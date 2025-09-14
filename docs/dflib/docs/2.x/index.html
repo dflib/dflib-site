@@ -2423,8 +2423,7 @@ we&#8217;ll show how to transform column data.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">concat(first, ifNull(concat(' ', middle), '')), last</span><span class="delimiter">&quot;</span></span>)
-        ; <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">concat(first, ifNull(concat(' ', middle), '')), last</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2616,17 +2615,12 @@ operations that we just discussed can also be executed as "merges".</p>
         <span class="string"><span class="delimiter">&quot;</span><span class="content">jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">cosin</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">M</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>);
 
-Function&lt;<span class="predefined-type">String</span>, Exp&lt;<span class="predefined-type">String</span>&gt;&gt; cleanup = col -&gt; <span class="error">$</span>str(col).mapVal(
-        s -&gt; s != <span class="predefined-constant">null</span> &amp;&amp; !s.isEmpty()
-                ? <span class="predefined-type">Character</span>.toUpperCase(s.charAt(<span class="integer">0</span>)) + s.substring(<span class="integer">1</span>)
-                : <span class="predefined-constant">null</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-
 DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">full</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
-        .merge( <i class="conum" data-value="3"></i><b>(3)</b>
-                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
-                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
-                concat(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>))
+        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+                concat(upper(substr(last,0,1)), substr(last,1)),
+                concat(upper(substr(first,0,1)), substr(first,1)),
+                concat(first, ' ', last)</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="3"></i><b>(3)</b>
         );</code></pre>
 </div>
 </div>
@@ -2690,9 +2684,9 @@ it doesn&#8217;t overlap with anything already in the DataFrame:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .colsAppend(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .merge(
-                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
-                cleanup.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
+        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+                concat(upper(substr(last,0,1)), substr(last,1)),
+                concat(upper(substr(first,0,1)), substr(first,1))</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="3"></i><b>(3)</b>
         );</code></pre>
 </div>
 </div>
