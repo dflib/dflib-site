@@ -113,30 +113,13 @@ public class ColumnOpsTest extends BaseTest {
     public void colsSelectExp() {
 
 // tag::colsSelectExp[]
-        Exp fmExp = concat(
-                $str("first"),
-                ifNullVal($str("middle").mapVal(s -> " " + s), ""));
-
         DataFrame df1 = df
                 .cols("first_middle", "last") // <1>
-                .select(fmExp, $str("last")); // <2>
+                .select("concat(first, ifNull(concat(' ', middle), '')), last")
+                ; // <2>
 // end::colsSelectExp[]
 
         print("colsSelectAsOp", df1);
-    }
-
-    @Test
-    public void colsSelectExpStr() {
-
-// tag::colsSelectExpStr[]
-        String exp =
-                "concat(str(first), castAsStr(ifNull(concat(' ', str(middle)), ''))), last";
-        DataFrame df1 = df
-                .cols("first_middle", "last")
-                .select(exp);
-// end::colsSelectExpStr[]
-
-        print("colsSelectExpStr", df1);
     }
 
     @Test

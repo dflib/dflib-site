@@ -2417,17 +2417,14 @@ O'Hara Joan</pre>
 we&#8217;ll show how to transform column data.</p>
 </div>
 <div class="paragraph">
-<p>Generating columns with expressions:</p>
+<p>Generating columns with QL (or expressions):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp fmExp = concat(
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>),
-        ifNullVal(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).mapVal(s -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + s), <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>));
-
-DataFrame df1 = df
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .select(fmExp, <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">concat(first, ifNull(concat(' ', middle), '')), last</span><span class="delimiter">&quot;</span></span>)
+        ; <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -2439,8 +2436,8 @@ we are naming the result columns, not the source columns.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>For each column in the <code>ColumnSet</code>, there should be an expression that generates the column. The first expression
-here transforms the data, the second simply picks a column from the source without modification.</td>
+<td>A QL statement specifying how data should be generated for each column in the <code>ColumnSet</code>, Here, the
+first expression transforms the data and the second picks a column from the source without modification.</td>
 </tr>
 </table>
 </div>
@@ -2452,18 +2449,18 @@ Jerry M      Cosin
 Joan         O'Hara</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Expressions can be passed as <code>Exp</code> objects, or simply as Strings. In the latter case, they will be parsed to <code>Exp</code>
-instances internally by DFLib:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> exp =
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">concat(str(first), castAsStr(ifNull(concat(' ', str(middle)), ''))), last</span><span class="delimiter">&quot;</span></span>;
-DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">first_middle</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>)
-        .select(exp);</code></pre>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+An alternative to the QL above would&#8217;ve been using a vararg with two <code>Exp</code> objects, which is generally more
+verbose but may be easier to write if you don&#8217;t remember the QL syntax.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Generating columns row-by-row with <code>RowMapper</code>:</p>

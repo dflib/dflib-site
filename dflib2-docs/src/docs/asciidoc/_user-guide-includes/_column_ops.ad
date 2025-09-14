@@ -136,15 +136,15 @@ O'Hara Joan
 In the above examples we performed `DataFrame` vertical slicing, columns reordering and renaming. In this chapter
 we'll show how to transform column data.
 
-Generating columns with expressions:
+Generating columns with QL (or expressions):
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExp]
 ----
 <1> When defining the `ColumnSet`, we are allowed to specify columns that are not present in the original DataFrame, as
 we are naming the result columns, not the source columns.
-<2> For each column in the `ColumnSet`, there should be an expression that generates the column. The first expression
-here transforms the data, the second simply picks a column from the source without modification.
+<2> A QL statement specifying how data should be generated for each column in the `ColumnSet`, Here, the
+first expression transforms the data and the second picks a column from the source without modification.
 ----
 first_middle last
 ------------ ------
@@ -152,13 +152,8 @@ Jerry M      Cosin
 Joan         O'Hara
 ----
 
-Expressions can be passed as `Exp` objects, or simply as Strings. In the latter case, they will be parsed to `Exp`
-instances internally by DFLib:
-
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpStr]
-----
+NOTE: An alternative to the QL above would've been using a vararg with two `Exp` objects, which is generally more
+verbose but may be easier to write if you don't remember the QL syntax.
 
 Generating columns row-by-row with `RowMapper`:
 [source,java,indent=0]
