@@ -163,19 +163,22 @@ include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRow
 There's also a way to generating columns row-by-row with a per-column array of `RowToValueMapper`. It is not very different
 from what we've seen so far, so we are leaving this as an exercise for the reader.
 
-[#column_ops_split]
-=== Split Columns
+[#column_ops_expand]
+=== Expand Columns
 
-Values can be split using an expression into iterable or array elements, and new columns can be generated
-from those elements, thus "expanding" each row. Here is an example of handling Lists of values (`List` is, of course,
+Columns containing collections (or, more generally, Iterables), comma-separated Strings or some other values that consist
+of logical parts can be "expanded" into multiple columns. Here is an example of expanding Lists (`List`, of course, is
 an `Iterable`) :
-
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpand]
 ----
-<1> `selectExpand(..)` takes an expression that returns a column with lists. If each List has more than 2 numbers,
-the rest are ignored, if less - nulls are used for the  missing elements
+<1> Notice how the newly produced columns are initially called "2", "3", etc. During the expansion the newly created
+columns are assigned names based on sequential numbers starting at the position equal to the source DataFrame width.
+In our case the DataFrame had 2 columns, so the expansion columns will be called "2", "3", "4", etc.
+<2> `expand(..)` takes an expression that returns a column with lists. Since we only defined two columns in the
+`ColumnSet`, if a List has more than 2 numbers, the rest are ignored, if less - nulls are used for the missing elements
+<3> Rename the expansion columns to something meaningful
 ----
 primary_phone secondary_phone
 ------------- ---------------
@@ -183,28 +186,28 @@ primary_phone secondary_phone
 222-555-5555  null
 ----
 
-If you don't know the exact number of phones, but would like to capture them all in separate columns, do not
-specify any explicit names (as mentioned in the <<column_ops_implicit,implicit column selection>> chapter).
-As many columns as needed to fit the longest array of phone numbers will be generated on the fly, and the names will
-be assigned dynamically:
-[source,java,indent=0]
-----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandUnlim]
-----
-<1> Not specifying any columns will result in split columns generated dynamically.
-----
-0            1            2
------------- ------------ ------------
-111-555-5555 111-666-6666 111-777-7777
-222-555-5555 null         null
-----
-
-If the phone numbers were provided as a comma-separated `String` instead of a `List`, you can split the String into an
-array of numbers using the `split(..)` expression, and use `selectExpandArray(..)` to generate the columns:
+If the phone numbers were provided as a comma-separated `String` instead of a `List`, you can expand it with the
+`split(..)` QL function, producing the same result:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandArrays]
 ----
+
+If you don't know the exact number of phones in each row, but would like to capture all of them in separate columns,
+do not use any explicit names (as mentioned in the <<column_ops_implicit,implicit column selection>> chapter).
+All needed columns will be generated on the fly to fit the longest array of phone numbers:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectExpandUnlim]
+----
+<1> Not specifying any columns will result in split columns generated dynamically and added to the existing columns
+----
+name   phones                    2            3            4
+------ ------------------------- ------------ ------------ ------------
+Cosin  [111-555-555..1-777-7777] 111-555-5555 111-666-6666 111-777-7777
+O'Hara [222-555-5555]            222-555-5555 null         null
+----
+
 
 === Merge Columns
 

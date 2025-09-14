@@ -2,6 +2,7 @@ package org.dflib.docs;
 
 import org.dflib.DataFrame;
 import org.dflib.Exp;
+import org.dflib.Printers;
 import org.dflib.RowMapper;
 import org.dflib.Series;
 import org.dflib.junit5.DataFrameAsserts;
@@ -149,27 +150,12 @@ public class ColumnOpsTest extends BaseTest {
                 "O'Hara", List.of("222-555-5555"));
 
         DataFrame df1 = df
-                .cols("primary_phone", "secondary_phone")
-                .selectExpand($col("phones")); // <1>
+                .cols("2", "3") // <1>
+                .expand("phones")  // <2>
+                .selectAs("primary_phones", "secondary_phone"); // <3>
 // end::colsSelectExpand[]
 
         print("colsSelectExpand", df1);
-    }
-
-    @Test
-    public void colsSelectExpandUnlim() {
-
-        DataFrame df = DataFrame.foldByRow("name", "phones").of(
-                "Cosin", List.of("111-555-5555", "111-666-6666", "111-777-7777"),
-                "O'Hara", List.of("222-555-5555"));
-
-// tag::colsSelectExpandUnlim[]
-        DataFrame df1 = df
-                .cols() // <1>
-                .selectExpand($col("phones"));
-// end::colsSelectExpandUnlim[]
-
-        print("colsSelectExpandUnlim", df1);
     }
 
     @Test
@@ -180,11 +166,37 @@ public class ColumnOpsTest extends BaseTest {
                 "O'Hara", "222-555-5555");
 
         DataFrame df1 = df
-                .cols("primary_phone", "secondary_phone")
-                .selectExpandArray($str("phones").split(','));
+                .cols("2", "3")
+
+                .expand("split(str(phones), ',')")
+                // .expand($str("phones").split(','))
+
+                .selectAs("primary_phones", "secondary_phone");
 // end::colsSelectExpandArrays[]
 
         print("colsSelectExpandArrays", df1);
+    }
+
+    @Test
+    public void colsSelectExpandUnlim() {
+
+        DataFrame df = DataFrame.foldByRow("name", "phones").of(
+                "Cosin", "111-555-5555,111-666-6666,111-777-7777",
+                "O'Hara", "222-555-5555");
+
+// tag::colsSelectExpandUnlim[]
+        DataFrame df1 = df
+                .cols() // <1>
+
+                .expand("split(str(phones), ',')")
+                // .expand($str("phones").split(','))
+
+                .select();
+// end::colsSelectExpandUnlim[]
+
+        System.out.println();
+        System.out.println("[colsSelectExpandUnlim]");
+        System.out.println(Printers.tabular(10, 10, 25).print(df1));
     }
 
     @Test

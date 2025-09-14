@@ -162,8 +162,8 @@ placed in their original positions). The relative order of added rows is respect
 NOTE: Just like with columns, for most `RowSet.select(..)` methods there are "merging" counterparts, such as  `map(..)`,
 `expand(..)`, `unique(..)`, etc.
 
-=== Split Rows
-Splitting rows is somewhat simpler than <<column_ops_split,splitting columns>>. The API takes a single column
+=== Expand Rows
+Splitting rows is somewhat simpler than <<column_ops_expand,splitting columns>>. The API takes a single column
 (no expression is allowed), and splits any expandable values into new rows:
 
 [source,java,indent=0]

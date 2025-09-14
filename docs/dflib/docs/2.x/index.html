@@ -571,7 +571,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_pick_columns">Pick Columns</a></li>
 <li><a href="#_rename_columns">Rename Columns</a></li>
 <li><a href="#column_ops_transform">Transform Columns</a></li>
-<li><a href="#column_ops_split">Split Columns</a></li>
+<li><a href="#column_ops_expand">Expand Columns</a></li>
 <li><a href="#_merge_columns">Merge Columns</a></li>
 <li><a href="#_compact_columns">Compact Columns</a></li>
 <li><a href="#_fill_nulls">Fill Nulls</a></li>
@@ -584,7 +584,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_pick_rows">Pick Rows</a></li>
 <li><a href="#_transform_rows">Transform Rows</a></li>
 <li><a href="#_merge_rows">Merge Rows</a></li>
-<li><a href="#_split_rows">Split Rows</a></li>
+<li><a href="#_expand_rows">Expand Rows</a></li>
 <li><a href="#_unique_rows">Unique Rows</a></li>
 <li><a href="#_drop_rows">Drop Rows</a></li>
 </ul>
@@ -2485,10 +2485,10 @@ from what we&#8217;ve seen so far, so we are leaving this as an exercise for the
 </div>
 </div>
 <div class="sect2">
-<h3 id="column_ops_split">Split Columns</h3>
+<h3 id="column_ops_expand">Expand Columns</h3>
 <div class="paragraph">
-<p>Values can be split using an expression into iterable or array elements, and new columns can be generated
-from those elements, thus "expanding" each row. Here is an example of handling Lists of values (<code>List</code> is, of course,
+<p>Columns containing collections (or, more generally, Iterables), comma-separated Strings or some other values that consist
+of logical parts can be "expanded" into multiple columns. Here is an example of expanding Lists (<code>List</code>, of course, is
 an <code>Iterable</code>) :</p>
 </div>
 <div class="listingblock">
@@ -2498,16 +2498,27 @@ an <code>Iterable</code>) :</p>
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>));
 
 DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
-        .selectExpand(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .expand(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>)  <i class="conum" data-value="2"></i><b>(2)</b>
+        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phones</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>selectExpand(..)</code> takes an expression that returns a column with lists. If each List has more than 2 numbers,
-the rest are ignored, if less - nulls are used for the  missing elements</td>
+<td>Notice how the newly produced columns are initially called "2", "3", etc. During the expansion the newly created
+columns are assigned names based on sequential numbers starting at the position equal to the source DataFrame width.
+In our case the DataFrame had 2 columns, so the expansion columns will be called "2", "3", "4", etc.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>expand(..)</code> takes an expression that returns a column with lists. Since we only defined two columns in the
+<code>ColumnSet</code>, if a List has more than 2 numbers, the rest are ignored, if less - nulls are used for the missing elements</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Rename the expansion columns to something meaningful</td>
 </tr>
 </table>
 </div>
@@ -2520,37 +2531,8 @@ the rest are ignored, if less - nulls are used for the  missing elements</td>
 </div>
 </div>
 <div class="paragraph">
-<p>If you don&#8217;t know the exact number of phones, but would like to capture them all in separate columns, do not
-specify any explicit names (as mentioned in the <a href="#column_ops_implicit">implicit column selection</a> chapter).
-As many columns as needed to fit the longest array of phone numbers will be generated on the fly, and the names will
-be assigned dynamically:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .cols() <i class="conum" data-value="1"></i><b>(1)</b>
-        .selectExpand(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>));</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Not specifying any columns will result in split columns generated dynamically.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>0            1            2
------------- ------------ ------------
-111-555-5555 111-666-6666 111-777-7777
-222-555-5555 null         null</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the phone numbers were provided as a comma-separated <code>String</code> instead of a <code>List</code>, you can split the String into an
-array of numbers using the <code>split(..)</code> expression, and use <code>selectExpandArray(..)</code> to generate the columns:</p>
+<p>If the phone numbers were provided as a comma-separated <code>String</code> instead of a <code>List</code>, you can expand it with the
+<code>split(..)</code> QL function, producing the same result:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2559,8 +2541,44 @@ array of numbers using the <code>split(..)</code> expression, and use <code>sele
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">222-555-5555</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phone</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>)
-        .selectExpandArray(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>).split(<span class="string"><span class="delimiter">'</span><span class="content">,</span><span class="delimiter">'</span></span>));</code></pre>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="delimiter">&quot;</span></span>)
+
+        .expand(<span class="string"><span class="delimiter">&quot;</span><span class="content">split(str(phones), ',')</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">// .expand($str(&quot;phones&quot;).split(','))</span>
+
+        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">primary_phones</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">secondary_phone</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t know the exact number of phones in each row, but would like to capture all of them in separate columns,
+do not use any explicit names (as mentioned in the <a href="#column_ops_implicit">implicit column selection</a> chapter).
+All needed columns will be generated on the fly to fit the longest array of phone numbers:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols() <i class="conum" data-value="1"></i><b>(1)</b>
+
+        .expand(<span class="string"><span class="delimiter">&quot;</span><span class="content">split(str(phones), ',')</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">// .expand($str(&quot;phones&quot;).split(','))</span>
+
+        .select();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Not specifying any columns will result in split columns generated dynamically and added to the existing columns</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>name   phones                    2            3            4
+------ ------------------------- ------------ ------------ ------------
+Cosin  [111-555-555..1-777-7777] 111-555-5555 111-666-6666 111-777-7777
+O'Hara [222-555-5555]            222-555-5555 null         null</pre>
 </div>
 </div>
 </div>
@@ -3306,9 +3324,9 @@ Just like with columns, for most <code>RowSet.select(..)</code> methods there ar
 </div>
 </div>
 <div class="sect2">
-<h3 id="_split_rows">Split Rows</h3>
+<h3 id="_expand_rows">Expand Rows</h3>
 <div class="paragraph">
-<p>Splitting rows is somewhat simpler than <a href="#column_ops_split">splitting columns</a>. The API takes a single column
+<p>Splitting rows is somewhat simpler than <a href="#column_ops_expand">splitting columns</a>. The API takes a single column
 (no expression is allowed), and splits any expandable values into new rows:</p>
 </div>
 <div class="listingblock">
