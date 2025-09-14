@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
 
-import static org.dflib.Exp.*;
-
 public class SortingTest extends BaseTest {
 
     @Test
@@ -18,7 +16,8 @@ public class SortingTest extends BaseTest {
         // sort series by String length
         Series<String> s = Series
                 .of("12", "1", "123")
-                .sort($str("").mapVal(String::length).asc());
+                .sort("len(str(0)) desc");
+        // .sort($str("").mapVal(String::length).desc());
 // end::sortSeries_Sorter[]
 
         print("sortSeries", s);
@@ -42,7 +41,7 @@ public class SortingTest extends BaseTest {
 // tag::sortSeries_Natural[]
         Series<String> s = Series
                 .of("c", "d", "a")
-                .sort($str("").asc());
+                .sort("col(0)");
 // end::sortSeries_Natural[]
 
         print("sortSeries_Natural", s);
@@ -70,9 +69,8 @@ public class SortingTest extends BaseTest {
                 "Jerry", "Albert", null,
                 "Joan", "O'Hara", "J");
 
-        DataFrame df1 = df.sort(
-                $str("first").asc(),
-                $str("last").asc());
+        DataFrame df1 = df.sort("first, last");
+        // df.sort($col("first").asc(), $col("last").asc());
 // end::sortDataFrame_Sorter[]
 
         print("sortDataFrame_Sorter", df1);
@@ -103,7 +101,9 @@ public class SortingTest extends BaseTest {
                 "Jerry", "Albert", null,
                 "Joan", "O'Hara", "J");
 
-        DataFrame df1 = df.sort(new String[]{"last", "first"}, new boolean[]{true, false});
+        DataFrame df1 = df.sort(
+                new String[]{"last", "first"},
+                new boolean[]{true, false});
 // end::sortDataFrameComparableColumns[]
 
         print("sortDataFrameComparableColumns", df1);

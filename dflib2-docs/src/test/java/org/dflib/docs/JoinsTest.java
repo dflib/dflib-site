@@ -94,10 +94,8 @@ public class JoinsTest extends BaseTest {
                 .join(right.as("R"))
                 .on("id")
                 .cols("name", "retires_soon")
-                .select(
-                        $col("name"),
-                        $int("R.age").gt(57)
-                );
+                .select("name, int(`R.age`) > 57");
+        // .select($col("name"), $int("R.age").gt(57));
 
         // end::selectExp[]
 

@@ -224,7 +224,7 @@ include::../../../test/java/org/dflib/docs/ExpTest.java[tags=agg]
 [#sorter]
 === Sorters
 
-`Sorter` is a special object, that allows <<sorting,sorting DataFrames or Series>>. Internally, a Sorter uses an
+`Sorter` is a special object that allows <<sorting,sorting DataFrames or Series>>. Internally, a Sorter uses an
 expression to retrieve or calculate values that comprise sorting criteria and index them in the specified order. A
 Sorter can be created from any expression by calling its `asc()` or `desc()` methods:
 
@@ -233,6 +233,6 @@ Sorter can be created from any expression by calling its `asc()` or `desc()` met
 include::../../../test/java/org/dflib/docs/ExpTest.java[tags=sorter]
 ----
 
-NOTE: DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
+NOTE: DFLib allows you to create a Sorter based on any expression type. In runtime, the actual type must be
 either a Java primitive or an instance of `Comparable`, or a `ClassCastException` will be thrown during sorting.
 

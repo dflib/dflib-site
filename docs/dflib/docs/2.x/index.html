@@ -1646,7 +1646,7 @@ window operations) where we need to produce a single value out of a <code>Series
 <div class="sect2">
 <h3 id="sorter">Sorters</h3>
 <div class="paragraph">
-<p><code>Sorter</code> is a special object, that allows <a href="#sorting">sorting DataFrames or Series</a>. Internally, a Sorter uses an
+<p><code>Sorter</code> is a special object that allows <a href="#sorting">sorting DataFrames or Series</a>. Internally, a Sorter uses an
 expression to retrieve or calculate values that comprise sorting criteria and index them in the specified order. A
 Sorter can be created from any expression by calling its <code>asc()</code> or <code>desc()</code> methods:</p>
 </div>
@@ -1663,7 +1663,7 @@ Sorter s = <span class="error">$</span>str(<span class="string"><span class="del
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-DFLib would allow you to create a Sorter based on any expression type. In runtime, the actual type must be
+DFLib allows you to create a Sorter based on any expression type. In runtime, the actual type must be
 either a Java primitive or an instance of <code>Comparable</code>, or a <code>ClassCastException</code> will be thrown during sorting.
 </td>
 </tr>
@@ -3015,7 +3015,10 @@ define the <strong>result</strong> rows. See <a href="#understanding_columnset">
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">P</span><span class="delimiter">&quot;</span></span>);
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">W</span><span class="delimiter">&quot;</span></span>).eval(df)) <i class="conum" data-value="1"></i><b>(1)</b>
+
+        .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">startsWith(str(last), 'W')</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="comment">// .rows($str(&quot;last&quot;).startsWith(&quot;W&quot;))</span>
+
         .select(); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
@@ -3200,11 +3203,9 @@ rows from the original <code>DataFrame</code>. Here we will demonstrate selectin
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">59</span>, <span class="predefined-constant">false</span>);
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
-        .select(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span>val(<span class="predefined-constant">true</span>)); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">67 - int(age) &lt; 10</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">//  .rows($int(&quot;age&quot;).mapBoolVal(a -&gt; 67 - a &lt; 10))</span>
+        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">last, age, true</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -3248,7 +3249,7 @@ This code can be improved by creating a <code>RowColumnSet</code> <a href="#row_
 };
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
+        .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">67 - int(age) &lt; 10</span><span class="delimiter">&quot;</span></span>)
         .select(mapper);</code></pre>
 </div>
 </div>
@@ -3271,11 +3272,8 @@ like <code>merge(..)</code> (i.e. those that do not start with <code>select</cod
         <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="integer">59</span>, <span class="predefined-constant">false</span>);
 
 DataFrame df1 = df
-        .rows(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>).mapBoolVal(a -&gt; <span class="integer">67</span> - a &lt; <span class="integer">10</span>))
-        .merge(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span>val(<span class="predefined-constant">true</span>));</code></pre>
+        .rows(<span class="string"><span class="delimiter">&quot;</span><span class="content">67 - int(age) &lt; 10</span><span class="delimiter">&quot;</span></span>)
+        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="content">last, age, true</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3429,7 +3427,10 @@ or select the rows you’d want to remain and call <code>select()</code>:</p>
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">P</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.rows(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).isNull()).drop();</code></pre>
+DataFrame df1 = df.rows(
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">middle = null</span><span class="delimiter">&quot;</span></span>
+        <span class="comment">// $col(&quot;middle&quot;).isNull()</span>
+).drop();</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3439,7 +3440,7 @@ DataFrame df1 = df.rows(<span class="error">$</span>col(<span class="string"><sp
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Juliana</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Walewski</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">P</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.rowsExcept(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle</span><span class="delimiter">&quot;</span></span>).isNull()).select();</code></pre>
+DataFrame df1 = df.rowsExcept(<span class="string"><span class="delimiter">&quot;</span><span class="content">middle = null</span><span class="delimiter">&quot;</span></span>).select();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3597,14 +3598,15 @@ not alter the original object, and instead creates a new instance of either Seri
 <div class="sect2">
 <h3 id="_sort_series">Sort Series</h3>
 <div class="paragraph">
-<p>Series provides a <code>sort</code> method to sort its data using a <a href="#sorter">sorter</a> built from an expression:</p>
+<p>Series provides a <code>sort</code> method to sort its data using a <a href="#sorter">sorter</a> built from QL:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sort series by String length</span>
 Series&lt;<span class="predefined-type">String</span>&gt; s = Series
         .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">12</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">123</span><span class="delimiter">&quot;</span></span>)
-        .sort(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>).mapVal(<span class="predefined-type">String</span>::length).asc());</code></pre>
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">len(str(0)) desc</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">// .sort($str(&quot;&quot;).mapVal(String::length).desc());</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3612,10 +3614,9 @@ Series&lt;<span class="predefined-type">String</span>&gt; s = Series
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>1
+<pre>123
 12
-123
-3 elements</pre>
+1</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3635,15 +3636,14 @@ Series&lt;<span class="predefined-type">String</span>&gt; s = Series
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series
         .of(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>)
-        .sort(<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>).asc());</code></pre>
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">col(0)</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>a
 c
-d
-3 elements</pre>
+d</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3660,8 +3660,7 @@ d
 <div class="content">
 <pre>                  0
                  15
-9223372036854775807
-3 elements</pre>
+9223372036854775807</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3698,9 +3697,8 @@ compatible with <code>java.lang.Comparable</code> (i.e., Strings, numbers, etc).
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Albert</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.sort(
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).asc(),
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).asc());</code></pre>
+DataFrame df1 = df.sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">first, last</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">// df.sort($col(&quot;first&quot;).asc(), $col(&quot;last&quot;).asc());</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3744,7 +3742,9 @@ direction (<code>true</code> for ascending, <code>false</code> - for descending 
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Albert</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">J</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.sort(<span class="keyword">new</span> <span class="predefined-type">String</span><span class="type">[]</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>}, <span class="keyword">new</span> <span class="type">boolean</span><span class="type">[]</span>{<span class="predefined-constant">true</span>, <span class="predefined-constant">false</span>});</code></pre>
+DataFrame df1 = df.sort(
+        <span class="keyword">new</span> <span class="predefined-type">String</span><span class="type">[]</span>{<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>},
+        <span class="keyword">new</span> <span class="type">boolean</span><span class="type">[]</span>{<span class="predefined-constant">true</span>, <span class="predefined-constant">false</span>});</code></pre>
 </div>
 </div>
 </div>
@@ -4160,10 +4160,8 @@ together:</p>
         .join(right.as(<span class="string"><span class="delimiter">&quot;</span><span class="content">R</span><span class="delimiter">&quot;</span></span>))
         .on(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>)
         .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">retires_soon</span><span class="delimiter">&quot;</span></span>)
-        .select(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">R.age</span><span class="delimiter">&quot;</span></span>).gt(<span class="integer">57</span>)
-        );</code></pre>
+        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">name, int(`R.age`) &gt; 57</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">// .select($col(&quot;name&quot;), $int(&quot;R.age&quot;).gt(57));</span></code></pre>
 </div>
 </div>
 <div class="listingblock">

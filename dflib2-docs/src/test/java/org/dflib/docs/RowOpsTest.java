@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.dflib.Exp.*;
-
 public class RowOpsTest extends BaseTest {
 
     @Test
@@ -23,7 +21,10 @@ public class RowOpsTest extends BaseTest {
                 "Joan", "O'Hara", "P");
 
         DataFrame df1 = df
-                .rows($str("last").startsWith("W").eval(df)) // <1>
+
+                .rows("startsWith(str(last), 'W')") // <1>
+                // .rows($str("last").startsWith("W"))
+
                 .select(); // <2>
 // end::rowsByCondition[]
 
@@ -125,11 +126,9 @@ public class RowOpsTest extends BaseTest {
                 "O'Hara", 59, false);
 
         DataFrame df1 = df
-                .rows($int("age").mapBoolVal(a -> 67 - a < 10))
-                .select(
-                        $col("last"),
-                        $col("age"),
-                        $val(true)); // <1>
+                .rows("67 - int(age) < 10")
+                //  .rows($int("age").mapBoolVal(a -> 67 - a < 10))
+                .select("last, age, true"); // <1>
 // end::rowsSelectExp[]
 
         print("rowsSelectExp", df1);
@@ -149,7 +148,7 @@ public class RowOpsTest extends BaseTest {
         };
 
         DataFrame df1 = df
-                .rows($int("age").mapBoolVal(a -> 67 - a < 10))
+                .rows("67 - int(age) < 10")
                 .select(mapper);
 // end::rowsSelectRowMapper[]
 
@@ -166,11 +165,8 @@ public class RowOpsTest extends BaseTest {
                 "O'Hara", 59, false);
 
         DataFrame df1 = df
-                .rows($int("age").mapBoolVal(a -> 67 - a < 10))
-                .merge(
-                        $col("last"),
-                        $col("age"),
-                        $val(true));
+                .rows("67 - int(age) < 10")
+                .merge("last, age, true");
 // end::rowsMergeExp[]
 
         print("rowsMergeExp", df1);
@@ -185,7 +181,10 @@ public class RowOpsTest extends BaseTest {
                 "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "P");
 
-        DataFrame df1 = df.rows($col("middle").isNull()).drop();
+        DataFrame df1 = df.rows(
+                "middle = null"
+                // $col("middle").isNull()
+        ).drop();
 // end::rowsDrop[]
 
         print("colsDrop", df1);
@@ -201,7 +200,7 @@ public class RowOpsTest extends BaseTest {
                 "Juliana", "Walewski", null,
                 "Joan", "O'Hara", "P");
 
-        DataFrame df1 = df.rowsExcept($col("middle").isNull()).select();
+        DataFrame df1 = df.rowsExcept("middle = null").select();
 // end::rowsExceptSelect[]
 
         print("rowsExceptSelect", df1);
