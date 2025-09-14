@@ -32,9 +32,7 @@ each payroll period by passing a list of "aggregating" expressions to the `agg(.
 ----
 include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg]
 ----
-<1> Returns the value in the grouping column
-<2> Calculates total payroll amount within each group
-<3> `count()` returns the number of rows in each group
+<1> QL for 3 result columns
 
 ----
 date       sum(amount) count
@@ -56,6 +54,8 @@ Let's make a minor improvement to the example above and provide more descriptive
 include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=agg_cols]
 ----
 
+<1> Here we are naming the columns explicitly, but we could also use QL aliases (e.g. `sum(double(amount)) as total`)
+
 ----
 date         total employees
 ---------- ------- ---------
@@ -76,9 +76,8 @@ in the same period:
 include::../../../test/java/org/dflib/docs/GroupByTest.java[tags=rank]
 ----
 <1> To produce a proper ranking, we need to order rows within each group first
-<2> In `select(..)`, instead of aggregating expressions, we are using "normal" ones , but they are applied to
-each group separately.
-<3> Ranking function applied within each group
+<2> In `select(..)`, instead of aggregating expressions, we are using "regular" ones, but they are applied to each
+group separately. Ranking `rowNum()` function is applied within each group
 
 ----
 date       name             rank

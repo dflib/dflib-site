@@ -4376,26 +4376,15 @@ each payroll period by passing a list of "aggregating" expressions to the <code>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame agg = df
         .group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
-        .agg(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="1"></i><b>(1)</b>
-                <span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).sum(), <i class="conum" data-value="2"></i><b>(2)</b>
-                count() <i class="conum" data-value="3"></i><b>(3)</b>
-        );</code></pre>
+        .agg(<span class="string"><span class="delimiter">&quot;</span><span class="content">date, sum(double(amount)), count()</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="comment">// .agg($col(&quot;date&quot;), $double(&quot;amount&quot;).sum(), count());</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Returns the value in the grouping column</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Calculates total payroll amount within each group</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td><code>count()</code> returns the number of rows in each group</td>
+<td>QL for 3 result columns</td>
 </tr>
 </table>
 </div>
@@ -4421,13 +4410,17 @@ most often used with the columns that are a part of the grouping criteria.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame agg = df
         .group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">total</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">employees</span><span class="delimiter">&quot;</span></span>)
-        .agg(
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).sum(),
-                count()
-        );</code></pre>
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">total</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">employees</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .agg(<span class="string"><span class="delimiter">&quot;</span><span class="content">date, sum(double(amount)), count()</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Here we are naming the columns explicitly, but we could also use QL aliases (e.g. <code>sum(double(amount)) as total</code>)</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4460,13 +4453,8 @@ in the same period:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame ranked = df.group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
-        .sort(<span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="1"></i><b>(1)</b>
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">rank</span><span class="delimiter">&quot;</span></span>)
-        .select( <i class="conum" data-value="2"></i><b>(2)</b>
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>),
-                <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>),
-                rowNum() <i class="conum" data-value="3"></i><b>(3)</b>
-        );</code></pre>
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount desc</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">date, name, rowNum() as rank</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4477,12 +4465,8 @@ in the same period:</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>In <code>select(..)</code>, instead of aggregating expressions, we are using "normal" ones , but they are applied to
-each group separately.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Ranking function applied within each group</td>
+<td>In <code>select(..)</code>, instead of aggregating expressions, we are using "regular" ones, but they are applied to each
+group separately. Ranking <code>rowNum()</code> function is applied within each group</td>
 </tr>
 </table>
 </div>
@@ -4511,7 +4495,7 @@ that this operation doesn&#8217;t do any aggregation. Just sorting within groups
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame topSalary = df.group(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
-        .sort(<span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">amount desc</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
         .head(<span class="integer">1</span>) <i class="conum" data-value="2"></i><b>(2)</b>
         .select();</code></pre>
 </div>

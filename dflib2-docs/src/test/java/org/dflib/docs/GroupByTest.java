@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static org.dflib.Exp.*;
-
 public class GroupByTest extends BaseTest {
 
     static final DataFrame df = DataFrame.foldByRow("name", "amount", "date").of(
@@ -34,11 +32,8 @@ public class GroupByTest extends BaseTest {
 // tag::agg[]
         DataFrame agg = df
                 .group("date")
-                .agg(
-                        $col("date"), // <1>
-                        $double("amount").sum(), // <2>
-                        count() // <3>
-                );
+                .agg("date, sum(double(amount)), count()"); // <1>
+        // .agg($col("date"), $double("amount").sum(), count());
 // end::agg[]
 
         print("agg", agg);
@@ -49,12 +44,8 @@ public class GroupByTest extends BaseTest {
 // tag::agg_cols[]
         DataFrame agg = df
                 .group("date")
-                .cols("date", "total", "employees")
-                .agg(
-                        $col("date"),
-                        $double("amount").sum(),
-                        count()
-                );
+                .cols("date", "total", "employees") // <1>
+                .agg("date, sum(double(amount)), count()");
 // end::agg_cols[]
 
         print("agg_cols", agg);
@@ -64,13 +55,8 @@ public class GroupByTest extends BaseTest {
     public void rank() throws IOException {
 // tag::rank[]
         DataFrame ranked = df.group("date")
-                .sort($double("amount").desc()) // <1>
-                .cols("date", "name", "rank")
-                .select( // <2>
-                        $col("date"),
-                        $col("name"),
-                        rowNum() // <3>
-                );
+                .sort("amount desc") // <1>
+                .select("date, name, rowNum() as rank"); // <2>
 // end::rank[]
 
         Printers.tabular(8, 100, 100).printTo(System.out, ranked);
@@ -80,7 +66,7 @@ public class GroupByTest extends BaseTest {
     public void head() {
 // tag::topSalary[]
         DataFrame topSalary = df.group("date")
-                .sort($double("amount").desc()) // <1>
+                .sort("amount desc") // <1>
                 .head(1) // <2>
                 .select();
 // end::topSalary[]
