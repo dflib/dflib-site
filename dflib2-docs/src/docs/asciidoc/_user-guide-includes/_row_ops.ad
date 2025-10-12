@@ -204,7 +204,7 @@ Joan  O'Hara
 ----
 include::../../../test/java/org/dflib/docs/RowOpsTest.java[tags=rowsSelectUnique]
 ----
-<1> Deduplicate first names. Picking the row of each earliest-encountered unique first name.
+<1> Deduplicate first names. Picking the first row in each group of unique first names.
 ----
 first last
 ----- ------

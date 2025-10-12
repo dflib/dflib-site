@@ -218,7 +218,8 @@ public class RowOpsTest extends BaseTest {
 
         DataFrame df1 = df
                 .rows()
-                .selectExpand("phones");
+                .expand("phones")
+                .select();
 // end::rowsSelectExpand[]
 
         print("rowsSelectExpand", df1);
@@ -234,13 +235,13 @@ public class RowOpsTest extends BaseTest {
                 "Jerry", "Cosin",
                 "Joan", "O'Hara");
 
-        DataFrame df1 = df.rows().selectUnique(); // <1>
+        DataFrame df1 = df.rows().unique().select(); // <1>
 // end::rowsSelectUniqueAll[]
 
         print("rowsSelectUniqueAll", df1);
 
         // tag::rowsSelectUnique[]
-        DataFrame df2 = df.rows().selectUnique("first"); // <1>
+        DataFrame df2 = df.rows().unique("first").select(); // <1>
         // end::rowsSelectUnique[]
 
         print("rowsSelectUnique", df2);

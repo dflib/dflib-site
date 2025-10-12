@@ -756,7 +756,7 @@ multiple DFLib modules:</p>
 
 DataFrame df2 = df1.rows(r -&gt; r.getInt(<span class="integer">0</span>) % <span class="integer">2</span> == <span class="integer">0</span>).select();
 
-<span class="predefined-type">System</span>.out.println(Printers.tabular.toString(df2));</code></pre>
+<span class="predefined-type">System</span>.out.println(Printers.tabular.print(df2));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -769,7 +769,11 @@ DataFrame df2 = df1.rows(r -&gt; r.getInt(<span class="integer">0</span>) % <spa
    4    5    6
   10   11   12
   16   17   18
+  22   23   24
+  28   29   30
 ...
+9970 9971 9972
+9976 9977 9978
 9982 9983 9984
 9988 9989 9990
 9994 9995 9996
@@ -3332,7 +3336,8 @@ Just like with columns, for most <code>RowSet.select(..)</code> methods there ar
 
 DataFrame df1 = df
         .rows()
-        .selectExpand(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>);</code></pre>
+        .expand(<span class="string"><span class="delimiter">&quot;</span><span class="content">phones</span><span class="delimiter">&quot;</span></span>)
+        .select();</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -3372,7 +3377,7 @@ all columns of each row, or a preselected subset:</p>
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Jerry</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Cosin</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">Joan</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">O'Hara</span><span class="delimiter">&quot;</span></span>);
 
-DataFrame df1 = df.rows().selectUnique(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame df1 = df.rows().unique().select(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -3394,14 +3399,14 @@ Joan  O'Hara</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df2 = df.rows().selectUnique(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df2 = df.rows().unique(<span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>).select(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Deduplicate first names. Picking the row of each earliest-encountered unique first name.</td>
+<td>Deduplicate first names. Picking the first row in each group of unique first names.</td>
 </tr>
 </table>
 </div>
@@ -3793,16 +3798,14 @@ n
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Collection</span>&lt;Series&lt;<span class="predefined-type">String</span>&gt;&gt; ss = asList(
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat.concat(
         Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
         Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
-        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));
-
-Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat.concat(ss);</code></pre>
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The result is the same as in the previous example. Also you can concatenate Series with itself:</p>
+<p>The result is the same as in the previous example. Also, you can concatenate Series with itself:</p>
 </div>
 <div class="listingblock">
 <div class="content">

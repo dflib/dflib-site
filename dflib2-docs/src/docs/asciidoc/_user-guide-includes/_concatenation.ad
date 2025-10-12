@@ -31,7 +31,7 @@ If you have a collection or an array of Series and want to "glue" them together,
 ----
 include::../../../test/java/org/dflib/docs/ConcatTest.java[tags=concatSeries_Static]
 ----
-The result is the same as in the previous example. Also you can concatenate Series with itself:
+The result is the same as in the previous example. Also, you can concatenate Series with itself:
 
 [source,java,indent=0]
 ----

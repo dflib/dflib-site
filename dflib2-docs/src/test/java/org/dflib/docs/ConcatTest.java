@@ -6,10 +6,6 @@ import org.dflib.Series;
 import org.dflib.concat.SeriesConcat;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
-
-import static java.util.Arrays.asList;
-
 public class ConcatTest extends BaseTest {
 
     @Test
@@ -41,12 +37,10 @@ public class ConcatTest extends BaseTest {
     public void concatSeries_Static() {
 
 // tag::concatSeries_Static[]
-        Collection<Series<String>> ss = asList(
+        Series<String> sConcat = SeriesConcat.concat(
                 Series.of("x", "y", "z"),
                 Series.of("a"),
                 Series.of("m", "n"));
-
-        Series<String> sConcat = SeriesConcat.concat(ss);
 // end::concatSeries_Static[]
 
         print("concatSeries_Static", sConcat);

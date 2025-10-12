@@ -17,7 +17,7 @@ public class GettingStartedTest extends BaseTest {
 
         DataFrame df2 = df1.rows(r -> r.getInt(0) % 2 == 0).select();
 
-        System.out.println(Printers.tabular.toString(df2));
+        System.out.println(Printers.tabular.print(df2));
 // end::gettingStarted[]
     }
 }
