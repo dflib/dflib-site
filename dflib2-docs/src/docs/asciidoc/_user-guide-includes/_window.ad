@@ -54,9 +54,9 @@ so `Window` object defines a `sort(..)` operation:
 ----
 include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartitionSorting]
 ----
-<1> Sorts each partition by date before applying operations
-<2> Using `rowNum()` to calculate how many salary changes a person had already as of a given raise. Calculating a
-raise amount by subtracting a new salary from a previous salary
+<1> QL expression is using `rowNum()` to calculate how many salary changes a person had already as of a given raise.
+Calculating a raise amount is done by subtracting a new salary from a previous salary
+<2> Sorts each partition by date before applying operations
 
 ----
 name             salary date       raises_to_date raise_amount

@@ -4600,27 +4600,27 @@ so <code>Window</code> object defines a <code>sort(..)</code> operation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> raises = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+        rowNum() - 1 as raises_to_date,
+        int(salary) - castAsInt(shift(salary, 1)) as raise_amount</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>; <i class="conum" data-value="1"></i><b>(1)</b>
+
+DataFrame df1 = df
         .over()
         .partition(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
-        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
-                rowNum() - 1 as raises_to_date,
-                int(salary) - castAsInt(shift(salary, 1)) as raise_amount
-                </span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="2"></i><b>(2)</b>
-        );</code></pre>
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
+        .merge(raises);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Sorts each partition by date before applying operations</td>
+<td>QL expression is using <code>rowNum()</code> to calculate how many salary changes a person had already as of a given raise.
+Calculating a raise amount is done by subtracting a new salary from a previous salary</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Using <code>rowNum()</code> to calculate how many salary changes a person had already as of a given raise. Calculating a
-raise amount by subtracting a new salary from a previous salary</td>
+<td>Sorts each partition by date before applying operations</td>
 </tr>
 </table>
 </div>

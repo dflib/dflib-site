@@ -45,15 +45,15 @@ public class WindowTest extends BaseTest {
     @Test
     public void windowPartitionSorting() throws IOException {
 // tag::windowPartitionSorting[]
+        String raises = """
+                rowNum() - 1 as raises_to_date,
+                int(salary) - castAsInt(shift(salary, 1)) as raise_amount"""; // <1>
+
         DataFrame df1 = df
                 .over()
                 .partition("name")
-                .sort("date") // <1>
-                .merge("""
-                        rowNum() - 1 as raises_to_date,
-                        int(salary) - castAsInt(shift(salary, 1)) as raise_amount
-                        """ // <2>
-                );
+                .sort("date") // <2>
+                .merge(raises);
 // end::windowPartitionSorting[]
 
         System.out.println();
