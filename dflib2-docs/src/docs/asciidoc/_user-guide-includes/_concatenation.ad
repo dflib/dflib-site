@@ -24,8 +24,7 @@ n
 6 elements
 ----
 
-If you have a collection or an array of Series and want to "glue" them together, you can use a static
-`SeriesConcat.concat(..)`:
+If you have an array of Series and want to "glue" them together, you can use a static `SeriesConcat.concat(..)`:
 
 [source,java,indent=0]
 ----
