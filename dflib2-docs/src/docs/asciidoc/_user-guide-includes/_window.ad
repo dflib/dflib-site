@@ -31,7 +31,7 @@ include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartition]
 ----
 <1> Defines optional DataFrame "partitioning". Calculation window for each row will be all the rows in the same partition.
 If no partition is defined, the entire DataFrame is treated as a single partition.
-<2> Defines a new column and an expression to produce values.
+<2> Creates and merges a new column with an aggregating expression to find max salary for each person name
 
 ----
 name             salary date       max_salary
@@ -55,8 +55,8 @@ so `Window` object defines a `sort(..)` operation:
 include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartitionSorting]
 ----
 <1> Sorts each partition by date before applying operations
-<2> Applying `rowNum()` to calculate how many salary changes a person had already as of a given raise
-<3> Calculate a raise amount by subtracting the new salary from the previous salary
+<2> Using `rowNum()` to calculate how many salary changes a person had already as of a given raise. Calculating a
+raise amount by subtracting a new salary from a previous salary
 
 ----
 name             salary date       raises_to_date raise_amount
@@ -72,17 +72,17 @@ Joan O'Hara       78000 2022-01-01              0         null
 
 Obviously, the ordering of preceding rows was required to calculate both `raises_to_date` and `raise_amount` columns.
 
-NOTE: Sorting within the Window does not affect the sort order of the result, it is only calculated internally for the
-sake of the column operations.
+NOTE: Sorting within the Window does not affect the sort order of the result, it is only used internally by the column
+operations.
 
 Partitioning in the example above is similar to "group" in `GroupBy`. Another way to define a window span is via the
-`range(..)` method that allows to build window with fixed offset relative to each row:
+`range(..)` method that allows to build a window with fixed offset relative to each row:
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/WindowTest.java[tags=windowPartitionRange]
 ----
-<1> Specifies a dynamic partition range as all rows from 0 to the current row
+<1> Specifies a dynamic partition range as "all rows from 0 to the current row"
 <2> Lists all salaries to date a given record
 
 ----
@@ -97,16 +97,16 @@ Joan O'Hara       80000 2023-01-01 78000, 80000
 Joan O'Hara       78000 2022-01-01 78000
 ----
 
-As you can see, specifying a range is usually combined with sorting. In addition to standard ranges (
-`WindowRange.allPreceding`, `WindowRange.allFollowing`, `WindowRange.all`), you can specify a range as a pair of
-offsets in both directions to create a sliding window. E.g., `WindowRange.of(2, 2)`.
+Specifying a range is usually combined with sorting. In addition to standard ranges (`WindowRange.allPreceding`,
+`WindowRange.allFollowing`, `WindowRange.all`), you can specify a range as a pair of offsets in both directions to
+create a sliding window. E.g., `WindowRange.of(2, 2)`.
 
 === Row Ranking
 
 "Ranking" means assigning a numeric value to a row in a `DataFrame` based on some sorting criteria. E.g., countries can
 be ranked by their average life expectancy, sports teams can be ranked by how many points they have, etc.
 
-One form of ranking is assigning sequential numbers to each row in a sorted `Window`. We've seen the examples
+One way of ranking is assigning sequential numbers to each row in a sorted `Window`. We've seen the examples
 of it above (`rowNum()` expression). With this approach, each row will have a unique number. It is somewhat simplistic,
 as it doesn't take _ties_ into account (i.e. two or more rows being equivalent from the point of view of the sorting
 criterion). To do ranking with ties, `Windows` offers two operations - `rank()` and `denseRank()`.
@@ -163,7 +163,7 @@ Joan O'Hara       93000          1
 
 Here the ranking is the same, except there are no gaps.
 
-NOTE: Unlike `rowNum()` expression, there are currently no expressions for either `rank()` or `denseRank()`.
-So you need to calculate a rank an `IntSeries` first and then add it back to the `DataFrame`. This is due to the semantics
-of the ranking operations that requires the knowledge of `Window` sorting. This is a minor inconvenience, and we'll
-try to eliminate it in the future.
+NOTE: Unlike the `rowNum()` expression, there are currently no expressions for either `rank()` or `denseRank()` due to
+the semantics of the ranking operations requiring knowledge of `Window` sorting. So you need to calculate a rank as a
+separate `IntSeries` first and then add it back to the `DataFrame`. This is a minor inconvenience, and we'll try to
+address it in the future.

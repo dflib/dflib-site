@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static org.dflib.Exp.*;
-
 
 public class WindowTest extends BaseTest {
 
@@ -35,8 +33,8 @@ public class WindowTest extends BaseTest {
 // tag::windowPartition[]
         DataFrame df1 = df
                 .over()
-                .partitioned("name") // <1>
-                .cols("max_salary").merge($int("salary").max()); // <2>
+                .partition("name") // <1>
+                .merge("max(int(salary)) as max_salary"); // <2>
 // end::windowPartition[]
 
         System.out.println();
@@ -49,11 +47,12 @@ public class WindowTest extends BaseTest {
 // tag::windowPartitionSorting[]
         DataFrame df1 = df
                 .over()
-                .partitioned("name")
-                .sorted($col("date").asc()) // <1>
-                .cols("raises_to_date", "raise_amount").merge(
-                        rowNum().sub(1), // <2>
-                        $int("salary").sub($int("salary").shift(1)) // <3>
+                .partition("name")
+                .sort("date") // <1>
+                .merge("""
+                        rowNum() - 1 as raises_to_date,
+                        int(salary) - castAsInt(shift(salary, 1)) as raise_amount
+                        """ // <2>
                 );
 // end::windowPartitionSorting[]
 
@@ -69,10 +68,10 @@ public class WindowTest extends BaseTest {
 
         DataFrame df1 = df
                 .over()
-                .partitioned("name")
-                .sorted($col("date").asc())
+                .partition("name")
+                .sort("date")
                 .range(WindowRange.allPreceding)  // <1>
-                .cols("history_to_date").merge($col("salary").vConcat(", ")); // <2>
+                .merge("vConcat(salary, ', ') as history_to_date"); // <2>
 // end::windowPartitionRange[]
 
         System.out.println();

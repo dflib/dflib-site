@@ -4559,8 +4559,8 @@ Joan O'Hara       78000 2022-01-01</pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .over()
-        .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">max_salary</span><span class="delimiter">&quot;</span></span>).merge(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).max()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .partition(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="content">max(int(salary)) as max_salary</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -4572,7 +4572,7 @@ If no partition is defined, the entire DataFrame is treated as a single partitio
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Defines a new column and an expression to produce values.</td>
+<td>Creates and merges a new column with an aggregating expression to find max salary for each person name</td>
 </tr>
 </table>
 </div>
@@ -4599,11 +4599,12 @@ so <code>Window</code> object defines a <code>sort(..)</code> operation:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .over()
-        .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
-        .sorted(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).asc()) <i class="conum" data-value="1"></i><b>(1)</b>
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">raises_to_date</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">raise_amount</span><span class="delimiter">&quot;</span></span>).merge(
-                rowNum().sub(<span class="integer">1</span>), <i class="conum" data-value="2"></i><b>(2)</b>
-                <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).sub(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).shift(<span class="integer">1</span>)) <i class="conum" data-value="3"></i><b>(3)</b>
+        .partition(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="content">
+                rowNum() - 1 as raises_to_date,
+                int(salary) - castAsInt(shift(salary, 1)) as raise_amount
+                </span><span class="delimiter">&quot;</span></span><span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="2"></i><b>(2)</b>
         );</code></pre>
 </div>
 </div>
@@ -4615,11 +4616,8 @@ so <code>Window</code> object defines a <code>sort(..)</code> operation:</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Applying <code>rowNum()</code> to calculate how many salary changes a person had already as of a given raise</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Calculate a raise amount by subtracting the new salary from the previous salary</td>
+<td>Using <code>rowNum()</code> to calculate how many salary changes a person had already as of a given raise. Calculating a
+raise amount by subtracting a new salary from a previous salary</td>
 </tr>
 </table>
 </div>
@@ -4646,31 +4644,31 @@ Joan O'Hara       78000 2022-01-01              0         null</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Sorting within the Window does not affect the sort order of the result, it is only calculated internally for the
-sake of the column operations.
+Sorting within the Window does not affect the sort order of the result, it is only used internally by the column
+operations.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p>Partitioning in the example above is similar to "group" in <code>GroupBy</code>. Another way to define a window span is via the
-<code>range(..)</code> method that allows to build window with fixed offset relative to each row:</p>
+<code>range(..)</code> method that allows to build a window with fixed offset relative to each row:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
         .over()
-        .partitioned(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
-        .sorted(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>).asc())
+        .partition(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>)
         .range(WindowRange.allPreceding)  <i class="conum" data-value="1"></i><b>(1)</b>
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">history_to_date</span><span class="delimiter">&quot;</span></span>).merge(<span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).vConcat(<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+        .merge(<span class="string"><span class="delimiter">&quot;</span><span class="content">vConcat(salary, ', ') as history_to_date</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Specifies a dynamic partition range as all rows from 0 to the current row</td>
+<td>Specifies a dynamic partition range as "all rows from 0 to the current row"</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -4692,9 +4690,9 @@ Joan O'Hara       78000 2022-01-01 78000</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As you can see, specifying a range is usually combined with sorting. In addition to standard ranges (
-<code>WindowRange.allPreceding</code>, <code>WindowRange.allFollowing</code>, <code>WindowRange.all</code>), you can specify a range as a pair of
-offsets in both directions to create a sliding window. E.g., <code>WindowRange.of(2, 2)</code>.</p>
+<p>Specifying a range is usually combined with sorting. In addition to standard ranges (<code>WindowRange.allPreceding</code>,
+<code>WindowRange.allFollowing</code>, <code>WindowRange.all</code>), you can specify a range as a pair of offsets in both directions to
+create a sliding window. E.g., <code>WindowRange.of(2, 2)</code>.</p>
 </div>
 <div class="sect2">
 <h3 id="_row_ranking">Row Ranking</h3>
@@ -4703,7 +4701,7 @@ offsets in both directions to create a sliding window. E.g., <code>WindowRange.o
 be ranked by their average life expectancy, sports teams can be ranked by how many points they have, etc.</p>
 </div>
 <div class="paragraph">
-<p>One form of ranking is assigning sequential numbers to each row in a sorted <code>Window</code>. We&#8217;ve seen the examples
+<p>One way of ranking is assigning sequential numbers to each row in a sorted <code>Window</code>. We&#8217;ve seen the examples
 of it above (<code>rowNum()</code> expression). With this approach, each row will have a unique number. It is somewhat simplistic,
 as it doesn&#8217;t take <em>ties</em> into account (i.e. two or more rows being equivalent from the point of view of the sorting
 criterion). To do ranking with ties, <code>Windows</code> offers two operations - <code>rank()</code> and <code>denseRank()</code>.</p>
@@ -4728,7 +4726,7 @@ Joan O'Hara       93000</pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">IntSeries ranks = df
         .over()
-        .sorted(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).desc()) <i class="conum" data-value="1"></i><b>(1)</b>
+        .sort(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary desc</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
         .rank(); <i class="conum" data-value="2"></i><b>(2)</b>
 
 DataFrame df1 = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">rank</span><span class="delimiter">&quot;</span></span>).merge(ranks); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
@@ -4770,7 +4768,7 @@ operation called <code>denseRank()</code>:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">IntSeries ranks = df
         .over()
-        .sorted(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).desc())
+        .sort(<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).desc())
         .denseRank(); <i class="conum" data-value="1"></i><b>(1)</b>
 
 DataFrame df1 = df.cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">dense_rank</span><span class="delimiter">&quot;</span></span>).merge(ranks);</code></pre>
@@ -4804,10 +4802,10 @@ Joan O'Hara       93000          1</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Unlike <code>rowNum()</code> expression, there are currently no expressions for either <code>rank()</code> or <code>denseRank()</code>.
-So you need to calculate a rank an <code>IntSeries</code> first and then add it back to the <code>DataFrame</code>. This is due to the semantics
-of the ranking operations that requires the knowledge of <code>Window</code> sorting. This is a minor inconvenience, and we&#8217;ll
-try to eliminate it in the future.
+Unlike the <code>rowNum()</code> expression, there are currently no expressions for either <code>rank()</code> or <code>denseRank()</code> due to
+the semantics of the ranking operations requiring knowledge of <code>Window</code> sorting. So you need to calculate a rank as a
+separate <code>IntSeries</code> first and then add it back to the <code>DataFrame</code>. This is a minor inconvenience, and we&#8217;ll try to
+address it in the future.
 </td>
 </tr>
 </table>

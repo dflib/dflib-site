@@ -24,7 +24,7 @@ public class WindowRankTest extends BaseTest {
 // tag::windowRank[]
         IntSeries ranks = df
                 .over()
-                .sorted($int("salary").desc()) // <1>
+                .sort("salary desc") // <1>
                 .rank(); // <2>
 
         DataFrame df1 = df.cols("rank").merge(ranks); // <3>
@@ -40,7 +40,7 @@ public class WindowRankTest extends BaseTest {
 // tag::windowDenseRank[]
         IntSeries ranks = df
                 .over()
-                .sorted($int("salary").desc())
+                .sort($int("salary").desc())
                 .denseRank(); // <1>
 
         DataFrame df1 = df.cols("dense_rank").merge(ranks);
