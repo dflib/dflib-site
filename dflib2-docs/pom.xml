@@ -13,7 +13,7 @@
 
     <properties>
         <dflib2.version>2.0.0-SNAPSHOT</dflib2.version>
-        <jjava1.version>1.0-a4</jjava1.version>
+        <jjava1.version>1.0-a6</jjava1.version>
     </properties>
 
     <dependencyManagement>
@@ -27,7 +27,7 @@
             </dependency>
             <dependency>
                 <groupId>org.dflib.jjava</groupId>
-                <artifactId>jupyter-jvm-basekernel</artifactId>
+                <artifactId>jjava-kernel</artifactId>
                 <version>${jjava1.version}</version>
             </dependency>
         </dependencies>
@@ -63,7 +63,7 @@
         </dependency>
         <dependency>
             <groupId>org.dflib.jjava</groupId>
-            <artifactId>jupyter-jvm-basekernel</artifactId>
+            <artifactId>jjava-kernel</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -102,6 +102,13 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-opens jdk.jshell/jdk.jshell=ALL-UNNAMED</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
