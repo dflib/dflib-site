@@ -54,11 +54,9 @@ Next we'll check how to sort a DataFrame.
 
 === Sort DataFrame
 
-Rows in a DataFrame can be sorted with one or more <<sorter,sorters>>.
-
-NOTE: Just like in other places where a Sorter might be
-used, there is an assumption that the Sorter expression produces values that are either Java primitives or are
-compatible with `java.lang.Comparable` (i.e., Strings, numbers, etc).
+Rows in a DataFrame can be sorted with one or multiple sorters created from QL or via the <<sorter,sorter API>>. Just
+like in other places where a Sorter is used, there is an assumption that the Sorter expression produces either Java
+primitives or `java.lang.Comparable` values (i.e., Strings, numbers, etc).
 
 [source,java,indent=0]
 ----
@@ -73,8 +71,8 @@ Jerry   Cosin     M
 Joan    O'Hara    J
 ----
 
-Alternatively sorting can be done by a single column name or an array of columns. The assumption is the same as above
-- values in columns used for sorting must be either Java primitive or implement `java.lang.Comparable`.
+Alternatively sorting can be done by a single column name or an array of columns. Same as above, values in sort columns
+must be either primitives or implement `Comparable`.
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/SortingTest.java[tags=sortDataFrameComparableColumn]
