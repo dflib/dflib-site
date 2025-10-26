@@ -1,9 +1,9 @@
 == Concatenation
 
-There are various ways to combine data from multiple `Series` or `DataFrames`. The simplest is _concatenation_,
-described here (the other one is joins discussed in the next chapter). Series can be concatenated together producing a
-longer Series. DataFrames can be concatenated either vertically (along the rows axis) or horizontally (along the columns
-axis).
+There are various ways to combine data from multiple `Series` or `DataFrames`. The simplest is _concatenation_
+described here (the other one is <<joins,joins>> discussed in the next chapter). Series concatenated together simply
+result in a longer Series. DataFrames are concatenated either vertically (increasing the number of rows) or horizontally
+(increasing the number of columns).
 
 === Concatenate Series
 
