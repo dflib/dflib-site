@@ -72,13 +72,26 @@ public class ColumnOpsTest extends BaseTest {
     }
 
     @Test
+    public void colsSelectRename() {
+
+
+// tag::colsSelectRename[]
+        DataFrame df1 = df
+                .cols()
+                .select("last as last_name, first as first_name"); // <1>
+// end::colsSelectRename[]
+
+        print("colsSelectRename", df1);
+    }
+
+    @Test
     public void colsSelectAs() {
 
 
 // tag::colsSelectAs[]
         DataFrame df1 = df
-                .cols("last", "first")
-                .selectAs("last_name", "first_name"); // <1>
+                .cols("last", "first") // <1>
+                .selectAs("last_name", "first_name"); // <2>
 // end::colsSelectAs[]
 
         print("colsSelectAs", df1);

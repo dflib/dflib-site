@@ -69,6 +69,31 @@ public class QLTest extends BaseTest {
     }
 
     @Test
+    public void as() {
+
+        Exp<?> exp = Exp.parseExp(
+                // tag::as[]
+                "int(a) * 5 as x5"
+                // $int("a").mul(5).as("x5")
+                // end::as[]
+        );
+        assertEquals($int("a").mul(5).as("x5"), exp);
+    }
+
+    @Test
+    public void asQuote() {
+
+        Exp<?> exp = Exp.parseExp(
+                // tag::asQuote[]
+                "int(a) * 5 as `multiply by 5`"
+                // $int("a").mul(5).as("multiply by 5")
+                // end::asQuote[]
+        );
+        assertEquals($int("a").mul(5).as("multiply by 5"), exp);
+    }
+
+
+    @Test
     public void column() {
 
         Exp<?> exp = Exp.parseExp(

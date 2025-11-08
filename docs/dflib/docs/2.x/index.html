@@ -569,7 +569,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#column_ops">Column Operations</a>
 <ul class="sectlevel2">
 <li><a href="#_pick_columns">Pick Columns</a></li>
-<li><a href="#_rename_columns">Rename Columns</a></li>
+<li><a href="#column_ops_rename">Rename Columns</a></li>
 <li><a href="#column_ops_transform">Transform Columns</a></li>
 <li><a href="#column_ops_expand">Expand Columns</a></li>
 <li><a href="#_merge_columns">Merge Columns</a></li>
@@ -1694,7 +1694,7 @@ forms:</p>
 </div>
 <div class="paragraph">
 <p>So QL can produce these four objects - a single <code>Exp</code>, an <code>Exp[]</code>, a single <code>Sorter</code> or a <code>Sorter[]</code> and, as
-mentioned previously, can be used interchangeably with those objects throughout DFLib. Expression parsing examples:</p>
+mentioned previously, can be used interchangeably with them throughout DFLib. Expression parsing examples:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1735,17 +1735,19 @@ Sorter<span class="type">[]</span> ss = Sorter.parseSorters(<span class="string"
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Most DFLib APIs take QL strings and call <code>Exp.parse*</code> and <code>Sorter.parse*</code> internally behind the scenes.
-You may not need to parse QL in your code at all. One possible exception is for performance - parsing a piece of QL once
-and reusing <code>Exp</code> (or <code>Sorter</code>) objects may save CPU cycles in certain cases.
+Most DFLib APIs take QL strings and call <code>parse</code> internally. You may not need to parse QL in your code at all.
+One possible exception is performance - parsing a piece of QL once and reusing <code>Exp</code> or <code>Sorter</code> object may save CPU
+cycles in some cases.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p>Now let&#8217;s discuss the QL syntax (i.e., what that <code>&lt;exp&gt;</code> above means). It consists of column references, literals,
-parameters (that are a special kind of literals), operators and functions. We&#8217;ll look at them individually&#8230;&#8203;</p>
+parameters, operators and functions. We&#8217;ll look at them individually&#8230;&#8203;</p>
 </div>
+<div class="sect2">
+<h3 id="_columns">Columns</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1753,17 +1755,16 @@ parameters (that are a special kind of literals), operators and functions. We&#8
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-A commented-out String below each expression in the following examples is an equivalent created via the Java API.
+A commented-out code below each expression in the following examples is an equivalent expression created via the
+Java API.
 </td>
 </tr>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_columns">Columns</h3>
 <div class="paragraph">
 <p>Expressions can reference <code>DataFrame</code> column names either by name or by position. If a column name is compatible with
-the rules for Java identifiers (and doesn&#8217;t conflict with syntax keywords like <code>true</code>, <code>false</code>, <code>null</code>), the column can
-be specified as an unquoted string:</p>
+Java identifier naming (and is not one of the QL keywords like <code>true</code>, <code>false</code>, <code>null</code>), it can be used as
+an unquoted string:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1772,7 +1773,7 @@ be specified as an unquoted string:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>If it has other characters (e.g. spaces, special chars, or it starts with a number), it should be enclosed in backtick
+<p>If it has other characters (e.g. spaces, special chars, or starts with a number), it should be enclosed in backtick
 quotes:</p>
 </div>
 <div class="listingblock">
@@ -1853,27 +1854,27 @@ by providing a 1-letter suffix following the numeric constant part:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>i</code> - parses the number as an <code>int</code></p>
+<p><code>i</code> - <code>int</code></p>
 </li>
 <li>
-<p><code>l</code> - parses the number as a <code>long</code></p>
+<p><code>l</code> - <code>long</code></p>
 </li>
 <li>
-<p><code>h</code> - parses the number as a <code>BigInteger</code></p>
+<p><code>h</code> - <code>BigInteger</code></p>
 </li>
 <li>
-<p><code>f</code> - parses the number as a <code>float</code></p>
+<p><code>f</code> - <code>float</code></p>
 </li>
 <li>
-<p><code>d</code> - parses the number as a <code>double</code></p>
+<p><code>d</code> - <code>double</code></p>
 </li>
 <li>
-<p><code>m</code> - parses the number as a <code>BigDecimal</code></p>
+<p><code>m</code> - <code>BigDecimal</code></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>These codes are case-insensitive (both upper and lower cases are valid). Most have the same meaning as in Java
+<p>These suffixes are case-insensitive (both upper and lower cases are valid). Most have the same meaning as in Java
 (<code>l</code>, <code>f</code>, <code>d</code>), but some are unique to DFLib, namely <code>i</code>, <code>h</code>, <code>m</code>:</p>
 </div>
 <div class="listingblock">
@@ -1909,7 +1910,7 @@ Exp&lt;?&gt; exp2 = Exp.parseExp(<span class="string"><span class="delimiter">&q
 </div>
 </div>
 <div class="paragraph">
-<p>A special case is where a single collection parameter replaces a sequence of literals (notably, the entire right-hand
+<p>A special case is where a single collection parameter replaces a sequence of literals (notably, the right-hand
 side of an <code>in</code> expression):</p>
 </div>
 <div class="listingblock">
@@ -1922,7 +1923,8 @@ side of an <code>in</code> expression):</p>
 <div class="sect2">
 <h3 id="_operators">Operators</h3>
 <div class="paragraph">
-<p>The following operators are supported, in the order of declining precedence:</p>
+<p>Operators are used to build more complex expressions from columns and literals. The following operators are supported,
+in the order of declining precedence:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1965,7 +1967,26 @@ If multiple operators have the same precedence, they will be evaluated left to r
 <div class="sect3">
 <h4 id="_column_naming_operator">Column Naming Operator</h4>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p><code>as</code> operator assigns a name to an expression. The reason we care about names here, is that expressions evaluate to
+columns and names is a handy mechanism to label those columns in the resulting <code>DataFrame</code>. E.g.,
+<code>as</code> expressions can be used for <a href="#column_ops_rename">renaming columns</a>. Here is a standalone example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="string"><span class="delimiter">&quot;</span><span class="content">int(a) * 5 as x5</span><span class="delimiter">&quot;</span></span>
+<span class="comment">// $int(&quot;a&quot;).mul(5).as(&quot;x5&quot;)</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Without this operator, DFLib would auto-generate a name based on the expression semantics. E.g., the name in the example
+above would&#8217;ve been something like <code>a * 5</code>. The identifier following <code>as</code> should adhere to the regular quoting rules
+for special characters in column names. E.g.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="string"><span class="delimiter">&quot;</span><span class="content">int(a) * 5 as `multiply by 5`</span><span class="delimiter">&quot;</span></span>
+<span class="comment">// $int(&quot;a&quot;).mul(5).as(&quot;multiply by 5&quot;)</span></code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -2342,27 +2363,23 @@ all columns at once. These cases are described later in the <a href="#column_ops
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rename_columns">Rename Columns</h3>
+<h3 id="column_ops_rename">Rename Columns</h3>
 <div class="paragraph">
 <p>We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
-columns via <code>selectAs(..)</code>.</p>
-</div>
-<div class="paragraph">
-<p>Rename all column set columns:</p>
+columns. The simplest way to do it is with QL (or expressions):</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>)
-        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+        .cols()
+        .select(<span class="string"><span class="delimiter">&quot;</span><span class="content">last as last_name, first as first_name</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Passing new names for the <code>ColumnSet</code> columns. The order of the names must correspond to the order of columns
-in the <code>ColumnSet</code>, regardless of how it was defined.</td>
+<td>List all columns we&#8217;d like to see in the result, using <code>as</code> to rename all or some as needed</td>
 </tr>
 </table>
 </div>
@@ -2373,6 +2390,29 @@ in the <code>ColumnSet</code>, regardless of how it was defined.</td>
 Cosin     Jerry
 Walewski  Juliana</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Another way of doing that is via <code>selectAs(..)</code>. Here the source column names are specified in the <code>cols(..)</code> method,
+and the result names - in <code>selectAs(..)</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = df
+        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+        .selectAs(<span class="string"><span class="delimiter">&quot;</span><span class="content">last_name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">first_name</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Source column names</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>New names whose quantity and order should match those of the source names</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Rename a subset of columns. Specifying names of all columns at once may not be practical for
@@ -6564,7 +6604,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-01 13:46:21 -0700
+Last updated 2025-09-01 16:46:21 -0400
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

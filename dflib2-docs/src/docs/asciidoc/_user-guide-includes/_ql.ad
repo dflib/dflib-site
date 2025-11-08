@@ -13,7 +13,7 @@ forms:
 ```
 
 So QL can produce these four objects - a single `Exp`, an `Exp[]`, a single `Sorter` or a `Sorter[]` and, as
-mentioned previously, can be used interchangeably with those objects throughout DFLib. Expression parsing examples:
+mentioned previously, can be used interchangeably with them throughout DFLib. Expression parsing examples:
 
 [source,java,indent=0]
 ----
@@ -28,26 +28,27 @@ Sorter parsing examples:
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseSorter]
 ----
 
-NOTE: Most DFLib APIs take QL strings and call `Exp.parse*` and `Sorter.parse*` internally behind the scenes.
-You may not need to parse QL in your code at all. One possible exception is for performance - parsing a piece of QL once
-and reusing `Exp` (or `Sorter`) objects may save CPU cycles in certain cases.
+NOTE: Most DFLib APIs take QL strings and call `parse` internally. You may not need to parse QL in your code at all.
+One possible exception is performance - parsing a piece of QL once and reusing `Exp` or `Sorter` object may save CPU
+cycles in some cases.
 
 Now let's discuss the QL syntax (i.e., what that `<exp>` above means). It consists of column references, literals,
-parameters (that are a special kind of literals), operators and functions. We'll look at them individually...
-
-NOTE: A commented-out String below each expression in the following examples is an equivalent created via the Java API.
+parameters, operators and functions. We'll look at them individually...
 
 === Columns
 
+NOTE: A commented-out code below each expression in the following examples is an equivalent expression created via the
+Java API.
+
 Expressions can reference `DataFrame` column names either by name or by position. If a column name is compatible with
-the rules for Java identifiers (and doesn't conflict with syntax keywords like `true`, `false`, `null`), the column can
-be specified as an unquoted string:
+Java identifier naming (and is not one of the QL keywords like `true`, `false`, `null`), it can be used as
+an unquoted string:
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=column]
 ----
 
-If it has other characters (e.g. spaces, special chars, or it starts with a number), it should be enclosed in backtick
+If it has other characters (e.g. spaces, special chars, or starts with a number), it should be enclosed in backtick
 quotes:
 [source,java,indent=0]
 ----
@@ -101,14 +102,14 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=floatVal]
 The expression parser tries to guess the type of the number automatically, but the user can control the type explicitly
 by providing a 1-letter suffix following the numeric constant part:
 
-* `i` - parses the number as an `int`
-* `l` - parses the number as a `long`
-* `h` - parses the number as a `BigInteger`
-* `f` - parses the number as a `float`
-* `d` - parses the number as a `double`
-* `m` - parses the number as a `BigDecimal`
+* `i` - `int`
+* `l` - `long`
+* `h` - `BigInteger`
+* `f` - `float`
+* `d` - `double`
+* `m` - `BigDecimal`
 
-These codes are case-insensitive (both upper and lower cases are valid). Most have the same meaning as in Java
+These suffixes are case-insensitive (both upper and lower cases are valid). Most have the same meaning as in Java
 (`l`, `f`, `d`), but some are unique to DFLib, namely `i`, `h`, `m`:
 
 [source,java,indent=0]
@@ -135,7 +136,7 @@ represent as strings. Parameters are positional and are substituted with an arra
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=literalParam]
 ----
 
-A special case is where a single collection parameter replaces a sequence of literals (notably, the entire right-hand
+A special case is where a single collection parameter replaces a sequence of literals (notably, the right-hand
 side of an `in` expression):
 
 [source,java,indent=0]
@@ -145,7 +146,8 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=listParam]
 
 === Operators
 
-The following operators are supported, in the order of declining precedence:
+Operators are used to build more complex expressions from columns and literals. The following operators are supported,
+in the order of declining precedence:
 
 * `(  )` - parenthesis has the highest precedence during evaluation
 * `not`
@@ -163,7 +165,22 @@ If multiple operators have the same precedence, they will be evaluated left to r
 
 ==== Column Naming Operator
 
-...
+`as` operator assigns a name to an expression. The reason we care about names here, is that expressions evaluate to
+columns and names is a handy mechanism to label those columns in the resulting `DataFrame`. E.g.,
+`as` expressions can be used for <<column_ops_rename,renaming columns>>. Here is a standalone example:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=as]
+----
+
+Without this operator, DFLib would auto-generate a name based on the expression semantics. E.g., the name in the example
+above would've been something like `a * 5`. The identifier following `as` should adhere to the regular quoting rules
+for special characters in column names. E.g.:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=asQuote]
+----
 
 ==== Sort Direction Operators
 When building a sorter, an expression can be followed by either `asc` or `desc` keyword to indicate ascending or

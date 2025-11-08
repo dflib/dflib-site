@@ -83,25 +83,34 @@ and may result in a smaller subset of columns selected based on the semantics of
 `ColumnSet` (e.g. named expressions making specific columns). Also, it allows to apply a _transformation_ to
 all columns at once. These cases are described later in the <<column_ops_transform,columns transformation>> chapter.
 
+[#column_ops_rename]
 === Rename Columns
 
 We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
-columns via `selectAs(..)`.
-
-Rename all column set columns:
+columns. The simplest way to do it is with QL (or expressions):
 
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAs]
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectRename]
 ----
-<1> Passing new names for the `ColumnSet` columns. The order of the names must correspond to the order of columns
-in the `ColumnSet`, regardless of how it was defined.
+<1> List all columns we'd like to see in the result, using `as` to rename all or some as needed
+
 ----
 last_name first_name
 --------- ----------
 Cosin     Jerry
 Walewski  Juliana
 ----
+
+Another way of doing that is via `selectAs(..)`. Here the source column names are specified in the `cols(..)` method,
+and the result names - in `selectAs(..)`:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=colsSelectAs]
+----
+<1> Source column names
+<2> New names whose quantity and order should match those of the source names
 
 Rename a subset of columns. Specifying names of all columns at once may not be practical for
 "wide" column sets. Instead, you can pass a map of old to new names to `selectAs(..)` to rename just some columns.
