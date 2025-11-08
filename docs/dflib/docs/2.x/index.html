@@ -1962,7 +1962,7 @@ in the order of declining precedence:</p>
 </div>
 <div class="paragraph">
 <p>This order follows the rules of the Java language (where applicable) and should be intuitive to Java programmers.
-If multiple operators have the same precedence, they will be evaluated left to right.</p>
+If multiple operators have the same precedence, they are evaluated left to right.</p>
 </div>
 <div class="sect3">
 <h4 id="_naming_operator">Naming Operator</h4>
@@ -2019,7 +2019,7 @@ required by other functions or operators. E.g.,</p>
 <div class="paragraph">
 <p>Here, the <code>long(..)</code> function takes a column, but it can take any other expression as well. The function doesn&#8217;t do
 data transformation, so if during evaluation the values in column "a" are not <code>Long</code> or <code>long</code> (or null),
-an exception will be thrown. The available functions are:</p>
+an exception is thrown. The available functions are:</p>
 </div>
 <div class="sect4">
 <h5 id="_bigintexp"><code>bigint(exp)</code></h5>
@@ -2075,7 +2075,7 @@ an exception will be thrown. The available functions are:</p>
 </td>
 <td class="content">
 Our goal is to greatly reduce the need for explicit type setting, guessing the correct type from the
-expression itself. This area will be improving in the future.
+expression itself. This will be improving in the future to make it more seamless.
 </td>
 </tr>
 </table>
@@ -2507,14 +2507,14 @@ return the average among the values matching the condition.</p>
 <h5 id="_countcondition"><code>count([condition])</code></h5>
 <div class="paragraph">
 <p>The default no-argument flavor returns the number of rows in the aggregated series. If a conditional expression
-is passed as an argument, will only count the rows matching the condition.</p>
+is passed as an argument, only counts the rows matching the condition.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_firstexp_condition"><code>first(exp [, condition])</code></h5>
 <div class="paragraph">
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. The default single-argument flavor returns
-the first element in the series. If an optional <code>condition</code> is passed, will return the first value matching the
+the first element in the series. If an optional <code>condition</code> is passed, returns the first value matching the
 condition.</p>
 </div>
 </div>
@@ -2522,7 +2522,7 @@ condition.</p>
 <h5 id="_lastexp_condition"><code>last(exp [, condition])</code></h5>
 <div class="paragraph">
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. The default single-argument flavor returns
-the last element in the series. If an optional <code>condition</code> is passed, will return the last value matching the
+the last element in the series. If an optional <code>condition</code> is passed, returns the last value matching the
 condition.</p>
 </div>
 </div>
@@ -2536,23 +2536,24 @@ condition.</p>
 <h5 id="_maxexp_condition"><code>max(exp [, condition])</code></h5>
 <div class="paragraph">
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. Returns the maximum value in the series. <code>exp</code>
-must be a string, numeric or one of the date &amp; time expressions. If an optional <code>condition</code> is passed, will return the maximum among
-values matching the condition.</p>
+must be a string, numeric or one of the date &amp; time expressions. If an optional <code>condition</code> is passed, returns the
+maximum among values matching the condition.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_medianexp_condition"><code>median(exp [, condition])</code></h5>
 <div class="paragraph">
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. Calculates and returns the median value
-of a series. <code>exp</code> must be a numeric or one of the date &amp; time expressions. If an optional <code>condition</code> is passed, the median among
-values matching the condition.</p>
+of a series. <code>exp</code> must be a numeric or one of the date &amp; time expressions. If an optional <code>condition</code> is passed,
+returns the median among values matching the condition.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_minexp_condition"><code>min(exp [, condition])</code></h5>
 <div class="paragraph">
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. Returns the minimum value in the series. <code>exp</code>
-must be a string, numeric or one of the date &amp; time expressions. If an optional <code>condition</code> is passed, will return the minimum among
+must be a string, numeric or one of the date &amp; time expressions. If an optional <code>condition</code> is passed, returns
+the minimum among
 values matching the condition.</p>
 </div>
 </div>
@@ -2582,7 +2583,7 @@ must be a numeric expression. An optional <code>use_population_bool</code> argum
 <h5 id="_sumexp_condition"><code>sum(exp [, condition])</code></h5>
 <div class="paragraph">
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. Returns the sum of the series values. <code>exp</code>
-must be a numeric expression. If an optional <code>condition</code> is passed, will return the sum among the values matching the condition.</p>
+must be a numeric expression. If an optional <code>condition</code> is passed, returns the sum among the values matching the condition.</p>
 </div>
 </div>
 <div class="sect4">

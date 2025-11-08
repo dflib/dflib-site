@@ -161,7 +161,7 @@ in the order of declining precedence:
 * `asc`, `desc`
 
 This order follows the rules of the Java language (where applicable) and should be intuitive to Java programmers.
-If multiple operators have the same precedence, they will be evaluated left to right.
+If multiple operators have the same precedence, they are evaluated left to right.
 
 ==== Naming Operator
 
@@ -203,7 +203,7 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=typeSetToLong]
 
 Here, the `long(..)` function takes a column, but it can take any other expression as well. The function doesn't do
 data transformation, so if during evaluation the values in column "a" are not `Long` or `long` (or null),
-an exception will be thrown. The available functions are:
+an exception is thrown. The available functions are:
 
 =====  `bigint(exp)`
 =====  `bool(exp)`
@@ -219,7 +219,7 @@ an exception will be thrown. The available functions are:
 =====  `time(exp)`
 
 NOTE: Our goal is to greatly reduce the need for explicit type setting, guessing the correct type from the
-expression itself. This area will be improving in the future.
+expression itself. This will be improving in the future to make it more seamless.
 
 ==== Type-Casting Functions
 Type-casting functions closely mirror type-setting ones, but they would actually attempt to transform unknown column
@@ -390,16 +390,16 @@ return the average among the values matching the condition.
 
 ===== `count([condition])`
 The default no-argument flavor returns the number of rows in the aggregated series. If a conditional expression
-is passed as an argument, will only count the rows matching the condition.
+is passed as an argument, only counts the rows matching the condition.
 
 ===== `first(exp [, condition])`
 Applied to the Series returned from evaluating the `exp` argument. The default single-argument flavor returns
-the first element in the series. If an optional `condition` is passed, will return the first value matching the
+the first element in the series. If an optional `condition` is passed, returns the first value matching the
 condition.
 
 ===== `last(exp [, condition])`
 Applied to the Series returned from evaluating the `exp` argument. The default single-argument flavor returns
-the last element in the series. If an optional `condition` is passed, will return the last value matching the
+the last element in the series. If an optional `condition` is passed, returns the last value matching the
 condition.
 
 ===== `list(exp)`
@@ -407,17 +407,18 @@ Applied to the Series returned from evaluating the `exp` argument. Returns a `Li
 
 ===== `max(exp [, condition])`
 Applied to the Series returned from evaluating the `exp` argument. Returns the maximum value in the series. `exp`
-must be a string, numeric or one of the date & time expressions. If an optional `condition` is passed, will return the maximum among
-values matching the condition.
+must be a string, numeric or one of the date & time expressions. If an optional `condition` is passed, returns the
+maximum among values matching the condition.
 
 ===== `median(exp [, condition])`
 Applied to the Series returned from evaluating the `exp` argument. Calculates and returns the median value
-of a series. `exp` must be a numeric or one of the date & time expressions. If an optional `condition` is passed, the median among
-values matching the condition.
+of a series. `exp` must be a numeric or one of the date & time expressions. If an optional `condition` is passed,
+returns the median among values matching the condition.
 
 ===== `min(exp [, condition])`
 Applied to the Series returned from evaluating the `exp` argument. Returns the minimum value in the series. `exp`
-must be a string, numeric or one of the date & time expressions. If an optional `condition` is passed, will return the minimum among
+must be a string, numeric or one of the date & time expressions. If an optional `condition` is passed, returns
+the minimum among
 values matching the condition.
 
 ===== `quantile(exp, quantile_double [, condition])`
@@ -435,7 +436,7 @@ must be a numeric expression. An optional `use_population_bool` argument allows 
 
 ===== `sum(exp [, condition])`
 Applied to the Series returned from evaluating the `exp` argument. Returns the sum of the series values. `exp`
-must be a numeric expression. If an optional `condition` is passed, will return the sum among the values matching the condition.
+must be a numeric expression. If an optional `condition` is passed, returns the sum among the values matching the condition.
 
 ===== `variance(exp [, use_population_bool])`
 Applied to the Series returned from evaluating the `exp` argument. Returns the variance of the series. `exp`
