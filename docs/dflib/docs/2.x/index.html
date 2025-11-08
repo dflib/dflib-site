@@ -562,9 +562,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_columns">Columns</a></li>
 <li><a href="#_literals">Literals</a></li>
-<li><a href="#_parameters">Parameters</a></li>
 <li><a href="#_operators">Operators</a></li>
 <li><a href="#_functions">Functions</a></li>
+<li><a href="#_parameters">Parameters</a></li>
 </ul>
 </li>
 <li><a href="#column_ops">Column Operations</a>
@@ -1899,30 +1899,6 @@ by providing a 1-letter suffix following the numeric constant part:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parameters">Parameters</h3>
-<div class="paragraph">
-<p>A <em>parameter</em> is a placeholder for a literal that is substituted with a real value during QL parsing. Parameters are
-used for convenience (avoiding string concatenation while building expressions) or in place of values that are not easy
-to represent as strings. In a QL string each parameter is denoted by the <code>?</code> symbol. Parameters are positional and are
-substituted with an array of values.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp1 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = ?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> MyType());
-Exp&lt;?&gt; exp2 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ('S1', ?, ?)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Parameters can be placed anywhere a literal can be present. The right-hand side of an <code>in</code> expression is a special case
-where a single parameter replaces not one, but a sequence of literals:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ?</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Set</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">S1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>));</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_operators">Operators</h3>
 <div class="paragraph">
 <p>Operators are used to build more complex expressions from columns and literals. The following operators are supported,
@@ -2616,6 +2592,30 @@ instead of a <code>Series&lt;String&gt;</code> from multiple Series.
 </tr>
 </table>
 </div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parameters">Parameters</h3>
+<div class="paragraph">
+<p>A <em>parameter</em> is a placeholder for a literal that is substituted with a real value during QL parsing. Parameters are
+used for convenience (avoiding string concatenation while building expressions) or in place of values that are not easy
+to represent as strings. In a QL string each parameter is denoted by the <code>?</code> symbol. Parameters are positional and are
+substituted with an array of values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp1 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = ?</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> MyType());
+Exp&lt;?&gt; exp2 = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ('S1', ?, ?)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters can be placed anywhere a literal can be present. The right-hand side of an <code>in</code> expression is a special case
+where a single parameter replaces not one, but a sequence of literals:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ?</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Set</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">S1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 </div>
