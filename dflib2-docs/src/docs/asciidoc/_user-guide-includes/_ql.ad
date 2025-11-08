@@ -125,19 +125,20 @@ Lowercase unquoted `true` and `false` strings are recognized as the correspondin
 
 Lowercase unquoted `null` string is recognized as a null constant.
 
-==== Parameters
+=== Parameters
 
-A QL parameter (denoted by the `?` symbol) is a placeholder for a literal that is substituted with a real value during
-QL parsing. Parameters are used for convenience to avoid string concatenation or for values that are not easy to
-represent as strings. Parameters are positional and are substituted with an array of values:
+A _parameter_ is a placeholder for a literal that is substituted with a real value during QL parsing. Parameters are
+used for convenience (avoiding string concatenation while building expressions) or in place of values that are not easy
+to represent as strings. In a QL string each parameter is denoted by the `?` symbol. Parameters are positional and are
+substituted with an array of values.
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=literalParam]
 ----
 
-A special case is where a single collection parameter replaces a sequence of literals (notably, the right-hand
-side of an `in` expression):
+Parameters can be placed anywhere a literal can be present. The right-hand side of an `in` expression is a special case
+where a single parameter replaces not one, but a sequence of literals:
 
 [source,java,indent=0]
 ----
