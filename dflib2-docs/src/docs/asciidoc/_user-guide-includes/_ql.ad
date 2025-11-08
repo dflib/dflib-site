@@ -268,9 +268,9 @@ you should pass the second optional argument which is a String literal parse spe
 
 ==== String Functions
 
-=====  `concat(exp_or_literal [, exp_or_literal [, exp_or_literal ...]])`
+=====  `concat(exp_or_literal [, exp_or_literal ...]])`
 
-Takes one or more arguments that are either expressions or literals (that are internally expanded to Series), producing
+Takes any number of arguments that are either expressions or literals (that are internally expanded to Series), producing
 a Series where each element is a result of String concatenation of elements at the same position taken from each
 argument Series.
 
