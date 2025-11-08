@@ -448,5 +448,5 @@ Applied to the Series returned from evaluating the `exp` argument. Returns a Str
 the series values separated by `delimiter_str`. Optionally takes a condition, so only the matching values are concatenated.
 Optionally takes `prefix_str` and `suffix_str` for concatenation prefix and suffix.
 
-NOTE: Unlike `concat(..)`, this is a "vertical" concatenation operation that produces a String from a single Series instead of
-a Series of Strings from multiple Series.
+NOTE: Unlike `concat(..)`, this is a "vertical" concatenation operation that produces a String from a single Series
+instead of a `Series<String>` from multiple Series.
