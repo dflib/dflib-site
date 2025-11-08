@@ -165,7 +165,7 @@ If multiple operators have the same precedence, they will be evaluated left to r
 
 ==== Column Naming Operator
 
-`as` operator assigns a name to an expression. The reason we care about names here, is that expressions evaluate to
+`as` operator assigns a name to an expression. The reason we care about names here is that expressions evaluate to
 columns and names is a handy mechanism to label those columns in the resulting `DataFrame`. E.g.,
 `as` expressions can be used for <<column_ops_rename,renaming columns>>. Here is a standalone example:
 
