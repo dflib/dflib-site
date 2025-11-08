@@ -359,12 +359,12 @@ functions:
 ===== `plusNanos(exp, nanos_int)`
 ===== `plusSeconds(exp, sec_int)`
 
-==== Inline Conditions
+==== Conditional Functions
 
 =====  `if(condition, if_true_exp, if_false_exp)`
-A function that picks values from either of the two series based on the condition at a given position. It first
-evaluates the condition argument into a Series of booleans, and then assembles the result with all `true` positions
-calculated via `if_true_exp`, and all `false` - via `if_false_exp`.
+Picks values from either of the two series produced by `if_true_exp` or `if_false_exp` based on the condition at a
+given position. First evaluates the `condition` to a Series of booleans, and then assembles the result with all `true`
+positions taken from `if_true_exp`, and all `false` - from `if_false_exp`.
 
 =====  `ifNull(exp, if_null_exp)`
 A special form of `if` where the condition is a null check. Assembles the result with all not-null `exp` values
