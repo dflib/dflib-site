@@ -163,7 +163,7 @@ in the order of declining precedence:
 This order follows the rules of the Java language (where applicable) and should be intuitive to Java programmers.
 If multiple operators have the same precedence, they will be evaluated left to right.
 
-==== Column Naming Operator
+==== Naming Operator
 
 `as` operator assigns a name to an expression. The reason we care about names here is that expressions evaluate to
 columns and names is a handy mechanism to label those columns in the resulting `DataFrame`. E.g.,
@@ -187,13 +187,13 @@ When building a sorter, an expression can be followed by either `asc` or `desc` 
 descending sort direction. If omitted, `asc` is implied.
 
 === Functions
-All operations that are not on the operator list above are implemented as functions in the form of `fname(arg1,arg2,...)`.
-Arguments to functions can be other expressions (including column references and literals). Out-of-the-box, the following
-functions are supported:
+All operations that are not "operators" as defined above are implemented as functions in the form of
+`fname(arg1, arg2, ...)`. Arguments to functions can be other expressions (such as column references, literals, etc.)
+Out-of-the-box, the following functions are supported:
 
 ==== Type-Setting Functions
 These functions specify the type of another expression if it is not clear from the context. A specific type may be
-required by the expression grammar to figure out how to perform certain operations. E.g.,
+required by other functions or operators. E.g.,
 
 [source,java,indent=0]
 ----
@@ -204,20 +204,21 @@ Here, the `long(..)` function takes a column, but it can take any other expressi
 data transformation, so if during evaluation the values in column "a" are not `Long` or `long` (or null),
 an exception will be thrown. The available functions are:
 
-* `bigint(..)`
-* `bool(..)`
-* `date(..)`
-* `dateTime(..)`
-* `decimal(..)`
-* `double(..)`
-* `float(..)`
-* `int(..)`
-* `long(..)`
-* `offsetDateTime(..)`
-* `str(..)`
+=====  `bigint(exp)`
+=====  `bool(exp)`
+=====  `date(exp)`
+=====  `dateTime(exp)`
+=====  `decimal(exp)`
+=====  `double(exp)`
+=====  `float(exp)`
+=====  `int(exp)`
+=====  `long(exp)`
+=====  `offsetDateTime(exp)`
+=====  `str(exp)`
+=====  `time(exp)`
 
-NOTE: Our goal is to greatly reduce the need for explicit type-setting functions, guessing the correct type from the
-expression itself. This area will be improving in the future releases.
+NOTE: Our goal is to greatly reduce the need for explicit type setting, guessing the correct type from the
+expression itself. This area will be improving in the future.
 
 ==== Type-Casting Functions
 Type-casting functions are similar to type-setting, but they would actually attempt to transform unknown column data
@@ -229,47 +230,158 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=typeCastToLong]
 ----
 They closely mirror the type-setting functions:
 
-* `castAsBigint(..)`
-* `castAsBool(..)`
-* `castAsDate(..)`
-* `castAsDateTime(..)`
-* `castAsDecimal(..)`
-* `castAsDouble(..)`
-* `castAsFloat(..)`
-* `castAsInt(..)`
-* `castAsLong(..)`
-* `castAsOffsetDateTime(..)`
-* `castAsStr(..)`
+===== `castAsBigint(exp)`
+
+=====  `castAsBool(exp)`
+=====  `castAsDate(exp [, format_string])`
+Converts expression parameter to a `LocalDate`. If the expression produces
+values are not ISO-8601 date strings, you should pass the second optional parameter which is a String literal parse
+specification compatible with Java `DateTimeFormatter`.
+
+=====  `castAsDateTime(exp [, format_string])`
+Converts expression parameter to a `LocalDateTime`. If the expression
+produces values that are not ISO-8601 date-time strings, you should pass the second optional parameter which is a
+String literal parse specification compatible with Java `DateTimeFormatter`.
+
+=====  `castAsDecimal(exp)`
+=====  `castAsDouble(exp)`
+=====  `castAsFloat(exp)`
+=====  `castAsInt(exp)`
+=====  `castAsLong(exp)`
+
+=====  `castAsOffsetDateTime(exp [, format_str])`
+Converts expression parameter to a `OffsetDateTime`. If the expression produces values that are not ISO-8601 offset
+datetime strings, you should pass the second optional parameter which is a String literal parse specification compatible
+with Java `DateTimeFormatter`.
+
+=====  `castAsStr(exp)`
+Applies a `toString()` conversion to each element of the result of the `exp` parameter.
+
+=====  `castAsTime(exp [, format_str])`
+Converts expression parameter to a `LocalTime`. If the expression produces values that are not ISO-8601 time strings,
+you should pass the second optional parameter which is a String literal parse specification compatible with Java
+`DateTimeFormatter`.
 
 NOTE: Some "cast" transformations may be inefficient, performed via an intermediate conversion to Strings. Others
-may be outright invalid (e.g. `castAsInt('abc')`). In those cases, you will need to provide your own explicit
-columnset transforming operation.
+may be outright invalid (e.g. `castAsInt('abc')`). In those cases, you won't be able to use the standard type-casting
+functions and will need to provide your own transformations.
 
 ==== String Functions
-* `concat(..)`
-* `endsWith(..)`
-* `len(..)`
-* `lower(..)`
-* `matches(..)`
-* `split(..)`
-* `startsWith(..)`
-* `substr(..)`
-* `trim(..)`
-* `upper(..)`
+
+=====  `concat(..)`
+=====  `contains(..)`
+=====  `endsWith(..)`
+=====  `len(..)`
+=====  `lower(..)`
+=====  `matches(..)`
+=====  `split(..)`
+=====  `startsWith(..)`
+=====  `substr(..)`
+=====  `trim(..)`
+=====  `upper(..)`
 
 ==== Numeric Functions
-...
+
+Many scalar numeric operations are implemented as operators (described above). Here are the ones that are done as
+functions:
+
+=====  `abs(exp)`
+=====  `cumSum(exp)`
+=====  `round(exp)`
 
 ==== Date and Time Functions
-...
+
+===== `day(exp)`
+===== `hour(exp)`
+===== `millisecond(exp)`
+===== `minute(exp)`
+===== `month(exp)`
+===== `second(exp)`
+===== `year(exp)`
+
+===== `plusDays(exp, days_int)`
+===== `plusHours(exp, hours_int)`
+===== `plusMillisecond(exp, ms_int)`
+===== `plusMinutes(exp, min_int)`
+===== `plusMonths(exp, months_int)`
+===== `plusNanos(exp, nanos_int)`
+===== `plusSeconds(exp, sec_int)`
+===== `plusWeeks(exp, weeks_int)`
+===== `plusYears(exp, years_int)`
 
 ==== Inline Conditions
-* `if(..)`
-* `ifNull(..)`
+=====  `if(..)`
+=====  `ifNull(..)`
 
 ==== Other Functions
-* `rowNum()`
-* `shift(..)`
+=====  `rowNum()`
+=====  `shift(..)`
 
 ==== Aggregating Functions
-...
+
+===== `array(exp)`
+Applied to the Series returned by evaluating the `exp` parameter. Returns an array containing all series values.
+
+===== `avg(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. Calculates and returns the average value
+of a series. `exp` must be a datetime or a numeric expression. If an optional `condition` is passed, will return the
+average among the values matching the condition.
+
+===== `count([condition])`
+The default no-argument flavor returns the number of rows in the aggregated series. If a conditional expression
+is passed as an argument, will only count the rows matching the condition.
+
+===== `first(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. The default single-argument flavor returns
+the first element in the series. If an optional `condition` is passed, will return the first value matching the
+condition.
+
+===== `last(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. The default single-argument flavor returns
+the last element in the series. If an optional `condition` is passed, will return the last value matching the
+condition.
+
+===== `list(exp)`
+Applied to the Series returned by evaluating the `exp` parameter. Returns a `List` containing all series values.
+
+===== `max(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. Returns the maximum value in the series. `exp`
+must be a string, datetime or numeric expression. If an optional `condition` is passed, will return the maximum among
+values matching the condition.
+
+===== `median(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. Calculates and returns the median value
+of a series. `exp` must be a datetime or a numeric expression. If an optional `condition` is passed, the median among
+values matching the condition.
+
+===== `min(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. Returns the minimum value in the series. `exp`
+must be a string, datetime or numeric expression. If an optional `condition` is passed, will return the minimum among
+values matching the condition.
+
+===== `quantile(exp, quantile_double [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. Calculates and returns the specified
+quantile value of a series. `exp` must be a datetime or a numeric expression. If an optional `condition` is passed, will
+return the quantile among those matching the condition.
+
+===== `set(exp)`
+Applied to the Series returned by evaluating the `exp` parameter. Returns a `Set` containing all series values.
+
+===== `stdDev(exp [, use_population_bool])`
+Applied to the Series returned by evaluating the `exp` parameter. Returns the standard deviation of the series. `exp`
+must be a numeric expression. An optional `use_population_bool` argument allows to specify whether to use "population"
+(`true`) or "sample" (`false`) standard deviation. If omitted, "population" is assumed.
+
+===== `sum(exp [, condition])`
+Applied to the Series returned by evaluating the `exp` parameter. Returns the sum of the series values. `exp`
+must be a numeric expression. If an optional `condition` is passed, will return the sum among the values matching the condition.
+
+===== `variance(exp [, use_population_bool])`
+Applied to the Series returned by evaluating the `exp` parameter. Returns the variance of the series. `exp`
+must be a numeric expression. An optional `use_population_bool` argument allows to specify whether to use "population"
+(`true`) or "sample" (`false`) variance. If omitted, "population" is assumed.
+
+===== `vConcat(exp [, condition], delimiter_str [, prefix_str, suffix_str])`
+Applied to the Series returned by evaluating the `exp` parameter. Returns a String that is concatenation of
+the series values separated by `delimiter_str`. Optionally takes a condition, so only the matching values are concatenated.
+Optionally takes `prefix_str` and `suffix_str` for concatenation prefix and suffix.

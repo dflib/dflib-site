@@ -1965,7 +1965,7 @@ in the order of declining precedence:</p>
 If multiple operators have the same precedence, they will be evaluated left to right.</p>
 </div>
 <div class="sect3">
-<h4 id="_column_naming_operator">Column Naming Operator</h4>
+<h4 id="_naming_operator">Naming Operator</h4>
 <div class="paragraph">
 <p><code>as</code> operator assigns a name to an expression. The reason we care about names here is that expressions evaluate to
 columns and names is a handy mechanism to label those columns in the resulting <code>DataFrame</code>. E.g.,
@@ -2000,15 +2000,15 @@ descending sort direction. If omitted, <code>asc</code> is implied.</p>
 <div class="sect2">
 <h3 id="_functions">Functions</h3>
 <div class="paragraph">
-<p>All operations that are not on the operator list above are implemented as functions in the form of <code>fname(arg1,arg2,&#8230;&#8203;)</code>.
-Arguments to functions can be other expressions (including column references and literals). Out-of-the-box, the following
-functions are supported:</p>
+<p>All operations that are not "operators" as defined above are implemented as functions in the form of
+<code>fname(arg1, arg2, &#8230;&#8203;)</code>. Arguments to functions can be other expressions (such as column references, literals, etc.)
+Out-of-the-box, the following functions are supported:</p>
 </div>
 <div class="sect3">
 <h4 id="_type_setting_functions">Type-Setting Functions</h4>
 <div class="paragraph">
 <p>These functions specify the type of another expression if it is not clear from the context. A specific type may be
-required by the expression grammar to figure out how to perform certain operations. E.g.,</p>
+required by other functions or operators. E.g.,</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2021,43 +2021,52 @@ required by the expression grammar to figure out how to perform certain operatio
 data transformation, so if during evaluation the values in column "a" are not <code>Long</code> or <code>long</code> (or null),
 an exception will be thrown. The available functions are:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>bigint(..)</code></p>
-</li>
-<li>
-<p><code>bool(..)</code></p>
-</li>
-<li>
-<p><code>date(..)</code></p>
-</li>
-<li>
-<p><code>dateTime(..)</code></p>
-</li>
-<li>
-<p><code>decimal(..)</code></p>
-</li>
-<li>
-<p><code>double(..)</code></p>
-</li>
-<li>
-<p><code>float(..)</code></p>
-</li>
-<li>
-<p><code>int(..)</code></p>
-</li>
-<li>
-<p><code>long(..)</code></p>
-</li>
-<li>
-<p><code>offsetDateTime(..)</code></p>
-</li>
-<li>
-<p><code>str(..)</code></p>
-</li>
-</ul>
+<div class="sect4">
+<h5 id="_bigintexp"><code>bigint(exp)</code></h5>
+
 </div>
+<div class="sect4">
+<h5 id="_boolexp"><code>bool(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_dateexp"><code>date(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_datetimeexp"><code>dateTime(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_decimalexp"><code>decimal(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_doubleexp"><code>double(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_floatexp"><code>float(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_intexp"><code>int(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_longexp"><code>long(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_offsetdatetimeexp"><code>offsetDateTime(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_strexp"><code>str(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_timeexp"><code>time(exp)</code></h5>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -2065,11 +2074,12 @@ an exception will be thrown. The available functions are:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Our goal is to greatly reduce the need for explicit type-setting functions, guessing the correct type from the
-expression itself. This area will be improving in the future releases.
+Our goal is to greatly reduce the need for explicit type setting, guessing the correct type from the
+expression itself. This area will be improving in the future.
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -2087,42 +2097,70 @@ to the requested type:</p>
 <div class="paragraph">
 <p>They closely mirror the type-setting functions:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>castAsBigint(..)</code></p>
-</li>
-<li>
-<p><code>castAsBool(..)</code></p>
-</li>
-<li>
-<p><code>castAsDate(..)</code></p>
-</li>
-<li>
-<p><code>castAsDateTime(..)</code></p>
-</li>
-<li>
-<p><code>castAsDecimal(..)</code></p>
-</li>
-<li>
-<p><code>castAsDouble(..)</code></p>
-</li>
-<li>
-<p><code>castAsFloat(..)</code></p>
-</li>
-<li>
-<p><code>castAsInt(..)</code></p>
-</li>
-<li>
-<p><code>castAsLong(..)</code></p>
-</li>
-<li>
-<p><code>castAsOffsetDateTime(..)</code></p>
-</li>
-<li>
-<p><code>castAsStr(..)</code></p>
-</li>
-</ul>
+<div class="sect4">
+<h5 id="_castasbigintexp"><code>castAsBigint(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castasboolexp"><code>castAsBool(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castasdateexp_format_string"><code>castAsDate(exp [, format_string])</code></h5>
+<div class="paragraph">
+<p>Converts expression parameter to a <code>LocalDate</code>. If the expression produces
+values are not ISO-8601 date strings, you should pass the second optional parameter which is a String literal parse
+specification compatible with Java <code>DateTimeFormatter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_castasdatetimeexp_format_string"><code>castAsDateTime(exp [, format_string])</code></h5>
+<div class="paragraph">
+<p>Converts expression parameter to a <code>LocalDateTime</code>. If the expression
+produces values that are not ISO-8601 date-time strings, you should pass the second optional parameter which is a
+String literal parse specification compatible with Java <code>DateTimeFormatter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_castasdecimalexp"><code>castAsDecimal(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castasdoubleexp"><code>castAsDouble(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castasfloatexp"><code>castAsFloat(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castasintexp"><code>castAsInt(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castaslongexp"><code>castAsLong(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_castasoffsetdatetimeexp_format_str"><code>castAsOffsetDateTime(exp [, format_str])</code></h5>
+<div class="paragraph">
+<p>Converts expression parameter to a <code>OffsetDateTime</code>. If the expression produces values that are not ISO-8601 offset
+datetime strings, you should pass the second optional parameter which is a String literal parse specification compatible
+with Java <code>DateTimeFormatter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_castasstrexp"><code>castAsStr(exp)</code></h5>
+<div class="paragraph">
+<p>Applies a <code>toString()</code> conversion to each element of the result of the <code>exp</code> parameter.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_castastimeexp_format_str"><code>castAsTime(exp [, format_str])</code></h5>
+<div class="paragraph">
+<p>Converts expression parameter to a <code>LocalTime</code>. If the expression produces values that are not ISO-8601 time strings,
+you should pass the second optional parameter which is a String literal parse specification compatible with Java
+<code>DateTimeFormatter</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2132,92 +2170,282 @@ to the requested type:</p>
 </td>
 <td class="content">
 Some "cast" transformations may be inefficient, performed via an intermediate conversion to Strings. Others
-may be outright invalid (e.g. <code>castAsInt('abc')</code>). In those cases, you will need to provide your own explicit
-columnset transforming operation.
+may be outright invalid (e.g. <code>castAsInt('abc')</code>). In those cases, you won&#8217;t be able to use the standard type-casting
+functions and will need to provide your own transformations.
 </td>
 </tr>
 </table>
 </div>
 </div>
+</div>
 <div class="sect3">
 <h4 id="_string_functions">String Functions</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><code>concat(..)</code></p>
-</li>
-<li>
-<p><code>endsWith(..)</code></p>
-</li>
-<li>
-<p><code>len(..)</code></p>
-</li>
-<li>
-<p><code>lower(..)</code></p>
-</li>
-<li>
-<p><code>matches(..)</code></p>
-</li>
-<li>
-<p><code>split(..)</code></p>
-</li>
-<li>
-<p><code>startsWith(..)</code></p>
-</li>
-<li>
-<p><code>substr(..)</code></p>
-</li>
-<li>
-<p><code>trim(..)</code></p>
-</li>
-<li>
-<p><code>upper(..)</code></p>
-</li>
-</ul>
+<div class="sect4">
+<h5 id="_concat"><code>concat(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_contains"><code>contains(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_endswith"><code>endsWith(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_len"><code>len(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_lower"><code>lower(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_matches"><code>matches(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_split"><code>split(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_startswith"><code>startsWith(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_substr"><code>substr(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_trim"><code>trim(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_upper"><code>upper(..)</code></h5>
+
 </div>
 </div>
 <div class="sect3">
 <h4 id="_numeric_functions">Numeric Functions</h4>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p>Many scalar numeric operations are implemented as operators (described above). Here are the ones that are done as
+functions:</p>
+</div>
+<div class="sect4">
+<h5 id="_absexp"><code>abs(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_cumsumexp"><code>cumSum(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_roundexp"><code>round(exp)</code></h5>
+
 </div>
 </div>
 <div class="sect3">
 <h4 id="_date_and_time_functions">Date and Time Functions</h4>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
+<div class="sect4">
+<h5 id="_dayexp"><code>day(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_hourexp"><code>hour(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_millisecondexp"><code>millisecond(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_minuteexp"><code>minute(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_monthexp"><code>month(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_secondexp"><code>second(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_yearexp"><code>year(exp)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusdaysexp_days_int"><code>plusDays(exp, days_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plushoursexp_hours_int"><code>plusHours(exp, hours_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusmillisecondexp_ms_int"><code>plusMillisecond(exp, ms_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusminutesexp_min_int"><code>plusMinutes(exp, min_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusmonthsexp_months_int"><code>plusMonths(exp, months_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusnanosexp_nanos_int"><code>plusNanos(exp, nanos_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plussecondsexp_sec_int"><code>plusSeconds(exp, sec_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusweeksexp_weeks_int"><code>plusWeeks(exp, weeks_int)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_plusyearsexp_years_int"><code>plusYears(exp, years_int)</code></h5>
+
 </div>
 </div>
 <div class="sect3">
 <h4 id="_inline_conditions">Inline Conditions</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><code>if(..)</code></p>
-</li>
-<li>
-<p><code>ifNull(..)</code></p>
-</li>
-</ul>
+<div class="sect4">
+<h5 id="_if"><code>if(..)</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_ifnull"><code>ifNull(..)</code></h5>
+
 </div>
 </div>
 <div class="sect3">
 <h4 id="_other_functions">Other Functions</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><code>rowNum()</code></p>
-</li>
-<li>
-<p><code>shift(..)</code></p>
-</li>
-</ul>
+<div class="sect4">
+<h5 id="_rownum"><code>rowNum()</code></h5>
+
+</div>
+<div class="sect4">
+<h5 id="_shift"><code>shift(..)</code></h5>
+
 </div>
 </div>
 <div class="sect3">
 <h4 id="_aggregating_functions">Aggregating Functions</h4>
+<div class="sect4">
+<h5 id="_arrayexp"><code>array(exp)</code></h5>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns an array containing all series values.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_avgexp_condition"><code>avg(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Calculates and returns the average value
+of a series. <code>exp</code> must be a datetime or a numeric expression. If an optional <code>condition</code> is passed, will return the
+average among the values matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_countcondition"><code>count([condition])</code></h5>
+<div class="paragraph">
+<p>The default no-argument flavor returns the number of rows in the aggregated series. If a conditional expression
+is passed as an argument, will only count the rows matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_firstexp_condition"><code>first(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. The default single-argument flavor returns
+the first element in the series. If an optional <code>condition</code> is passed, will return the first value matching the
+condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_lastexp_condition"><code>last(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. The default single-argument flavor returns
+the last element in the series. If an optional <code>condition</code> is passed, will return the last value matching the
+condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_listexp"><code>list(exp)</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns a <code>List</code> containing all series values.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_maxexp_condition"><code>max(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns the maximum value in the series. <code>exp</code>
+must be a string, datetime or numeric expression. If an optional <code>condition</code> is passed, will return the maximum among
+values matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_medianexp_condition"><code>median(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Calculates and returns the median value
+of a series. <code>exp</code> must be a datetime or a numeric expression. If an optional <code>condition</code> is passed, the median among
+values matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_minexp_condition"><code>min(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns the minimum value in the series. <code>exp</code>
+must be a string, datetime or numeric expression. If an optional <code>condition</code> is passed, will return the minimum among
+values matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_quantileexp_quantile_double_condition"><code>quantile(exp, quantile_double [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Calculates and returns the specified
+quantile value of a series. <code>exp</code> must be a datetime or a numeric expression. If an optional <code>condition</code> is passed, will
+return the quantile among those matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_setexp"><code>set(exp)</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns a <code>Set</code> containing all series values.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stddevexp_use_population_bool"><code>stdDev(exp [, use_population_bool])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns the standard deviation of the series. <code>exp</code>
+must be a numeric expression. An optional <code>use_population_bool</code> argument allows to specify whether to use "population"
+(<code>true</code>) or "sample" (<code>false</code>) standard deviation. If omitted, "population" is assumed.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sumexp_condition"><code>sum(exp [, condition])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns the sum of the series values. <code>exp</code>
+must be a numeric expression. If an optional <code>condition</code> is passed, will return the sum among the values matching the condition.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_varianceexp_use_population_bool"><code>variance(exp [, use_population_bool])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns the variance of the series. <code>exp</code>
+must be a numeric expression. An optional <code>use_population_bool</code> argument allows to specify whether to use "population"
+(<code>true</code>) or "sample" (<code>false</code>) variance. If omitted, "population" is assumed.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_vconcatexp_condition_delimiter_str_prefix_str_suffix_str"><code>vConcat(exp [, condition], delimiter_str [, prefix_str, suffix_str])</code></h5>
+<div class="paragraph">
+<p>Applied to the Series returned by evaluating the <code>exp</code> parameter. Returns a String that is concatenation of
+the series values separated by <code>delimiter_str</code>. Optionally takes a condition, so only the matching values are concatenated.
+Optionally takes <code>prefix_str</code> and <code>suffix_str</code> for concatenation prefix and suffix.</p>
+</div>
 </div>
 </div>
 </div>
