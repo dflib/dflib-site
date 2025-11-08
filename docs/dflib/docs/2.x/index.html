@@ -2178,47 +2178,51 @@ you should pass the second optional argument which is a String literal parse spe
 <div class="sect3">
 <h4 id="_string_functions">String Functions</h4>
 <div class="sect4">
-<h5 id="_concat"><code>concat(..)</code></h5>
+<h5 id="_concatexp_or_literal_exp_or_literal_exp_or_literal"><code>concat(exp_or_literal [, exp_or_literal [, exp_or_literal &#8230;&#8203;]])</code></h5>
+<div class="paragraph">
+<p>Takes one or more arguments that are either expressions or literals (that are internally expanded to Series), producing
+a Series where each element is a result of String concatenation of elements at the same position taken from each
+argument Series.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_containsexp_substring_str"><code>contains(exp, substring_str)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_contains"><code>contains(..)</code></h5>
+<h5 id="_endswithexp_substring_str"><code>endsWith(exp, substring_str)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_endswith"><code>endsWith(..)</code></h5>
+<h5 id="_lenexp"><code>len(exp)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_len"><code>len(..)</code></h5>
+<h5 id="_lowerexp"><code>lower(exp)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_lower"><code>lower(..)</code></h5>
+<h5 id="_matchesexp_regex_str"><code>matches(exp, regex_str)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_matches"><code>matches(..)</code></h5>
+<h5 id="_splitexp_delimiter_str_limit_int"><code>split(exp, delimiter_str [, limit_int])</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_split"><code>split(..)</code></h5>
+<h5 id="_startswithexp_substring_str"><code>startsWith(exp, substring_str)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_startswith"><code>startsWith(..)</code></h5>
+<h5 id="_substrexp_from_int_len_int"><code>substr(exp, from_int [, len_int])</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_substr"><code>substr(..)</code></h5>
+<h5 id="_trimexp"><code>trim(exp)</code></h5>
 
 </div>
 <div class="sect4">
-<h5 id="_trim"><code>trim(..)</code></h5>
-
-</div>
-<div class="sect4">
-<h5 id="_upper"><code>upper(..)</code></h5>
+<h5 id="_upperexp"><code>upper(exp)</code></h5>
 
 </div>
 </div>
@@ -2595,6 +2599,19 @@ must be a numeric expression. An optional <code>use_population_bool</code> argum
 <p>Applied to the Series returned from evaluating the <code>exp</code> argument. Returns a String that is concatenation of
 the series values separated by <code>delimiter_str</code>. Optionally takes a condition, so only the matching values are concatenated.
 Optionally takes <code>prefix_str</code> and <code>suffix_str</code> for concatenation prefix and suffix.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unlike <code>concat(..)</code>, this is a "vertical" concatenation operation that produces a String from a single Series instead of
+a Series of Strings from multiple Series.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

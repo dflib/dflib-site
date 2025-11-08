@@ -268,17 +268,22 @@ you should pass the second optional argument which is a String literal parse spe
 
 ==== String Functions
 
-=====  `concat(..)`
-=====  `contains(..)`
-=====  `endsWith(..)`
-=====  `len(..)`
-=====  `lower(..)`
-=====  `matches(..)`
-=====  `split(..)`
-=====  `startsWith(..)`
-=====  `substr(..)`
-=====  `trim(..)`
-=====  `upper(..)`
+=====  `concat(exp_or_literal [, exp_or_literal [, exp_or_literal ...]])`
+
+Takes one or more arguments that are either expressions or literals (that are internally expanded to Series), producing
+a Series where each element is a result of String concatenation of elements at the same position taken from each
+argument Series.
+
+=====  `contains(exp, substring_str)`
+=====  `endsWith(exp, substring_str)`
+=====  `len(exp)`
+=====  `lower(exp)`
+=====  `matches(exp, regex_str)`
+=====  `split(exp, delimiter_str [, limit_int])`
+=====  `startsWith(exp, substring_str)`
+=====  `substr(exp, from_int [, len_int])`
+=====  `trim(exp)`
+=====  `upper(exp)`
 
 ==== Numeric Functions
 
@@ -441,3 +446,6 @@ must be a numeric expression. An optional `use_population_bool` argument allows 
 Applied to the Series returned from evaluating the `exp` argument. Returns a String that is concatenation of
 the series values separated by `delimiter_str`. Optionally takes a condition, so only the matching values are concatenated.
 Optionally takes `prefix_str` and `suffix_str` for concatenation prefix and suffix.
+
+NOTE: Unlike `concat(..)`, this is a "vertical" concatenation operation that produces a String from a single Series instead of
+a Series of Strings from multiple Series.
