@@ -942,10 +942,7 @@ for invoking special kernel functions.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="text">%mavenRepo snapshots https://s01.oss.sonatype.org/content/repositories/snapshots/
-
-%maven org.dflib:dflib-jupyter:1.2.0
-
-List&lt;String&gt; addedJars = %jars C:/all/my/*.jar</code></pre>
+%maven org.dflib:dflib-jupyter:1.2.0</code></pre>
 </div>
 </div>
 </div>
@@ -978,13 +975,6 @@ argument:</p>
 allow to reference dependencies from local and remote Maven repositories:</p>
 </div>
 <div class="sect3">
-<h4 id="_jars_line"><code>jars</code> (line)</h4>
-<div class="paragraph">
-<p>Adds jars to the notebook classpath. Arguments are glob paths to jars on the local file system. If a glob matches a
-directory all files in that directory will be added.</p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="_classpath_line"><code>classpath</code> (line)</h4>
 <div class="paragraph">
 <p>Adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system. This includes
@@ -992,23 +982,23 @@ directories or jars.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="addmavendependencies"><code>maven</code>, aka <code>addMavenDependencies</code>, <code>addMavenDependency</code> (line)</h4>
+<h4 id="maven"><code>maven</code> (line)</h4>
 <div class="paragraph">
 <p>Adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the classpath. Arguments
 are in the form of "dependency coordinates" like <code>groupId:artifactId:[packagingType:[classifier]]:version</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="addmavenrepo"><code>mavenRepo</code>, aka <code>addMavenRepo</code> (line)</h4>
+<h4 id="mavenrepo"><code>mavenRepo</code> (line)</h4>
 <div class="paragraph">
-<p>Add a maven repository to search for the benefit of <a href="#addmavendependencies"><code>maven</code></a> magic. Takes two arguments:
+<p>Add a maven repository to search for the benefit of <a href="#maven"><code>maven</code></a> magic. Takes two arguments:
 <code>&lt;repo_id&gt; &lt;repo_url&gt;</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_loadfrompom_either_line_or_cell"><code>loadFromPOM</code> (either line or cell)</h4>
 <div class="paragraph">
-<p>Loads any dependencies specified in a POM. It ignores repositories added with <a href="#addmavenrepo">addMavenRepo</a> as the
+<p>Loads any dependencies specified in a POM. It ignores repositories added with <a href="#mavenrepo">mavenRepo</a> as the
 POM would likely specify its own. This cell magic is designed to make it very simple to copy and paste from
 any READMEs specifying maven POM fragments to use in depending on an artifact (including repositories other than central).</p>
 </div>
@@ -1061,6 +1051,33 @@ care of putting it together into a POM:</p>
   <span class="tag">&lt;artifactId&gt;</span>dflib-jupyter<span class="tag">&lt;/artifactId&gt;</span>
   <span class="tag">&lt;version&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_time_line_and_cell"><code>time</code> (line and cell)</h4>
+<div class="paragraph">
+<p>Prints execution time information for either a line or the entire cell. Cell</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">%time 10 * 10
+
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
+Wall time: 0.012 s
+100</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In most real-life situations, you&#8217;d likely use a cell variety:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">%%time
+Csv.loader()
+  .intCol(1)
+  .longCol(2)
+  .load(&quot;large.csv&quot;);</code></pre>
 </div>
 </div>
 </div>
