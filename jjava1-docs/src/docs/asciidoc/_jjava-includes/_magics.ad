@@ -93,7 +93,7 @@ care of putting it together into a POM:
 </dependency>
 ----
 
-==== `time` (line and cell)
+==== `time` (either line or cell)
 Prints execution time information for either a line or the entire cell. Cell
 
 [source,text]
@@ -105,7 +105,6 @@ Wall time: 0.012 s
 100
 ----
 
-In most real-life situations, you'd likely use a cell variety:
 [source,text]
 ----
 %%time
