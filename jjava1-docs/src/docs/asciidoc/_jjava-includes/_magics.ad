@@ -38,30 +38,24 @@ argument:
 JJava provides a number of magics that help with notebook dependency management. Some allow to add local jars, others
 allow to reference dependencies from local and remote Maven repositories:
 
-==== `classpath` (line)
-
-Adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system. This includes
-directories or jars.
+==== `%classpath`
+A line magic that adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system.
+Can be either directories or jars.
 
 [#maven]
-==== `maven` (line)
-
-Adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the classpath. Arguments
-are in the form of "dependency coordinates" like `groupId:artifactId:[packagingType:[classifier]]:version`
+==== `%maven`
+A line magic that adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the
+classpath. Arguments are in the form of "dependency coordinates" like `groupId:artifactId:[packagingType:[classifier]]:version`
 
 [#mavenrepo]
-==== `mavenRepo` (line)
-
-Add a maven repository to search for the benefit of link:#maven[`maven`] magic. Takes two arguments:
+==== `%mavenRepo`
+A line magic that adds a maven repository to search for the benefit of link:#maven[`maven`] magic. Takes two arguments:
 `<repo_id> <repo_url>`.
 
-==== `loadFromPOM` (either line or cell)
-
-Loads any dependencies specified in a POM. It ignores repositories added with link:#mavenrepo[mavenRepo] as the
-POM would likely specify its own. This cell magic is designed to make it very simple to copy and paste from
-any READMEs specifying maven POM fragments to use in depending on an artifact (including repositories other than central).
-
-Line magic arguments:
+==== `%loadFromPOM` or `%%loadFromPOM`
+Can be specified as either a line or a cell magic. Loads any dependencies mentioned in the inline POM. It ignores
+repositories added with link:#mavenrepo[mavenRepo] as the POM would likely have its own. Designed to make it simple
+to copy and paste from third-party documentation with maven POM fragments. Line magic arguments:
 
 * path to local POM file
 * list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import` if not supplied.
@@ -93,9 +87,8 @@ care of putting it together into a POM:
 </dependency>
 ----
 
-==== `time` (either line or cell)
-Prints execution time information for either a line or the entire cell.
-
+==== `%time` or `%%time
+Can be specified as either a line or a cell magic. Prints code execution time information.
 [source,text]
 ----
 %time 10 * 10
