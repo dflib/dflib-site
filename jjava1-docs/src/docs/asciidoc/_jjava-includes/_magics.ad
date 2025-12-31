@@ -94,7 +94,7 @@ care of putting it together into a POM:
 ----
 
 ==== `time` (either line or cell)
-Prints execution time information for either a line or the entire cell. Cell
+Prints execution time information for either a line or the entire cell.
 
 [source,text]
 ----
