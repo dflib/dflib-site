@@ -1,7 +1,7 @@
 == JJava Magics
 
-JJava provides a number of magics that help with notebook dependency management. Some allow to add local jars, others
-allow to reference dependencies from local and remote Maven repositories:
+JJava provides a number of magics out of the box. They help with notebook dependency management, profiling notebook
+code, etc.
 
 === `%classpath`
 A line magic that adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system.
