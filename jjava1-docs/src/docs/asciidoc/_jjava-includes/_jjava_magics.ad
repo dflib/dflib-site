@@ -1,0 +1,74 @@
+== JJava Magics
+
+JJava provides a number of magics that help with notebook dependency management. Some allow to add local jars, others
+allow to reference dependencies from local and remote Maven repositories:
+
+=== `%classpath`
+A line magic that adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system.
+Can be either directories or jars.
+
+[#maven]
+=== `%maven`
+A line magic that adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the
+classpath. Arguments are in the form of "dependency coordinates" like `groupId:artifactId:[packagingType:[classifier]]:version`
+
+[#mavenrepo]
+=== `%mavenRepo`
+A line magic that adds a maven repository to search for the benefit of link:#maven[`maven`] magic. Takes two arguments:
+`<repo_id> <repo_url>`.
+
+=== `%loadFromPOM`, `%%loadFromPOM`
+Can be specified as either a line or a cell magic. Loads any dependencies mentioned in the inline POM. It ignores
+repositories added with link:#mavenrepo[mavenRepo] as the POM would likely have its own. Designed to make it simple
+to copy and paste from third-party documentation with maven POM fragments. Line magic arguments:
+
+* path to local POM file
+* list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import` if not supplied.
+
+Cell magic arguments:
+
+* _varargs_ list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import` if not supplied.
+* body: A _partial_ POM literal.
+
+If the body is an XML `<project>` tag, then the body is used as a POM without modification. Otherwise, the magic
+attempts to build a POM based on the XML fragments it gets. `<modelVersion>`, `<groupId>`, `<artifactId>`, and `<version>`
+are given default values if not supplied. All children of `<dependencies>` and `<repositories>` are collected
+along with any loose `<dependency>` and `repository` tags.
+
+E.g., to add a dependency not in central simply add a valid `<repository>` and `<dependency>` and the magic will take
+care of putting it together into a POM:
+[source,xml]
+----
+%%loadFromPOM
+<repository>
+  <id>snapshots</id>
+  <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+</repository>
+
+<dependency>
+  <groupId>org.dflib</groupId>
+  <artifactId>dflib-jupyter</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+</dependency>
+----
+
+=== `%time`, `%%time`
+Can be specified as either a line or a cell magic. Prints code execution time information.
+[source,text]
+----
+%time 10 * 10
+
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
+Wall time: 0.012 s
+100
+----
+
+[source,text]
+----
+%%time
+Csv.loader()
+  .intCol(1)
+  .longCol(2)
+  .load("large.csv");
+----
+
