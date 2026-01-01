@@ -1,0 +1,33 @@
+== Notebook functions
+
+JJava injects a number of static helper methods to access the runtime environment. Here are some examples...
+
+`kernel()` function returns the kernel object associated with the notebook. This is if you need to access
+JJava runtime internals (such as JShell) for any reason:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doKernel]
+----
+<1> The `kernel()` function is a static import provided by default in each notebook.
+
+`display(..)` function allows to print objects from anywhere in the cell (not just the last cell statement).
+It differs from `System.out.println(..)` in that it will apply custom renderers to the displayed objects
+(e.g., a DFLib DataFrame will be displayed as a properly truncated table).
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doDisplay]
+----
+
+You can also pass a mime type to `display(..)` that would e.g., render a piece of text as HTML, markdown, etc.
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doDisplayMime]
+----
+
+You can update existing display elements with `updateDisplay(..)`. Here is an example that will show a quick countdown:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doUpdateDisplay]
+----

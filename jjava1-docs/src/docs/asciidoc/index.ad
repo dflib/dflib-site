@@ -14,13 +14,11 @@ include::_jjava-includes/_run.ad[]
 
 include::_jjava-includes/_configuring.ad[]
 
+include::_jjava-includes/_notebook_functions.ad[]
+
 include::_jjava-includes/_magics.ad[]
 
 include::_jjava-includes/_jjava_magics.ad[]
-
-include::_jjava-includes/_kernel.ad[]
-
-include::_jjava-includes/_display.ad[]
 
 include::_jjava-includes/_extend.ad[]
 

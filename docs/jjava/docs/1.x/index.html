@@ -547,6 +547,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#simple-glob-syntax">Glob Syntax</a></li>
 </ul>
 </li>
+<li><a href="#_notebook_functions">Notebook functions</a></li>
 <li><a href="#magics">Magics</a></li>
 <li><a href="#_jjava_magics">JJava Magics</a>
 <ul class="sectlevel2">
@@ -555,16 +556,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#mavenRepo">%mavenRepo</a></li>
 <li><a href="#_loadfrompom_loadfrompom">%loadFromPOM, %%loadFromPOM</a></li>
 <li><a href="#_time_time">%time, %%time</a></li>
-</ul>
-</li>
-<li><a href="#kernel">Kernel</a>
-<ul class="sectlevel2">
-<li><a href="#_notebook_functions">Notebook functions</a></li>
-</ul>
-</li>
-<li><a href="#display">Display</a>
-<ul class="sectlevel2">
-<li><a href="#_notebook_functions_2">Notebook functions</a></li>
 </ul>
 </li>
 <li><a href="#jupyter-aware-java-libs">Jupyter-Aware Java Libs</a></li>
@@ -931,6 +922,64 @@ Users on any OS should use <code>/</code> as a path separator.
 </div>
 </div>
 <div class="sect1">
+<h2 id="_notebook_functions">Notebook functions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JJava injects a number of static helper methods to access the runtime environment. Here are some examples&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p><code>kernel()</code> function returns the kernel object associated with the notebook. This is if you need to access
+JJava runtime internals (such as JShell) for any reason:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">JavaKernel kernel = kernel(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>kernel()</code> function is a static import provided by default in each notebook.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>display(..)</code> function allows to print objects from anywhere in the cell (not just the last cell statement).
+It differs from <code>System.out.println(..)</code> in that it will apply custom renderers to the displayed objects
+(e.g., a DFLib DataFrame will be displayed as a properly truncated table).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">display(o);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also pass a mime type to <code>display(..)</code> that would e.g., render a piece of text as HTML, markdown, etc.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">display(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;b&gt;bold&lt;/b&gt;</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/html</span><span class="delimiter">&quot;</span></span>);
+display(<span class="string"><span class="delimiter">&quot;</span><span class="content">_italic_</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/markdown</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can update existing display elements with <code>updateDisplay(..)</code>. Here is an example that will show a quick countdown:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> id = display(<span class="string"><span class="delimiter">&quot;</span><span class="content">Countdown: 3</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">3</span>; i &gt;= <span class="integer">0</span>; i--) {
+    updateDisplay(id, <span class="string"><span class="delimiter">&quot;</span><span class="content">Countdown: </span><span class="delimiter">&quot;</span></span> + i);
+    <span class="predefined-type">Thread</span>.sleep(<span class="integer">1000L</span>);
+}
+
+display(<span class="string"><span class="delimiter">&quot;</span><span class="content">Liftoff!</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="magics">Magics</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -1069,184 +1118,6 @@ Out[1]: 100</code></pre>
 CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
 Wall time: 0.012 s
 Out[2]: 100</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="kernel">Kernel</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>All code running in JJava flows through the kernel. This makes it the
-place to register magics, add things to the classpath, and perform many
-jupyter related operations.</p>
-</div>
-<div class="sect2">
-<h3 id="_notebook_functions">Notebook functions</h3>
-<div class="paragraph">
-<p>JJava injects a number of static helper methods to access the runtime environment. The most useful one is <code>kernel()</code>,
-as the kernel object provides a lot of goodies, like adding jars to the classpath, registering new magics, access to
-JShell, the code evaluator, etc.:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">JavaKernel kernel = kernel(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>kernel()</code> function is a static import provided by default in each notebook.</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Another one is <code>display(..)</code> that allows to print objects from anywhere in the cell (not just the last cell statement).
-Its difference from say <code>System.out.println(..)</code> is that it will apply custom renderers to the displayed objects
-(e.g., a DFLib DataFrame will be displayed as a properly truncated table).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">display(o);</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="display">Display</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>One of the many great things about the Jupyter front ends is the support for
-<a href="http://jupyter-client.readthedocs.io/en/stable/messaging.html#display-data"><code>display_data</code></a>.
-JJava interfaces with the base kernel’s high-level rendering API.</p>
-</div>
-<div class="sect2">
-<h3 id="_notebook_functions_2">Notebook functions</h3>
-<div class="paragraph">
-<p>JJava injects two functions into the user space for displaying data:
-<code>display</code> and <code>render</code>. Most use cases should prefer the former but
-there is a necessary case for <code>render</code> that is outline below. In
-addition the <code>updateDisplay</code> function can be used to update a
-previously displayed object. All are defined in the runtime
-<a href="https://github.com/dflib/jjava/blob/main/src/main/java/org/dflib/jjava/runtime/Display.java">Display</a> class.</p>
-</div>
-<div class="paragraph">
-<p>All display/render functions include a <code>text/plain</code> representation in
-their output. By default, this is the <code>String.valueOf(Object)</code> value
-but it can be overridden.</p>
-</div>
-<div class="sect3">
-<h4 id="_string_displayobject_o"><code>String display(Object o)</code></h4>
-<div class="paragraph">
-<p>Display an object as it’s <strong>preferred</strong> types. If you don’t want a
-specific type it is best to let the object decide how it is best
-represented.</p>
-</div>
-<div class="paragraph">
-<p>The object is rendered and published on the display stream. An id is
-returned which can be used to <code>updateDisplay</code> if desired.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_string_displayobject_o_string_as"><code>String display(Object o, String... as)</code></h4>
-<div class="paragraph">
-<p>Display an object as the <strong>requested</strong> types. In this case the object
-attempts to be rendered as the desired mime types given in <code>as</code>. No
-promises though, if a type is unsupported it will simply not appear in
-the output.</p>
-</div>
-<div class="paragraph">
-<p>The object is rendered and published on the display stream. An id is
-returned which can be used to <code>updateDisplay</code> if desired.</p>
-</div>
-<div class="paragraph">
-<p>This is useful when a type has many potential representations but not
-all are preferred. For example a <code>CharSequence</code> has many
-representations but only the <code>text/plain</code> is preferred. To display it
-as executable javascript we can use the following:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">display(<span class="string"><span class="delimiter">&quot;</span><span class="content">alert('Hello from JJava!');</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">application/javascript</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Since there is the potential that some front ends don’t support a given
-format many can be given and the front end chooses the best. For
-example, to display as html and markdown:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">display(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;b&gt;Bold&lt;/b&gt;</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/html</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/markdown</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This will trigger a display message with values for <code>text/html</code>,
-<code>text/markdown</code>, and the implicit <code>text/plain</code>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_displaydata_renderobject_o"><code>DisplayData render(Object o)</code></h4>
-<div class="paragraph">
-<p>Renders an object as it’s <strong>preferred</strong> types and returns it’s rendered
-format. Similar to <code>display(Object o)</code> but without publishing the
-result.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_displaydata_renderobject_o_string_as"><code>DisplayData render(Object o, String... as)</code></h4>
-<div class="paragraph">
-<p>Renders an object as the <strong>requested</strong> types and returns it’s rendered
-format. Similar to <code>display(Object o, String... as)</code> but without
-publishing the result.</p>
-</div>
-<div class="paragraph">
-<p>When expressions are the last code unit in a cell they are rendered with
-the <code>render(Object o)</code> semantics. If this is not desired it can be
-hijacked by wrapping it in a call to this function.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> md = <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello from **JJava**</span><span class="delimiter">&quot;</span></span>;
-
-render(md, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/markdown</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This will result in the <code>Out[_]</code> result to be the pretty
-<code>text/markdown</code> representation rather than the boring <code>text/plain</code>
-representation.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_void_updatedisplaystring_id_object_o"><code>void updateDisplay(String id, Object o)</code></h4>
-<div class="paragraph">
-<p>Renders an object as it’s <strong>preferred</strong> types and updates an existing
-display with the given id to contain the new rendered object. Similar to
-<code>display(Object o)</code> but updates an existing displayed object instead
-of appending a new one.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_void_updatedisplaystring_id_object_o_string_as"><code>void updateDisplay(String id, Object o, String... as)</code></h4>
-<div class="paragraph">
-<p>Renders an object as it’s <strong>requested</strong> types and updates an existing
-display with the given id to contain the new rendered object. Similar to
-<code>display(Object o, String... as)</code> but updates an existing displayed
-object instead of appending a new one.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> id = display(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;b&gt;Countdown:&lt;/b&gt; 3</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/html</span><span class="delimiter">&quot;</span></span>);
-<span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">3</span>; i &gt;= <span class="integer">0</span>; i--) {
-    updateDisplay(id, <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;b&gt;Countdown:&lt;/b&gt; </span><span class="delimiter">&quot;</span></span> + i, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/html</span><span class="delimiter">&quot;</span></span>);
-    <span class="predefined-type">Thread</span>.sleep(<span class="integer">1000L</span>);
-}
-render(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;b&gt;Liftoff!&lt;/b&gt;</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/html</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -1426,7 +1297,7 @@ following command manually to enable this configuration:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-31 17:38:46 -0500
+Last updated 2025-12-31 20:49:11 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />
