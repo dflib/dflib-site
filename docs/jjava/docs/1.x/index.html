@@ -547,7 +547,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#simple-glob-syntax">Glob Syntax</a></li>
 </ul>
 </li>
-<li><a href="#_notebook_functions">Notebook functions</a></li>
+<li><a href="#_notebook_functions">Notebook Functions</a>
+<ul class="sectlevel2">
+<li><a href="#_kernel">kernel()</a></li>
+<li><a href="#_display">display(..)</a></li>
+<li><a href="#_updatedisplay">updateDisplay(..)</a></li>
+</ul>
+</li>
 <li><a href="#magics">Magics</a>
 <ul class="sectlevel2">
 <li><a href="#_classpath">%classpath</a></li>
@@ -557,7 +563,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_time_time">%time, %%time</a></li>
 </ul>
 </li>
-<li><a href="#jupyter-aware-java-libs">Jupyter-Aware Java Libs</a></li>
+<li><a href="#jupyter-aware-java-libs">Jupyter-Aware Libraries</a></li>
 <li><a href="#_notebooks_and_version_control">Notebooks and Version Control</a></li>
 </ul>
 </div>
@@ -921,11 +927,13 @@ Users on any OS should use <code>/</code> as a path separator.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_notebook_functions">Notebook functions</h2>
+<h2 id="_notebook_functions">Notebook Functions</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>JJava injects a number of static helper methods to access the runtime environment. Here are some examples&#8230;&#8203;</p>
 </div>
+<div class="sect2">
+<h3 id="_kernel">kernel()</h3>
 <div class="paragraph">
 <p><code>kernel()</code> function returns the kernel object associated with the notebook. This is if you need to access
 JJava runtime internals (such as JShell) for any reason:</p>
@@ -943,8 +951,11 @@ JJava runtime internals (such as JShell) for any reason:</p>
 </tr>
 </table>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_display">display(..)</h3>
 <div class="paragraph">
-<p><code>display(..)</code> function allows to print objects from anywhere in the cell (not just the last cell statement).
+<p><code>display(..)</code> allows to print objects from anywhere in the cell (not just the last cell statement).
 It differs from <code>System.out.println(..)</code> in that it will apply custom renderers to the displayed objects
 (e.g., a DFLib DataFrame will be displayed as a properly truncated table).</p>
 </div>
@@ -962,8 +973,11 @@ It differs from <code>System.out.println(..)</code> in that it will apply custom
 display(<span class="string"><span class="delimiter">&quot;</span><span class="content">_italic_</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">text/markdown</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_updatedisplay">updateDisplay(..)</h3>
 <div class="paragraph">
-<p>You can update existing display elements with <code>updateDisplay(..)</code>. Here is an example that will show a quick countdown:</p>
+<p>You can update existing display elements with <code>updateDisplay(..)</code>. Here is an example that will show a refreshing countdown:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -974,6 +988,7 @@ display(<span class="string"><span class="delimiter">&quot;</span><span class="c
 }
 
 display(<span class="string"><span class="delimiter">&quot;</span><span class="content">Liftoff!</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1118,7 +1133,7 @@ Out[2]: 100</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="jupyter-aware-java-libs">Jupyter-Aware Java Libs</h2>
+<h2 id="jupyter-aware-java-libs">Jupyter-Aware Libraries</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If you are writing a Java library that is specifically intended to work inside Jupyter, JJava provides a way for such

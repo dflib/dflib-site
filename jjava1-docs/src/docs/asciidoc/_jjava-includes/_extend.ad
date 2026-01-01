@@ -1,5 +1,5 @@
 [#jupyter-aware-java-libs]
-== Jupyter-Aware Java Libs
+== Jupyter-Aware Libraries
 
 If you are writing a Java library that is specifically intended to work inside Jupyter, JJava provides a way for such
 a library to execute custom code when the kernel loads it. E.g., for user convenience it might add some library-specific
