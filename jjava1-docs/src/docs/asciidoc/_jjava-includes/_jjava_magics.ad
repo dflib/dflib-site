@@ -53,7 +53,10 @@ care of putting it together into a POM:
 ----
 
 === %time, %%time
-Can be specified as either a line or a cell magic. Prints code execution time information.
+Prints code execution "wall time" and CPU time. Can be specified as either a line or a cell magic. This magic has a
+fairly low accuracy for shorter execution durations, as it includes JShell code compilation time. But is rather useful
+for longer-running code.
+
 [source,text]
 ----
 %time 10 * 10
@@ -66,12 +69,10 @@ Wall time: 0.012 s
 [source,text]
 ----
 %%time
-new BigDecimal("202123131.0034343")
-    .multiply(new BigDecimal("302123131.0034343"))
-    .setScale(2, RoundingMode.HALF_UP)
+10 * 10
 
-CPU times: user 0.010 s, sys 0.000 s, total 0.010 s
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
 Wall time: 0.012 s
-61066073186974893.94
+100
 ----
 
