@@ -1079,10 +1079,13 @@ Wall time: 0.012 s
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="text">%%time
-Csv.loader()
-  .intCol(1)
-  .longCol(2)
-  .load(&quot;large.csv&quot;);</code></pre>
+new BigDecimal(&quot;202123131.0034343&quot;)
+    .multiply(new BigDecimal(&quot;302123131.0034343&quot;))
+    .setScale(2, RoundingMode.HALF_UP)
+
+CPU times: user 0.010 s, sys 0.000 s, total 0.010 s
+Wall time: 0.012 s
+61066073186974893.94</code></pre>
 </div>
 </div>
 </div>
