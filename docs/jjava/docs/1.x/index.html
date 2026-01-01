@@ -557,7 +557,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_classpath">%classpath</a></li>
 <li><a href="#maven">%maven</a></li>
-<li><a href="#mavenrepo">%mavenRepo</a></li>
+<li><a href="#mavenRepo">%mavenRepo</a></li>
 <li><a href="#_loadfrompom_loadfrompom">%loadFromPOM, %%loadFromPOM</a></li>
 <li><a href="#_time_time">%time, %%time</a></li>
 </ul>
@@ -1000,19 +1000,21 @@ classpath. Arguments are in the form of "dependency coordinates" like <code>grou
 </div>
 </div>
 <div class="sect2">
-<h3 id="mavenrepo">%mavenRepo</h3>
+<h3 id="mavenRepo">%mavenRepo</h3>
 <div class="paragraph">
-<p>A line magic that adds a maven repository to search for the benefit of <a href="#maven"><code>maven</code></a> magic. Takes two arguments:
-<code>&lt;repo_id&gt; &lt;repo_url&gt;</code>.</p>
+<p>A line magic that adds a Maven repository for the <a href="#maven"><code>%maven</code></a> magic to search for dependencies. Takes two
+arguments: <code>&lt;repo_id&gt; &lt;repo_url&gt;</code>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_loadfrompom_loadfrompom">%loadFromPOM, %%loadFromPOM</h3>
 <div class="paragraph">
-<p>Can be specified as either a line or a cell magic. Loads any dependencies mentioned in the inline POM. It ignores
-repositories added with <a href="#mavenrepo">mavenRepo</a> as the POM would likely have its own. Designed to make it simple
-to copy and paste from third-party documentation with maven POM fragments. Line magic arguments:</p>
+<p>Loads any dependencies mentioned in the referenced POM. Can be specified as either a line or a cell magic. Ignores
+repositories added with <a href="#mavenRepo">%mavenRepo</a> as the POM would likely have its own set of repos. May be helpful
+when you need to copy and paste maven POM fragments from third-party documentation.</p>
 </div>
+<div class="sect3">
+<h4 id="_line_magic_arguments">Line magic arguments:</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1023,16 +1025,16 @@ to copy and paste from third-party documentation with maven POM fragments. Line 
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Cell magic arguments:</p>
 </div>
+<div class="sect3">
+<h4 id="_cell_magic_arguments">Cell magic arguments:</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><em>varargs</em> list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code> if not supplied.</p>
+<p><em>varargs</em> list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code>.</p>
 </li>
 <li>
-<p>body: A <em>partial</em> POM literal.</p>
+<p>body: A partial POM literal.</p>
 </li>
 </ul>
 </div>
@@ -1043,7 +1045,7 @@ are given default values if not supplied. All children of <code>&lt;dependencies
 along with any loose <code>&lt;dependency&gt;</code> and <code>repository</code> tags.</p>
 </div>
 <div class="paragraph">
-<p>E.g., to add a dependency not in central simply add a valid <code>&lt;repository&gt;</code> and <code>&lt;dependency&gt;</code> and the magic will take
+<p>E.g., to add a dependency not in Central, simply add a valid <code>&lt;repository&gt;</code> and <code>&lt;dependency&gt;</code> and the magic will take
 care of putting it together into a POM:</p>
 </div>
 <div class="listingblock">
@@ -1059,6 +1061,7 @@ care of putting it together into a POM:</p>
   <span class="tag">&lt;artifactId&gt;</span>dflib-jupyter<span class="tag">&lt;/artifactId&gt;</span>
   <span class="tag">&lt;version&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
 </div>
 </div>
 </div>
