@@ -548,8 +548,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#_notebook_functions">Notebook functions</a></li>
-<li><a href="#magics">Magics</a></li>
-<li><a href="#_jjava_magics">JJava Magics</a>
+<li><a href="#magics">Magics</a>
 <ul class="sectlevel2">
 <li><a href="#_classpath">%classpath</a></li>
 <li><a href="#maven">%maven</a></li>
@@ -983,7 +982,7 @@ display(<span class="string"><span class="delimiter">&quot;</span><span class="c
 <h2 id="magics">Magics</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>"Magics" is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
+<p>"Magics" is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics. Both are syntactic sugar
 for invoking special named functions. <em>Line magics</em> are single-line function calls, with magic name prefixed with <code>%</code>,
 and arguments separated by spaces:</p>
 </div>
@@ -1005,14 +1004,9 @@ arguments. The entire remaining cell body treated as the last argument:</p>
 <span class="type">var</span> v2 = doSomethingElse();</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_jjava_magics">JJava Magics</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>JJava provides a number of magics out of the box. They help with notebook dependency management, profiling notebook
-code, etc.</p>
+<p>JJava has a number of built-in magics that help with notebook dependency management, profiling cell code, etc. You can
+also register your own magics if needed. The following magics are available out of the box:</p>
 </div>
 <div class="sect2">
 <h3 id="_classpath">%classpath</h3>
@@ -1297,7 +1291,7 @@ following command manually to enable this configuration:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-31 20:49:11 -0500
+Last updated 2025-12-31 20:54:01 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

@@ -18,8 +18,6 @@ include::_jjava-includes/_notebook_functions.ad[]
 
 include::_jjava-includes/_magics.ad[]
 
-include::_jjava-includes/_jjava_magics.ad[]
-
 include::_jjava-includes/_extend.ad[]
 
 include::_jjava-includes/_version_control.ad[]
