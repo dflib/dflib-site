@@ -3,21 +3,21 @@
 JJava provides a number of magics out of the box. They help with notebook dependency management, profiling notebook
 code, etc.
 
-=== `%classpath`
+=== %classpath
 A line magic that adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system.
 Can be either directories or jars.
 
 [#maven]
-=== `%maven`
+=== %maven
 A line magic that adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the
 classpath. Arguments are in the form of "dependency coordinates" like `groupId:artifactId:[packagingType:[classifier]]:version`
 
 [#mavenrepo]
-=== `%mavenRepo`
+=== %mavenRepo
 A line magic that adds a maven repository to search for the benefit of link:#maven[`maven`] magic. Takes two arguments:
 `<repo_id> <repo_url>`.
 
-=== `%loadFromPOM`, `%%loadFromPOM`
+=== %loadFromPOM, %%loadFromPOM
 Can be specified as either a line or a cell magic. Loads any dependencies mentioned in the inline POM. It ignores
 repositories added with link:#mavenrepo[mavenRepo] as the POM would likely have its own. Designed to make it simple
 to copy and paste from third-party documentation with maven POM fragments. Line magic arguments:
@@ -52,7 +52,7 @@ care of putting it together into a POM:
 </dependency>
 ----
 
-=== `%time`, `%%time`
+=== %time, %%time
 Can be specified as either a line or a cell magic. Prints code execution time information.
 [source,text]
 ----

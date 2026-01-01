@@ -555,11 +555,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_jjava_magics">JJava Magics</a>
 <ul class="sectlevel2">
-<li><a href="#_classpath"><code>%classpath</code></a></li>
-<li><a href="#maven"><code>%maven</code></a></li>
-<li><a href="#mavenrepo"><code>%mavenRepo</code></a></li>
-<li><a href="#_loadfrompom_loadfrompom"><code>%loadFromPOM</code>, <code>%%loadFromPOM</code></a></li>
-<li><a href="#_time_time"><code>%time</code>, <code>%%time</code></a></li>
+<li><a href="#_classpath">%classpath</a></li>
+<li><a href="#maven">%maven</a></li>
+<li><a href="#mavenrepo">%mavenRepo</a></li>
+<li><a href="#_loadfrompom_loadfrompom">%loadFromPOM, %%loadFromPOM</a></li>
+<li><a href="#_time_time">%time, %%time</a></li>
 </ul>
 </li>
 <li><a href="#kernel">Kernel</a>
@@ -986,28 +986,28 @@ argument:</p>
 code, etc.</p>
 </div>
 <div class="sect2">
-<h3 id="_classpath"><code>%classpath</code></h3>
+<h3 id="_classpath">%classpath</h3>
 <div class="paragraph">
 <p>A line magic that adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system.
 Can be either directories or jars.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="maven"><code>%maven</code></h3>
+<h3 id="maven">%maven</h3>
 <div class="paragraph">
 <p>A line magic that adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the
 classpath. Arguments are in the form of "dependency coordinates" like <code>groupId:artifactId:[packagingType:[classifier]]:version</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="mavenrepo"><code>%mavenRepo</code></h3>
+<h3 id="mavenrepo">%mavenRepo</h3>
 <div class="paragraph">
 <p>A line magic that adds a maven repository to search for the benefit of <a href="#maven"><code>maven</code></a> magic. Takes two arguments:
 <code>&lt;repo_id&gt; &lt;repo_url&gt;</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_loadfrompom_loadfrompom"><code>%loadFromPOM</code>, <code>%%loadFromPOM</code></h3>
+<h3 id="_loadfrompom_loadfrompom">%loadFromPOM, %%loadFromPOM</h3>
 <div class="paragraph">
 <p>Can be specified as either a line or a cell magic. Loads any dependencies mentioned in the inline POM. It ignores
 repositories added with <a href="#mavenrepo">mavenRepo</a> as the POM would likely have its own. Designed to make it simple
@@ -1063,7 +1063,7 @@ care of putting it together into a POM:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_time_time"><code>%time</code>, <code>%%time</code></h3>
+<h3 id="_time_time">%time, %%time</h3>
 <div class="paragraph">
 <p>Can be specified as either a line or a cell magic. Prints code execution time information.</p>
 </div>
