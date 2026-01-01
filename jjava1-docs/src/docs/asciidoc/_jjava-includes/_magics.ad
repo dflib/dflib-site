@@ -2,11 +2,8 @@
 == Magics
 
 "Magics" is an IPython concept adopted by JJava kernel. There are "line" and "cell" magics, both being syntactic sugar
-for invoking special kernel functions.
-
-=== Line magics
-
-Line magics are single-line function calls, with magic name prefixed with `%`, and arguments separated by spaces:
+for invoking special named functions. _Line magics_ are single-line function calls, with magic name prefixed with `%`,
+and arguments separated by spaces:
 
 [source,text]
 ----
@@ -14,21 +11,13 @@ Line magics are single-line function calls, with magic name prefixed with `%`, a
 %maven org.dflib:dflib-jupyter:1.2.0
 ----
 
-=== Cell magics
-Cell magics are function calls, with magic name prefixed with `%%` and using the body of the entire cell as the last
-argument:
+_Cell magics_ are also function calls, but prefixed with `%%` and followed by an optional list of
+arguments. The entire remaining cell body treated as the last argument:
 
-[source,xml]
+[source,java]
 ----
-%%loadFromPOM
-<repository>
-  <id>snapshots</id>
-  <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-</repository>
+%%time
 
-<dependency>
-  <groupId>org.dflib</groupId>
-  <artifactId>dflib-jupyter</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
-</dependency>
+var v1 = doSomething();
+var v2 = doSomethingElse();
 ----
