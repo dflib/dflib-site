@@ -7,8 +7,9 @@ jupyter related operations.
 
 === Notebook functions
 
-JJava injects static methods for getting the active kernel instance and additional helpers for making use of the kernel
-at runtime. To get a reference to the current kernel, do this:
+JJava injects a number of static helper methods to access the runtime environment. The most useful one is `kernel()`,
+as the kernel object provides a lot of goodies, like adding jars to the classpath, registering new magics, access to
+JShell, the code evaluator, etc.:
 
 [source,java,indent=0]
 ----
@@ -16,12 +17,12 @@ include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doKernel]
 ----
 <1> The `kernel()` function is a static import provided by default in each notebook.
 
-The kernel object has lots of goodies, like adding jars to the classpath, registering new magics, access to the code
-evaluator, etc.
+Another one is `display(..)` that allows to print objects from anywhere in the cell (not just the last cell statement).
+Its difference from say `System.out.println(..)` is that it will apply custom renderers to the displayed objects
+(e.g., a DFLib DataFrame will be displayed as a properly truncated table).
 
-The `eval(..)` function provides full access to the code evaluation mechanism of the kernel:
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doEval]
+include::../../../test/java/org/dflib/jjava/docs/KernelTest.java[tags=doDisplay]
 ----
-NOTE: When you write code in a notebook cell, `eval(..)` is called implicitly, and you don't need to worry about it.
+
