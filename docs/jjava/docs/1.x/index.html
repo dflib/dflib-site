@@ -1106,27 +1106,30 @@ care of putting it together into a POM:</p>
 <div class="sect2">
 <h3 id="_time_time">%time, %%time</h3>
 <div class="paragraph">
-<p>Prints code execution "wall time" and CPU time. Can be specified as either a line or a cell magic. This magic has a
-fairly low accuracy for shorter execution durations, as it includes JShell code compilation time. But is rather useful
-for longer-running code.</p>
+<p>Measures and prints code execution CPU and wall time. The measurements only cover code execution. Extra time it takes
+to "compile" each snippet within JShell is not included. The magic can be used with either line or cell syntax:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="text">%time 10 * 10
 
-CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
-Wall time: 0.012 s
+CPU times: user 0.000 s, sys 0.000 s, total 0.000 s
+Wall time: 0.000 s
 Out[1]: 100</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="text">%%time
-10 * 10
+long val = 1;
+for(long i = 0; i &lt; 100_000_000; i++) {
+    val += i * 10;
+}
+val
 
-CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
-Wall time: 0.012 s
-Out[2]: 100</code></pre>
+CPU times: user 0.078 s, sys 0.001 s, total 0.078 s
+Wall time: 0.078 s
+Out[2]: 49999999500000001</code></pre>
 </div>
 </div>
 </div>
