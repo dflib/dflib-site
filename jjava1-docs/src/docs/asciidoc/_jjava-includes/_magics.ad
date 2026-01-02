@@ -76,7 +76,7 @@ care of putting it together into a POM:
 ----
 
 === %time, %%time
-Prints code execution "wall time". Can be specified as either a line or a cell magic. This magic has a
+Prints code execution "wall time" and CPU time. Can be specified as either a line or a cell magic. This magic has a
 fairly low accuracy for shorter execution durations, as it includes JShell code compilation time. But is rather useful
 for longer-running code.
 
@@ -84,6 +84,7 @@ for longer-running code.
 ----
 %time 10 * 10
 
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
 Wall time: 0.012 s
 Out[1]: 100
 ----
@@ -93,6 +94,7 @@ Out[1]: 100
 %%time
 10 * 10
 
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
 Wall time: 0.012 s
 Out[2]: 100
 ----

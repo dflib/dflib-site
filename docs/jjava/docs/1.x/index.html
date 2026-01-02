@@ -1106,7 +1106,7 @@ care of putting it together into a POM:</p>
 <div class="sect2">
 <h3 id="_time_time">%time, %%time</h3>
 <div class="paragraph">
-<p>Prints code execution "wall time". Can be specified as either a line or a cell magic. This magic has a
+<p>Prints code execution "wall time" and CPU time. Can be specified as either a line or a cell magic. This magic has a
 fairly low accuracy for shorter execution durations, as it includes JShell code compilation time. But is rather useful
 for longer-running code.</p>
 </div>
@@ -1114,6 +1114,7 @@ for longer-running code.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="text">%time 10 * 10
 
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
 Wall time: 0.012 s
 Out[1]: 100</code></pre>
 </div>
@@ -1123,6 +1124,7 @@ Out[1]: 100</code></pre>
 <pre class="CodeRay highlight"><code data-lang="text">%%time
 10 * 10
 
+CPU times: user 0.009 s, sys 0.000 s, total 0.010 s
 Wall time: 0.012 s
 Out[2]: 100</code></pre>
 </div>
