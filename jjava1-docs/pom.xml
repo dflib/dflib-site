@@ -12,7 +12,7 @@
     <artifactId>jjava1-docs</artifactId>
 
     <properties>
-        <jjava1.version>1.0-a6</jjava1.version>
+        <jjava1.version>1.0-a7</jjava1.version>
     </properties>
 
     <dependencyManagement>

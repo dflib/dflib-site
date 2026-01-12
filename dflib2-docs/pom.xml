@@ -13,7 +13,7 @@
 
     <properties>
         <dflib2.version>2.0.0-SNAPSHOT</dflib2.version>
-        <jjava1.version>1.0-a6</jjava1.version>
+        <jjava1.version>1.0-a7</jjava1.version>
     </properties>
 
     <dependencyManagement>
