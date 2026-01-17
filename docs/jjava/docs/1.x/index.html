@@ -1055,14 +1055,30 @@ repositories added with <a href="#mavenRepo">%mavenRepo</a> as the POM would lik
 when you need to copy and paste maven POM fragments from third-party documentation.</p>
 </div>
 <div class="paragraph">
-<p>Line magic arguments:
-* path to local POM file
-* list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code> if not supplied.</p>
+<p>Line magic arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>path to local POM file</p>
+</li>
+<li>
+<p>list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code> if not supplied.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Cell magic arguments:
-* <em>varargs</em> list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code>.
-* body: A partial POM literal.</p>
+<p>Cell magic arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>varargs</em> list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code>.</p>
+</li>
+<li>
+<p>body: A partial POM literal.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>If the body is an XML <code>&lt;project&gt;</code> tag, then the body is used as a POM without modification. Otherwise, the magic
@@ -1093,8 +1109,9 @@ care of putting it together into a POM:</p>
 <div class="sect2">
 <h3 id="maven">%maven</h3>
 <div class="paragraph">
-<p>A line magic that adds binary dependencies defined as maven artifacts to the notebook classpath. Transitive dependencies
-are also added. Arguments should follow this format: <code>groupId:artifactId:[packagingType:[classifier]]:version</code>. E.g.:</p>
+<p>A line magic that adds binary dependencies to the notebook classpath from the Maven Central (or a user-defined)
+repository. Transitive dependencies are also added. Arguments should follow this format:
+<code>groupId:artifactId:[packagingType:[classifier]]:version</code>. E.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">

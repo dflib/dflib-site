@@ -44,10 +44,12 @@ repositories added with link:#mavenRepo[%mavenRepo] as the POM would likely have
 when you need to copy and paste maven POM fragments from third-party documentation.
 
 Line magic arguments:
+
 * path to local POM file
 * list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import` if not supplied.
 
 Cell magic arguments:
+
 * _varargs_ list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import`.
 * body: A partial POM literal.
 
@@ -75,8 +77,9 @@ care of putting it together into a POM:
 
 [#maven]
 === %maven
-A line magic that adds binary dependencies defined as maven artifacts to the notebook classpath. Transitive dependencies
-are also added. Arguments should follow this format: `groupId:artifactId:[packagingType:[classifier]]:version`. E.g.:
+A line magic that adds binary dependencies to the notebook classpath from the Maven Central (or a user-defined)
+repository. Transitive dependencies are also added. Arguments should follow this format:
+`groupId:artifactId:[packagingType:[classifier]]:version`. E.g.:
 
 [source]
 ----
