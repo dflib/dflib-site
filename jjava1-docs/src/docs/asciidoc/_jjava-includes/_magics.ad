@@ -7,7 +7,7 @@ and arguments separated by spaces:
 [source,text]
 ----
 %mavenRepo snapshots https://s01.oss.sonatype.org/content/repositories/snapshots/
-%maven org.dflib:dflib-jupyter:1.2.0
+%maven org.dflib:dflib-jupyter:2.0.0-SNAPSHOT
 ----
 
 _Cell magics_ are also function calls, but prefixed with `%%` and followed by an optional list of
@@ -29,9 +29,9 @@ A line magic that adds entries to the notebook classpath. Arguments are glob pat
 Can be either directories or jars.
 
 === %load
-A line magic that loads an executes another Java source file or a notebook file. This provides a simple code
-modularization and reuse mechanism within Jupyter. E.g., you can have a notebook with some common functions, "importing"
-its contents to other notebooks like this:
+A line magic that loads and executes another Java source or a notebook file within this notebook. This provides a
+simple code modularization and reuse mechanism within Jupyter. E.g., you can have a notebook with some common functions,
+"importing" its contents to other notebooks like this:
 [source]
 ----
 %load ../lib/common.ipynb
@@ -78,9 +78,9 @@ care of putting it together into a POM:
 [#maven]
 === %maven
 A line magic that adds binary dependencies defined as maven artifacts to the notebook classpath. Transitive dependencies
-are also added. Arguments are in the form of "dependency coordinates" like
-`groupId:artifactId:[packagingType:[classifier]]:version`. E.g.:
+are also added. Arguments should follow this format: `groupId:artifactId:[packagingType:[classifier]]:version`. E.g.:
 
+[source]
 ----
 %maven org.dflib:dflib-jupyter:2.0.0-M5
 %maven net.snowflake:snowflake-jdbc:3.22.0
@@ -88,8 +88,12 @@ are also added. Arguments are in the form of "dependency coordinates" like
 
 [#mavenRepo]
 === %mavenRepo
-A line magic that adds a Maven repository for the benefit of the link:#maven[`%maven`] magic that will use it to search
+A line magic that adds a Maven repository for the benefit of the `%maven` magic that will use it to search
 for dependencies. Takes two arguments: `<repo_id> <repo_url>`.
+
+----
+%mavenRepo snapshots https://s01.oss.sonatype.org/content/repositories/snapshots/
+----
 
 === %time, %%time
 Measures and prints code execution CPU and wall time. The measurements only cover code execution. Extra time it takes
