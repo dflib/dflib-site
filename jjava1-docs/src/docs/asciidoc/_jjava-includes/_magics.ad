@@ -43,13 +43,11 @@ Loads any dependencies mentioned in the referenced POM. Can be specified as eith
 repositories added with link:#mavenRepo[%mavenRepo] as the POM would likely have its own set of repos. May be helpful
 when you need to copy and paste maven POM fragments from third-party documentation.
 
-==== Line magic arguments:
-
+Line magic arguments:
 * path to local POM file
 * list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import` if not supplied.
 
-==== Cell magic arguments:
-
+Cell magic arguments:
 * _varargs_ list of scope types to filter the dependencies by. Defaults to `compile`, `runtime`, `system`, and `import`.
 * body: A partial POM literal.
 

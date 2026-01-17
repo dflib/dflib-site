@@ -1054,30 +1054,15 @@ simple code modularization and reuse mechanism within Jupyter. E.g., you can hav
 repositories added with <a href="#mavenRepo">%mavenRepo</a> as the POM would likely have its own set of repos. May be helpful
 when you need to copy and paste maven POM fragments from third-party documentation.</p>
 </div>
-<div class="sect3">
-<h4 id="_line_magic_arguments">Line magic arguments:</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>path to local POM file</p>
-</li>
-<li>
-<p>list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code> if not supplied.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Line magic arguments:
+* path to local POM file
+* list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code> if not supplied.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_cell_magic_arguments">Cell magic arguments:</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><em>varargs</em> list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code>.</p>
-</li>
-<li>
-<p>body: A partial POM literal.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Cell magic arguments:
+* <em>varargs</em> list of scope types to filter the dependencies by. Defaults to <code>compile</code>, <code>runtime</code>, <code>system</code>, and <code>import</code>.
+* body: A partial POM literal.</p>
 </div>
 <div class="paragraph">
 <p>If the body is an XML <code>&lt;project&gt;</code> tag, then the body is used as a POM without modification. Otherwise, the magic
@@ -1102,7 +1087,6 @@ care of putting it together into a POM:</p>
   <span class="tag">&lt;artifactId&gt;</span>dflib-jupyter<span class="tag">&lt;/artifactId&gt;</span>
   <span class="tag">&lt;version&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
-</div>
 </div>
 </div>
 </div>
