@@ -28,15 +28,15 @@ also register your own magics if needed. The following magics are available out 
 A line magic that adds entries to the notebook classpath. Arguments are glob paths to entries on the local file system.
 Can be either directories or jars.
 
-[#maven]
-=== %maven
-A line magic that adds maven artifacts to the notebook classpath. All transitive dependencies are also added to the
-classpath. Arguments are in the form of "dependency coordinates" like `groupId:artifactId:[packagingType:[classifier]]:version`
-
-[#mavenRepo]
-=== %mavenRepo
-A line magic that adds a Maven repository for the link:#maven[`%maven`] magic to search for dependencies. Takes two
-arguments: `<repo_id> <repo_url>`.
+=== %load
+A line magic that loads an executes another Java source file or a notebook file. This provides a simple code
+modularization and reuse mechanism within Jupyter. E.g., you can have a notebook with some common functions, "importing"
+its contents to other notebooks like this:
+[source]
+----
+%load ../lib/common.ipynb
+----
+Again, this is to include Java _sources_. For binary dependencies use magics like `%classpath` and `%maven`.
 
 === %loadFromPOM, %%loadFromPOM
 Loads any dependencies mentioned in the referenced POM. Can be specified as either a line or a cell magic. Ignores
@@ -74,6 +74,22 @@ care of putting it together into a POM:
   <version>2.0.0-SNAPSHOT</version>
 </dependency>
 ----
+
+[#maven]
+=== %maven
+A line magic that adds binary dependencies defined as maven artifacts to the notebook classpath. Transitive dependencies
+are also added. Arguments are in the form of "dependency coordinates" like
+`groupId:artifactId:[packagingType:[classifier]]:version`. E.g.:
+
+----
+%maven org.dflib:dflib-jupyter:2.0.0-M5
+%maven net.snowflake:snowflake-jdbc:3.22.0
+----
+
+[#mavenRepo]
+=== %mavenRepo
+A line magic that adds a Maven repository for the benefit of the link:#maven[`%maven`] magic that will use it to search
+for dependencies. Takes two arguments: `<repo_id> <repo_url>`.
 
 === %time, %%time
 Measures and prints code execution CPU and wall time. The measurements only cover code execution. Extra time it takes
