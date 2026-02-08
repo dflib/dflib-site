@@ -1,9 +1,9 @@
 [#joins]
 == Joins
 
-If you worked with relational databases, you know what "joins" are. This is a way to combine related rows from
-multiple tables. DataFrames can be joined together, just like two DB tables. DFLib provides 4 familiar flavors of joins:
-`inner`, `left` (outer), `right` (outer) and `full` (outer).
+While <<unions,unions>> combined _columns_ from multiple DataFrames, joins discussed in this chapter combine _rows_.
+DataFrames can be joined together, just like two DB tables. DFLib provides 4 familiar flavors of joins: `inner`,
+`left` (outer), `right` (outer) and `full` (outer), as well as a "positional join" discussed at the end of the chapter.
 
 === Inner Joins
 
@@ -83,7 +83,7 @@ Joan            true
 ----
 
 NOTE: In the context of a join, column expressions can reference either short column names of left and right
-DataFrames, or the fully qualified ones with the prefix. In the former case, the names should take into account  the "_"
+DataFrames, or the fully qualified ones with the prefix. In the former case, the names should take into account the "_"
 suffix applied to the right `DataFrame` columns when their names overlap with column names on the left.
 
 === Outer Joins
@@ -153,4 +153,41 @@ Juliana    null
 
 NOTE: Nested loop joins are _much_ slower, and should be avoided unless absolutely necessary.
 
+=== Positional Joins
 
+A special form of joins is by row position. The operation semantics is different from the joins with an explicit
+condition discussed until now. It is done via `DataFrame.hConcat()` method:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/HConcatTest.java[tags=hConcat]
+----
+
+<1> Join rows of this and another DataFrame. The implicit condition is row position. The argument is a vararg, so more
+than one DataFrame can be passed to the method.
+----
+a b a_ b_
+- - -- --
+1 2 5  6
+3 4 7  8
+----
+
+Same as above, `_` suffix was appended to column names to avoid naming conflicts.
+
+Just like with `union(..)` and other join types, `hConcat(..)` allows to specify row concatenation semantics. It is
+done by passing a `JoinType` parameter:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/HConcatTest.java[tags=hConcat_LeftMismatch]
+----
+
+----
+a b c    d
+- - ---- ----
+1 2 7    8
+3 4 9    10
+5 6 null null
+----
+
+`JointType.inner` semantics is the default.

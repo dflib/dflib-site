@@ -36,7 +36,7 @@ include::_user-guide-includes/_head_tail.ad[]
 
 include::_user-guide-includes/_sorting.ad[]
 
-include::_user-guide-includes/_concatenation.ad[]
+include::_user-guide-includes/_union.ad[]
 
 include::_user-guide-includes/_joins.ad[]
 

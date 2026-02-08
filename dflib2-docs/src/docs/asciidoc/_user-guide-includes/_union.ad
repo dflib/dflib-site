@@ -1,0 +1,90 @@
+[#unions]
+== Unions
+
+There are various ways to combine data from multiple Series or DataFrames. One of them is a "union", which is
+a vertical concatenation operation resulting in a longer `Series` or `DataFrame`.
+
+=== Series Union
+
+To concatenate two or more Series, you'd use `Series.union(..)` static method:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/UnionTest.java[tags=unionSeries]
+----
+The result is as expected contains values of all Series put together:
+----
+x
+y
+z
+a
+m
+n
+6 elements
+----
+
+=== DataFrames Union
+
+Similarly, to concatenate two or more DataFrames, you'd use `DataFrames.union(..)` static method:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/UnionTest.java[tags=union]
+----
+
+<1> Vertically concatenate two DataFrames. The argument is a vararg, so any number of DataFrames can be passed to the method.
+----
+a b
+- -
+1 2
+3 4
+5 6
+7 8
+----
+
+In the above example, both DataFrames had matching columns. But what if DataFrames were structured differently? The
+`union(..)` method can take an extra "semantics" parameter to define the desired behavior in that case. "semantics" is
+a `JoinType` enum, and can be one of `inner` (the default if omitted), `left`, `right`, `full`.
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/UnionTest.java[tags=union_InnerMismatch]
+----
+
+<1> `df1` column names are "b" and "c", while `df2` - "a" and "c"
+<2> Explicitly passing `JoinType.inner` to `union(..)` to demonstrate the point. Since `inner` is the
+default, omitting it will not change the outcome.
+
+----
+a
+-
+2
+4
+5
+7
+----
+As you can see in the result, the behavior of `inner` join is to only keep columns that are present in both `df1` and
+`df2`. Columns are joined by name, regardless of their order (though the order of columns is preserved in the result,
+following the order in each DataFame being joined, left to right).
+
+Changing semantics from `inner` to `left` gives us all the columns of the leftmost DataFrame, but those columns that
+are missing from the concatenated DataFrame are filled with nulls in the corresponding positions:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/UnionTest.java[tags=union_LeftMismatch]
+----
+
+----
+b    a
+---- -
+1    2
+3    4
+null 5
+null 7
+----
+
+NOTE: We'll encounter `JoinType` again when discussing joins next. Unions and joins are somewhat related.
+
+Leaving it as an exercise for the reader to try `right` and `full` joins.
+

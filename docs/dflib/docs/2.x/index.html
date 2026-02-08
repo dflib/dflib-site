@@ -605,10 +605,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_sort_dataframe">Sort DataFrame</a></li>
 </ul>
 </li>
-<li><a href="#_concatenation">Concatenation</a>
+<li><a href="#unions">Unions</a>
 <ul class="sectlevel2">
-<li><a href="#_concatenate_series">Concatenate Series</a></li>
-<li><a href="#_concatenate_dataframes">Concatenate DataFrames</a></li>
+<li><a href="#_series_union">Series Union</a></li>
+<li><a href="#_dataframes_union">DataFrames Union</a></li>
 </ul>
 </li>
 <li><a href="#joins">Joins</a>
@@ -619,6 +619,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_outer_joins">Outer Joins</a></li>
 <li><a href="#_indicator_column">Indicator Column</a></li>
 <li><a href="#_nested_loop_joins">Nested Loop Joins</a></li>
+<li><a href="#_positional_joins">Positional Joins</a></li>
 </ul>
 </li>
 <li><a href="#group_aggregate">Group and Aggregate</a></li>
@@ -4182,27 +4183,23 @@ DataFrame df1 = df.sort(
 </div>
 </div>
 <div class="sect1">
-<h2 id="_concatenation">Concatenation</h2>
+<h2 id="unions">Unions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are various ways to combine data from multiple <code>Series</code> or <code>DataFrames</code>. The simplest is <em>concatenation</em>
-described here (the other one is <a href="#joins">joins</a> discussed in the next chapter). Series concatenated together simply
-result in a longer Series. DataFrames are concatenated either vertically (increasing the number of rows) or horizontally
-(increasing the number of columns).</p>
+<p>There are various ways to combine data from multiple Series or DataFrames. One of them is a "union", which is
+a vertical concatenation operation resulting in a longer <code>Series</code> or <code>DataFrame</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_concatenate_series">Concatenate Series</h3>
+<h3 id="_series_union">Series Union</h3>
 <div class="paragraph">
-<p>If you have a Series object and want to concatenate it with one or more other Series, you&#8217;d use <code>Series.concat(..)</code>
-method:</p>
+<p>To concatenate two or more Series, you&#8217;d use <code>Series.union(..)</code> static method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s1 = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; s2 = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; s3 = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>);
-
-Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s1.concat(s2, s3);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; sConcat = Series.union(
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
+        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4219,41 +4216,11 @@ n
 6 elements</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>If you have an array of Series and want to "glue" them together, you can use a static <code>SeriesConcat.concat(..)</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; sConcat = SeriesConcat.concat(
-        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>),
-        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>),
-        Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">m</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">n</span><span class="delimiter">&quot;</span></span>));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result is the same as in the previous example. Also, you can concatenate Series with itself:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; s = Series.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>);
-Series&lt;<span class="predefined-type">String</span>&gt; sConcat = s.concat(s);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>x
-y
-x
-y
-4 elements</pre>
-</div>
-</div>
 </div>
 <div class="sect2">
-<h3 id="_concatenate_dataframes">Concatenate DataFrames</h3>
+<h3 id="_dataframes_union">DataFrames Union</h3>
 <div class="paragraph">
-<p>DataFrame offers two options for concatenation - <em>vertical</em> (stacking DataFrames on top of each other) and <em>horizontal</em>
-(putting them next to each other). Let&#8217;s see some examples..</p>
+<p>Similarly, to concatenate two or more DataFrames, you&#8217;d use <code>DataFrames.union(..)</code> static method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4265,15 +4232,14 @@ DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter"
         <span class="integer">5</span>, <span class="integer">6</span>,
         <span class="integer">7</span>, <span class="integer">8</span>);
 
-DataFrame dfv = df1.vConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame dfu = DataFrame.union(df1, df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Concatenate this and another DataFrame vertically. The argument is a vararg, so more than one DataFrame can be
-passed to the method.</td>
+<td>Vertically concatenate two DataFrames. The argument is a vararg, so any number of DataFrames can be passed to the method.</td>
 </tr>
 </table>
 </div>
@@ -4287,66 +4253,10 @@ passed to the method.</td>
 7 8</pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame dfh = df1.hConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Concatenate this and another DataFrame horizontally. The argument is a vararg, so more than one DataFrame can be
-passed to the method.</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>a b a_ b_
-- - -- --
-1 2 5  6
-3 4 7  8</pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Since both <code>df1</code> and <code>df2</code> had the same column names, and a DataFrame must only have unique columns, <code>_</code> suffix was
-automatically appended to the conflicting columns in the resulting DataFrame. We will see this auto-renaming behavior
-in other places, such as joins.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
-<p>So far all our concatenation examples consisted of DataFrames that had matching dimensions (same number and names of
-columns for <code>vConcat</code> and same number of rows for <code>hConcat</code>). But what if concatenated DataFrames are shaped or named
-differently?</p>
-</div>
-<div class="paragraph">
-<p>Concat methods may take an extra "how" parameter to define concatenation semantics. The type of the "how" parameter is
-<code>JoinType</code>, and can be one of <code>inner</code> (default), <code>left</code>, <code>right</code>, <code>full</code>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-We&#8217;ll see <code>JoinType</code> again soon when discussing <a href="#joins">joins</a>. Concatenation and joins are related fairly
-closely.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s look how this works with <code>vConcat</code>:</p>
+<p>In the above example, both DataFrames had matching columns. But what if DataFrames were structured differently? The
+<code>union(..)</code> method can take an extra "semantics" parameter to define the desired behavior in that case. "semantics" is
+a <code>JoinType</code> enum, and can be one of <code>inner</code> (the default if omitted), <code>left</code>, <code>right</code>, <code>full</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4358,18 +4268,18 @@ DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter"
         <span class="integer">5</span>, <span class="integer">6</span>,
         <span class="integer">7</span>, <span class="integer">8</span>);
 
-DataFrame dfv = df1.vConcat(JoinType.inner, df2); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+DataFrame dfv = DataFrame.union(JoinType.inner, df1, df2); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>df1</code> column names are "b" and "c", while <code>df2</code> - "a" and "c".</td>
+<td><code>df1</code> column names are "b" and "c", while <code>df2</code> - "a" and "c"</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Explicitly passing <code>JoinType.inner</code> to <code>vConcat</code>. It is done to demonstrate the point. Since <code>inner</code> is the
+<td>Explicitly passing <code>JoinType.inner</code> to <code>union(..)</code> to demonstrate the point. Since <code>inner</code> is the
 default, omitting it will not change the outcome.</td>
 </tr>
 </table>
@@ -4395,7 +4305,7 @@ are missing from the concatenated DataFrame are filled with nulls in the corresp
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame dfv = df1.vConcat(JoinType.left, df2);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame dfv = DataFrame.union(JoinType.left, df1, df2);</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -4408,34 +4318,20 @@ null 5
 null 7</pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We&#8217;ll encounter <code>JoinType</code> again when discussing joins next. Unions and joins are somewhat related.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Leaving it as an exercise for the reader to try <code>right</code> and <code>full</code> joins.</p>
-</div>
-<div class="paragraph">
-<p><code>hConcat</code> works similarly, however concatenation is done by row <em>position</em>, as there are no row names:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="integer">1</span>, <span class="integer">2</span>,
-        <span class="integer">3</span>, <span class="integer">4</span>,
-        <span class="integer">5</span>, <span class="integer">6</span>);
-
-DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>).of(
-        <span class="integer">7</span>, <span class="integer">8</span>,
-        <span class="integer">9</span>, <span class="integer">10</span>);
-
-DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>a b c    d
-- - ---- ----
-1 2 7    8
-3 4 9    10
-5 6 null null</pre>
-</div>
 </div>
 </div>
 </div>
@@ -4444,9 +4340,9 @@ DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
 <h2 id="joins">Joins</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you worked with relational databases, you know what "joins" are. This is a way to combine related rows from
-multiple tables. DataFrames can be joined together, just like two DB tables. DFLib provides 4 familiar flavors of joins:
-<code>inner</code>, <code>left</code> (outer), <code>right</code> (outer) and <code>full</code> (outer).</p>
+<p>While <a href="#unions">unions</a> combined <em>columns</em> from multiple DataFrames, joins discussed in this chapter combine <em>rows</em>.
+DataFrames can be joined together, just like two DB tables. DFLib provides 4 familiar flavors of joins: <code>inner</code>,
+<code>left</code> (outer), <code>right</code> (outer) and <code>full</code> (outer), as well as a "positional join" discussed at the end of the chapter.</p>
 </div>
 <div class="sect2">
 <h3 id="_inner_joins">Inner Joins</h3>
@@ -4609,7 +4505,7 @@ Joan            true</pre>
 </td>
 <td class="content">
 In the context of a join, column expressions can reference either short column names of left and right
-DataFrames, or the fully qualified ones with the prefix. In the former case, the names should take into account  the "_"
+DataFrames, or the fully qualified ones with the prefix. In the former case, the names should take into account the "_"
 suffix applied to the right <code>DataFrame</code> columns when their names overlap with column names on the left.
 </td>
 </tr>
@@ -4755,6 +4651,76 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_positional_joins">Positional Joins</h3>
+<div class="paragraph">
+<p>A special form of joins is by row position. The operation semantics is different from the joins with an explicit
+condition discussed until now. It is done via <code>DataFrame.hConcat()</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="integer">1</span>, <span class="integer">2</span>,
+        <span class="integer">3</span>, <span class="integer">4</span>);
+
+DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="integer">5</span>, <span class="integer">6</span>,
+        <span class="integer">7</span>, <span class="integer">8</span>);
+
+DataFrame dfh = df1.hConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Join rows of this and another DataFrame. The implicit condition is row position. The argument is a vararg, so more
+than one DataFrame can be passed to the method.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a b a_ b_
+- - -- --
+1 2 5  6
+3 4 7  8</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Same as above, <code>_</code> suffix was appended to column names to avoid naming conflicts.</p>
+</div>
+<div class="paragraph">
+<p>Just like with <code>union(..)</code> and other join types, <code>hConcat(..)</code> allows to specify row concatenation semantics. It is
+done by passing a <code>JoinType</code> parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">DataFrame df1 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">b</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="integer">1</span>, <span class="integer">2</span>,
+        <span class="integer">3</span>, <span class="integer">4</span>,
+        <span class="integer">5</span>, <span class="integer">6</span>);
+
+DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">d</span><span class="delimiter">&quot;</span></span>).of(
+        <span class="integer">7</span>, <span class="integer">8</span>,
+        <span class="integer">9</span>, <span class="integer">10</span>);
+
+DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>a b c    d
+- - ---- ----
+1 2 7    8
+3 4 9    10
+5 6 null null</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>JointType.inner</code> semantics is the default.</p>
 </div>
 </div>
 </div>
@@ -7002,7 +6968,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-01 16:46:21 -0400
+Last updated 2026-02-08 11:22:48 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />
