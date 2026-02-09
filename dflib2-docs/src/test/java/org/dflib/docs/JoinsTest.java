@@ -4,7 +4,7 @@ import org.dflib.DataFrame;
 import org.dflib.join.JoinPredicate;
 import org.junit.jupiter.api.Test;
 
-import static org.dflib.Exp.*;
+import static org.dflib.Exp.$int;
 
 public class JoinsTest extends BaseTest {
 
@@ -169,5 +169,41 @@ public class JoinsTest extends BaseTest {
         // end::predicatedBy[]
 
         print("predicatedBy", joined);
+    }
+
+    @Test
+    public void positional() {
+// tag::positional[]
+        DataFrame df1 = DataFrame.foldByRow("a", "b").of(
+                1, 2,
+                3, 4);
+
+        DataFrame df2 = DataFrame.foldByRow("a", "b").of(
+                5, 6,
+                7, 8);
+
+        DataFrame dfh = df1.innerJoin(df2).positional().select(); // <1>
+// end::positional[]
+
+        print("positional", dfh);
+    }
+
+    @Test
+    public void positional_LeftMismatch() {
+
+// tag::positional_LeftMismatch[]
+        DataFrame df1 = DataFrame.foldByRow("a", "b").of(
+                1, 2,
+                3, 4,
+                5, 6);
+
+        DataFrame df2 = DataFrame.foldByRow("c", "d").of(
+                7, 8,
+                9, 10);
+
+        DataFrame dfv = df1.leftJoin(df2).positional().select();
+// end::positional_LeftMismatch[]
+
+        print("positional_LeftMismatch", dfv);
     }
 }

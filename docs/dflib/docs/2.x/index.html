@@ -4656,8 +4656,8 @@ Nested loop joins are <em>much</em> slower, and should be avoided unless absolut
 <div class="sect2">
 <h3 id="_positional_joins">Positional Joins</h3>
 <div class="paragraph">
-<p>A special form of joins is by row position. The operation semantics is different from the joins with an explicit
-condition discussed until now. It is done via <code>DataFrame.hConcat()</code> method:</p>
+<p>A special form of joins is by row position. This is essentially the same as putting two DataFrames next to each other
+to produce the resulting DataFrame:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4669,15 +4669,14 @@ DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter"
         <span class="integer">5</span>, <span class="integer">6</span>,
         <span class="integer">7</span>, <span class="integer">8</span>);
 
-DataFrame dfh = df1.hConcat(df2); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+DataFrame dfh = df1.innerJoin(df2).positional().select(); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Join rows of this and another DataFrame. The implicit condition is row position. The argument is a vararg, so more
-than one DataFrame can be passed to the method.</td>
+<td>Join rows of this and another DataFrame. The implicit condition is row position.</td>
 </tr>
 </table>
 </div>
@@ -4693,8 +4692,7 @@ than one DataFrame can be passed to the method.</td>
 <p>Same as above, <code>_</code> suffix was appended to column names to avoid naming conflicts.</p>
 </div>
 <div class="paragraph">
-<p>Just like with <code>union(..)</code> and other join types, <code>hConcat(..)</code> allows to specify row concatenation semantics. It is
-done by passing a <code>JoinType</code> parameter:</p>
+<p>Just like with other join types, positional joins can use explicit join semantics. E.g., here is a "left" join:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4707,7 +4705,7 @@ DataFrame df2 = DataFrame.foldByRow(<span class="string"><span class="delimiter"
         <span class="integer">7</span>, <span class="integer">8</span>,
         <span class="integer">9</span>, <span class="integer">10</span>);
 
-DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
+DataFrame dfv = df1.leftJoin(df2).positional().select();</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -4718,9 +4716,6 @@ DataFrame dfv = df1.hConcat(JoinType.left, df2);</code></pre>
 3 4 9    10
 5 6 null null</pre>
 </div>
-</div>
-<div class="paragraph">
-<p><code>JointType.inner</code> semantics is the default.</p>
 </div>
 </div>
 </div>

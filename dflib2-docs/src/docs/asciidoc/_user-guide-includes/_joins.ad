@@ -155,16 +155,15 @@ NOTE: Nested loop joins are _much_ slower, and should be avoided unless absolute
 
 === Positional Joins
 
-A special form of joins is by row position. The operation semantics is different from the joins with an explicit
-condition discussed until now. It is done via `DataFrame.hConcat()` method:
+A special form of joins is by row position. This is essentially the same as putting two DataFrames next to each other
+to produce the resulting DataFrame:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/HConcatTest.java[tags=hConcat]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=positional]
 ----
 
-<1> Join rows of this and another DataFrame. The implicit condition is row position. The argument is a vararg, so more
-than one DataFrame can be passed to the method.
+<1> Join rows of this and another DataFrame. The implicit condition is row position.
 ----
 a b a_ b_
 - - -- --
@@ -174,12 +173,11 @@ a b a_ b_
 
 Same as above, `_` suffix was appended to column names to avoid naming conflicts.
 
-Just like with `union(..)` and other join types, `hConcat(..)` allows to specify row concatenation semantics. It is
-done by passing a `JoinType` parameter:
+Just like with other join types, positional joins can use explicit join semantics. E.g., here is a "left" join:
 
 [source,java,indent=0]
 ----
-include::../../../test/java/org/dflib/docs/HConcatTest.java[tags=hConcat_LeftMismatch]
+include::../../../test/java/org/dflib/docs/JoinsTest.java[tags=positional_LeftMismatch]
 ----
 
 ----
@@ -189,5 +187,3 @@ a b c    d
 3 4 9    10
 5 6 null null
 ----
-
-`JointType.inner` semantics is the default.
