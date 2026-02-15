@@ -23,9 +23,9 @@ n
 6 elements
 ----
 
-=== DataFrames Union
+=== DataFrame Union
 
-Similarly, to concatenate two or more DataFrames, you'd use `DataFrames.union(..)` static method:
+Similarly, to concatenate two or more DataFrames, you'd use `DataFrame.union(..)` static method:
 
 [source,java,indent=0]
 ----

@@ -62,8 +62,8 @@ L.id L.name  R.id R.age
    3 Joan       3    59
 ----
 
-NOTE: `DataFrame` immutability applies to name assignments as well. Calling `.as()` creates a separate
-`DataFrame`, so the original one remains unnamed.
+NOTE: `DataFrame` immutability assumption applies to name assignments too. Calling `.as()` creates a new
+`DataFrame`, and the original one's name remains unchanged (in our example, `null`, i.e., unnamed).
 
 === Transform Columns
 
@@ -156,7 +156,7 @@ NOTE: Nested loop joins are _much_ slower, and should be avoided unless absolute
 === Positional Joins
 
 A special form of joins is by row position. This is essentially the same as putting two DataFrames next to each other
-to produce the resulting DataFrame:
+to produce the resulting DataFrame (what we used to call "horizontal concatenation" in the older versions of DFLib):
 
 [source,java,indent=0]
 ----
