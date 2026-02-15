@@ -545,26 +545,15 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#printers">Printers</a></li>
-<li><a href="#expressions">Expression API</a>
-<ul class="sectlevel2">
-<li><a href="#_column_expressions">Column Expressions</a></li>
-<li><a href="#_constant_expressions">Constant Expressions</a></li>
-<li><a href="#_string_expressions">String Expressions</a></li>
-<li><a href="#_numeric_expressions">Numeric Expressions</a></li>
-<li><a href="#_date_expressions">Date Expressions</a></li>
-<li><a href="#_complex_expressions">Complex Expressions</a></li>
-<li><a href="#_conditions">Conditions</a></li>
-<li><a href="#_custom_expressions">Custom Expressions</a></li>
-<li><a href="#sorter">Sorters</a></li>
-</ul>
-</li>
 <li><a href="#query_lang">Query Language</a>
 <ul class="sectlevel2">
+<li><a href="#_ql_objects">QL Objects</a></li>
 <li><a href="#_columns">Columns</a></li>
 <li><a href="#_literals">Literals</a></li>
 <li><a href="#_operators">Operators</a></li>
 <li><a href="#_functions">Functions</a></li>
 <li><a href="#_parameters">Parameters</a></li>
+<li><a href="#_custom_expressions">Custom Expressions</a></li>
 </ul>
 </li>
 <li><a href="#column_ops">Column Operations</a>
@@ -1199,48 +1188,25 @@ statement in a Jupyter cell is a <code>DataFrame</code> or a <code>Series</code>
 </div>
 </div>
 <div class="sect1">
-<h2 id="expressions">Expression API</h2>
+<h2 id="query_lang">Query Language</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>DFLib provides an expression API for column-centric operations on DataFrames and Series, such as data
-transformation, aggregation, filtering, and sorting. <code>Exp</code> is the interface representing a given expression object. It has
-methods for evaluating that expression, as well as many "factory" methods to create new and chain multiple
-expressions together. As expressions are needed almost everywhere in DFLib, we recommend using a static import of
-<code>Exp.*</code> to get access to all the static factory methods:</p>
+<p>DFLib Query Language ("QL" for short) is a special syntax parsable by the library. It can be thought as a (rather small)
+subset of SQL that simplifies querying, transforming, aggregating and sorting DataFrames. At the high level, it takes
+one of these forms:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.dflib.Exp</span>.*;</code></pre>
+<pre class="CodeRay highlight"><code>&lt;exp&gt;                                     // parsed to a single Exp
+&lt;exp&gt; [, &lt;exp&gt;]*                          // parsed to an Exp[]
+&lt;exp&gt; [asc|desc]?                         // parsed to a single Sorter
+&lt;exp&gt; [asc|desc]? [, &lt;exp&gt; [asc|desc]?]*  // parsed to a Sorter[]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now we can create two simple expressions each defining an operation to retrieve a column of a requested type without
-any data transformation:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">StrExp lastExp = <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
-DecimalExp salaryExp = <span class="error">$</span>decimal(<span class="integer">2</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>$str(..)</code> is a shorthand for <code>Exp.$str(..)</code> that will evaluate to a named <code>DataFrame</code> column which is assumed to
-contain <code>String</code> values</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><code>$decimal(..)</code> is a shorthand for <code>Exp.$decimal(..)</code> that will evaluate to a <code>DataFrame</code> column at the specified
-position which is assumed to contain <code>BigDecimal</code> values</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Expressions of any complexity can be created using the Java API shown in this chapter or, alternatively, specified
-via <a href="#query_lang">DFLib query language</a>. As QL strings are parsed into <code>Exp</code> (or <code>Sorter</code>) instances, both approaches
-are mostly equivalent and interchangeable.</p>
+<p>So it can produce either a single <code>Exp</code>, an <code>Exp[]</code>, a single <code>Sorter</code> or a <code>Sorter[]</code> and can be used interchangeably
+with those objects throughout DFLib. In our further discussion we will primarily focus on string-based QL, but will
+often show an alternative Java syntax for Exps and Sorters.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1249,16 +1215,83 @@ are mostly equivalent and interchangeable.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Java API makes <strong>writing</strong> expressions easier due to IDE auto-completion and compiler ensuring semantical
-correctness. But QL makes code more compact and <strong>readable</strong> as there&#8217;s much less Java boilerplate surrounding each clause.
-Decide for yourself which style fits your project better.
+Java API makes <em>writing</em> expressions easier due to IDE auto-completion and the compiler ensuring semantical
+correctness. But as you&#8217;ll see in a moment, QL makes code more compact and <em>readable</em> as there&#8217;s much less boilerplate
+surrounding each clause. Decide for yourself which style fits your project better. You may start with Java API to
+learn the capabilities, and later switch to string-based QL as you become more proficient.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_ql_objects">QL Objects</h3>
+<div class="paragraph">
+<p>Here is how to create and use standalone QL-related objects (<code>Exp</code> and <code>Sorter</code>). Let&#8217;s start with <code>Exp</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.dflib.Exp</span>.*;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = 3</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="comment">// Exp&lt;?&gt; exp = $col(&quot;a&quot;).eq(3) </span><i class="conum" data-value="2"></i><b>(2)</b>
+
+Exp&lt;?&gt;<span class="type">[]</span> exps = parseExps(<span class="string"><span class="delimiter">&quot;</span><span class="content">name, salary</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="comment">// Exp&lt;?&gt;[] exps = new Exp[] { $col(&quot;name&quot;), $col(&quot;salary&quot;)} </span><i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A single expression</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>An alternative created via Java API</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Two expressions separated by comma</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>An alternative for two expressions</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>And here are some sorter examples. Sorters are usually simpler, so we didn&#8217;t bother with a static import.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Sorter s1 = Sorter.parseSorter(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">// same as</span>
+<span class="comment">// Sorter s1 = $col(&quot;a&quot;).asc()</span>
+
+Sorter<span class="type">[]</span> ss = Sorter.parseSorters(<span class="string"><span class="delimiter">&quot;</span><span class="content">a, b desc</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">// same as</span>
+<span class="comment">// Sorter[] ss = new Sorter[]{$col(&quot;a&quot;).asc(), $col(&quot;b&quot;).desc()}</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Most <code>DataFrame</code>, <code>Series</code>, <code>RowSet</code>, <code>ColumnSet</code> methods take QL strings directly. So you will rarely need to
+explicitly parse <code>Exp</code> or <code>Sorter</code>. One possible exception is reusing their instances for performance.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>Exp.eval(..)</code> method evaluates the expression against a <code>DataFrame</code> (or a <code>Series</code>), in both cases producing
-a <code>Series</code> of the same size as the input:</p>
+<p><code>Exp.eval(..)</code> evaluates a given expression against a <code>DataFrame</code> or a <code>Series</code>, in both cases producing a <code>Series</code> of
+the same size as the input:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1272,462 +1305,19 @@ Series&lt;<span class="predefined-type">BigDecimal</span>&gt; salary = salaryExp
 </div>
 </div>
 <div class="paragraph">
-<p><code>Exp</code> also defines the <code>reduce(..)</code> method that, unlike <code>eval(..)</code>, is used in "aggregating" contexts, such as
-<code>DataFrame.group(col).agg(..)</code>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Expressions are rarely evaluated standalone. So you&#8217;d almost never call <code>eval(..)</code> or <code>reduce(..)</code> directly. More
-commonly, they are passed as arguments to various <code>DataFrame</code>, <code>Series</code>, <code>RowSet</code> and <code>ColumnSet</code> methods. Those are
-discussed in the following chapters. So you may even decide to initially skip this chapter, and come back to it when you
-review the actual usage examples.
-</td>
-</tr>
-</table>
+<p><code>Exp</code> also defines a <code>reduce(..)</code> method that, unlike <code>eval(..)</code>, produces a single value and is invoked in
+"aggregating" contexts, such as <code>DataFrame.group(col).agg(..)</code>.</p>
 </div>
 <div class="paragraph">
-<p>Now let’s look at various types of expressions&#8230;&#8203;</p>
-</div>
-<div class="sect2">
-<h3 id="_column_expressions">Column Expressions</h3>
-<div class="paragraph">
-<p><code>$str(..)</code> and <code>$decimal(..)</code> expressions in the example above are the column lookup expressions. They return a DataFrame
-column with a given name or at a given (zero-based) position without applying any transformations to the data.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-So what is returned when you evaluate a column expression with a Series object? <code>Series</code> can be thought of as a
-single (unnamed) column. So a column expression simply returns the Series unchanged, ignoring implied column
-name or position.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Factory methods for column expressions are easy to spot in the <code>Exp</code> interface - they all start with a dollar sign:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
-
-<i class="conum" data-value="2"></i><b>(2)</b>
-<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-<span class="error">$</span><span class="type">double</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-<span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-<span class="error">$</span><span class="type">long</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-
-<i class="conum" data-value="3"></i><b>(3)</b>
-<span class="error">$</span>date(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-<span class="error">$</span>dateTime(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-<span class="error">$</span>time(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-
-<i class="conum" data-value="4"></i><b>(4)</b>
-<span class="error">$</span>bool(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);
-<span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Retrieves a column without implying a specific type</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Retrieve columns that are expected to be numeric</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Retrieve columns that are expected to be date/time</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Retrieve columns of boolean or String types</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Return type is implied from the method name (<code>$str(..)</code> produces a <code>Series&lt;String&gt;</code>, <code>$decimal(..)</code> -
-<code>Series&lt;BigDecimal&gt;</code>, <code>$int(..)</code> - <code>Series&lt;Integer&gt;</code>, <code>$date(..)</code> - <code>Series&lt;LocalDate&gt;</code> and so on).</p>
-</div>
-<div class="paragraph">
-<p>To avoid overhead, column expressions do not perform any type conversions of the column data (with a notable exception
-of <code>$bool</code> that does). So you need to pick the right type in your code based on your knowledge of data to avoid
-<code>ClassCastExceptions</code> downstream, or use a generic <code>$col(..)</code> expression. If you do want to convert data from one type
-to another, use one of the <code>castAsXyz</code> methods explicitly:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).castAsDecimal();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>castAsXyz</code> will do its best to provide a meaningful conversion to the target type. But sometimes it is simply not possible,
-and it will throw an exception (e.g., a String like "abcd" can&#8217;t be converted to a number without some contextual knowledge).
-In some other cases, no default conversion exists, but a custom conversion is possible and desired. You can do it via
-<code>Exp.mapVal(..)</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_constant_expressions">Constant Expressions</h3>
-<div class="paragraph">
-<p>If we want to generate a Series with the same repeating value, we can use the <code>$val(..)</code> expression:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; hi = <span class="error">$</span>val(<span class="string"><span class="delimiter">&quot;</span><span class="content">hi!</span><span class="delimiter">&quot;</span></span>).eval(df);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>hi!
-hi!
-hi!</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>$val(..)</code> and (its type-aware flavors like <code>$strVal(..)</code>, <code>$decimalVal(..)</code>, etc.) are often used in comparisons and
-conditional expressions.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Series&lt;<span class="predefined-type">String</span>&gt; fn = ifExp(
-        <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).ge(<span class="integer">100000</span>),
-        <span class="error">$</span>strVal(<span class="string"><span class="delimiter">&quot;</span><span class="content">high</span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="1"></i><b>(1)</b>
-        <span class="error">$</span>strVal(<span class="string"><span class="delimiter">&quot;</span><span class="content">low</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="2"></i><b>(2)</b>
-).eval(df);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>If the condition is true, return "high"</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>If the condition is false, return "low"</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>high
-low
-low</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_string_expressions">String Expressions</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_numeric_expressions">Numeric Expressions</h3>
-<div class="paragraph">
-<p><code>$int(..)</code>, <code>$long(..)</code>, <code>double(..)</code> and <code>$decimal(..)</code> columns expressions mentioned above are numeric (i.e., instances
-of <code>NumExp</code> expression subclass), and as such, they provide arithmetics, comparison operations, and numeric aggregating
-operations.</p>
-</div>
-<div class="paragraph">
-<p>We will look at comparisons later in the "Conditions" chapter. Here is an example of arithmetics operation:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">NumExp&lt;?&gt; exp = <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>)
-        .add(<span class="error">$</span><span class="type">long</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>)) <i class="conum" data-value="1"></i><b>(1)</b>
-        .div(<span class="integer">2</span>.); <i class="conum" data-value="2"></i><b>(2)</b>
-
-DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).of(
-                <span class="integer">1</span>, <span class="integer">2L</span>,
-                <span class="integer">3</span>, <span class="integer">4L</span>)
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">c3</span><span class="delimiter">&quot;</span></span>).select(exp);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Add two columns</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Multiply the result by a constant value</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre> c3
----
-1.5
-3.5</pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Associativity&#8230;&#8203; Unlike the <a href="#query_lang">query language</a>, expressions built with Java API do not have any
-special associativity or precedence rules. They are executed in the order they were chained together. So in the example
-above, addition happens before division.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Widening conversions&#8230;&#8203; When we added values of <code>int</code> and <code>long</code> columns, the result was implicitly widened to <code>long</code>,
-and later when it was divided by a <code>double</code>, the result became <code>double</code>. These conversions happen automatically and transparently
-to the user. They follow regular Java rules for primitive numbers operations (with an addition of widening from
-primitives to <code>BigDecimal</code>).
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Here is an example of aggregating operations:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">NumExp&lt;?&gt; exp = <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>)
-        .add(<span class="error">$</span><span class="type">long</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>))
-        .sum() <i class="conum" data-value="1"></i><b>(1)</b>
-        .div(<span class="integer">2</span>.);
-
-DataFrame df = DataFrame.foldByRow(<span class="string"><span class="delimiter">&quot;</span><span class="content">c1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">c2</span><span class="delimiter">&quot;</span></span>).of(
-                <span class="integer">1</span>, <span class="integer">2L</span>,
-                <span class="integer">3</span>, <span class="integer">4L</span>)
-        .cols(<span class="string"><span class="delimiter">&quot;</span><span class="content">c3</span><span class="delimiter">&quot;</span></span>).agg(exp);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Inserting an aggregating expression in a chain of arithmetic expressions produces an aggregated result</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre> c3
----
-5.0</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_date_expressions">Date Expressions</h3>
-<div class="paragraph">
-<p>TODO</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_complex_expressions">Complex Expressions</h3>
-<div class="paragraph">
-<p>Expressions can be expanded by calling methods on the <code>Exp</code> object (and its type-specific subclasses). As we&#8217;ve already
-seen above, expressions can be composed of other expressions by invoking static methods of <code>Exp</code>. E.g.:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><i class="conum" data-value="1"></i><b>(1)</b>
-<span class="predefined-type">Condition</span> c = and( <i class="conum" data-value="2"></i><b>(2)</b>
-        <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).startsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>), <i class="conum" data-value="3"></i><b>(3)</b>
-        <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">salary</span><span class="delimiter">&quot;</span></span>).add(<span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">benefits</span><span class="delimiter">&quot;</span></span>)).gt(<span class="integer">100000</span>.) <i class="conum" data-value="4"></i><b>(4)</b>
-);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>"Condition" is an <code>Exp&lt;Boolean&gt;</code> described in more detail below</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><code>and(..)</code> is a statically-imported <code>Exp.and(..)</code></td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td><code>startsWith(..)</code> produces a condition based on another string expression</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td><code>add(..)</code> produces an addition operation for two numeric expressions, <code>gt(..)</code> produces a condition from the result of the addition</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_conditions">Conditions</h3>
-<div class="paragraph">
-<p>TODO</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_custom_expressions">Custom Expressions</h3>
-<div class="paragraph">
-<p>Expression classes discussed above (<code>Exp</code>, <code>StrExp</code>, <code>NumExp</code>, etc.) define a large (and growing) number of operations,
-yet there are always cases that require a custom transformation. There are a few flavors of expression factory methods
-that take user-provided lambdas:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><code>mapVal(..)</code> - value-to-value transformation</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;<span class="type">byte</span><span class="type">[]</span>&gt; bytes = <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>)
-        .mapVal(d -&gt; d.toBigInteger().toByteArray()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>the argument lambda takes a value and produces a value</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p><code>map(..)</code> - Series-to-Series transformation. Unlike <code>mapVal(..)</code>, allows a custom lambda to access the
-entire <code>Series</code>, and in some cases, optimize the operation (e.g., by avoiding scanning through all values)</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;<span class="predefined-type">Integer</span>&gt; exp = <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>)
-        .map(s -&gt; Series.ofVal(s.get(<span class="integer">0</span>), s.size())); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>the argument lambda takes the first value from the source <code>Series</code>, and produces the result Series of the same size
-filled with that value</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p><code>agg(..)</code> - Series-to-value transformation. This expression is used in the "aggregating" context (such as group or
-window operations) where we need to produce a single value out of a <code>Series</code>:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;<span class="predefined-type">Integer</span>&gt; exp = <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>)
-        .agg(s -&gt; s.unique().size()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>the argument lambda counts unique values in a series, taking a <code>Series</code> and producing an int.</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="sorter">Sorters</h3>
-<div class="paragraph">
-<p><code>Sorter</code> is a special object that allows <a href="#sorting">sorting DataFrames or Series</a>. Internally, a Sorter uses an
-expression to retrieve or calculate values that comprise sorting criteria and index them in the specified order. A
-Sorter can be created from any expression by calling its <code>asc()</code> or <code>desc()</code> methods:</p>
+<p><code>Sorter</code> defines its own <code>eval(..)</code>, producing a special <code>IntComparator</code> for sorting data rows by position:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sort by last name in the ascending order</span>
-Sorter s = <span class="error">$</span>str(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>).asc();</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-DFLib allows you to create a Sorter based on any expression type. In runtime, the actual type must be
-either a Java primitive or an instance of <code>Comparable</code>, or a <code>ClassCastException</code> will be thrown during sorting.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="query_lang">Query Language</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>DFLib Query Language ("QL" for short) is a special syntax parsable by the library. It can be thought as a (rather small)
-subset of SQL that simplifies querying, transforming and sorting DataFrames. At the high level, it takes one of these
-forms:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>&lt;exp&gt;                                     // parsed to a single Exp
-&lt;exp&gt; [, &lt;exp&gt;]*                          // parsed to an Exp[]
-&lt;exp&gt; [asc|desc]?                         // parsed to a single Sorter
-&lt;exp&gt; [asc|desc]? [, &lt;exp&gt; [asc|desc]?]*  // parsed to a Sorter[]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>So QL can produce these four objects - a single <code>Exp</code>, an <code>Exp[]</code>, a single <code>Sorter</code> or a <code>Sorter[]</code> and, as
-mentioned previously, can be used interchangeably with them throughout DFLib. Expression parsing examples:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a = 3</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="comment">// same as</span>
-<span class="comment">//    $col(&quot;a&quot;).eq(3)</span>
+Sorter s = Sorter.parseSorter(<span class="string"><span class="delimiter">&quot;</span><span class="content">last</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">// Sorter s = $col(&quot;last&quot;).asc();</span>
 
-Exp&lt;?&gt;<span class="type">[]</span> exps = Exp.parseExps(<span class="string"><span class="delimiter">&quot;</span><span class="content">name, salary</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
-<span class="comment">// same as</span>
-<span class="comment">//    new Exp[] { $col(&quot;name&quot;), $col(&quot;salary&quot;)}</span></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>A single expression</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Two expressions separated by comma</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Sorter parsing examples:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Sorter s1 = Sorter.parseSorter(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>);
-Sorter<span class="type">[]</span> ss = Sorter.parseSorters(<span class="string"><span class="delimiter">&quot;</span><span class="content">a, b desc</span><span class="delimiter">&quot;</span></span>);</code></pre>
+IntComparator sortIndex = s.eval(df);</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1737,32 +1327,19 @@ Sorter<span class="type">[]</span> ss = Sorter.parseSorters(<span class="string"
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Most DFLib APIs take QL strings and call <code>parse</code> internally. You may not need to parse QL in your code at all.
-One possible exception is performance - parsing a piece of QL once and reusing <code>Exp</code> or <code>Sorter</code> object may save CPU
-cycles in some cases.
+Just like QL parsers, <code>eval(..)</code> and <code>reduce(..)</code> are mainly invoked by the framework (as we&#8217;ll see in the following
+chapters). It is good to know about them, but you will rarely call them directly.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Now let&#8217;s discuss the QL syntax (i.e., what that <code>&lt;exp&gt;</code> above means). It consists of column references, literals,
-parameters, operators and functions. We&#8217;ll look at them individually&#8230;&#8203;</p>
+<p>Next we&#8217;ll talk about the QL syntax. <code>&lt;exp&gt;</code> that was mentioned in the beginning of the chapter is some combination of
+column references, literals, parameters, operators and functions. Let&#8217;s look at them individually.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_columns">Columns</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-A commented-out code below each expression in the following examples is an equivalent expression created via the
-Java API.
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Expressions can reference <code>DataFrame</code> column names either by name or by position. If a column name is compatible with
 Java identifier naming (and is not one of the QL keywords like <code>true</code>, <code>false</code>, <code>null</code>), it can be used as
@@ -1805,6 +1382,25 @@ quotes:</p>
 </div>
 <div class="sect2">
 <h3 id="_literals">Literals</h3>
+<div class="paragraph">
+<p>QL literals are constant values of some type. A literal expression evaluates to a <code>Series</code> with a single repeating value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Series&lt;?&gt; hi =  Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">'hi!'</span><span class="delimiter">&quot;</span></span>).eval(df);
+<span class="comment">// Series&lt;?&gt; hi = $val(&quot;hi!&quot;).eval(df);</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>hi!
+hi!
+hi!</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are different types of literals:</p>
+</div>
 <div class="sect3">
 <h4 id="_string_literals">String Literals</h4>
 <div class="paragraph">
@@ -1941,7 +1537,43 @@ in the order of declining precedence:</p>
 </div>
 <div class="paragraph">
 <p>This order follows the rules of the Java language (where applicable) and should be intuitive to Java programmers.
-If multiple operators have the same precedence, they are evaluated left to right.</p>
+If multiple operators have the same precedence, they are evaluated left to right. Here is an example of arithmetics
+operation (it also includes type-setting functions described further in this chapter):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="string"><span class="delimiter">&quot;</span><span class="content">(int(c1) + long(c2)) / 2.0</span><span class="delimiter">&quot;</span></span>
+<span class="comment">// $int(&quot;c1&quot;).add($long(&quot;c2&quot;)).div(2f)</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>Exp</code> API associativity: unlike QL, expressions built with Java API do not have any implicit precedence rules.
+They are executed left to right in the order they were chained together. So in this example, addition would happen
+before division.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Widening conversions for numbers: when we add values of <code>int</code> and <code>long</code> columns, the result is implicitly widened
+to <code>long</code>. Later when we divide it by <code>float</code>, the result becomes <code>float</code>. Such conversions happen automatically
+and are transparent to the user. They follow regular Java rules for primitive numbers operations (with an addition of
+widening from primitives to <code>BigDecimal</code>).
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_naming_operator">Naming Operator</h4>
@@ -1972,7 +1604,7 @@ for special characters in column names. E.g.:</p>
 <h4 id="_sort_direction_operators">Sort Direction Operators</h4>
 <div class="paragraph">
 <p>When building a sorter, an expression can be followed by either <code>asc</code> or <code>desc</code> keyword to indicate ascending or
-descending sort direction. If omitted, <code>asc</code> is implied.</p>
+descending sort direction. If omitted, <code>asc</code> is implied. See sorter examples <a href="#sorter">below</a>.</p>
 </div>
 </div>
 </div>
@@ -2618,6 +2250,81 @@ where a single parameter replaces not one, but a sequence of literals:</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Exp&lt;?&gt; exp = Exp.parseExp(<span class="string"><span class="delimiter">&quot;</span><span class="content">a in ?</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Set</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">S1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">S3</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_custom_expressions">Custom Expressions</h3>
+<div class="paragraph">
+<p>While the number of build-in operators and functions is significant and keeps growing, there are always cases requiring custom
+transformations. Below are some of the methods that combine DFLib expressions with custom lambdas.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Currently, custom transformations are only possible within Exp API. The work is underway in 2.0 to allow passing
+lambdas as parameters to QL strings.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>Exp.mapVal(..)</code> - value-to-value transformation</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;<span class="type">byte</span><span class="type">[]</span>&gt; bytes = <span class="error">$</span>decimal(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>)
+        .mapVal(d -&gt; d.toBigInteger().toByteArray()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>the argument lambda takes a value and produces a value</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>Exp.map(..)</code> - Series-to-Series transformation. Unlike <code>mapVal(..)</code>, allows a custom lambda to access the
+entire <code>Series</code>. For some operations that would allow to optimize evaluation (e.g., by avoiding scanning through all
+values if all we need is the size of the Series).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;<span class="predefined-type">Integer</span>&gt; exp = <span class="error">$</span><span class="type">int</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>)
+        .map(s -&gt; Series.ofVal(s.get(<span class="integer">0</span>), s.size())); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>the argument lambda takes the first value from the source <code>Series</code>, and produces the result Series of the same size
+filled with that value</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>Exp.agg(..)</code> - Series-to-value transformation. This expression is used in the "aggregating" context (such as group or
+window operations) where we need to produce a single value out of a <code>Series</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Exp&lt;<span class="predefined-type">Integer</span>&gt; exp = <span class="error">$</span>col(<span class="string"><span class="delimiter">&quot;</span><span class="content">col</span><span class="delimiter">&quot;</span></span>)
+        .agg(s -&gt; s.unique().size()); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>the argument lambda counts unique values in a series, taking a <code>Series</code> and producing an int.</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -4144,8 +3851,8 @@ Joan    O'Hara    J</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Alternatively sorting can be done by a single column name or an array of columns. Same as above, values in sort columns
-must be either primitives or implement <code>Comparable</code>.</p>
+<p>Alternatively sorting can be done by a single column name. As above, values in sort columns must be either primitives
+or implement <code>Comparable</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -4165,6 +3872,9 @@ DataFrame df1 = df.sort(<span class="string"><span class="delimiter">&quot;</spa
 direction (<code>true</code> for ascending, <code>false</code> - for descending order).</td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>And here is how to specify multiple criteria as a pair of arrays (columns and directions):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6963,7 +6673,7 @@ special to display it. When embedding charts in web applications, you&#8217;ll n
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-02-08 11:22:48 -0500
+Last updated 2026-02-15 10:47:49 -0500
 </div>
 </div>
 <link media="all" rel="stylesheet" href="../../../css/style_v2.min.css" />

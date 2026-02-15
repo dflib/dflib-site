@@ -2,8 +2,8 @@
 == Query Language
 
 DFLib Query Language ("QL" for short) is a special syntax parsable by the library. It can be thought as a (rather small)
-subset of SQL that simplifies querying, transforming and sorting DataFrames. At the high level, it takes one of these
-forms:
+subset of SQL that simplifies querying, transforming, aggregating and sorting DataFrames. At the high level, it takes
+one of these forms:
 
 ```
 <exp>                                     // parsed to a single Exp
@@ -12,33 +12,66 @@ forms:
 <exp> [asc|desc]? [, <exp> [asc|desc]?]*  // parsed to a Sorter[]
 ```
 
-So QL can produce these four objects - a single `Exp`, an `Exp[]`, a single `Sorter` or a `Sorter[]` and, as
-mentioned previously, can be used interchangeably with them throughout DFLib. Expression parsing examples:
+So it can produce either a single `Exp`, an `Exp[]`, a single `Sorter` or a `Sorter[]` and can be used interchangeably
+with those objects throughout DFLib. In our further discussion we will primarily focus on string-based QL, but will
+often show an alternative Java syntax for Exps and Sorters.
+
+NOTE: Java API makes _writing_ expressions easier due to IDE auto-completion and the compiler ensuring semantical
+correctness. But as you'll see in a moment, QL makes code more compact and _readable_ as there's much less boilerplate
+surrounding each clause. Decide for yourself which style fits your project better. You may start with Java API to
+learn the capabilities, and later switch to string-based QL as you become more proficient.
+
+=== QL Objects
+
+Here is how to create and use standalone QL-related objects (`Exp` and `Sorter`). Let's start with `Exp`:
+[source,java,indent=0]
+----
+import static org.dflib.Exp.*;
+----
 
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseExp]
 ----
 <1> A single expression
-<2> Two expressions separated by comma
+<2> An alternative created via Java API
+<3> Two expressions separated by comma
+<4> An alternative for two expressions
 
-Sorter parsing examples:
+And here are some sorter examples. Sorters are usually simpler, so we didn't bother with a static import.
 [source,java,indent=0]
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=parseSorter]
 ----
 
-NOTE: Most DFLib APIs take QL strings and call `parse` internally. You may not need to parse QL in your code at all.
-One possible exception is performance - parsing a piece of QL once and reusing `Exp` or `Sorter` object may save CPU
-cycles in some cases.
+NOTE: Most `DataFrame`, `Series`, `RowSet`, `ColumnSet` methods take QL strings directly. So you will rarely need to
+explicitly parse `Exp` or `Sorter`. One possible exception is reusing their instances for performance.
 
-Now let's discuss the QL syntax (i.e., what that `<exp>` above means). It consists of column references, literals,
-parameters, operators and functions. We'll look at them individually...
+`Exp.eval(..)` evaluates a given expression against a `DataFrame` or a `Series`, in both cases producing a `Series` of
+the same size as the input:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=columnExpEval]
+----
+
+`Exp` also defines a `reduce(..)` method that, unlike `eval(..)`, produces a single value and is invoked in
+"aggregating" contexts, such as `DataFrame.group(col).agg(..)`.
+
+`Sorter` defines its own `eval(..)`, producing a special `IntComparator` for sorting data rows by position:
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=sorter]
+----
+
+NOTE: Just like QL parsers, `eval(..)` and `reduce(..)` are mainly invoked by the framework (as we'll see in the following
+chapters). It is good to know about them, but you will rarely call them directly.
+
+Next we'll talk about the QL syntax. `<exp>` that was mentioned in the beginning of the chapter is some combination of
+column references, literals, parameters, operators and functions. Let's look at them individually.
 
 === Columns
-
-NOTE: A commented-out code below each expression in the following examples is an equivalent expression created via the
-Java API.
 
 Expressions can reference `DataFrame` column names either by name or by position. If a column name is compatible with
 Java identifier naming (and is not one of the QL keywords like `true`, `false`, `null`), it can be used as
@@ -68,6 +101,21 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=columnByIndex]
 ----
 
 === Literals
+
+QL literals are constant values of some type. A literal expression evaluates to a `Series` with a single repeating value:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=literal]
+----
+
+----
+hi!
+hi!
+hi!
+----
+
+There are different types of literals:
+
 ==== String Literals
 
 Unlike columns, constant String values are always quoted using single quotes:
@@ -142,7 +190,23 @@ in the order of declining precedence:
 * `asc`, `desc`
 
 This order follows the rules of the Java language (where applicable) and should be intuitive to Java programmers.
-If multiple operators have the same precedence, they are evaluated left to right.
+If multiple operators have the same precedence, they are evaluated left to right. Here is an example of arithmetics
+operation (it also includes type-setting functions described further in this chapter):
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=arithmetics]
+----
+
+NOTE: `Exp` API associativity: unlike QL, expressions built with Java API do not have any implicit precedence rules.
+They are executed left to right in the order they were chained together. So in this example, addition would happen
+before division.
+
+
+NOTE: Widening conversions for numbers: when we add values of `int` and `long` columns, the result is implicitly widened
+to `long`. Later when we divide it by `float`, the result becomes `float`. Such conversions happen automatically
+and are transparent to the user. They follow regular Java rules for primitive numbers operations (with an addition of
+widening from primitives to `BigDecimal`).
 
 ==== Naming Operator
 
@@ -165,7 +229,7 @@ include::../../../test/java/org/dflib/docs/QLTest.java[tags=asQuote]
 
 ==== Sort Direction Operators
 When building a sorter, an expression can be followed by either `asc` or `desc` keyword to indicate ascending or
-descending sort direction. If omitted, `asc` is implied.
+descending sort direction. If omitted, `asc` is implied. See sorter examples <<sorter,below>>.
 
 === Functions
 
@@ -451,3 +515,37 @@ where a single parameter replaces not one, but a sequence of literals:
 ----
 include::../../../test/java/org/dflib/docs/QLTest.java[tags=listParam]
 ----
+
+=== Custom Expressions
+
+While the number of build-in operators and functions is significant and keeps growing, there are always cases requiring custom
+transformations. Below are some of the methods that combine DFLib expressions with custom lambdas.
+
+NOTE: Currently, custom transformations are only possible within Exp API. The work is underway in 2.0 to allow passing
+lambdas as parameters to QL strings.
+
+`Exp.mapVal(..)` - value-to-value transformation
+
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=mapVal]
+----
+<1> the argument lambda takes a value and produces a value
+
+`Exp.map(..)` - Series-to-Series transformation. Unlike `mapVal(..)`, allows a custom lambda to access the
+entire `Series`. For some operations that would allow to optimize evaluation (e.g., by avoiding scanning through all
+values if all we need is the size of the Series).
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=map]
+----
+<1> the argument lambda takes the first value from the source `Series`, and produces the result Series of the same size
+filled with that value
+
+`Exp.agg(..)` - Series-to-value transformation. This expression is used in the "aggregating" context (such as group or
+window operations) where we need to produce a single value out of a `Series`:
+[source,java,indent=0]
+----
+include::../../../test/java/org/dflib/docs/QLTest.java[tags=agg]
+----
+<1> the argument lambda counts unique values in a series, taking a `Series` and producing an int.

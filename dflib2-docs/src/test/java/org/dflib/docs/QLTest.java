@@ -1,7 +1,12 @@
 package org.dflib.docs;
 
+import org.dflib.DataFrame;
+import org.dflib.DecimalExp;
 import org.dflib.Exp;
+import org.dflib.Series;
 import org.dflib.Sorter;
+import org.dflib.StrExp;
+import org.dflib.sort.IntComparator;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -18,16 +23,14 @@ public class QLTest extends BaseTest {
     public void doParseExp() {
 
 // tag::parseExp[]
-        Exp<?> exp = Exp.parseExp("a = 3"); // <1>
-        // same as
-        //    $col("a").eq(3)
+        Exp<?> exp = parseExp("a = 3"); // <1>
+        // Exp<?> exp = $col("a").eq(3) <2>
 
-        Exp<?>[] exps = Exp.parseExps("name, salary"); // <2>
-        // same as
-        //    new Exp[] { $col("name"), $col("salary")}
+        Exp<?>[] exps = parseExps("name, salary"); // <3>
+        // Exp<?>[] exps = new Exp[] { $col("name"), $col("salary")} <4>
 // end::parseExp[]
-        assertEquals(Exp.$col("a").eq(3), exp);
-        assertArrayEquals(new Exp[]{Exp.$col("name"), Exp.$col("salary")}, exps);
+        assertEquals($col("a").eq(3), exp);
+        assertArrayEquals(new Exp[]{$col("name"), $col("salary")}, exps);
     }
 
     @Test
@@ -35,8 +38,51 @@ public class QLTest extends BaseTest {
 
 // tag::parseSorter[]
         Sorter s1 = Sorter.parseSorter("a");
+        // same as
+        // Sorter s1 = $col("a").asc()
+
         Sorter[] ss = Sorter.parseSorters("a, b desc");
+        // same as
+        // Sorter[] ss = new Sorter[]{$col("a").asc(), $col("b").desc()}
 // end::parseSorter[]
+
+        assertEquals($col("a").asc(), s1);
+        assertArrayEquals(new Sorter[]{$col("a").asc(), $col("b").desc()}, ss);
+    }
+
+    @Test
+    public void columnExp() {
+
+// tag::columnExp[]
+        StrExp lastExp = $str("last"); // <1>
+        DecimalExp salaryExp = $decimal(2); // <2>
+// end::columnExp[]
+
+// tag::columnExpEval[]
+        DataFrame df = DataFrame.foldByRow("first", "last", "salary").of(
+                "Jerry", "Cosin", new BigDecimal("120000"),
+                "Juliana", "Walewski", new BigDecimal("80000"),
+                "Joan", "O'Hara", new BigDecimal("95000"));
+
+        Series<String> last = lastExp.eval(df);
+        Series<BigDecimal> salary = salaryExp.eval(df);
+// end::columnExpEval[]
+    }
+
+    @Test
+    public void literal() {
+
+        DataFrame df = DataFrame.foldByRow("first", "last", "salary").of(
+                "Jerry", "Cosin", new BigDecimal("120000"),
+                "Juliana", "Walewski", new BigDecimal("80000"),
+                "Joan", "O'Hara", new BigDecimal("95000"));
+
+// tag::literal[]
+        Series<?> hi =  Exp.parseExp("'hi!'").eval(df);
+        // Series<?> hi = $val("hi!").eval(df);
+// end::literal[]
+
+        print("hi", hi);
     }
 
     static class MyType {
@@ -66,6 +112,18 @@ public class QLTest extends BaseTest {
 // end::listParam[]
 
         assertEquals($col("a").in($val("S1"), $val("S2"), $val("S3")), exp);
+    }
+
+    @Test
+    public void arithmetics() {
+        Exp<?> exp = Exp.parseExp(
+                // tag::arithmetics[]
+                "(int(c1) + long(c2)) / 2.0"
+                // $int("c1").add($long("c2")).div(2f)
+                // end::arithmetics[]
+        );
+
+        assertEquals($int("c1").add($long("c2")).div(2f), exp);
     }
 
     @Test
@@ -235,5 +293,51 @@ public class QLTest extends BaseTest {
                 // end::typeCastToLong[]
         );
         assertEquals($col("a").castAsLong().gt(3), exp);
+    }
+
+    @Test
+    public void mapVal() {
+
+// tag::mapVal[]
+        Exp<byte[]> bytes = $decimal("col")
+                .mapVal(d -> d.toBigInteger().toByteArray()); // <1>
+// end::mapVal[]
+    }
+
+    @Test
+    public void map() {
+
+// tag::map[]
+        Exp<Integer> exp = $int("col")
+                .map(s -> Series.ofVal(s.get(0), s.size())); // <1>
+// end::map[]
+    }
+
+    @Test
+    public void agg() {
+
+// tag::agg[]
+        Exp<Integer> exp = $col("col")
+                .agg(s -> s.unique().size()); // <1>
+// end::agg[]
+    }
+
+    @Test
+    public void sorter() {
+
+        DataFrame df = DataFrame.foldByRow("first", "last", "salary").of(
+                "Jerry", "Cosin", new BigDecimal("120000"),
+                "Juliana", "Walewski", new BigDecimal("80000"),
+                "Joan", "O'Hara", new BigDecimal("95000"));
+
+// tag::sorter[]
+        // sort by last name in the ascending order
+        Sorter s = Sorter.parseSorter("last");
+        // Sorter s = $col("last").asc();
+
+        IntComparator sortIndex = s.eval(df);
+// end::sorter[]
+
+        assertEquals($col("last").asc(), s);
     }
 }
