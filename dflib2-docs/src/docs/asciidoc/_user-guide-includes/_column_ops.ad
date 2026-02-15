@@ -86,8 +86,8 @@ all columns at once. These cases are described later in the <<column_ops_transfo
 [#column_ops_rename]
 === Rename Columns
 
-We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
-columns. The simplest way to do it is with QL (or expressions):
+We saw how we can select a subset of columns. During that operation we can also assign new names to the resulting
+columns. The simplest way of doing it is with QL (or expressions):
 
 [source,java,indent=0]
 ----
@@ -102,7 +102,7 @@ Cosin     Jerry
 Walewski  Juliana
 ----
 
-Another way of doing that is via `selectAs(..)`. Here the source column names are specified in the `cols(..)` method,
+Another way is via `selectAs(..)`. Here the source column names are specified in the `cols(..)` method,
 and the result names - in `selectAs(..)`:
 
 [source,java,indent=0]
@@ -292,7 +292,7 @@ or Strings (or objects with `toString()` that can be parsed to a primitive type)
 include::../../../test/java/org/dflib/docs/ColumnOpsTest.java[tags=compact]
 ----
 
-<1> The argument to `compact` is the primitive value to use if the value being converted is null
+<1> The argument to `compact(..)` is a primitive `int` to use in place of null values
 
 NOTE: `compactInt(..)`, `compactDouble(..)` and other similar methods are not just syntactic sugar. They convert
 DataFrame columns to primitive Series, that take _significantly_ less memory (hence, the name "compact") and compute

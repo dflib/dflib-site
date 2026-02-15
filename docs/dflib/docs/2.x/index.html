@@ -2764,8 +2764,8 @@ all columns at once. These cases are described later in the <a href="#column_ops
 <div class="sect2">
 <h3 id="column_ops_rename">Rename Columns</h3>
 <div class="paragraph">
-<p>We saw how we can select a subset of columns. While doing that, we can also assign new names to all or some of the
-columns. The simplest way to do it is with QL (or expressions):</p>
+<p>We saw how we can select a subset of columns. During that operation we can also assign new names to the resulting
+columns. The simplest way of doing it is with QL (or expressions):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2791,7 +2791,7 @@ Walewski  Juliana</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Another way of doing that is via <code>selectAs(..)</code>. Here the source column names are specified in the <code>cols(..)</code> method,
+<p>Another way is via <code>selectAs(..)</code>. Here the source column names are specified in the <code>cols(..)</code> method,
 and the result names - in <code>selectAs(..)</code>:</p>
 </div>
 <div class="listingblock">
@@ -3184,7 +3184,7 @@ DataFrame df1 = df
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The argument to <code>compact</code> is the primitive value to use if the value being converted is null</td>
+<td>The argument to <code>compact(..)</code> is a primitive <code>int</code> to use in place of null values</td>
 </tr>
 </table>
 </div>
