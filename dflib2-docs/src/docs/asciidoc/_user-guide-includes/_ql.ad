@@ -338,6 +338,7 @@ functions:
 =====  `abs(exp)`
 =====  `cumSum(exp)`
 =====  `round(exp)`
+=====  `sqrt(exp)`
 
 ==== Date Functions
 
