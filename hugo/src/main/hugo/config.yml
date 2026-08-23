@@ -35,3 +35,6 @@ markup:
   highlight:
     noClasses: false
     guessSyntax: false
+security:
+  allowContent:
+    - .*
