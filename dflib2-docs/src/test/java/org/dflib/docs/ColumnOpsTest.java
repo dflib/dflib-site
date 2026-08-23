@@ -4,7 +4,7 @@ import org.dflib.DataFrame;
 import org.dflib.Printers;
 import org.dflib.RowMapper;
 import org.dflib.Series;
-import org.dflib.junit5.DataFrameAsserts;
+import org.dflib.junit.DataFrameAsserts;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

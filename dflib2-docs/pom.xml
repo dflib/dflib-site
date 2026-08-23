@@ -58,7 +58,7 @@
         </dependency>
         <dependency>
             <groupId>org.dflib</groupId>
-            <artifactId>dflib-junit5</artifactId>
+            <artifactId>dflib-junit</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

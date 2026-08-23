@@ -4,7 +4,7 @@ import org.dflib.Extractor;
 import org.dflib.IntSeries;
 import org.dflib.Series;
 import org.dflib.builder.SeriesAppender;
-import org.dflib.junit5.SeriesAsserts;
+import org.dflib.junit.SeriesAsserts;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
